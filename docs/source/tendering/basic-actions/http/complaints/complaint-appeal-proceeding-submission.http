@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/a90905bbe0c24a6387f3ecde4e87bcb4/complaints/3db50ebc52124424812681187e5ee06d/appeals/857ebcc410d44368aa53f1c51ab2a748?acc_token=7daa558cb4b042b3a1c9e4d6f7d2a8be HTTP/1.0
+PATCH /api/2.5/tenders/34c547447aa64723b92f4f6069cbe9d0/complaints/cc0d30bf371746bf81f15f8f5c2325bb/appeals/6bdf41a2d9124e8cb00f0f1364a74e5a?acc_token=7daa558cb4b042b3a1c9e4d6f7d2a8be HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,21 +18,21 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "857ebcc410d44368aa53f1c51ab2a748",
+    "id": "6bdf41a2d9124e8cb00f0f1364a74e5a",
     "description": "test",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "ad9b247573e54576a42da6567b94be85",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "87fc796054494d1ebe53b82a7a367f14",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/20514262a4564559910de135ff1f0d3e?Signature=PKiu5y12CIoOKw6b2loFUvBodaAAMT1mRNn8%2BzWhSU14eazJY7eOZ1iZXPXOmKKTmKq2qofpTWILjk4o64IVDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "complaint_owner",
-        "language": "uk"
+        "author": "complaint_owner"
       }
     ],
     "proceeding": {

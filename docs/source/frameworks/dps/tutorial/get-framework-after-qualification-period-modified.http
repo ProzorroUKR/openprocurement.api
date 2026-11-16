@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/a7be11b733044b6eb74d7712f3c91ad2?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+GET /api/2.5/frameworks/9530d2645fe54108ad6417065dc71e79?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,11 +11,33 @@ Content-Type: application/json
     "prettyID": "UA-F-2027-01-01-000001",
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі1",
+    "frameworkType": "dynamicPurchasingSystem",
     "status": "active",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "зміна",
+        "email": "ab@aa.com",
+        "telephone": "+0440000002"
+      },
+      "kind": "general"
+    },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -26,34 +48,34 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "087512e0ed714ace947142ed5ddf6e23",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "framework.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "ff211f41fd34424f898decba78d91413",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f5cb842886f141e681b47175faee1ea1?Signature=G7BvnAz3bGtcoEJQ4VMw2s9ARIPKFD0ZsNnTzvkGoYumAUv61r%2BTP0NXiTQhwebXxqUJM1d5aNg5AU8LtKBSCw%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
-        "id": "4da6de59af6545178f8104c6fd41aa08",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "0278bef091c140bf852f6c40719921e1",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/beda32f664fb459291d362e650147d5d?Signature=pcYNBP%2FAj04nzgykslGVmqMOd3wtV9PptoB5NuzsDBne78GS2HGn9hmq%2ByTIhaYOr%2Bdtv6mO63IBY8NkQ3jrAg%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
-        "id": "4da6de59af6545178f8104c6fd41aa08",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "0278bef091c140bf852f6c40719921e1",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d369fa8572584fffba4fe7fb70daffe2?Signature=%2B8G4s2LtJtEl9ij7xF17ayvO5H1BxrBWc7bAMhNt6pn9JkPAOCocA1BAkf3wIPgRzu8bKDe4qvayMpJcnL%2FlAQ%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ],
     "agreementID": "2c50602a5c214dfba111d06f8a79565f",
@@ -75,28 +97,6 @@ Content-Type: application/json
       "clarificationsUntil": "2027-01-20T00:00:00+02:00"
     },
     "next_check": "2027-01-16T00:00:00+02:00",
-    "frameworkType": "dynamicPurchasingSystem",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "legalName": "Назва організації"
-      },
-      "address": {
-        "countryName": "Україна",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220"
-      },
-      "contactPoint": {
-        "name": "зміна",
-        "telephone": "+0440000002",
-        "email": "ab@aa.com"
-      },
-      "kind": "general"
-    },
     "changes": [
       {
         "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
@@ -106,7 +106,7 @@ Content-Type: application/json
             "endDate": "2027-03-08T00:00:00+02:00"
           }
         },
-        "id": "3f7773ac4ef2447ca3ee1ea99727416d",
+        "id": "ace18e2960a44d839350ff57f60ac132",
         "previous": {
           "qualificationPeriod": {
             "startDate": "2027-01-01T00:00:00+02:00",
@@ -117,19 +117,19 @@ Content-Type: application/json
         "dateModified": "2027-01-17T00:00:00+02:00",
         "documents": [
           {
-            "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b918ae66049e4e8fab32e44e60b0da36?Signature=t6oKKlAjwt2pMqT%2FvFNVTUpcSGKbSnBE1fdIKj5KJNePGQTbXS9FTDRTjwILv7uvBjlT5qoyjBgNnfOURSDFDw%3D%3D&KeyID=a8968c46",
             "language": "uk",
-            "id": "66418436809a4771bea92e2cfbe0d2ee",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b918ae66049e4e8fab32e44e60b0da36?Signature=t6oKKlAjwt2pMqT%2FvFNVTUpcSGKbSnBE1fdIKj5KJNePGQTbXS9FTDRTjwILv7uvBjlT5qoyjBgNnfOURSDFDw%3D%3D&KeyID=a8968c46",
+            "id": "a4e432572da14ad397a37d137b2405ec",
             "datePublished": "2027-01-17T00:00:00+02:00",
             "dateModified": "2027-01-17T00:00:00+02:00"
           }
         ]
       }
     ],
-    "id": "a7be11b733044b6eb74d7712f3c91ad2"
+    "id": "9530d2645fe54108ad6417065dc71e79"
   },
   "config": {
     "restrictedDerivatives": false,

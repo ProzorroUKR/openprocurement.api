@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "454579430d5641b28f3a76fdfbc3a835",
+    "awardID": "1446e0f758f0476e963701d025d5dad0",
     "contractID": "UA-2027-01-01-000002-a-a1",
     "title": "Лот №1",
     "description": "Опис Лот №1",
@@ -25,14 +25,13 @@ Content-Type: application/json
     "dateCreated": "2027-01-01T00:03:00+02:00",
     "items": [
       {
-        "id": "986fe60dd1744bae9e0db008b0839458",
+        "id": "5485e03ef061455f91002df53d56c3e4",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
-        "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -41,6 +40,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "quantity": 1.0,
         "unit": {
           "name": "кілограм",
           "code": "KGM"
@@ -59,14 +59,13 @@ Content-Type: application/json
         "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
       },
       {
-        "id": "a6dfce64a54e45feab18eb2a8333750e",
+        "id": "20712f87973b4abd9359caa862cb5142",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
-        "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -75,6 +74,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "quantity": 1.0,
         "unit": {
           "name": "упаковка",
           "code": "PK"
@@ -93,7 +93,7 @@ Content-Type: application/json
         "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
       }
     ],
-    "tender_id": "2e677bc840cc4d20b3d892d352d9fb77",
+    "tender_id": "c3d8d95364384682aa7b64bf8b90b743",
     "tenderID": "UA-2027-01-01-000002-a",
     "mainProcurementCategory": "services",
     "owner": "broker",

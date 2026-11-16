@@ -1,4 +1,4 @@
-POST /api/2.5/plans/b5611a5d614e41dcab385c6e015ee969/milestones HTTP/1.0
+POST /api/2.5/plans/9a34005ede3847c5ae9ee30e406f935a/milestones HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/b5611a5d614e41dcab385c6e015ee969/milestones/820cd56a57014d20b0b3f2beade024f1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/9a34005ede3847c5ae9ee30e406f935a/milestones/09a8d24a8ab449edad799a3aa1d05727
 
 {
   "data": {
@@ -41,7 +41,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/b5611a5d614e41dcab
     "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників",
     "type": "approval",
     "author": {
-      "id": "65a79a5a26424868a396a5a9ddf8a79c",
+      "id": "f560fcf57d4e4f9ea020051c8353bf6d",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -57,7 +57,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/b5611a5d614e41dcab
       },
       "kind": "central"
     },
-    "id": "820cd56a57014d20b0b3f2beade024f1",
+    "id": "09a8d24a8ab449edad799a3aa1d05727",
     "dateModified": "2027-01-01T00:00:03+02:00",
     "owner": "broker"
   },

@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001",
-    "frameworkID": "20709ae644bc4b7c92671484e6fc0484",
+    "frameworkID": "38d4211e6ea74f5fa70c72ba131502b6",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -24,23 +24,23 @@ Content-Type: application/json
         "legalName": "Назва організації"
       },
       "address": {
-        "countryName": "Україна",
         "streetAddress": "вул. Банкова, 11, корпус 1",
         "locality": "м. Київ",
         "region": "м. Київ",
-        "postalCode": "01220"
+        "postalCode": "01220",
+        "countryName": "Україна"
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "email": "aa@aa.com"
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
     "classification": {
-      "description": "Послуги з харчування у школах",
       "scheme": "ДК021",
-      "id": "55523100-3"
+      "id": "55523100-3",
+      "description": "Послуги з харчування у школах"
     },
     "additionalClassifications": [
       {
@@ -53,33 +53,33 @@ Content-Type: application/json
       {
         "id": "e9a70bb65a3e4826a93b8bcd57308ef6",
         "qualificationID": "fe438cdd20114c49a0d43ef1687410f3",
-        "submissionID": "1a9e997066dc46b182cc552ba08aba04",
+        "submissionID": "1e13c2af7692497498dcc525a5ecab5c",
         "status": "active",
         "suppliers": [
           {
             "name": "Державне управління справами",
             "name_en": "State administration",
-            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "12345678",
+              "legalName": "Державне управління справами",
               "legalName_en": "dus.gov.ua",
-              "uri": "http://www.dus.gov.ua/",
-              "legalName": "Державне управління справами"
+              "uri": "http://www.dus.gov.ua/"
             },
             "address": {
-              "countryName": "Україна",
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
-              "postalCode": "01220"
+              "postalCode": "01220",
+              "countryName": "Україна"
             },
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "telephone": "+0440000000",
-              "email": "aa@aa.com"
-            }
+              "email": "aa@aa.com",
+              "telephone": "+0440000000"
+            },
+            "scale": "micro"
           }
         ],
         "milestones": [
@@ -100,13 +100,12 @@ Content-Type: application/json
     "date": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "28cb7bb922b44b8bbfe76f436c4bcd28",
+        "id": "b809b5b6653c432a80351de03074ebaf",
         "description": "Послуги шкільних їдалень",
-        "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -115,6 +114,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"

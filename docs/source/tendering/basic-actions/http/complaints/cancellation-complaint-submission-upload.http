@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints/3254f878888c442c9a7351491c0ec82f/documents?acc_token=3181e39fa69040bfaf51db8e4bcdf623 HTTP/1.0
+POST /api/2.5/tenders/a2869580364445cbb2d044be16ea20ff/cancellations/fd98d335fb0f4b1fb8d8402b8948a27e/complaints/4e9e4685aeee459e9f0ce12f77e17bc1/documents?acc_token=3181e39fa69040bfaf51db8e4bcdf623 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,18 +15,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints/3254f878888c442c9a7351491c0ec82f/documents/4c988094fb1847c888708a166d99c334
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a2869580364445cbb2d044be16ea20ff/cancellations/fd98d335fb0f4b1fb8d8402b8948a27e/complaints/4e9e4685aeee459e9f0ce12f77e17bc1/documents/c426e82f8b764ae2a910684f6e7c248c
 
 {
   "data": {
     "confidentiality": "public",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "Complaint_Attachment.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/db520f79fbb14d0fb576c9963db55fa5?Signature=y1xCpcvs5c0Ahh70AYhin5QAJk8xw40uz6OfQdQzRGiEudAKA8lnJiU7lo4capt3KFWG0wyOLw4WdE6bQR8NBg%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "4c988094fb1847c888708a166d99c334",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/db520f79fbb14d0fb576c9963db55fa5?Signature=y1xCpcvs5c0Ahh70AYhin5QAJk8xw40uz6OfQdQzRGiEudAKA8lnJiU7lo4capt3KFWG0wyOLw4WdE6bQR8NBg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
+    "id": "c426e82f8b764ae2a910684f6e7c248c",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "author": "complaint_owner"

@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
-    "submissionID": "9b5222e8bc6448cdb6d020a4cc87adee",
+    "frameworkID": "bc82b4008b7341fd87440bf1008f26b8",
+    "submissionID": "97d73136658f4755b2bddbea86cc0c29",
     "qualificationType": "assetRecoveryManagementAgency",
     "status": "pending",
     "date": "2027-01-17T00:00:00+02:00",

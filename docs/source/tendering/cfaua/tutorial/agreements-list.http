@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/agreements HTTP/1.0
+GET /api/2.5/tenders/1a7d51312dc14819b08cd100f828fec0/agreements HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -12,7 +12,7 @@ Content-Type: application/json
       "id": "9ed77f9be3594c058f334504330db2a0",
       "items": [
         {
-          "id": "fc82244e20cd47cf985e40b362a78cc7",
+          "id": "c2f538bf23ba43bb95b5fc64fd15f4ff",
           "description": "футляри до державних нагород",
           "description_en": "Cases for state awards",
           "unit": {
@@ -20,10 +20,11 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 5.0,
+          "relatedLot": "1045105100a341998426114b17a5c1ff",
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -42,11 +43,10 @@ Content-Type: application/json
             "region": "м. Київ",
             "postalCode": "79000",
             "countryName": "Україна"
-          },
-          "relatedLot": "1045105100a341998426114b17a5c1ff"
+          }
         },
         {
-          "id": "7cb44f6498334186a6ce95698d970c67",
+          "id": "90fdc3c9845a49e199885b178e01cb2c",
           "description": "футляри до державних нагород",
           "description_en": "Cases for state awards",
           "unit": {
@@ -54,10 +54,11 @@ Content-Type: application/json
             "code": "GRM"
           },
           "quantity": 5.0,
+          "relatedLot": "1045105100a341998426114b17a5c1ff",
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -76,8 +77,7 @@ Content-Type: application/json
             "region": "м. Київ",
             "postalCode": "79000",
             "countryName": "Україна"
-          },
-          "relatedLot": "1045105100a341998426114b17a5c1ff"
+          }
         }
       ],
       "agreementID": "UA-2027-01-01-000001-a-aca99b8fbaae4bd2bae56e4fda098aba1",
@@ -108,19 +108,19 @@ Content-Type: application/json
               "scale": "mid"
             }
           ],
-          "awardID": "afd5c3adcc1243aa87e3bf06a3ab61ed",
-          "bidID": "377d1b722f0146da9263c3ad6e57ae75",
+          "awardID": "9b2d24902d0741cc8a04b472ec3080ee",
+          "bidID": "b4563a6d6be54c6ea6c61c75eba2b382",
           "date": "2027-01-01T00:02:01+02:00",
           "unitPrices": [
             {
-              "relatedItem": "fc82244e20cd47cf985e40b362a78cc7",
+              "relatedItem": "c2f538bf23ba43bb95b5fc64fd15f4ff",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": false
               }
             },
             {
-              "relatedItem": "7cb44f6498334186a6ce95698d970c67",
+              "relatedItem": "90fdc3c9845a49e199885b178e01cb2c",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": false
@@ -155,19 +155,19 @@ Content-Type: application/json
               "scale": "sme"
             }
           ],
-          "awardID": "a7a392fa285d4e0589840ef1b2ef2eff",
-          "bidID": "bbc395d46c784ab39198465dcd6c0d82",
+          "awardID": "b784f2d3a3e640e0960f876de0bfabff",
+          "bidID": "2738de26b40d4ff681b0648dd2c2cbcb",
           "date": "2027-01-01T00:02:01+02:00",
           "unitPrices": [
             {
-              "relatedItem": "fc82244e20cd47cf985e40b362a78cc7",
+              "relatedItem": "c2f538bf23ba43bb95b5fc64fd15f4ff",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": false
               }
             },
             {
-              "relatedItem": "7cb44f6498334186a6ce95698d970c67",
+              "relatedItem": "90fdc3c9845a49e199885b178e01cb2c",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": false
@@ -202,19 +202,19 @@ Content-Type: application/json
               "scale": "micro"
             }
           ],
-          "awardID": "dca3e8cac9e54549a5f897bc4692be60",
-          "bidID": "92751d52c5ca4c57a05b7a86f5dacaf2",
+          "awardID": "87ebb3976cfa415197a2250afadc0a03",
+          "bidID": "5ff15b6ffde94405b05fb0bba2fcedc1",
           "date": "2027-01-01T00:02:01+02:00",
           "unitPrices": [
             {
-              "relatedItem": "fc82244e20cd47cf985e40b362a78cc7",
+              "relatedItem": "c2f538bf23ba43bb95b5fc64fd15f4ff",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": false
               }
             },
             {
-              "relatedItem": "7cb44f6498334186a6ce95698d970c67",
+              "relatedItem": "90fdc3c9845a49e199885b178e01cb2c",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": false

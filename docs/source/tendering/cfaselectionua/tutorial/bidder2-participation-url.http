@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/529089515689411f84e10eb418118905/bids/2ea5a591410d48bba459e42ccc88ff2d?acc_token=4815e1cf57014d228f2809ed47dab58e HTTP/1.0
+GET /api/2.5/tenders/4e7591689c2f4791924d9c8ae340523a/bids/0780c303ae4d4eeb8364cb302e57b931?acc_token=4815e1cf57014d228f2809ed47dab58e HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -26,22 +26,32 @@ Content-Type: application/json
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "value": 0.1
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "value": 0.1
+      }
+    ],
     "lotValues": [
       {
+        "status": "active",
         "value": {
           "amount": 499.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "status": "active",
         "date": "2027-01-01T00:01:00+02:00",
         "initialValue": {
           "amount": 499.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/529089515689411f84e10eb418118905_66bd7aa82b7d403cb3626390997acbaf?key_for_bid=2ea5a591410d48bba459e42ccc88ff2d"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/4e7591689c2f4791924d9c8ae340523a_66bd7aa82b7d403cb3626390997acbaf?key_for_bid=0780c303ae4d4eeb8364cb302e57b931"
       }
     ],
     "tenderers": [
@@ -67,55 +77,45 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "2ea5a591410d48bba459e42ccc88ff2d",
+    "id": "0780c303ae4d4eeb8364cb302e57b931",
     "date": "2027-01-01T00:01:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "40bf8a2593454667a47f33022b36cab0",
-        "datePublished": "2027-01-01T00:01:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
+        "language": "uk",
+        "id": "ef5b2bc051ae412e88c3ec116809eeb6",
+        "datePublished": "2027-01-01T00:01:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fa6d35497f649faafdc2dba7dcdecd5?Signature=wQyre6x8c9J%2BhDgF6s0ErHWpfTvY69rKWh0zTeBuAV%2FRCG3ULxdMVg0A3neC1CYwgROArxgXYK6efVfhOxzqDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-01T00:01:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:01:00+02:00"
       },
       {
         "confidentiality": "public",
-        "id": "f7bf4c239f414036a5d39023b6620349",
-        "datePublished": "2027-01-01T00:01:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
+        "language": "uk",
+        "id": "7c4acf58981d49ffb889c3c51c370ceb",
+        "datePublished": "2027-01-01T00:01:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/df847d0a972a47449fdbcfb6d0552db4?Signature=3Eg3y4sxqiCqbOiXdkha%2B6Yi%2BZm4mqrMqTB14pCZ8FRRMuk%2FyL2JMzmSEP3jkVfF%2FWRTTOeUjlfC29X8UShQDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-01T00:01:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:01:00+02:00"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "faeb98eaaa6346f3bcddd0e5a205989b",
-        "datePublished": "2027-01-01T00:01:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "8ce68a18d3ee427ea262d53c729c19de",
+        "datePublished": "2027-01-01T00:01:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/04dcde65a16a413cbbaad61ad365ed37?Signature=qpHQFzOpnM8y7H60FpnEJJJA9uhiPgI%2FuMzCKEJvxl7EOM9eCts6BufVb8fCe7dGxLmof6jPU2V4zE6YL%2FanBA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-01T00:01:00+02:00",
-        "language": "uk"
-      }
-    ],
-    "parameters": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE",
-        "value": 0.1
-      },
-      {
-        "code": "OCDS-123454-YEARS",
-        "value": 0.1
+        "dateModified": "2027-01-01T00:01:00+02:00"
       }
     ],
     "submissionDate": "2027-01-01T00:01:00+02:00"

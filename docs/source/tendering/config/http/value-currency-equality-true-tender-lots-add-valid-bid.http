@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids HTTP/1.0
+POST /api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -79,7 +79,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/33aec5588bb84aecbaf28ee83b356bad
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8/bids/c74131bf656f484fb3f55b400c9554db
 
 {
   "data": {
@@ -100,6 +100,28 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         },
         "quantity": 5.0,
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+        "date": "2027-01-01T00:00:00+02:00"
+      },
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -134,30 +156,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         }
       }
     ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-        "date": "2027-01-01T00:00:00+02:00"
-      },
-      {
-        "status": "pending",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "status": "draft",
-    "id": "33aec5588bb84aecbaf28ee83b356bad",
+    "id": "c74131bf656f484fb3f55b400c9554db",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

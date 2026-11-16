@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1faecc8cb6944a658737af002d96c9b7 HTTP/1.0
+GET /api/2.5/tenders/721de0f02fe8401c9e55abb0f70e6886 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,9 +9,9 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "procurementMethod": "selective",
-    "title": "Комп’ютерне обладнання",
     "status": "complete",
+    "title": "Комп’ютерне обладнання",
+    "procurementMethod": "selective",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -60,9 +60,9 @@ Content-Type: application/json
         },
         "quantity": 10.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -94,9 +94,9 @@ Content-Type: application/json
         },
         "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -155,7 +155,7 @@ Content-Type: application/json
     },
     "criteria": [
       {
-        "id": "2ae576e21c20429bb18eaeee1dbe29cf",
+        "title": "Форма випуску",
         "description": "Форма випуску",
         "source": "tenderer",
         "relatesTo": "item",
@@ -164,7 +164,7 @@ Content-Type: application/json
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         },
-        "title": "Форма випуску",
+        "id": "77f18b21b0694000ad8d944749fdae82",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -178,11 +178,9 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "9de4e4e459f94ac38a9410aa4d544255",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "c4daa28c8d4b4da4857305ad5674dbdb",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -190,22 +188,22 @@ Content-Type: application/json
                   "Розчин для інфузій"
                 ],
                 "expectedMinItems": 1,
+                "id": "cb22b877c41e4308a3928b71547894d8",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "79893074bc62425fb186231d0b954c26",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
                 "unit": {
-                  "code": "KGM",
-                  "name": "кілограми"
+                  "name": "кілограми",
+                  "code": "KGM"
                 },
                 "minValue": 5,
+                "id": "3ee849bdca1844ab8612ca594b4c1c5a",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "1a682d7e26cd497c8911321adc9e020f",
                 "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",
@@ -217,9 +215,11 @@ Content-Type: application/json
                 ],
                 "expectedMinItems": 1,
                 "expectedMaxItems": 3,
+                "id": "bb3e721526fa4f2482886843dfbd8b34",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "a6d81291865048c7bdab20075d38379b"
           }
         ]
       }
@@ -357,53 +357,6 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "requirementResponses": [
-          {
-            "requirement": {
-              "id": "c4daa28c8d4b4da4857305ad5674dbdb",
-              "title": "Форма випуску"
-            },
-            "values": [
-              "Розчин для інфузій"
-            ],
-            "id": "9f2f4a06343f48a28de4865e684d5626",
-            "classification": {
-              "scheme": "ESPD211",
-              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-            }
-          },
-          {
-            "requirement": {
-              "id": "79893074bc62425fb186231d0b954c26",
-              "title": "Доза діючої речовини"
-            },
-            "value": 5,
-            "id": "78e7c611875c4be382e1bfab7019c6d0",
-            "unit": {
-              "code": "KGM",
-              "name": "кілограми"
-            },
-            "classification": {
-              "scheme": "ESPD211",
-              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-            }
-          },
-          {
-            "requirement": {
-              "id": "1a682d7e26cd497c8911321adc9e020f",
-              "title": "Форма випуску 1"
-            },
-            "values": [
-              "Відповідь1",
-              "Відповідь2"
-            ],
-            "id": "feb1eb00f0d44a179e25da34439ef71e",
-            "classification": {
-              "scheme": "ESPD211",
-              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-            }
-          }
-        ],
         "items": [
           {
             "id": "5b122642e8964f00a1535be1d2b2270a",
@@ -464,7 +417,54 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "50d73034d8f140519e0938bd1cac6e8e",
+        "requirementResponses": [
+          {
+            "requirement": {
+              "id": "cb22b877c41e4308a3928b71547894d8",
+              "title": "Форма випуску"
+            },
+            "values": [
+              "Розчин для інфузій"
+            ],
+            "id": "44dbcdd0c5e74c9fab2757801dc71d6a",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+            }
+          },
+          {
+            "requirement": {
+              "id": "3ee849bdca1844ab8612ca594b4c1c5a",
+              "title": "Доза діючої речовини"
+            },
+            "value": 5,
+            "id": "046de1403f144f8abf7d7ce1397e7a3e",
+            "unit": {
+              "name": "кілограми",
+              "code": "KGM"
+            },
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+            }
+          },
+          {
+            "requirement": {
+              "id": "bb3e721526fa4f2482886843dfbd8b34",
+              "title": "Форма випуску 1"
+            },
+            "values": [
+              "Відповідь1",
+              "Відповідь2"
+            ],
+            "id": "4bf87950b2fb4228ad1f4108f64bf1bd",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+            }
+          }
+        ],
+        "id": "1d4ef66909274b8e9c2f1b65891555c4",
         "date": "2027-01-01T00:00:00+02:00",
         "submissionDate": "2027-01-01T00:00:00+02:00",
         "initialValue": {
@@ -509,27 +509,27 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "50d73034d8f140519e0938bd1cac6e8e",
+        "bid_id": "1d4ef66909274b8e9c2f1b65891555c4",
         "documents": [
           {
             "confidentiality": "public",
             "documentType": "notice",
-            "id": "40d77b956b9d475fb00320f64602df16",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
+            "language": "uk",
+            "id": "2bb1b35fc9734fdda12cae6fe12cd273",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19490ea9427f4458b9607cd94d20b5e3?Signature=yCoELtqowpqESVTm03OLr9Gm%2B9kkSxZUiUcpD3rkM7e6gsTbJJd0t1YVxjXL3eWFweY%2B0Ocl48YHMi6cJCJPDQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
-            "author": "tender_owner",
-            "language": "uk"
+            "author": "tender_owner"
           }
         ],
         "qualified": true
       },
       {
-        "id": "0f54c7d65400412ba713c3822b145017",
+        "id": "9df4cf0ea0dc4bb9a060e55e742c9e4f",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
@@ -559,7 +559,7 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "50d73034d8f140519e0938bd1cac6e8e",
+        "bid_id": "1d4ef66909274b8e9c2f1b65891555c4",
         "period": {
           "startDate": "2027-01-01T00:00:00+02:00",
           "endDate": "2027-01-05T00:00:00+02:00"
@@ -582,7 +582,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "1faecc8cb6944a658737af002d96c9b7"
+    "id": "721de0f02fe8401c9e55abb0f70e6886"
   },
   "config": {
     "hasAuction": false,

@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/d8b95fea90044d2abb3ad2f23869cf68/lots/2320506cf9af411dbfa56f401fd6ba4d?acc_token=53d810c6184e45e08c250a247d4300eb HTTP/1.0
+DELETE /api/2.5/tenders/990c86e9189644b5bea7113617ac0f53/lots/ee147b8334d647bdbd596c07b1ced866?acc_token=53d810c6184e45e08c250a247d4300eb HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 

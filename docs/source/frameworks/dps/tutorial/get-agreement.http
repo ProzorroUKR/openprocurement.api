@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-17-000001",
-    "frameworkID": "a7be11b733044b6eb74d7712f3c91ad2",
+    "frameworkID": "9530d2645fe54108ad6417065dc71e79",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -24,23 +24,23 @@ Content-Type: application/json
         "legalName": "Назва організації"
       },
       "address": {
-        "countryName": "Україна",
         "streetAddress": "вул. Банкова, 11, корпус 1",
         "locality": "м. Київ",
         "region": "м. Київ",
-        "postalCode": "01220"
+        "postalCode": "01220",
+        "countryName": "Україна"
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "+0440000001",
-        "email": "aa@aa.com"
+        "email": "aa@aa.com",
+        "telephone": "+0440000001"
       },
       "kind": "general"
     },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -53,30 +53,30 @@ Content-Type: application/json
       {
         "id": "209af725e14a4ede8edc1720b0f84d65",
         "qualificationID": "37edcfe4b6484dee80eecfdb03a03a08",
-        "submissionID": "9b0585dfa2b947c98c7b97d353418798",
+        "submissionID": "bdb402017c264beb80cd9ddca7f6d8d3",
         "status": "active",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
-            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
-              "uri": "http://www.sc.gov.ua/",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "countryName": "Україна",
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
               "region": "Вінницька область",
-              "postalCode": "21100"
+              "postalCode": "21100",
+              "countryName": "Україна"
             },
             "contactPoint": {
               "name": "Сергій Олексюк",
-              "telephone": "+380432216930",
-              "email": "soleksuk@gmail.com"
-            }
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            },
+            "scale": "micro"
           }
         ],
         "milestones": [

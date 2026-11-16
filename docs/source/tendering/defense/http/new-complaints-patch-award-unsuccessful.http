@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e8b352731fa84c98a0666c98e5a42d4e/awards/47cc7ce5c6f4469e858bb998506c40f1?acc_token=efc4ac214da7476cb1860681db9dd024 HTTP/1.0
+PATCH /api/2.5/tenders/f80763d0229f4fc9a0caf3e903f26617/awards/0fa8c4ef3d3b472286afc8b3d5889a55?acc_token=efc4ac214da7476cb1860681db9dd024 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -14,11 +14,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e8b352731fa84c98a0666c98e5a42d4e/awards/1a6b435cacb3460c8ff5dee70c4f06b8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f80763d0229f4fc9a0caf3e903f26617/awards/e3e90124ec444e1a827bb2928a8e11a7
 
 {
   "data": {
-    "id": "47cc7ce5c6f4469e858bb998506c40f1",
+    "id": "0fa8c4ef3d3b472286afc8b3d5889a55",
     "status": "unsuccessful",
     "date": "2027-01-01T00:00:00+02:00",
     "suppliers": [
@@ -44,21 +44,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e8b352731fa84c98
         "scale": "micro"
       }
     ],
-    "bid_id": "7ceec20b7ec44e7cb34b9cfa02af6a97",
+    "bid_id": "efad3a91a01044ac9ae579e2fc3b5ab6",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "ae094f93ef664b92b84da9f295c669a4",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "038bdd9b2c1e4adb9249f448139eb3b3",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5eb84bde1cca4f6cb43b1fd61734e572?Signature=idgGxMfeRFRzxJBWdvEgPKSLSuGJ29TkC%2FJzYSXrR8I91u5gky2BJYBreoEPRGsHG3vXqxIJj4cYZb2treQRAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {

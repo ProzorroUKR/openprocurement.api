@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints/cd1d97b38ac64035bd26193d431f6ab7 HTTP/1.0
+PATCH /api/2.5/tenders/a2869580364445cbb2d044be16ea20ff/cancellations/fd98d335fb0f4b1fb8d8402b8948a27e/complaints/b697dd3997f6419898d4982eff9ce5a7 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,13 +15,19 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "cd1d97b38ac64035bd26193d431f6ab7",
+    "id": "b697dd3997f6419898d4982eff9ce5a7",
     "complaintID": "UA-2027-01-01-000001-a.a2",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "declined",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -33,12 +39,6 @@ Content-Type: application/json
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "uri": "http://www.sc.gov.ua/",
-        "id": "00137256",
-        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
@@ -46,11 +46,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
-        "id": "7f4ba2e10f4146b0ad980acc4920b049",
+        "id": "b5b421aa4449425faf32aaa90fe586fd",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "cancellation",
-        "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+        "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -58,14 +58,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "fa75eac3b832434daf1a7941b837b6e6",
+            "id": "8a83085e1c0042b4949707673dcde1da",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "46666acf4dd844abbd5c2ba884e66e9f",
+            "id": "ec0015ebfe2e4c85a9b8ac3946412599",
             "description": "test argument"
           }
         ],

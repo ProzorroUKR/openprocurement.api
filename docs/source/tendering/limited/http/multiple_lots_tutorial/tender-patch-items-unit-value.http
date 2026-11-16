@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/eed496e1d6fe45af8c224fbe006b01e5?acc_token=19dcad98b0c94f409d29463ccbda97c3 HTTP/1.0
+PATCH /api/2.5/tenders/3231afae3f2e4f578caa03956c304735?acc_token=19dcad98b0c94f409d29463ccbda97c3 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "35111c6ae5f14b0d9ca94f8b7bb19508",
+        "id": "2eeecefc14554599868fabe442c65950",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -19,10 +19,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 3,
+        "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -41,11 +42,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b"
+        }
       },
       {
-        "id": "8d903a30c6ac4d3a86e5c4887844a1af",
+        "id": "3da4fdaf6ae6464db11427975be79eee",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -57,10 +57,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 2.0,
+        "relatedLot": "5de38758cc1b4ed981450ad5cc5b86bb",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -79,8 +80,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "5de38758cc1b4ed981450ad5cc5b86bb"
+        }
       }
     ]
   }
@@ -92,18 +92,18 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "draft",
+    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
+    "procurementMethod": "limited",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "draft",
     "owner": "broker",
-    "title": "Послуги шкільних їдалень",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "limited",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -269,7 +269,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "35111c6ae5f14b0d9ca94f8b7bb19508",
+        "id": "2eeecefc14554599868fabe442c65950",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -281,10 +281,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 3.0,
+        "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -303,11 +304,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b"
+        }
       },
       {
-        "id": "8d903a30c6ac4d3a86e5c4887844a1af",
+        "id": "3da4fdaf6ae6464db11427975be79eee",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -319,10 +319,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 2.0,
+        "relatedLot": "5de38758cc1b4ed981450ad5cc5b86bb",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -341,8 +342,7 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "5de38758cc1b4ed981450ad5cc5b86bb"
+        }
       }
     ],
     "procurementMethodType": "negotiation",
@@ -391,31 +391,31 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "85412ba2cbf342cabfe1c9386aeee93b",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "85412ba2cbf342cabfe1c9386aeee93b",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 300000.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 300000.0
+          "valueAddedTaxIncluded": false
         }
       },
       {
+        "id": "5de38758cc1b4ed981450ad5cc5b86bb",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "active",
-        "id": "5de38758cc1b4ed981450ad5cc5b86bb",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 200000.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 200000.0
+          "valueAddedTaxIncluded": false
         }
       }
     ],
-    "id": "eed496e1d6fe45af8c224fbe006b01e5"
+    "id": "3231afae3f2e4f578caa03956c304735"
   },
   "config": {
     "hasAuction": false,

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1158eaead7a846c1b308370b8555aa38/qualifications/73f63504520247fa9b86d1bd8882cd4c/requirement_responses HTTP/1.0
+GET /api/2.5/tenders/494d6fabdcce436a8816b44c669d8ee1/qualifications/ec7a6ac402714af390c725dd5d341eea/requirement_responses HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": [
     {
       "requirement": {
-        "id": "409be1cdcb1946d5adf5d089069fdcc3",
+        "id": "1b1660b068f84bce828fcb96a47454e6",
         "title": "Учасник процедури закупівлі є пов'язаною особою з іншими учасниками та/або з уповноваженою особою (особами), та/або з керівником замовника"
       },
       "evidences": [
@@ -18,23 +18,23 @@ Content-Type: application/json
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "4a99ac0650b14844ba389bdf4971cc85",
+            "id": "02271a835049440ab49672bffd3bfc9a",
             "title": "name.doc"
           },
-          "id": "f5ec3643646c491ab06834ba261a6356"
+          "id": "0f4c7c2ac1d9480e9fb422278b3c2373"
         },
         {
           "title": "Update evidence title",
           "type": "document",
           "relatedDocument": {
-            "id": "4a99ac0650b14844ba389bdf4971cc85",
+            "id": "02271a835049440ab49672bffd3bfc9a",
             "title": "name.doc"
           },
-          "id": "15c85c33d02f49a991aa81573ca6ddc9"
+          "id": "4cb2d1b220d34bd485edd09a896c8df7"
         }
       ],
       "value": false,
-      "id": "8258647c69834372b3ae3b8dacd00fd0",
+      "id": "bb3fb135b7e449fda4d387787de11202",
       "classification": {
         "scheme": "LAW922",
         "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/529089515689411f84e10eb418118905/bids/e329da0948f84710a3da9dd5705f4f34?acc_token=c04cd9f9678f48d282aeca28d42868e1 HTTP/1.0
+PATCH /api/2.5/tenders/4e7591689c2f4791924d9c8ae340523a/bids/772acab526b140d48e6fb86f134f4444?acc_token=c04cd9f9678f48d282aeca28d42868e1 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -62,15 +62,25 @@ Content-Type: application/json
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "value": 0.1
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "value": 0.1
+      }
+    ],
     "lotValues": [
       {
+        "status": "pending",
         "value": {
           "amount": 510.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
@@ -97,32 +107,22 @@ Content-Type: application/json
       }
     ],
     "status": "invalid",
-    "id": "e329da0948f84710a3da9dd5705f4f34",
+    "id": "772acab526b140d48e6fb86f134f4444",
     "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "c6402d75a72c4c048cf5580d03edbdc5",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
+        "language": "uk",
+        "id": "33d120ca8c5745d6b42ac853c6a62e28",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/18ea12dfc4e94e6c9943de2c76ac7697?Signature=rN3qahSbbx73%2B0CMO%2BYD4OARhMUPYJM4fIyW7RptCN4eeutRJvzaYJ%2FhNzO9OaPdx2pn0EE5w89kxd2Jb5KnCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
-      }
-    ],
-    "parameters": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE",
-        "value": 0.1
-      },
-      {
-        "code": "OCDS-123454-YEARS",
-        "value": 0.1
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ]
   }

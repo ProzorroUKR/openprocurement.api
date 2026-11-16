@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c47eb908d737465e8a509f1c7ef57071/criteria/2adf2b4aa45043d383e4f7aa15f8d154/requirement_groups HTTP/1.0
+GET /api/2.5/tenders/8c4b3ac47fa54f0bb422fad810bce326/criteria/3ca1f15e9a6e430bbd5497491f1f0bf0/requirement_groups HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,11 +9,9 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "e33b17ae2a224b2aab606af748427630",
       "description": "Updated description",
       "requirements": [
         {
-          "id": "27ffd4badc514b27be9dc622f99b40de",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
           "dataType": "boolean",
           "eligibleEvidences": [
@@ -21,21 +19,21 @@ Content-Type: application/json
               "title": "Документальне підтвердження",
               "description": "Довідка в довільній формі",
               "type": "document",
-              "id": "a8ade1a318b34316b68f30d9c7609dc2"
+              "id": "0e7012934e4a44c08de0bc64cca6c2e2"
             }
           ],
           "status": "active",
           "expectedValue": true,
+          "id": "92b73a6d82334347b3c2ee196d6cbdcf",
           "datePublished": "2027-01-01T00:00:00+02:00"
         }
-      ]
+      ],
+      "id": "7e0ef0e7c38142d9b817b2c6f0a6e1d9"
     },
     {
-      "id": "140a82d68dc9451ea5e3c78d1629ceea",
       "description": "Підтверджується, що",
       "requirements": [
         {
-          "id": "fc5746cb1a6e4dd1b64f8a89d2dad09b",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
           "dataType": "boolean",
           "eligibleEvidences": [
@@ -43,14 +41,16 @@ Content-Type: application/json
               "title": "Документальне підтвердження",
               "description": "Довідка в довільній формі",
               "type": "document",
-              "id": "ae6b0705354f425fa00d90912abe3b61"
+              "id": "e29ac5d15f3c4d99b7057b88a2d313e1"
             }
           ],
           "status": "active",
           "expectedValue": true,
+          "id": "6b78c6c0e1ff4e7f8ab343fd1686bf38",
           "datePublished": "2027-01-01T00:00:00+02:00"
         }
-      ]
+      ],
+      "id": "775123ee02c04aa9a03b40ab9681ffb8"
     }
   ]
 }

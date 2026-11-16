@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/cdf2c8387a964d0ea9fd3090a5f2ca27 HTTP/1.0
+GET /api/2.5/frameworks/94ba949d20d04517bbe706e50b297739 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,11 +11,33 @@ Content-Type: application/json
     "prettyID": "UA-F-2027-01-01-000001",
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі",
+    "frameworkType": "internationalFinancialInstitutions",
     "status": "active",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "email": "aa@aa.com",
+        "telephone": "+0440000001"
+      },
+      "kind": "general"
+    },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -26,34 +48,34 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "437b91cc35334b4f873accc94ce6f0d2",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "framework.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "76c2735c19d7410ea2c67a9427d6fd24",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3d4ffdd9cb3e4b17a82a3c4ff17b9d36?Signature=tIDXH8wnBO3JBgUN3GoSoE4sW4BjxGNxkWSyxNiflNyarXJhL52k9CgC3cpQRNCO0JoJ2nrhXfCkIhHQJVVSCg%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
-        "id": "be90e1fb97394bc686de80a5bc82e23c",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "8834777c637e478cba6fabcf558fc4b8",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a3b4750dd6e84c9ba06bcca72560bf2d?Signature=vCJf2VCGiuPf5SeqwD1awYCS9ZTLVHvhV3fzbpHLLC3w3Pr0UVL8oVBxYX8H7abDCBGS%2FLg7mix%2BK8hsWPTgAA%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
-        "id": "be90e1fb97394bc686de80a5bc82e23c",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "8834777c637e478cba6fabcf558fc4b8",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2365a5fbfc964de2a60ddfb175a6cc42?Signature=EQ2YakEGQeWMwX3tiOKOcxsLShIUEa%2B7bB6wmpMCqaC99IWYdRUihRRIElynMe9Ko105jWenrapYnCDSRhGfDw%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ],
     "owner": "broker",
@@ -63,28 +85,6 @@ Content-Type: application/json
     "qualificationPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2028-02-05T00:00:00+02:00"
-    },
-    "frameworkType": "internationalFinancialInstitutions",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "legalName": "Назва організації"
-      },
-      "address": {
-        "countryName": "Україна",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000001",
-        "email": "aa@aa.com"
-      },
-      "kind": "general"
     },
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
@@ -97,7 +97,7 @@ Content-Type: application/json
     },
     "next_check": "2027-01-11T00:00:00+02:00",
     "agreementID": "4860703af9044dc19e30f45f4e537fb9",
-    "id": "cdf2c8387a964d0ea9fd3090a5f2ca27"
+    "id": "94ba949d20d04517bbe706e50b297739"
   },
   "config": {
     "restrictedDerivatives": false,

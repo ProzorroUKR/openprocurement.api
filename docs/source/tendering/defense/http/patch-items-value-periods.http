@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df?acc_token=7f29cbfc95b44762a0c2323e2e1af078 HTTP/1.0
+PATCH /api/2.5/tenders/390b8a0af38a48188324c8003466a26e?acc_token=7f29cbfc95b44762a0c2323e2e1af078 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,15 +18,15 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "active.tendering",
+    "title": "футляри до державних нагород",
+    "procurementMethod": "open",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "active.tendering",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "open",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-14T00:00:00+02:00"
@@ -144,24 +144,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-17T00:00:00+02:00"
-    },
-    "auctionPeriod": {
-      "startDate": "2027-01-18T12:22:15.236000+02:00",
-      "shouldStartAfter": "2027-01-17T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "59c9cef27f1c4c4690caa01ed079c58c",
+        "id": "da49154ed5344e74af4c7a38858e1b54",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -169,9 +154,9 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -193,6 +178,21 @@ Content-Type: application/json
         }
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-17T00:00:00+02:00"
+    },
+    "auctionPeriod": {
+      "startDate": "2027-01-18T12:22:15.236000+02:00",
+      "shouldStartAfter": "2027-01-17T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "aboveThresholdUA.defense",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -226,16 +226,16 @@ Content-Type: application/json
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "minimalStep": {
-      "currency": "UAH",
       "amount": 5.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "id": "cafcd819d62040129cffcd9b3f3687df"
+    "id": "390b8a0af38a48188324c8003466a26e"
   },
   "config": {
     "hasAuction": true,

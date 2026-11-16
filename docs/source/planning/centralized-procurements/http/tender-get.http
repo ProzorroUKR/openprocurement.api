@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ef1bc8253a974975ab23702f35861021 HTTP/1.0
+GET /api/2.5/tenders/0abf9f1726ec49f6acfb084ffbbd843a HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "services",
+    "status": "draft",
     "buyers": [
       {
         "name": "ДУС",
@@ -62,7 +63,6 @@ Content-Type: application/json
       }
     ],
     "title": "футляри до державних нагород",
-    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -101,13 +101,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-02-01T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:15+02:00"
-    },
     "items": [
       {
-        "id": "b74eda4746944695a7c717ab864d27de",
+        "id": "528c9225d0604dfc8a048977b4ac0aa1",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -115,9 +111,9 @@ Content-Type: application/json
         },
         "quantity": 1000.0,
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -139,7 +135,7 @@ Content-Type: application/json
         "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86"
       },
       {
-        "id": "6b3a006208ca417e82cbbed6187618eb",
+        "id": "dc0a8b63220d4b378cec84c851779303",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -147,9 +143,9 @@ Content-Type: application/json
         },
         "quantity": 2000.0,
         "classification": {
-          "description": "Sunflower seeds",
           "scheme": "ДК021",
-          "id": "03111300-5"
+          "id": "03111300-5",
+          "description": "Sunflower seeds"
         },
         "additionalClassifications": [
           {
@@ -171,7 +167,7 @@ Content-Type: application/json
         "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86"
       },
       {
-        "id": "e20bc696f8ff498a805242621fb5cbdf",
+        "id": "1af50e3fa9464d8284581900a9b0cb02",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -179,9 +175,9 @@ Content-Type: application/json
         },
         "quantity": 3000.0,
         "classification": {
-          "description": "Cotton seeds",
           "scheme": "ДК021",
-          "id": "03111400-6"
+          "id": "03111400-6",
+          "description": "Cotton seeds"
         },
         "additionalClassifications": [
           {
@@ -203,6 +199,10 @@ Content-Type: application/json
         "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd"
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:15+02:00"
+    },
     "procurementMethodType": "aboveThresholdUA",
     "procuringEntity": {
       "name": "ЦЗО №1",
@@ -225,8 +225,8 @@ Content-Type: application/json
       "kind": "central"
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -326,10 +326,10 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:21+02:00",
     "plans": [
       {
-        "id": "b5611a5d614e41dcab385c6e015ee969"
+        "id": "9a34005ede3847c5ae9ee30e406f935a"
       }
     ],
-    "id": "ef1bc8253a974975ab23702f35861021"
+    "id": "0abf9f1726ec49f6acfb084ffbbd843a"
   },
   "config": {
     "hasAuction": true,

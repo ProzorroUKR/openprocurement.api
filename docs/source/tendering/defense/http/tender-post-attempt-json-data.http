@@ -150,13 +150,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b6206a1f64554b5f9cb664f6643cd70b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1bf03ab484fd49fcabdc79b589f6735b
 
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title": "футляри до державних нагород",
     "status": "draft",
+    "title": "футляри до державних нагород",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -195,13 +195,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b6206a1f64554b5f
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-01-27T00:00:00+02:00",
-      "startDate": "2027-01-12T00:00:02+02:00"
-    },
     "items": [
       {
-        "id": "566e4f2e16ea43d387a6beb5b231b1ba",
+        "id": "9d710dbc8d5a44ff894ee2028106961c",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -209,9 +205,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b6206a1f64554b5f
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -233,6 +229,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b6206a1f64554b5f
         }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-01-27T00:00:00+02:00",
+      "startDate": "2027-01-12T00:00:02+02:00"
+    },
     "procurementMethodType": "aboveThresholdUA.defense",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -265,13 +265,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b6206a1f64554b5f
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "minimalStep": {
-      "currency": "UAH",
       "amount": 5.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-12-000001-a",
@@ -369,7 +369,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b6206a1f64554b5f
     },
     "dateCreated": "2027-01-12T00:00:02+02:00",
     "dateModified": "2027-01-12T00:00:02+02:00",
-    "id": "b6206a1f64554b5f9cb664f6643cd70b"
+    "id": "1bf03ab484fd49fcabdc79b589f6735b"
   },
   "config": {
     "hasAuction": true,

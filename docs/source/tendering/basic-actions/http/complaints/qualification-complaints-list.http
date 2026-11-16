@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints HTTP/1.0
+GET /api/2.5/tenders/08312cd6d734432f88d7699c3ea75aa0/qualifications/fa3612c93a984e1ca3a6f2d1f6eea49d/complaints HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -8,43 +8,49 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "050de06197314bfcbc78653f63b89fc9",
+      "id": "c97a8e6b19944f0d80fabbd0aacfd8b3",
       "complaintID": "UA-2027-01-01-000001-a.a1",
       "date": "2027-01-01T00:00:01+02:00",
       "status": "resolved",
       "documents": [
         {
           "confidentiality": "public",
-          "id": "774a1ac746644b04a1312ee77ab03af2",
-          "datePublished": "2027-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
+          "language": "uk",
+          "id": "64543d73c56f4af5ae00f133419990f0",
+          "datePublished": "2027-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4f4338770f5d44ce84251ce3d6a8f0a4?Signature=EwzKj917ojXxFNkQ4ZSk5IMQEcXsDa%2BhfkjgF84WKomRiP0BG%2FRGPFaXLSJwZgB5cBbPK5WI219Npt6B0xY4CA%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:00:01+02:00",
-          "author": "complaint_owner",
-          "language": "uk"
+          "author": "complaint_owner"
         },
         {
           "confidentiality": "public",
-          "id": "fc6588a30de84be694d250b89878e958",
-          "datePublished": "2027-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
+          "language": "uk",
+          "id": "ad19116d3fdb4a62b95d3c562e3a3913",
+          "datePublished": "2027-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/263764344a634f85860734dfb326e120?Signature=MRHnHjyvHLBL7d%2FBcIo%2BOVsmrMeAkf4DyAJzXnCpdbbEnT3xBuLxZ8cE4Vrf0J9b8HJw4w3R1JvE%2B%2FOgt2x%2FAw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:00:01+02:00",
-          "author": "aboveThresholdReviewers",
-          "language": "uk"
+          "author": "aboveThresholdReviewers"
         }
       ],
       "type": "complaint",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -56,12 +62,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -69,11 +69,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:01+02:00",
       "objections": [
         {
-          "id": "5d4cf69b316d45969d654178eed1b7ec",
+          "id": "e04bbd6b2b7f4789a622a73521d93a8a",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+          "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -81,14 +81,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "0e57f427e8164c1ea37464b7fa275b8f",
+              "id": "1f41739376a94fea8faf2ec1ac3112ef",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "2268ce726cb44c06b8b0a6dcc2a48342",
+              "id": "4d2ff96c452b47fe89d645e3f14c862e",
               "description": "test argument"
             }
           ],
@@ -108,15 +108,21 @@ Content-Type: application/json
       "tendererActionDate": "2027-01-01T00:00:01+02:00"
     },
     {
-      "id": "674c1110bfde4423902c84f1f42a4096",
+      "id": "e02ede600d8f4a83a3c0c13b34a296b3",
       "complaintID": "UA-2027-01-01-000001-a.a2",
       "date": "2027-01-01T00:00:01+02:00",
       "status": "invalid",
       "type": "complaint",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -128,12 +134,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -141,11 +141,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:01+02:00",
       "objections": [
         {
-          "id": "ea194ad0926c41e288d7054844164162",
+          "id": "ac7ea7ecbd734b78b381a26a1bdb52c4",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+          "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -153,14 +153,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "f691c472b21948149a7c1e8b00d58156",
+              "id": "37f0f47d266843c3a504d30bf850b107",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "03b7ba91b4d745169006fa8fdb9f28b3",
+              "id": "41fffa14ec8747b4a79dcee4456a4e5a",
               "description": "test argument"
             }
           ],
@@ -176,15 +176,21 @@ Content-Type: application/json
       "acceptance": false
     },
     {
-      "id": "b188f43f95a746b28254fa08afa37134",
+      "id": "7defccabc6014024a8b1ca067b859277",
       "complaintID": "UA-2027-01-01-000001-a.a3",
       "date": "2027-01-01T00:00:01+02:00",
       "status": "declined",
       "type": "complaint",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -196,12 +202,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -209,11 +209,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:01+02:00",
       "objections": [
         {
-          "id": "91439bdd114141889eee21b763758901",
+          "id": "13e1e67e5c7044dfa4877d86521c0227",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+          "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -221,14 +221,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "d2544d8eb7b54b2681e5cfe5a3e35388",
+              "id": "16bbbfa5d1a24115a7bd62917323b147",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "6c3653bbcd58497db18e5b7125ea4368",
+              "id": "0bba80dd9a9d4e8c9f71edcfc4df3723",
               "description": "test argument"
             }
           ],
@@ -246,15 +246,21 @@ Content-Type: application/json
       "dateDecision": "2027-01-01T00:00:01+02:00"
     },
     {
-      "id": "b73bcd283d684bda8d7c9102c9c98b8b",
+      "id": "49fda35b6e23497ab7b515e6bc3f6dfe",
       "complaintID": "UA-2027-01-01-000001-a.a4",
       "date": "2027-01-01T00:00:01+02:00",
       "status": "accepted",
       "type": "complaint",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -266,12 +272,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -279,11 +279,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:01+02:00",
       "objections": [
         {
-          "id": "b50b55404ac2491c9df2a32a6af9cd5c",
+          "id": "796cc51b7fa94c6fa50652db7b5ba086",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+          "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -291,14 +291,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "c7ca39e4cbfd43898294bd3d39f99a80",
+              "id": "71bce89928624d9b90ad3bc03838a430",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "e81cddab9e1b41cdabf02fed528693c5",
+              "id": "5a9af3f94ece4a2bb29cb4d0e910f2e6",
               "description": "test argument"
             }
           ],
@@ -315,15 +315,21 @@ Content-Type: application/json
       "acceptance": true
     },
     {
-      "id": "fe91887bf8ad4395b6babd9d69a92be7",
+      "id": "2353fcd7bc8b470b91ca4e5ef7a0c467",
       "complaintID": "UA-2027-01-01-000001-a.a5",
       "date": "2027-01-01T00:00:01+02:00",
       "status": "stopped",
       "type": "complaint",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -335,12 +341,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -348,11 +348,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:01+02:00",
       "objections": [
         {
-          "id": "c258f26492a6452dac418033a599288a",
+          "id": "ed66d6f0507142dbb1bd7c4e7defdba8",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+          "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -360,14 +360,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "e3be00be3c774ce781f2edfba8ce048c",
+              "id": "fe86a0dba97f4283a3db9df384d0c597",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "9602fedd38ce4fe2afdfa588f6a3b5da",
+              "id": "c31aad215fe5459b9fd47330c5ff038f",
               "description": "test argument"
             }
           ],
@@ -388,7 +388,7 @@ Content-Type: application/json
       "dateCanceled": "2027-01-01T00:00:01+02:00"
     },
     {
-      "id": "8574cd332a044169b100c60da9e1fcb3",
+      "id": "a3b143f83b8640e2b9702844b8e5561d",
       "complaintID": "UA-2027-01-01-000001-a.a6",
       "date": "2027-01-01T00:00:01+02:00",
       "title": "Недостатньо інформації",
@@ -400,11 +400,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:01+02:00",
       "satisfied": true,
       "type": "claim",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3"
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a"
     },
     {
-      "id": "821e337711a044d6a409d2896e973673",
+      "id": "5614f7965bc949c9a01a6a73a7daf8de",
       "complaintID": "UA-2027-01-01-000001-a.a7",
       "date": "2027-01-01T00:00:01+02:00",
       "title": "Недостатньо інформації",
@@ -416,19 +416,25 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:01+02:00",
       "satisfied": false,
       "type": "claim",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3"
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a"
     },
     {
-      "id": "5b669a6114ef4a78a9f5a2d8d7489d6d",
+      "id": "53a03019999f4d5ebc39ff5047e71c09",
       "complaintID": "UA-2027-01-01-000001-a.a8",
       "date": "2027-01-01T00:00:01+02:00",
       "status": "pending",
       "type": "complaint",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -440,23 +446,17 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "objections": [
         {
-          "id": "42f9f1d48b6a43bbbf3b7221224782bb",
+          "id": "6f28b9b5688447c6abd3c0b277dc2093",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+          "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -464,14 +464,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "476333e4bac64011b6f034d94bced605",
+              "id": "1289519f81c3462e813418b4fbcd70dc",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "09a8808bb99a4ea4b1c46add7e2544f1",
+              "id": "255836742436430e8ced9ea698875e66",
               "description": "test argument"
             }
           ],
@@ -488,8 +488,8 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "recipient": "complaint_owner",
-          "relatedObjection": "42f9f1d48b6a43bbbf3b7221224782bb",
-          "id": "78f30f412e3f4d1d9107d8674869ee4e",
+          "relatedObjection": "6f28b9b5688447c6abd3c0b277dc2093",
+          "id": "353df2b1d65a4ff78963e700c3a2e3a1",
           "datePublished": "2027-01-01T00:00:01+02:00",
           "author": "aboveThresholdReviewers"
         },
@@ -497,9 +497,9 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Додано документ",
           "recipient": "aboveThresholdReviewers",
-          "relatedPost": "78f30f412e3f4d1d9107d8674869ee4e",
-          "relatedObjection": "42f9f1d48b6a43bbbf3b7221224782bb",
-          "id": "7679678cfa114448b7022c23fb5a7748",
+          "relatedPost": "353df2b1d65a4ff78963e700c3a2e3a1",
+          "relatedObjection": "6f28b9b5688447c6abd3c0b277dc2093",
+          "id": "b4db29c470b94800b86e7a7e498cd08a",
           "datePublished": "2027-01-01T00:00:01+02:00",
           "author": "complaint_owner"
         },
@@ -507,8 +507,8 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "recipient": "tender_owner",
-          "relatedObjection": "42f9f1d48b6a43bbbf3b7221224782bb",
-          "id": "8222576fc17f4b76b5267f47c59baf6e",
+          "relatedObjection": "6f28b9b5688447c6abd3c0b277dc2093",
+          "id": "f7a4a6e0a8ca4ccea1dc498a47edbdc3",
           "datePublished": "2027-01-01T00:00:01+02:00",
           "author": "aboveThresholdReviewers"
         },
@@ -516,17 +516,17 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Додано документ",
           "recipient": "aboveThresholdReviewers",
-          "relatedPost": "8222576fc17f4b76b5267f47c59baf6e",
-          "relatedObjection": "42f9f1d48b6a43bbbf3b7221224782bb",
-          "id": "81d946c2e8884da9a8b5f2b3d054309c",
+          "relatedPost": "f7a4a6e0a8ca4ccea1dc498a47edbdc3",
+          "relatedObjection": "6f28b9b5688447c6abd3c0b277dc2093",
+          "id": "6c4b8adde8d34ed09c65e02f601a7349",
           "datePublished": "2027-01-01T00:00:01+02:00",
           "author": "tender_owner"
         },
         {
           "title": "Пояснення до скарги",
           "description": "Була така необхідність",
-          "relatedObjection": "42f9f1d48b6a43bbbf3b7221224782bb",
-          "id": "bc18717aae3d459eb7432aeac3dacc63",
+          "relatedObjection": "6f28b9b5688447c6abd3c0b277dc2093",
+          "id": "6f4ab5ab7932419d8b4510f14db669a3",
           "datePublished": "2027-01-01T00:00:01+02:00",
           "author": "tender_owner"
         }
@@ -534,14 +534,14 @@ Content-Type: application/json
       "documents": [
         {
           "confidentiality": "public",
-          "relatedItem": "81d946c2e8884da9a8b5f2b3d054309c",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "post_document_tender.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/49f578e96f5b42a18dead2c2259ea044?Signature=MQjwk5ex7srNRc53%2FVZJzEVSawrIZ1LmWo7q1Md9y8tF0MowbCzrLrwXwJ27rRpFwVeCiqtsiHaJCI1G0CIpBQ%3D%3D&KeyID=a8968c46",
           "language": "uk",
-          "id": "77874e5af508474ab9e5736631130833",
+          "relatedItem": "6c4b8adde8d34ed09c65e02f601a7349",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/49f578e96f5b42a18dead2c2259ea044?Signature=MQjwk5ex7srNRc53%2FVZJzEVSawrIZ1LmWo7q1Md9y8tF0MowbCzrLrwXwJ27rRpFwVeCiqtsiHaJCI1G0CIpBQ%3D%3D&KeyID=a8968c46",
           "documentOf": "post",
+          "id": "2c93a906ce564e4eaf0bf36ffdeade0d",
           "datePublished": "2027-01-01T00:00:01+02:00",
           "dateModified": "2027-01-01T00:00:01+02:00",
           "author": "tender_owner"
@@ -549,42 +549,48 @@ Content-Type: application/json
       ]
     },
     {
-      "id": "7151c922cb654fe6b6dbe210d81d9445",
+      "id": "21cea7981abb4a83878befd72ee704a8",
       "complaintID": "UA-2027-01-01-000001-a.a9",
       "date": "2027-01-01T00:00:01+02:00",
       "documents": [
         {
           "confidentiality": "public",
-          "id": "0e2a733e38df4f06acaea4d3a38b24fb",
-          "datePublished": "2027-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
+          "language": "uk",
+          "id": "822dd6f05dfa489bbf35b5a47e516f75",
+          "datePublished": "2027-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ea69ce019cf43a2927f2fb24b82a8cb?Signature=%2FwfXwZM%2FboF0fBgZ0TDAL9gbjis5dDFs1a3lnMi2rTGvnzcbLUz22Mpstmjf9yN6OnPUru5zRBuk6SSNyZOdCw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:00:01+02:00",
-          "author": "complaint_owner",
-          "language": "uk"
+          "author": "complaint_owner"
         }
       ],
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "status": "claim",
       "type": "claim",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
       "dateSubmitted": "2027-01-01T00:00:01+02:00"
     },
     {
-      "id": "d7cc1a2fae99430387af7e719ef1aef8",
+      "id": "3c78ceb25285420494fd5a33d3ba3b85",
       "complaintID": "UA-2027-01-01-000001-a.a10",
       "date": "2027-01-01T00:00:01+02:00",
       "status": "mistaken",
       "type": "complaint",
-      "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+      "relatedLot": "43028010689345adbc070ce99067a14d",
+      "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -596,23 +602,17 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "objections": [
         {
-          "id": "272c2114f4c84a00911aa457cf123ff1",
+          "id": "f4c1f2c2b1a04d2289e6c448799480be",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+          "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -620,14 +620,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "60cd42d4ccf348ceb4bce4f0dbb52978",
+              "id": "53f1cabdf2204dd2b72e92d83e68e0be",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "ac1b27622df147bea73e367fba8c72a1",
+              "id": "80d67a55ca1b4b0ebf67ccd8ef0e59e0",
               "description": "test argument"
             }
           ],

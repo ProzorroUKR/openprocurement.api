@@ -13,11 +13,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "5b122642e8964f00a1535be1d2b2270a",
         "description": "Комп’ютерне обладнання для біда",
-        "quantity": 20,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -26,6 +25,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 20,
         "unit": {
           "name": "кг",
           "value": {
@@ -75,11 +75,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "ce44a97bd43a49069c1cb60ef789199e",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -88,6 +87,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -133,11 +133,10 @@ Content-Type: application/json
       {
         "id": "5b122642e8964f00a1535be1d2b2270a",
         "description": "Комп’ютерне обладнання для біда",
-        "quantity": 20.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -146,6 +145,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 20.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -195,11 +195,10 @@ Content-Type: application/json
       {
         "id": "ce44a97bd43a49069c1cb60ef789199e",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -208,6 +207,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -232,7 +232,7 @@ Content-Type: application/json
         "category": "655360-30230000-889652"
       }
     ],
-    "tender_id": "1faecc8cb6944a658737af002d96c9b7",
+    "tender_id": "721de0f02fe8401c9e55abb0f70e6886",
     "tenderID": "UA-2027-01-01-000001-a",
     "mainProcurementCategory": "goods",
     "owner": "broker",
@@ -300,7 +300,7 @@ Content-Type: application/json
           "volumeCuts",
           "priceReductionWithoutQuantity"
         ],
-        "id": "b70265ab25aa44b1a2423373bf2835cd",
+        "id": "539804d6e5e84577bd1fdcd9643dbf3d",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       }
@@ -308,35 +308,35 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "61b6caa21ac8469a8bc925b3587953bb",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/61b6caa21ac8469a8bc925b3587953bb?download=3ef4769b01194c3fb9b85667d21a1307",
         "documentOf": "contract",
+        "id": "fa63a1320fd448e09187aaf15115b3b7",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/fa63a1320fd448e09187aaf15115b3b7?download=3ef4769b01194c3fb9b85667d21a1307",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
-        "id": "945cd6bc48064e4eab04b0a337aa0bbe",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/945cd6bc48064e4eab04b0a337aa0bbe?download=fc53e793a7ae423e9d0b454a353d6e3e",
         "documentOf": "contract",
+        "id": "c49ac566864144f59967268438242603",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/c49ac566864144f59967268438242603?download=fc53e793a7ae423e9d0b454a353d6e3e",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
-        "relatedItem": "b70265ab25aa44b1a2423373bf2835cd",
-        "id": "25135859cec94fe8a2b16d42aa589b54",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/25135859cec94fe8a2b16d42aa589b54?download=8951da71589746199cc3c8345d51fe37",
+        "relatedItem": "539804d6e5e84577bd1fdcd9643dbf3d",
         "documentOf": "change",
+        "id": "184239d3e8b3440489f33f4f061b79d1",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/184239d3e8b3440489f33f4f061b79d1?download=8951da71589746199cc3c8345d51fe37",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       }

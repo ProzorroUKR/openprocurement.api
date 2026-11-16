@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids HTTP/1.0
+POST /api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -54,7 +54,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "c5b0023de71046108dde1a721e00de87",
+        "id": "2a71a02411a8486e82fbcebd22753eb4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -69,7 +69,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
-        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "id": "4b0f472add0f4cc8af5e25d25d189b80",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -91,13 +91,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8/bids/c64866c45b5d4d19955fcb8cae558a15
 
 {
   "data": {
     "items": [
       {
-        "id": "c5b0023de71046108dde1a721e00de87",
+        "id": "2a71a02411a8486e82fbcebd22753eb4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -112,7 +112,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
-        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "id": "4b0f472add0f4cc8af5e25d25d189b80",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -126,6 +126,28 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         },
         "quantity": 1.0,
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 600.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+        "date": "2027-01-01T00:00:00+02:00"
+      },
+      {
+        "status": "pending",
+        "value": {
+          "amount": 700.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -160,30 +182,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         }
       }
     ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 600.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-        "date": "2027-01-01T00:00:00+02:00"
-      },
-      {
-        "status": "pending",
-        "value": {
-          "amount": 700.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "status": "draft",
-    "id": "4b2f22ec008b4f4e88f2f69ea174242c",
+    "id": "c64866c45b5d4d19955fcb8cae558a15",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

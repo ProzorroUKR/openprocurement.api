@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994 HTTP/1.0
+GET /api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -7,9 +7,43 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "active.tendering",
+    "title": "футляри до державних нагород",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "contractProforma",
+        "title": "name.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "2d8475c1160145999d6324a2b81be487",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a5737ca8b48e4ad782a8a01422d302c0?Signature=OSlChSl0ur3pYDpplmugf%2BvGvfOOA9KQecOlg5aohwWuQwu5cLGvRQ%2F8ay2GEWS6EEGKQ9Y3l6bzWQlwHRl8BA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "a3f212b7333e4cbf831ef671ac8395e4",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a76041aab0b3490d850f9b57029a4c6b?Signature=gbN7ujOPv07BjjO3GCu1Ew%2BVApHs2wv%2FfQTq3syTVLjAdExDKOQMbQHl6AaFwIF9jADp2C4vK%2FZBNy72EykyAQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
+    "procurementMethod": "selective",
     "criteria": [
       {
-        "id": "a3115169ef8442119cb766648a4a0862",
+        "title": "Строк дії тендерної пропозиції",
         "description": "Строк, протягом якого тендерні пропозиції вважаються дійсними, але не менше 90 днів із дати кінцевого строку подання тендерних пропозицій",
         "source": "tenderer",
         "relatesTo": "tender",
@@ -17,7 +51,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
         },
-        "title": "Строк дії тендерної пропозиції",
+        "id": "49e3cc34996d4432ab7962945eecb352",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -32,27 +66,27 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "89ca0b90ba804316bab130370876a93e",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "22cd239f9fe34a0682b8a33ad6d14f79",
                 "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій",
                 "dataType": "integer",
                 "status": "active",
                 "unit": {
-                  "code": "DAY",
-                  "name": "день"
+                  "name": "день",
+                  "code": "DAY"
                 },
                 "minValue": 90,
+                "id": "7e1371e08201429c8f5cf63b32bfcbfb",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "90b6068e1f6b4be3a7599d03b3e98d30"
           }
         ]
       },
       {
-        "id": "e519f246a6d24575a6da81dc086ae462",
+        "title": "Мова (мови) тендерної пропозиції",
         "description": "Тендерна пропозиція та усі документи, які передбачені вимогами тендерної документації і додатками до неї, складаються українською мовою.\nЯкщо в складі тендерної пропозиції надається документ на іншій мові, ніж українська, учасник надає автентичний переклад цього документа українською мовою. Відповідальність за якість та достовірність перекладу несе учасник. Тексти повинні бути автентичними, визначальним є текст викладений українською мовою.\nДана вимога не відноситься до власних назв та/або загальноприйнятих визначень, термінів, малюнків, креслень тощо",
         "source": "tenderer",
         "relatesTo": "tender",
@@ -60,7 +94,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
-        "title": "Мова (мови) тендерної пропозиції",
+        "id": "189bb7aecc2e42679a60d6acdb853a0b",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -75,11 +109,9 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "6f6857af14494fc48ef92bdfcd578912",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "03d61981028f4de3bafa7946a08b0da4",
                 "title": "Мова тендерної пропозиції",
                 "dataType": "string",
                 "status": "active",
@@ -91,14 +123,16 @@ Content-Type: application/json
                   "spa"
                 ],
                 "expectedMinItems": 1,
+                "id": "8ef2a75237154bc59972ade16e3a0815",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "ebee3e97f198403e9f9e390dee18f9f5"
           }
         ]
       },
       {
-        "id": "6936e52c8fca4a15a514d2d5bc59d1e0",
+        "title": "Наявність впливу на прийняття рішення замовника",
         "description": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
         "source": "procuringEntity",
         "relatesTo": "tender",
@@ -106,7 +140,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         },
-        "title": "Наявність впливу на прийняття рішення замовника",
+        "id": "f9e2949052164a0298fe7f334ba1042a",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -121,29 +155,29 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "de05b200fb154c4f94517589e59f3f66",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "31e7d7941ac84595aca79af0b5eafcec",
                 "title": "Учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "8558cf5fb87046c99e6c8229b491770f"
+                    "id": "f81947d717fc44b7a02e9ce697c2f433"
                   }
                 ],
                 "status": "active",
+                "id": "87752185e02d4c5d983e0a4f896669a1",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "42b9d6afdc9948dda19430fb359397b7"
           }
         ]
       },
       {
-        "id": "1be3ca918e8247df807f84ca1113bda3",
+        "title": "Вчинення корупційних правопорушень",
         "description": "Відомості про юридичну особу, яка є учасником процедури закупівлі, внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов’язані з корупцією правопорушення; Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов’язаного з корупцією",
         "source": "winner",
         "relatesTo": "tender",
@@ -151,7 +185,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
         },
-        "title": "Вчинення корупційних правопорушень",
+        "id": "00fefcb821b94f178c531e21e98fd017",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -176,66 +210,66 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "2af78f499bc3483c8e715f52891b75d5",
             "description": "Юридичною особою підтверджується, що",
             "requirements": [
               {
-                "id": "fc7ad4ed402740eb8dd96835a38eef28",
                 "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "27319bc085a149669102f82cb63f7906"
+                    "id": "e5174e1e08a141b984ac08376d12d4ca"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "0ca14db9e3134006b43e0d0d88311d9e",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "ccc629c76e6e4d54a4cc91a31d2144e6",
                 "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "6efc184fe8e049778d7dc6766dd68e80"
+                    "id": "5c957d8c065a4219bf86adf8ea1c3ec2"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "56c04ba5ee2e4611bb70ca6dc5983c5a",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "944d500a0a814784a7d56e5d0be0cb93"
           },
           {
-            "id": "76b7e79096674fef93a1db3783afda48",
             "description": "Фізичною особою підтверджується, що",
             "requirements": [
               {
-                "id": "3b36564329554348b779da7bc6d94682",
                 "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "dd56a8b7b04b45359ad11b1f3e6970d3"
+                    "id": "68c4c950365b4167bafe80d4cc87877d"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "6508759a8540413cadc7ec2e8cf0c3c3",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "d67b8115b2b44919827e0b6f8ebe6718"
           }
         ]
       },
       {
-        "id": "b915d3ff4efe422bacd17127c1ee396f",
+        "title": "Вчинення економічних правопорушень",
         "description": "Cуб’єкт господарювання (учасник) протягом останніх трьох років притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів",
         "source": "tenderer",
         "relatesTo": "tender",
@@ -243,7 +277,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         },
-        "title": "Вчинення економічних правопорушень",
+        "id": "140af3f8f1914b5fbef0e26230fc09c3",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -278,23 +312,23 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "211936a096ee4c358fda11609002ab3f",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "f6de5ef1633c45789f1a0c4d07d8f6eb",
                 "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
+                "id": "90c0e3c682184c1892a0c41cd7d0dd93",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "d52f31ffb01742038df9e1885f445495"
           }
         ]
       },
       {
-        "id": "30874cc25f434f159d93af657d4db00c",
+        "title": "Вчинення кримінальних правопорушень",
         "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, була засуджена за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом, шахрайством та відмиванням коштів), судимість з якої не знято або не погашено у встановленому законом порядку",
         "source": "winner",
         "relatesTo": "tender",
@@ -302,7 +336,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
         },
-        "title": "Вчинення кримінальних правопорушень",
+        "id": "423bcf6245fb453286d5524d650ab03c",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -327,51 +361,51 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "c565052db94841c290e9f05a5ef9fcd3",
             "description": "Фізичною особою підтверджується, що",
             "requirements": [
               {
-                "id": "2263ed49caa647d6a8a027d84a330f11",
                 "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "1bca3d45dd4940ee99a9148ad40b7611"
+                    "id": "29719afd548149b8a390bfb1dcc81bf5"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "344a9aa4fe274db4ac4ca5d86a2156d1",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "baa5c212bae3426ea0a73470431fdd7a"
           },
           {
-            "id": "3bbc1c5f17114cb2a9f4b8ed87324af8",
             "description": "Юридичною особою підтверджується, що",
             "requirements": [
               {
-                "id": "5afdaa6c66a447ffa8dbd606d139e9a7",
                 "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом, шахрайством та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "c87481d0a49045d69cad3c7a483a727b"
+                    "id": "b743c50a73fa42ca8662f2a04644c299"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "f3a5720fd53b4ac1b004fda98c5d720c",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "e9eb1a860dc54486841c8ee9560e5dc9"
           }
         ]
       },
       {
-        "id": "99a3a51f395a4d74a97d59d60381067b",
+        "title": "Наявність зв'язку учасника з іншими учасниками процедури або замовником",
         "description": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов’язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника",
         "source": "procuringEntity",
         "relatesTo": "tender",
@@ -379,7 +413,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         },
-        "title": "Наявність зв'язку учасника з іншими учасниками процедури або замовником",
+        "id": "b439370caae44a25bfb501502d2fd4db",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -394,29 +428,29 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "4c05a192a5cb4d9ea70979431186f52d",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "3bf82130b2724041a7316655220859a2",
                 "title": "Учасник процедури закупівлі є пов'язаною особою з іншими учасниками та/або з уповноваженою особою (особами), та/або з керівником замовника",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "f0219a43a03d4a359092e385f06e6c6a"
+                    "id": "5285dbe1dd574d058a57a24a95f673af"
                   }
                 ],
                 "status": "active",
+                "id": "07d8ecbcc268464eb068819a5ddd783e",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "a5e536a621eb46e68d49f49581660394"
           }
         ]
       },
       {
-        "id": "131ad11898e24d9cb3cbcca0a8eacb0b",
+        "title": "Порушення справи про банкрутство",
         "description": "Учасник процедури закупівлі визнаний у встановленому законом порядку банкрутом та стосовно нього відкрита ліквідаційна процедура",
         "source": "winner",
         "relatesTo": "tender",
@@ -424,7 +458,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
         },
-        "title": "Порушення справи про банкрутство",
+        "id": "83795e28d0f348d2ae9d051ac35dbd5f",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -439,30 +473,30 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "d6cec86d159645c7801a5bbc094503af",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "5a84575a56d14287807bd55143b9e5a9",
                 "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "462057b1d26f4936acc1e2099a07d1b2"
+                    "id": "9fe277db50d14781b1e63ce1a2e39659"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "1d1d3f3d21ea4d7b960f2a8329d8e60d",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "4e4ff2f16ab74bce99738d5380212d1f"
           }
         ]
       },
       {
-        "id": "3d673292cd7246a0928c91e7acdc2716",
+        "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
         "description": "Учасник процедури закупівлі є особою, до якої застосовано санкцію у виді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
         "source": "tenderer",
         "relatesTo": "tender",
@@ -470,7 +504,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         },
-        "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
+        "id": "7d2ca404c59a4069b69b74fd13ddd6a7",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -494,23 +528,23 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "a8565b949af84da4b9e935c16707983b",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "a9f0ec05330e483095bb1f9d4c8248ef",
                 "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
+                "id": "3ce7a9a94b9449b4a55ec74c273adb4a",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "ae5a5d176cb946529b52c5e169b529a2"
           }
         ]
       },
       {
-        "id": "8cf734cdc20446a69f296f62dcb52f77",
+        "title": "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи будь-якими формами торгівлі людьми",
         "description": "Cлужбова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов’язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми",
         "source": "winner",
         "relatesTo": "tender",
@@ -518,7 +552,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
         },
-        "title": "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи будь-якими формами торгівлі людьми",
+        "id": "eda4067fd91b4e178dcbb04b7b9cc6f5",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -533,51 +567,51 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "39ba25d26cab4650b8b927f92840774c",
             "description": "Фізичною особою підтверджується, що",
             "requirements": [
               {
-                "id": "2a863a5f6e89441da940ace7098c9966",
                 "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "a8b1451b79ac4a1b91a048a361a93f45"
+                    "id": "4826c8c504af4c6590d95bd2aef93680"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "63b1ba3232dd4f419d508cb9907a6d37",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "5c5571a1bc0e4dcb8954547c34cbbe61"
           },
           {
-            "id": "ef6c053976444e8ba052bb4227043f7b",
             "description": "Юридичною особою підтверджується, що",
             "requirements": [
               {
-                "id": "36fcef69ead54963b21a735d65dfd301",
                 "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "958307ea5121402f81312e4ab826e6f3"
+                    "id": "91b34014e99a412aae27745c27760032"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "05f0492c4f6d4a57a4ec64570b39abec",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "1e2d853402ba471ea796fdcd454468df"
           }
         ]
       },
       {
-        "id": "e6f1f3d12ad64cb5adcbfc7bfc71bd96",
+        "title": "Наявність заборгованості зі сплати податків і зборів",
         "description": "Учасник процедури закупівлі має заборгованість із сплати податків і зборів (обов’язкових платежів), крім випадку, якщо такий учасник здійснив заходи щодо розстрочення і відстрочення такої заборгованості у порядку та на умовах, визначених законодавством країни реєстрації такого учасника",
         "source": "winner",
         "relatesTo": "tender",
@@ -585,7 +619,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
         },
-        "title": "Наявність заборгованості зі сплати податків і зборів",
+        "id": "af7416fc0abf4099bc718c1ae2b451ea",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -600,47 +634,45 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "9cc22c22b5ae4e79bd7b943c4c4a1299",
             "description": "При відсутності заборгованості підтверджується, що",
             "requirements": [
               {
-                "id": "fd66a96a1d9b423d9fc56d59b4af70a8",
                 "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "8ccefdb1b63343cd83a3e1d22c258e10"
+                    "id": "96f3e264e4354cda830018fcff01bbf4"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "95ea4a2e1fc340c8a2ce75ffc48a93d1",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "e3675af969884c908348e4268a8913c8"
           },
           {
-            "id": "584fefe0f16d46089af86992c753fe61",
             "description": "При наявності заборгованності підтверджується, що",
             "requirements": [
               {
-                "id": "64bd92ef46854e658834efa4f1db6168",
                 "title": "Учасник процедури закупівлі здійснив заходи щодо розстрочення і відстрочення такої заборгованості у порядку та на умовах, визначених законодавством країни реєстрації такого учасника",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "6abee29920b547cab6ed06cb335b18d3"
+                    "id": "447d7f3ab96945f79f7f773dc7a9405d"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "c5672427cb3d44119a96113354753804",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "8a1bd504fc2a4b8cb1967350683fa22a",
                 "title": "Характер та причина існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
@@ -651,26 +683,28 @@ Content-Type: application/json
                   "Особливості діяльності під час воєнного стану"
                 ],
                 "expectedMinItems": 1,
+                "id": "3671a06bbdca42089da9d5e2141884ba",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "200a11522c9a43a4878682716998a10d",
                 "title": "Сума існуючої заборгованості, грн.",
                 "dataType": "number",
                 "status": "active",
                 "unit": {
-                  "code": "E50",
-                  "name": "одиниця"
+                  "name": "одиниця",
+                  "code": "E50"
                 },
                 "minValue": 0.0,
+                "id": "3c9ad75e4fb74ccb933c558b3a74458f",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "a88f03fdce1b492ca54f5d4980904a38"
           }
         ]
       },
       {
-        "id": "a427ef80c55f44e897e528f898bcfac9",
+        "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
         "description": "Замовник може прийняти рішення про відмову учаснику в участі у процедурі закупівлі та може відхилити тендерну пропозицію учасника в разі, якщо учасник процедури закупівлі не виконав свої зобов’язання за раніше укладеним договором про закупівлю з цим самим замовником, що призвело до його дострокового розірвання, і було застосовано санкції у вигляді штрафів та/або відшкодування збитків - протягом трьох років з дати дострокового розірвання такого договору. Учасник процедури закупівлі, що перебуває в обставинах, зазначених у частині другій цієї статті, може надати підтвердження вжиття заходів для доведення своєї надійності, незважаючи на наявність відповідної підстави для відмови в участі у процедурі закупівлі. Для цього учасник (суб’єкт господарювання) повинен довести, що він сплатив або зобов’язався сплатити відповідні зобов’язання та відшкодування завданих збитків. Якщо замовник вважає таке підтвердження достатнім, учаснику не може бути відмовлено в участі в процедурі закупівлі",
         "source": "winner",
         "relatesTo": "tender",
@@ -678,7 +712,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         },
-        "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
+        "id": "4045b4e8987c4990910acfc95c7d7580",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -693,44 +727,44 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "12acf0ebf21e4948a962974276d7242c",
             "description": "При відсутності не виконаних зобов'язань за раніше укладеним договором підтверджується, що",
             "requirements": [
               {
-                "id": "37e54efaed674628beb479bcdb0b247a",
                 "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору",
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
+                "id": "88ab9351ee0c426fb48da147abec440b",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "9a1594e362b847dba07510d5e5d03863"
           },
           {
-            "id": "8bb9dbf580c44c8c9e1cae7e322f4310",
             "description": "При наявності не виконаних зобов'язань за раніше укладеним договором підтверджується, що",
             "requirements": [
               {
-                "id": "5815dfbc93174758af3ea981eb1d4062",
                 "title": "Учасник процедури закупівлі вжив заходів для доведення своєї надійності, а саме: сплатив або зобовʼязався сплатити відповідні зобовʼязання та відшкодування завданих збитків",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "475a7d406c584b5286d2db954ca061ef"
+                    "id": "c31966cb399743bbb424683050ccc820"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "0aecb9631df343af9c45ebd5cd5c6dea",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "17d99be11fa64b2e8bde144a9c2242e9"
           }
         ]
       },
       {
-        "id": "63a1fdbc429e4ca9ac5d2fd15d8cff8b",
+        "title": "Наявність інших підстав для відмови в участі у процедурі закупівлі",
         "description": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань відсутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)",
         "source": "tenderer",
         "relatesTo": "tender",
@@ -738,7 +772,7 @@ Content-Type: application/json
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
         },
-        "title": "Наявність інших підстав для відмови в участі у процедурі закупівлі",
+        "id": "ea562de336024e6685a8b0f9110a2188",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -763,32 +797,32 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "7467180ec7934a5fa2dcecae68da7232",
             "description": "Резидентом підтверджується, що",
             "requirements": [
               {
-                "id": "c0cf76062e234535b584049b4eb15cd7",
                 "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\"",
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
+                "id": "1c273a02eb564c40a5a06bdc8633be0a",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "0aa2e849fdc545d2a636a654f33eff64"
           },
           {
-            "id": "fbe4f1890eb84892ba6188c20d47f2df",
             "description": "Нерезидентом підтверджується, що",
             "requirements": [
               {
-                "id": "975796f0e291459d8371e2d98342b345",
                 "title": "Учасник процедури закупівлі є нерезидентом",
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
+                "id": "a51509d0253b4570948d684ed0bba547",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "e5ed7b80e4d343c19344ea57eb7bbd5c"
           }
         ]
       }
@@ -797,46 +831,12 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "documents": [
-      {
-        "confidentiality": "public",
-        "documentType": "contractProforma",
-        "id": "d36c85e688f540b4803d634f663b4dd0",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "name.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a5737ca8b48e4ad782a8a01422d302c0?Signature=OSlChSl0ur3pYDpplmugf%2BvGvfOOA9KQecOlg5aohwWuQwu5cLGvRQ%2F8ay2GEWS6EEGKQ9Y3l6bzWQlwHRl8BA%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      },
-      {
-        "confidentiality": "public",
-        "documentType": "notice",
-        "id": "e3899d998f4d4394bbac7d6e0df0dd38",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a76041aab0b3490d850f9b57029a4c6b?Signature=gbN7ujOPv07BjjO3GCu1Ew%2BVApHs2wv%2FfQTq3syTVLjAdExDKOQMbQHl6AaFwIF9jADp2C4vK%2FZBNy72EykyAQ%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      }
-    ],
-    "status": "active.tendering",
     "owner": "brokerr",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "services",
     "agreements": [
       {
         "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
-    "procurementMethod": "selective",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-13T00:00:00+02:00"
@@ -956,30 +956,20 @@ Content-Type: application/json
         "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
-    "submissionMethod": "electronicAuction",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-16T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "c5b0023de71046108dde1a721e00de87",
+        "id": "2a71a02411a8486e82fbcebd22753eb4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -998,10 +988,20 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "2b1b594948f547af9eff49515789e928"
+        }
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-16T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "competitiveOrdering",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -1040,20 +1040,20 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "2b1b594948f547af9eff49515789e928",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "2b1b594948f547af9eff49515789e928",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
+          "amount": 15.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "startDate": "2027-01-18T13:09:55.701000+02:00",
@@ -1063,7 +1063,7 @@ Content-Type: application/json
     ],
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "next_check": "2027-01-16T00:00:00+02:00",
-    "id": "38bca89f7ba4477d97f553d576fd6994"
+    "id": "f5b264bbf8d9400290749cb89e5d1cb8"
   },
   "config": {
     "hasAuction": true,

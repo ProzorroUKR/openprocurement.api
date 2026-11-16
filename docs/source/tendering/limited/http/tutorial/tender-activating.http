@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/105daebdc651458683f67e400c8472dd?acc_token=e009ef418c6d41b5b724c1c76b7f352b HTTP/1.0
+PATCH /api/2.5/tenders/227382e2f47f47ed9c32b49097b38e23?acc_token=e009ef418c6d41b5b724c1c76b7f352b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,21 +15,25 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "active",
+    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
+    "procurementMethod": "limited",
     "criteria": [
       {
-        "id": "ac48b0acf82c4adebc1ab870a72fee4c",
+        "title": "Створення передумов для сталого розвитку та модернізації вітчизняної промисловості",
         "description": "Товар включений до додаткового переліку, що затверджений Кабінетом Міністрів України, і має ступінь локалізації виробництва, який перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік. Ці вимоги не застосовуються до закупівель, які підпадають під дію положень Закону України \"Про приєднання України до Угоди про державні закупівлі\", а також положень про державні закупівлі інших міжнародних договорів України, згода на обов’язковість яких надана Верховною Радою України",
         "source": "procuringEntity",
         "relatesTo": "item",
-        "relatedItem": "0137b3527a184303b7eee9da71785ba8",
+        "relatedItem": "060ffb4e35f54d2aaf7b2f1031a6d4f3",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
         },
-        "title": "Створення передумов для сталого розвитку та модернізації вітчизняної промисловості",
+        "id": "8e33fb3ca7f34abbb1cada0dc0f922f1",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -64,29 +68,27 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "717704724bf44b68a8a3aa685c00e00b",
             "description": "За наявності складових вітчизняного виробництва у собівартості товару, підтверджується, що",
             "requirements": [
               {
-                "id": "c65b40b11f0145eb91383cb59d9bc933",
                 "title": "Ступінь локалізації виробництва товару, що є предметом закупівлі, перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік",
                 "dataType": "number",
                 "status": "active",
                 "unit": {
-                  "code": "P1",
-                  "name": "відсоток"
+                  "name": "відсоток",
+                  "code": "P1"
                 },
                 "minValue": 30.0,
+                "id": "4efb420a39b54757b79e54ffa5f06aa8",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "04807e477c2046509ab0981e23d858ce"
           },
           {
-            "id": "cf7369516f4142a78f377648a2805316",
             "description": "За відсутності складових вітчизняного виробництва у собівартості товару, підтверджується, що",
             "requirements": [
               {
-                "id": "adc92e3b81a74661a09cd912df32a818",
                 "title": "Товар походить з однієї з країн, що підписала Угоду про державні закупівлі Світової Організації торгівлі (GPA) або іншої країни з якою Україна має міжнародні договори про державні закупівлі",
                 "dataType": "string",
                 "status": "active",
@@ -141,9 +143,11 @@ Content-Type: application/json
                   "US"
                 ],
                 "expectedMinItems": 1,
+                "id": "f8adc7d8b8b7420eaf74aa663985c8bc",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "b5a77de65eb0473bbbd3e13930852176"
           }
         ]
       }
@@ -152,11 +156,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000005-a",
-    "status": "active",
     "owner": "broker",
-    "title": "Послуги шкільних їдалень",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "limited",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -319,7 +319,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "0137b3527a184303b7eee9da71785ba8",
+        "id": "060ffb4e35f54d2aaf7b2f1031a6d4f3",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -327,9 +327,9 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -396,7 +396,7 @@ Content-Type: application/json
       "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
-    "id": "105daebdc651458683f67e400c8472dd"
+    "id": "227382e2f47f47ed9c32b49097b38e23"
   },
   "config": {
     "hasAuction": false,

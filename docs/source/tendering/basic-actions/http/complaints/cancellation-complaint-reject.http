@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints/b7f922cc112b4acdaf2c6c00407219f1 HTTP/1.0
+PATCH /api/2.5/tenders/a2869580364445cbb2d044be16ea20ff/cancellations/fd98d335fb0f4b1fb8d8402b8948a27e/complaints/f5e624c8e63448f6bf08ae5a78136f89 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,13 +17,19 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "b7f922cc112b4acdaf2c6c00407219f1",
+    "id": "f5e624c8e63448f6bf08ae5a78136f89",
     "complaintID": "UA-2027-01-01-000001-a.a3",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "invalid",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -35,12 +41,6 @@ Content-Type: application/json
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "uri": "http://www.sc.gov.ua/",
-        "id": "00137256",
-        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
@@ -48,11 +48,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
-        "id": "ce23cec1eb704b77ac46b2312fe94387",
+        "id": "c302994ca83c4cd8bc47c73976aa8d30",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "cancellation",
-        "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+        "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -60,14 +60,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "89bb1506d8dd4dd6b74b92acf74ba1b5",
+            "id": "58caaf45c23b4e00bae03498ac9202fb",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "1ce4a40ea7704442a30dad2450f5bef7",
+            "id": "d1dad4bb695c427fa608203ae4179052",
             "description": "test argument"
           }
         ],

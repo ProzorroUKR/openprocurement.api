@@ -16,74 +16,32 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001-a-ea4a5ba075dd404db964b580ae32918c1",
-    "status": "terminated",
-    "dateModified": "2027-01-01T00:00:00+02:00",
-    "owner": "broker",
     "agreementType": "closeFrameworkAgreementUA",
-    "changes": [
-      {
-        "id": "4d2ff9f48f7c44f58df69aad8b60bbb9",
-        "status": "active",
-        "date": "2027-01-01T00:00:00+02:00",
-        "rationale": "Друга і третя поставка має бути розфасована",
-        "rationale_en": "Agreement change cause",
-        "dateSigned": "2027-01-01T00:00:00+02:00",
-        "rationaleType": "taxRate",
-        "modifications": [
-          {
-            "itemId": "1dec43e2ca1b4b8ea0abd024b9931a47",
-            "factor": 0.1605
-          }
-        ]
-      }
-    ],
-    "documents": [
-      {
-        "relatedItem": "4d2ff9f48f7c44f58df69aad8b60bbb9",
-        "id": "fde2e2edbb704b668d459653bef6dd57",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "agreement_changes.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6c343bcdd7d241068f88138036b4e52a?Signature=cU7WXirw65OUUhuS5lZDppSTLBBAEOZ6GMLIefKy1mqh5Qe9B9T8b%2B%2BfoucGKMRZRL2%2FSJeoZWpypUlbWdU5DA%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk",
-        "documentOf": "change"
+    "status": "terminated",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-IPN",
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "uri": "http://www.dus.gov.ua/"
       },
-      {
-        "id": "070fa658a78147af9929a86a4ae15ea3",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "agreement.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/11eb2dec3c4941aaa20b9f9f3242da8a?Signature=aSUaH4aKyvvHHNyDgX%2BUS92rE%2Fpy8aEUBTNaribYkkc5XyYX4awtgUD8TuwG0XeiLc87akD36sgPaPE32NZnCg%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk",
-        "documentOf": "agreement"
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
       },
-      {
-        "id": "92706b7d32d74dfeab4336eaa6a4757a",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "agreement_additional_docs.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a8c422f0d19e454891bd6c7bf538cb56?Signature=l7XDy0xp10QmGZTwdWpN%2F6T9NyfWuvV91%2BX3fhdtEcWlsj8IjuQ%2Fqj%2B7VWPN1RM8BWhUmb7jktjc6gXIHgRwBQ%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk",
-        "documentOf": "agreement"
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+        "availableLanguage": "uk"
       },
-      {
-        "id": "92706b7d32d74dfeab4336eaa6a4757a",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "agreement_additional_docs.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d41141b923574f31b55bb728076744c5?Signature=mka6smLvqizbQTfO5zttaBl0L1iNsnfonJHjBmAaWOqflP%2FdQtzy6LFcx6uujeC5rElua6Cf1pLu5BfrQkWWCA%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk",
-        "documentOf": "agreement"
-      }
-    ],
+      "kind": "general"
+    },
     "contracts": [
       {
         "id": "633a51fd12d44a77ab03e65ccd808aa7",
@@ -115,11 +73,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 14.93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 14.93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -157,11 +115,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 14.93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 14.93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -199,11 +157,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 14.93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 14.93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -212,15 +170,81 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "owner": "broker",
+    "changes": [
+      {
+        "id": "14849a8b72d1405fb131a61875e43c3a",
+        "status": "active",
+        "date": "2027-01-01T00:00:00+02:00",
+        "rationale": "Друга і третя поставка має бути розфасована",
+        "rationale_en": "Agreement change cause",
+        "dateSigned": "2027-01-01T00:00:00+02:00",
+        "rationaleType": "taxRate",
+        "modifications": [
+          {
+            "itemId": "57a91685e3474a7285208c407f685f73",
+            "factor": 0.1605
+          }
+        ]
+      }
+    ],
+    "documents": [
+      {
+        "title": "agreement_changes.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "relatedItem": "14849a8b72d1405fb131a61875e43c3a",
+        "id": "d03a1e89fe414a16acdb73be0ebf3e54",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6c343bcdd7d241068f88138036b4e52a?Signature=cU7WXirw65OUUhuS5lZDppSTLBBAEOZ6GMLIefKy1mqh5Qe9B9T8b%2B%2BfoucGKMRZRL2%2FSJeoZWpypUlbWdU5DA%3D%3D&KeyID=a8968c46",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "documentOf": "change"
+      },
+      {
+        "title": "agreement.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "7b333654cd3e44889f5e6df7b0cc3ee4",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/11eb2dec3c4941aaa20b9f9f3242da8a?Signature=aSUaH4aKyvvHHNyDgX%2BUS92rE%2Fpy8aEUBTNaribYkkc5XyYX4awtgUD8TuwG0XeiLc87akD36sgPaPE32NZnCg%3D%3D&KeyID=a8968c46",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "documentOf": "agreement"
+      },
+      {
+        "title": "agreement_additional_docs.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "029a8addccdf4e79acf64f5898a1262d",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a8c422f0d19e454891bd6c7bf538cb56?Signature=l7XDy0xp10QmGZTwdWpN%2F6T9NyfWuvV91%2BX3fhdtEcWlsj8IjuQ%2Fqj%2B7VWPN1RM8BWhUmb7jktjc6gXIHgRwBQ%3D%3D&KeyID=a8968c46",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "documentOf": "agreement"
+      },
+      {
+        "title": "agreement_additional_docs.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "029a8addccdf4e79acf64f5898a1262d",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d41141b923574f31b55bb728076744c5?Signature=mka6smLvqizbQTfO5zttaBl0L1iNsnfonJHjBmAaWOqflP%2FdQtzy6LFcx6uujeC5rElua6Cf1pLu5BfrQkWWCA%3D%3D&KeyID=a8968c46",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "documentOf": "agreement"
+      }
+    ],
     "items": [
       {
-        "id": "1dec43e2ca1b4b8ea0abd024b9931a47",
+        "id": "57a91685e3474a7285208c407f685f73",
         "description": "футляри до державних нагород",
-        "quantity": 5.0,
+        "description_en": "Cases for state awards",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -229,6 +253,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -244,35 +269,10 @@ Content-Type: application/json
           "name": "item",
           "code": "KGM"
         },
-        "description_en": "Cases for state awards",
         "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
       }
     ],
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "name_en": "State administration",
-      "identifier": {
-        "scheme": "UA-IPN",
-        "id": "00037256",
-        "legalName_en": "dus.gov.ua",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "kind": "general",
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "name_en": "State administration",
-        "telephone": "+0440000000",
-        "availableLanguage": "uk"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      }
-    },
-    "tender_id": "4a370cddba9e4d9791dff10c6e02b9ee",
+    "tender_id": "f789f84ec0d64a2285f7dc2654685079",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",

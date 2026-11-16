@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6e80a97f92474fe087b1b70e3676ed42/complaints?acc_token=d7e7090b347b47dcb3fe96a8ffd23c79 HTTP/1.0
+POST /api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/249599c17fb240fc8fa5ced2d7fdec3d/complaints?acc_token=d7e7090b347b47dcb3fe96a8ffd23c79 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -35,7 +35,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "award",
-        "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+        "relatedItem": "989400b6e37b44288ae6b36f150d95bc",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -61,12 +61,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6e80a97f92474fe087b1b70e3676ed42/complaints/e54f08e780b649e48515365729c94b76
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/249599c17fb240fc8fa5ced2d7fdec3d/complaints/27eb0fe2b192424e89183e17e258a52d
 
 {
   "data": {
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -78,12 +84,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "uri": "http://www.sc.gov.ua/",
-        "id": "00137256",
-        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
@@ -92,10 +92,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
     "type": "complaint",
     "objections": [
       {
-        "id": "62fe0d296a364e1b9f7af1986f54fd75",
+        "id": "f52bb49fc1394b45b9775473bd65162d",
         "title": "My objection",
         "description": "Test objection",
-        "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+        "relatesTo": "award",
+        "relatedItem": "989400b6e37b44288ae6b36f150d95bc",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -103,26 +104,25 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         },
         "requestedRemedies": [
           {
-            "id": "0b15c50275b04cc28f55fde2b99b423d",
+            "id": "d83e0e1040394c1a941705363b387009",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "4ea9854c75784ed784b57b6054ec611c",
+            "id": "626b56d8d5674acaa912f535b1609761",
             "description": "test argument"
           }
         ],
-        "sequenceNumber": 1,
-        "relatesTo": "award"
+        "sequenceNumber": 1
       }
     ],
-    "id": "e54f08e780b649e48515365729c94b76",
+    "id": "27eb0fe2b192424e89183e17e258a52d",
     "date": "2027-01-01T00:00:03+02:00",
-    "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
+    "bid_id": "447a861dd88f4554a8b89257db64542e",
     "complaintID": "UA-2027-01-01-000001-a.a11",
-    "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
+    "relatedLot": "8a51791b85224c01ad4b295719149b7a",
     "value": {
       "amount": 3000,
       "currency": "UAH"

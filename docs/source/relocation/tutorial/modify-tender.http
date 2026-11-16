@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/84491165a551419092cec31690c5b003?acc_token=ea357a658e9a472c9f73726b3de03f0b HTTP/1.0
+PATCH /api/2.5/tenders/86eb4850582047268d8c34efa05d5f48?acc_token=ea357a658e9a472c9f73726b3de03f0b HTTP/1.0
 Authorization: Bearer broker1
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,16 +15,16 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "goods",
+    "status": "draft",
+    "title": "футляри до державних нагород",
     "description": "broker1 now can change the tender",
+    "procurementMethod": "open",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "draft",
     "owner": "broker1",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "goods",
-    "procurementMethod": "open",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -137,7 +137,31 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ]
+      }
+    ],
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-08T00:00:00+02:00",
@@ -151,31 +175,7 @@ Content-Type: application/json
       "startDate": "2027-01-15T13:09:55.701000+02:00",
       "shouldStartAfter": "2027-01-15T00:00:00+02:00"
     },
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
-        "description_ru": "футляры к государственным наградам",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ]
-      }
-    ],
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "belowThreshold",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -207,11 +207,11 @@ Content-Type: application/json
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "id": "84491165a551419092cec31690c5b003"
+    "id": "86eb4850582047268d8c34efa05d5f48"
   },
   "config": {
     "hasAuction": true,

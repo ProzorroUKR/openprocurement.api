@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d HTTP/1.0
+GET /api/2.5/tenders/81a4035ab3d944e39a8044366f96e622 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,8 +9,8 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title": "футляри до державних нагород",
     "status": "draft",
+    "title": "футляри до державних нагород",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -49,13 +49,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-02-01T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
+        "id": "e8d9b57dc30f4a27b4b19c1838043e07",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -63,9 +59,9 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -87,6 +83,10 @@ Content-Type: application/json
         }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "aboveThresholdUA",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -118,8 +118,8 @@ Content-Type: application/json
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -217,7 +217,7 @@ Content-Type: application/json
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "cfe5c8353224465681cea90b38b3ba5d"
+    "id": "81a4035ab3d944e39a8044366f96e622"
   },
   "config": {
     "hasAuction": true,

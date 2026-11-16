@@ -1,4 +1,4 @@
-POST /api/2.5/plans/54bce4a1b606481499b5a27fa4061d05/tenders HTTP/1.0
+POST /api/2.5/plans/1a32964b13b7427986a0f840ab9608e3/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -41,11 +41,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "ce79c9ad9e6744abac1cce7c68152a5f",
+        "id": "87dd51c9066944d5b2dbb01128126b75",
         "classification": {
-          "description": "Vegetable seeds",
           "scheme": "ДК021",
-          "id": "03111700-9"
+          "id": "03111700-9",
+          "description": "Vegetable seeds"
         },
         "additionalClassifications": [
           {
@@ -142,13 +142,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6463abeed6914b389f85cda24396b107
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b89dd63e0104467991c272db0c20a4ec
 
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "title": "Насіння",
     "status": "draft",
+    "title": "Насіння",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -187,18 +187,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6463abeed6914b38
         "sequenceNumber": 3
       }
     ],
-    "enquiryPeriod": {
-      "endDate": "2027-01-08T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-08T00:00:00+02:00",
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "ce79c9ad9e6744abac1cce7c68152a5f",
+        "id": "87dd51c9066944d5b2dbb01128126b75",
         "description": "Насіння овочевих культур",
         "unit": {
           "name": "кг",
@@ -206,9 +197,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6463abeed6914b38
         },
         "quantity": 5000.0,
         "classification": {
-          "description": "Vegetable seeds",
           "scheme": "ДК021",
-          "id": "03111700-9"
+          "id": "03111700-9",
+          "description": "Vegetable seeds"
         },
         "additionalClassifications": [
           {
@@ -222,6 +213,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6463abeed6914b38
         }
       }
     ],
+    "enquiryPeriod": {
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
+    },
     "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -252,8 +252,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6463abeed6914b38
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -342,10 +342,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6463abeed6914b38
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "6463abeed6914b389f85cda24396b107",
+    "id": "b89dd63e0104467991c272db0c20a4ec",
     "plans": [
       {
-        "id": "54bce4a1b606481499b5a27fa4061d05"
+        "id": "1a32964b13b7427986a0f840ab9608e3"
       }
     ]
   },

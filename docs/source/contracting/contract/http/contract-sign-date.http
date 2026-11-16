@@ -25,11 +25,10 @@ Content-Type: application/json
       {
         "id": "5b122642e8964f00a1535be1d2b2270a",
         "description": "Комп’ютерне обладнання для біда",
-        "quantity": 10.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -38,6 +37,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 10.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -87,11 +87,10 @@ Content-Type: application/json
       {
         "id": "ce44a97bd43a49069c1cb60ef789199e",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -100,6 +99,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -124,7 +124,7 @@ Content-Type: application/json
         "category": "655360-30230000-889652"
       }
     ],
-    "tender_id": "1faecc8cb6944a658737af002d96c9b7",
+    "tender_id": "721de0f02fe8401c9e55abb0f70e6886",
     "tenderID": "UA-2027-01-01-000001-a",
     "mainProcurementCategory": "goods",
     "owner": "broker",

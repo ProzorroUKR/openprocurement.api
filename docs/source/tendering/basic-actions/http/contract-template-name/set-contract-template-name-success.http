@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f3a6b439ae424bd483c5c8ab3bd148ae?acc_token=98327235dc1e42b68571694296c42e57 HTTP/1.0
+PATCH /api/2.5/tenders/73d34e721e3f4ea0a9400e8fb0ebd44c?acc_token=98327235dc1e42b68571694296c42e57 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -44,32 +44,32 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "goods",
+    "status": "draft",
+    "title": "футляри до державних нагород",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "tenderNotice",
+        "title": "name.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "8ed4d4bb3e76444f9d5241772b07383e",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/005d993382014f54baf676364786c270?Signature=vgB8nIMRx4dLli%2F8lP5ThhcDkMUXRTXJWE2CY90ayPAT9Umz2jczWMJx2gBSbtSFPvmFv%2BfMyxU87NLK2c%2FLBQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
+    "procurementMethod": "open",
     "contractTemplateName": "GENERAL.0001.01",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "documents": [
-      {
-        "confidentiality": "public",
-        "documentType": "tenderNotice",
-        "id": "8cf0c96ebb0f4d15a0d888d7a307147a",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "name.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/005d993382014f54baf676364786c270?Signature=vgB8nIMRx4dLli%2F8lP5ThhcDkMUXRTXJWE2CY90ayPAT9Umz2jczWMJx2gBSbtSFPvmFv%2BfMyxU87NLK2c%2FLBQ%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      }
-    ],
-    "status": "draft",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "goods",
-    "procurementMethod": "open",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -182,7 +182,31 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ]
+      }
+    ],
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-10T00:00:00+02:00",
@@ -196,31 +220,7 @@ Content-Type: application/json
       "startDate": "2027-01-20T13:09:55.701000+02:00",
       "shouldStartAfter": "2027-01-20T00:00:00+02:00"
     },
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
-        "description_ru": "футляры к государственным наградам",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ]
-      }
-    ],
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "belowThreshold",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -253,11 +253,11 @@ Content-Type: application/json
       "contract_owner": "broker"
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "id": "f3a6b439ae424bd483c5c8ab3bd148ae"
+    "id": "73d34e721e3f4ea0a9400e8fb0ebd44c"
   },
   "config": {
     "hasAuction": true,

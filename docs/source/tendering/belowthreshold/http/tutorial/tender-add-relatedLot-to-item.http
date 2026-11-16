@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/39a36a1c01d8459faf619c1481e2d5b1?acc_token=dda5133c46f348d58e3c1c395dc20e37 HTTP/1.0
+PATCH /api/2.5/tenders/09f40c1edf214c948ac5fcf3dadb62d4?acc_token=dda5133c46f348d58e3c1c395dc20e37 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,9 +17,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -28,7 +28,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "c330ae93c18a48ae86738dfb367a290c"
+        "relatedLot": "5227f13a086749289688875271b008a3"
       }
     ]
   }
@@ -40,15 +40,15 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "goods",
+    "status": "draft",
+    "title": "футляри до державних нагород",
+    "procurementMethod": "open",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "draft",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "goods",
-    "procurementMethod": "open",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -161,16 +161,6 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-08T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-08T00:00:00+02:00",
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",
@@ -182,10 +172,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "5227f13a086749289688875271b008a3",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -193,10 +184,19 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "relatedLot": "c330ae93c18a48ae86738dfb367a290c"
+        ]
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "belowThreshold",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -234,20 +234,20 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "5227f13a086749289688875271b008a3",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "c330ae93c18a48ae86738dfb367a290c",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
+          "amount": 15.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "startDate": "2027-01-15T12:22:15.236000+02:00",
@@ -255,7 +255,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "39a36a1c01d8459faf619c1481e2d5b1"
+    "id": "09f40c1edf214c948ac5fcf3dadb62d4"
   },
   "config": {
     "hasAuction": true,

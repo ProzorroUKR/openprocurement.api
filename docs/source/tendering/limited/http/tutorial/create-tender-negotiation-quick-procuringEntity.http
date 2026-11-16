@@ -170,17 +170,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2575ed14dceb462d944015ff06ce6400
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f7578a0f2ba1483eb537c17456a62655
 
 {
   "data": {
     "mainProcurementCategory": "services",
+    "status": "draft",
+    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
     "procurementMethod": "limited",
-    "title": "Послуги шкільних їдалень",
-    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -224,17 +224,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2575ed14dceb462d
     ],
     "items": [
       {
-        "id": "e89e54d5598e4696a1a9fa6c0e81d491",
+        "id": "2ed74083b1d24e57b215e4783b460772",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -253,10 +254,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2575ed14dceb462d
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
+        }
       }
     ],
+    "procurementMethodType": "negotiation.quick",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -291,21 +292,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2575ed14dceb462d
       "valueAddedTaxIncluded": false,
       "amount": 500000.0
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "id": "2963a96f7cad41cdb25ec529ecad68d0",
-        "status": "active",
-        "value": {
-          "currency": "UAH",
-          "amount": 500000.0,
-          "valueAddedTaxIncluded": false
-        },
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
-    "procurementMethodType": "negotiation.quick",
     "causeDetails": {
       "code": "tenderDecisionAppeal",
       "description": "Нагальна потребаздійснити закупівлю, зокрема, але не виключно в разі: оскарження прийнятих рішень, дій чи бездіяльності замовника щодо відкритих торгів, що тривають після розгляду/оцінки тендерних пропозицій учасників, в обсязі, що не перевищує 20 відсотків очікуваної вартості відкритих торгів, без урахування податку на додану вартість, що оскаржуються",
@@ -315,6 +301,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2575ed14dceb462d
       "title_en": "Paragraph 5, subparagraph 3, clause 13",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
+    "lots": [
+      {
+        "id": "2963a96f7cad41cdb25ec529ecad68d0",
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "value": {
+          "amount": 500000.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "date": "2027-01-01T00:00:00+02:00",
@@ -442,7 +442,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2575ed14dceb462d
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "2575ed14dceb462d944015ff06ce6400"
+    "id": "f7578a0f2ba1483eb537c17456a62655"
   },
   "config": {
     "hasAuction": false,

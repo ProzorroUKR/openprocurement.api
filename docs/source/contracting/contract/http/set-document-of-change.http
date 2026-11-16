@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/25135859cec94fe8a2b16d42aa589b54?acc_token=5974259f79cf4f0eb3e8a912c2dd8244 HTTP/1.0
+PATCH /api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/184239d3e8b3440489f33f4f061b79d1?acc_token=5974259f79cf4f0eb3e8a912c2dd8244 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "documentOf": "change",
-    "relatedItem": "b70265ab25aa44b1a2423373bf2835cd"
+    "relatedItem": "539804d6e5e84577bd1fdcd9643dbf3d"
   }
 }
 
@@ -17,13 +17,13 @@ Content-Type: application/json
 {
   "data": {
     "confidentiality": "public",
-    "relatedItem": "b70265ab25aa44b1a2423373bf2835cd",
-    "id": "25135859cec94fe8a2b16d42aa589b54",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "contract_changes.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8951da71589746199cc3c8345d51fe37?Signature=Eh6fL9ydZXf0LJtuYMxpGuv%2FXHFQXYwZm%2B8DvyXhiFKzbCN6MaGp5L%2B8E8onS82JHdVQMGE0KmXixTr7DS5lBQ%3D%3D&KeyID=a8968c46",
+    "relatedItem": "539804d6e5e84577bd1fdcd9643dbf3d",
     "documentOf": "change",
+    "id": "184239d3e8b3440489f33f4f061b79d1",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8951da71589746199cc3c8345d51fe37?Signature=Eh6fL9ydZXf0LJtuYMxpGuv%2FXHFQXYwZm%2B8DvyXhiFKzbCN6MaGp5L%2B8E8onS82JHdVQMGE0KmXixTr7DS5lBQ%3D%3D&KeyID=a8968c46",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00"
   }

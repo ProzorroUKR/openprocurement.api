@@ -15,11 +15,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         {
           "id": "29cbde01600848de837efe5448e726fb",
           "description": "Комп’ютерне обладнання для біда",
-          "quantity": 9,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -28,6 +27,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 9,
           "unit": {
             "name": "кг",
             "value": {
@@ -77,11 +77,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         {
           "id": "24726f3002834ed287ec1c07b91606cf",
           "description": "Комп’ютерне обладнання",
-          "quantity": 5.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -90,6 +89,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 5.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -115,11 +115,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         {
           "description": "Додаткове комп’ютерне обладнання",
-          "quantity": 15,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -128,6 +127,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 15,
           "unit": {
             "name": "кг",
             "value": {
@@ -195,11 +195,10 @@ Content-Type: application/json
         {
           "id": "29cbde01600848de837efe5448e726fb",
           "description": "Комп’ютерне обладнання для біда",
-          "quantity": 9.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -208,6 +207,7 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 9.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -257,11 +257,10 @@ Content-Type: application/json
         {
           "id": "24726f3002834ed287ec1c07b91606cf",
           "description": "Комп’ютерне обладнання",
-          "quantity": 5.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -270,6 +269,7 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 5.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -294,13 +294,12 @@ Content-Type: application/json
           "category": "655360-30230000-889652"
         },
         {
-          "id": "ef6fe4ce5c6d4850ae0b6becfb91fc90",
+          "id": "ba6de961d4284b30b81b77630fe10813",
           "description": "Додаткове комп’ютерне обладнання",
-          "quantity": 15.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -309,6 +308,7 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 15.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -357,19 +357,19 @@ Content-Type: application/json
         }
       ]
     },
-    "id": "4aa3b6691346446c9bf3a51ebe2bef44",
+    "id": "a61760c546d3453e837c5293e881eaa7",
     "status": "pending",
     "date": "2027-01-01T00:00:00+02:00",
     "author": "supplier",
     "documents": [
       {
         "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "contract_change.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/4aa3b6691346446c9bf3a51ebe2bef44/documents/e88e0646bb134fff9cfe8e010569e63b?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
-        "id": "e88e0646bb134fff9cfe8e010569e63b",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/a61760c546d3453e837c5293e881eaa7/documents/917df58fef2e494c8bd5982227b98a79?download=33830e473a1348d6a5a7e4eb3379672d",
+        "id": "917df58fef2e494c8bd5982227b98a79",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"

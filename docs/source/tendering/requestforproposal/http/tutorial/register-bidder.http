@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/bids HTTP/1.0
+POST /api/2.5/tenders/8dc20a5f5fcf4f6baaed6c36f53e9eac/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292"
+        "relatedLot": "c8c942c988fd4533879fbcfab446faad"
       }
     ],
     "items": [
@@ -60,7 +60,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 100.0
           }
         },
-        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292"
+        "relatedLot": "c8c942c988fd4533879fbcfab446faad"
       }
     ]
   }
@@ -69,7 +69,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/bids/06baf8066e0349578c5f1e9cc3360ed1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8dc20a5f5fcf4f6baaed6c36f53e9eac/bids/64497819cec7409cb699e8e0fb254415
 
 {
   "data": {
@@ -87,7 +87,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c43b02880a284022
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292"
+        "relatedLot": "c8c942c988fd4533879fbcfab446faad"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "c8c942c988fd4533879fbcfab446faad",
+        "date": "2027-01-07T00:14:06+02:00"
       }
     ],
     "tenderers": [
@@ -122,20 +134,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c43b02880a284022
         }
       }
     ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292",
-        "date": "2027-01-07T00:14:06+02:00"
-      }
-    ],
     "status": "draft",
-    "id": "06baf8066e0349578c5f1e9cc3360ed1",
+    "id": "64497819cec7409cb699e8e0fb254415",
     "date": "2027-01-07T00:14:06+02:00"
   },
   "access": {

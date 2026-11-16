@@ -1,4 +1,4 @@
-GET /api/2.5/plans/b5611a5d614e41dcab385c6e015ee969 HTTP/1.0
+GET /api/2.5/plans/9a34005ede3847c5ae9ee30e406f935a HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "status": "complete",
     "procuringEntity": {
-      "id": "2f9ee16abced4fab8cf094558e6f091f",
+      "id": "85ec623979b24630b72217b1885b9ec3",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -49,7 +49,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "f22c03c20c0f436890186ee40ea59715",
+          "id": "c9d21749068e44b2a8835bdcfbe4bd59",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -60,9 +60,9 @@ Content-Type: application/json
       ]
     },
     "classification": {
-      "description": "Seeds",
       "scheme": "ДК021",
-      "id": "03111000-2"
+      "id": "03111000-2",
+      "description": "Seeds"
     },
     "additionalClassifications": [
       {
@@ -74,11 +74,11 @@ Content-Type: application/json
     "planID": "UA-P-2027-01-01-000001-a",
     "items": [
       {
-        "id": "93953952601d4f299708b6dc7acfce41",
+        "id": "f6b5104a5e0d473c9242006488fe8e88",
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -107,7 +107,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "7b3c0e8edc6141669e80c9feae84fee0",
+        "id": "83d2c25294cb404ebd02d5cc42776837",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -146,14 +146,14 @@ Content-Type: application/json
     "datePublished": "2027-01-01T00:00:00+02:00",
     "milestones": [
       {
-        "id": "820cd56a57014d20b0b3f2beade024f1",
+        "id": "09a8d24a8ab449edad799a3aa1d05727",
         "status": "met",
         "title": "Підготовка до проведення процедури",
         "description": "Доповнений опис відповіді",
         "type": "approval",
         "dueDate": "2027-01-01T00:00:07+02:00",
         "author": {
-          "id": "65a79a5a26424868a396a5a9ddf8a79c",
+          "id": "f560fcf57d4e4f9ea020051c8353bf6d",
           "name": "ЦЗО №1",
           "identifier": {
             "scheme": "UA-EDR",
@@ -174,20 +174,20 @@ Content-Type: application/json
         "dateMet": "2027-01-01T00:00:06+02:00",
         "documents": [
           {
-            "hash": "md5:00000000000000000000000000000000",
             "title": "Notice.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/plans/b5611a5d614e41dcab385c6e015ee969/milestones/820cd56a57014d20b0b3f2beade024f1/documents/314ff032773e413d862dc34678b7e1fc?download=e02eb47c177f4e078fd10eb781a99616",
             "language": "uk",
-            "id": "314ff032773e413d862dc34678b7e1fc",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/plans/9a34005ede3847c5ae9ee30e406f935a/milestones/09a8d24a8ab449edad799a3aa1d05727/documents/28cf0587547340e38b030e68b34f4e2e?download=e02eb47c177f4e078fd10eb781a99616",
+            "id": "28cf0587547340e38b030e68b34f4e2e",
             "datePublished": "2027-01-01T00:00:10+02:00",
             "dateModified": "2027-01-01T00:00:10+02:00"
           }
         ]
       }
     ],
-    "tender_id": "ef1bc8253a974975ab23702f35861021",
-    "id": "b5611a5d614e41dcab385c6e015ee969"
+    "tender_id": "0abf9f1726ec49f6acfb084ffbbd843a",
+    "id": "9a34005ede3847c5ae9ee30e406f935a"
   }
 }
 

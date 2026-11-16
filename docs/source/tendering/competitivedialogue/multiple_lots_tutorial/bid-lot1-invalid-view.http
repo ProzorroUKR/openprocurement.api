@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/90c9e8f5a88448a3999266904a459e9e/bids/08476930c6764570968c02f1e47a7a06?acc_token=9b19cdd2c23743e88912d8dd606e9acf HTTP/1.0
+GET /api/2.5/tenders/1a31e5e3e76f4e2ab282c4c799652a42/bids/0bf3149792074107af6ca907ec5ad642?acc_token=9b19cdd2c23743e88912d8dd606e9acf HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "401574cc6ca74de4a2537a04a061e298",
+        "id": "1112119d27ae40bd9d2785c2f2dddd5a",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -18,7 +18,15 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
+        "relatedLot": "35a540eab5bd43f3b377b3ab3a888f31"
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "35a540eab5bd43f3b377b3ab3a888f31",
+        "subcontractingDetails": "ДКП «Орфей», Україна",
+        "status": "pending",
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -54,29 +62,21 @@ Content-Type: application/json
       }
     ],
     "status": "invalid",
-    "id": "08476930c6764570968c02f1e47a7a06",
+    "id": "0bf3149792074107af6ca907ec5ad642",
     "date": "2027-01-01T00:00:00+02:00",
-    "lotValues": [
-      {
-        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a",
-        "subcontractingDetails": "ДКП «Орфей», Україна",
-        "status": "pending",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "abfca4f14dce46d5bbcc45fd3fff4b66",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "61af28cbc0d041258c9b9d51c837b620",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b252822257244ad88043516442077d2?Signature=q4ewE%2Bk5MUJVcLtUZr8D7LewQqIszknTKJFfg0mLJv42T3ZO6RoqkicMjyneSmsbtz%2BMqXevRZ81Lk%2BfAEfPDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk",
         "isDescriptionDecision": false
       }
     ],

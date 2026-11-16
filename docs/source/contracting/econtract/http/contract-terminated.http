@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "eb74c3a872ed451abf7c6225c8918a7e",
+    "awardID": "4a61296fa8ff44fda533a319dcea4266",
     "contractID": "UA-2027-01-01-000002-a-a3",
     "title": "Комп’ютерне обладнання",
     "dateSigned": "2027-01-01T00:00:00+02:00",
@@ -19,11 +19,10 @@ Content-Type: application/json
       {
         "id": "29cbde01600848de837efe5448e726fb",
         "description": "Комп’ютерне обладнання для біда",
-        "quantity": 10.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -32,6 +31,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 10.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -81,11 +81,10 @@ Content-Type: application/json
       {
         "id": "24726f3002834ed287ec1c07b91606cf",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -94,6 +93,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -118,7 +118,7 @@ Content-Type: application/json
         "category": "655360-30230000-889652"
       }
     ],
-    "tender_id": "2563fd75900b43499138810b16db8181",
+    "tender_id": "a9805a126c8248ca9ccc72fed6a560b7",
     "tenderID": "UA-2027-01-01-000002-a",
     "mainProcurementCategory": "goods",
     "owner": "broker",
@@ -180,6 +180,518 @@ Content-Type: application/json
       }
     ],
     "contractTemplateName": "GENERAL.0001.01",
+    "changes": [
+      {
+        "rationale": "причина зміни укр",
+        "rationale_en": "change cause en",
+        "rationaleTypes": [
+          "priceReductionWithoutQuantity"
+        ],
+        "id": "b2f996f094e74aaf84a53485f70aa278",
+        "status": "active",
+        "date": "2027-01-01T00:00:00+02:00",
+        "dateSigned": "2027-01-01T00:00:00+02:00",
+        "modifications": {
+          "value": {
+            "amount": 450.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amountNet": 450.0
+          },
+          "items": [
+            {
+              "id": "29cbde01600848de837efe5448e726fb",
+              "description": "Комп’ютерне обладнання для біда",
+              "classification": {
+                "scheme": "ДК021",
+                "id": "44617100-9",
+                "description": "Cartons"
+              },
+              "additionalClassifications": [
+                {
+                  "scheme": "INN",
+                  "id": "17.21.1",
+                  "description": "папір і картон гофровані, паперова й картонна тара"
+                }
+              ],
+              "quantity": 10.0,
+              "unit": {
+                "name": "кг",
+                "value": {
+                  "amount": 30.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": false
+                },
+                "code": "KGM"
+              },
+              "deliveryAddress": {
+                "streetAddress": "вул. Банкова 1",
+                "locality": "м. Київ",
+                "region": "м. Київ",
+                "postalCode": "79000",
+                "countryName": "Україна"
+              },
+              "deliveryDate": {
+                "startDate": "2027-01-03T00:00:00+02:00",
+                "endDate": "2027-01-06T00:00:00+02:00"
+              },
+              "attributes": [
+                {
+                  "name": "Форма випуску",
+                  "values": [
+                    "Розчин для інфузій"
+                  ]
+                },
+                {
+                  "name": "Доза діючої речовини",
+                  "unit": {
+                    "name": "кілограми",
+                    "code": "KGM"
+                  },
+                  "value": 5
+                },
+                {
+                  "name": "Форма випуску 1",
+                  "values": [
+                    "Відповідь1",
+                    "Відповідь2"
+                  ]
+                }
+              ],
+              "product": "11111111111111111111111111111111",
+              "category": "655360-30230000-889652"
+            },
+            {
+              "id": "24726f3002834ed287ec1c07b91606cf",
+              "description": "Комп’ютерне обладнання",
+              "classification": {
+                "scheme": "ДК021",
+                "id": "44617100-9",
+                "description": "Cartons"
+              },
+              "additionalClassifications": [
+                {
+                  "scheme": "INN",
+                  "id": "17.21.1",
+                  "description": "папір і картон гофровані, паперова й картонна тара"
+                }
+              ],
+              "quantity": 5.0,
+              "unit": {
+                "name": "кг",
+                "value": {
+                  "amount": 30.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": false
+                },
+                "code": "KGM"
+              },
+              "deliveryAddress": {
+                "streetAddress": "вул. Банкова 1",
+                "locality": "м. Київ",
+                "region": "м. Київ",
+                "postalCode": "79000",
+                "countryName": "Україна"
+              },
+              "deliveryDate": {
+                "startDate": "2027-01-03T00:00:00+02:00",
+                "endDate": "2027-01-06T00:00:00+02:00"
+              },
+              "product": "11111111111111111111111111111111",
+              "category": "655360-30230000-889652"
+            }
+          ]
+        },
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "contractNotice",
+            "title": "contract_change.pdf",
+            "format": "application/pdf",
+            "documentOf": "change",
+            "id": "8c2217f581ac49e7b8f58f4a20dbd376",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/b2f996f094e74aaf84a53485f70aa278/documents/8c2217f581ac49e7b8f58f4a20dbd376?download=33830e473a1348d6a5a7e4eb3379672d",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
+          },
+          {
+            "confidentiality": "public",
+            "documentType": "contractSignature",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "documentOf": "change",
+            "id": "33c5db0230da4a0f992f3550a3e91923",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/b2f996f094e74aaf84a53485f70aa278/documents/33c5db0230da4a0f992f3550a3e91923?download=9dc6bfe4683b4e63a799bbe366ba9376",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00",
+            "author": "supplier"
+          },
+          {
+            "confidentiality": "public",
+            "documentType": "contractSignature",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "documentOf": "change",
+            "id": "468d464c060943abab7a1b553a62e35b",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/b2f996f094e74aaf84a53485f70aa278/documents/468d464c060943abab7a1b553a62e35b?download=9dc6bfe4683b4e63a799bbe366ba9376",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00",
+            "author": "supplier"
+          },
+          {
+            "confidentiality": "public",
+            "documentType": "contractSignature",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "documentOf": "change",
+            "id": "82db96ec59354ccd8730bc6f05e753eb",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/b2f996f094e74aaf84a53485f70aa278/documents/82db96ec59354ccd8730bc6f05e753eb?download=9dc6bfe4683b4e63a799bbe366ba9376",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00",
+            "author": "buyer"
+          }
+        ],
+        "author": "supplier",
+        "signatories": [
+          {
+            "role": "supplier",
+            "date": "2027-01-01T00:00:00+02:00"
+          },
+          {
+            "role": "buyer",
+            "date": "2027-01-01T00:00:00+02:00"
+          }
+        ]
+      },
+      {
+        "rationale": "причина зміни укр",
+        "rationale_en": "change cause en",
+        "rationaleTypes": [
+          "durationExtension"
+        ],
+        "id": "4495d10fc0824189af7b9afbbe386bcf",
+        "status": "cancelled",
+        "date": "2027-01-01T00:00:00+02:00",
+        "modifications": {
+          "period": {
+            "startDate": "2027-01-06T00:00:00+02:00",
+            "endDate": "2028-01-01T00:00:00+02:00"
+          }
+        },
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "contractNotice",
+            "title": "contract_change.pdf",
+            "format": "application/pdf",
+            "documentOf": "change",
+            "id": "510e389b93e94dd29caa3a8eb2afa4e2",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/4495d10fc0824189af7b9afbbe386bcf/documents/510e389b93e94dd29caa3a8eb2afa4e2?download=33830e473a1348d6a5a7e4eb3379672d",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
+          }
+        ],
+        "cancellations": [
+          {
+            "id": "92f21f4ad03c4126915f545b02834951",
+            "status": "active",
+            "reason": "not actual change",
+            "reasonType": "requiresChanges",
+            "dateCreated": "2027-01-01T00:00:00+02:00",
+            "author": "supplier"
+          }
+        ],
+        "author": "supplier"
+      },
+      {
+        "rationale": "причина зміни укр",
+        "rationale_en": "change cause en",
+        "rationaleTypes": [
+          "itemPriceChange"
+        ],
+        "id": "a61760c546d3453e837c5293e881eaa7",
+        "status": "cancelled",
+        "date": "2027-01-01T00:00:00+02:00",
+        "modifications": {
+          "items": [
+            {
+              "id": "29cbde01600848de837efe5448e726fb",
+              "description": "Комп’ютерне обладнання для біда",
+              "classification": {
+                "scheme": "ДК021",
+                "id": "44617100-9",
+                "description": "Cartons"
+              },
+              "additionalClassifications": [
+                {
+                  "scheme": "INN",
+                  "id": "17.21.1",
+                  "description": "папір і картон гофровані, паперова й картонна тара"
+                }
+              ],
+              "quantity": 9.0,
+              "unit": {
+                "name": "кг",
+                "value": {
+                  "amount": 30.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": false
+                },
+                "code": "KGM"
+              },
+              "deliveryAddress": {
+                "streetAddress": "вул. Банкова 1",
+                "locality": "м. Київ",
+                "region": "м. Київ",
+                "postalCode": "79000",
+                "countryName": "Україна"
+              },
+              "deliveryDate": {
+                "startDate": "2027-01-03T00:00:00+02:00",
+                "endDate": "2027-01-06T00:00:00+02:00"
+              },
+              "attributes": [
+                {
+                  "name": "Форма випуску",
+                  "values": [
+                    "Розчин для інфузій"
+                  ]
+                },
+                {
+                  "name": "Доза діючої речовини",
+                  "unit": {
+                    "name": "кілограми",
+                    "code": "KGM"
+                  },
+                  "value": 5
+                },
+                {
+                  "name": "Форма випуску 1",
+                  "values": [
+                    "Відповідь1",
+                    "Відповідь2"
+                  ]
+                }
+              ],
+              "product": "11111111111111111111111111111111",
+              "category": "655360-30230000-889652"
+            },
+            {
+              "id": "24726f3002834ed287ec1c07b91606cf",
+              "description": "Комп’ютерне обладнання",
+              "classification": {
+                "scheme": "ДК021",
+                "id": "44617100-9",
+                "description": "Cartons"
+              },
+              "additionalClassifications": [
+                {
+                  "scheme": "INN",
+                  "id": "17.21.1",
+                  "description": "папір і картон гофровані, паперова й картонна тара"
+                }
+              ],
+              "quantity": 5.0,
+              "unit": {
+                "name": "кг",
+                "value": {
+                  "amount": 30.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": false
+                },
+                "code": "KGM"
+              },
+              "deliveryAddress": {
+                "streetAddress": "вул. Банкова 1",
+                "locality": "м. Київ",
+                "region": "м. Київ",
+                "postalCode": "79000",
+                "countryName": "Україна"
+              },
+              "deliveryDate": {
+                "startDate": "2027-01-03T00:00:00+02:00",
+                "endDate": "2027-01-06T00:00:00+02:00"
+              },
+              "product": "11111111111111111111111111111111",
+              "category": "655360-30230000-889652"
+            },
+            {
+              "id": "ba6de961d4284b30b81b77630fe10813",
+              "description": "Додаткове комп’ютерне обладнання",
+              "classification": {
+                "scheme": "ДК021",
+                "id": "44617100-9",
+                "description": "Cartons"
+              },
+              "additionalClassifications": [
+                {
+                  "scheme": "INN",
+                  "id": "17.21.1",
+                  "description": "папір і картон гофровані, паперова й картонна тара"
+                }
+              ],
+              "quantity": 15.0,
+              "unit": {
+                "name": "кг",
+                "value": {
+                  "amount": 2.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": false
+                },
+                "code": "KGM"
+              },
+              "deliveryAddress": {
+                "streetAddress": "вул. Банкова 1",
+                "locality": "м. Київ",
+                "region": "м. Київ",
+                "postalCode": "79000",
+                "countryName": "Україна"
+              },
+              "deliveryDate": {
+                "startDate": "2027-01-03T00:00:00+02:00",
+                "endDate": "2027-01-06T00:00:00+02:00"
+              },
+              "attributes": [
+                {
+                  "name": "Форма випуску",
+                  "values": [
+                    "Розчин для інфузій"
+                  ]
+                },
+                {
+                  "name": "Доза діючої речовини",
+                  "unit": {
+                    "name": "кілограми",
+                    "code": "KGM"
+                  },
+                  "value": 5
+                },
+                {
+                  "name": "Форма випуску 1",
+                  "values": [
+                    "Відповідь1",
+                    "Відповідь2"
+                  ]
+                }
+              ],
+              "product": "11111111111111111111111111111111",
+              "category": "655360-30230000-889652"
+            }
+          ]
+        },
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "contractNotice",
+            "title": "contract_change.pdf",
+            "format": "application/pdf",
+            "documentOf": "change",
+            "id": "917df58fef2e494c8bd5982227b98a79",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/a61760c546d3453e837c5293e881eaa7/documents/917df58fef2e494c8bd5982227b98a79?download=33830e473a1348d6a5a7e4eb3379672d",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
+          }
+        ],
+        "cancellations": [
+          {
+            "id": "d39771bd30394deb8e194e6ff1512c50",
+            "status": "active",
+            "reason": "not actual change",
+            "reasonType": "requiresChanges",
+            "dateCreated": "2027-01-01T00:00:00+02:00",
+            "author": "supplier"
+          }
+        ],
+        "author": "supplier"
+      }
+    ],
+    "terminationDetails": {
+      "reasonType": "disrupted",
+      "reason": "Договір розірвано достроково за згодою сторін",
+      "amountPaid": {
+        "amount": 200.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": false,
+        "amountNet": 200.0
+      },
+      "status": "active",
+      "dateCreated": "2027-01-01T00:00:00+02:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "documents": [
+        {
+          "confidentiality": "public",
+          "documentType": "terminationReport",
+          "title": "termination_sign.p7s",
+          "format": "application/pkcs7-signature",
+          "documentOf": "contract",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details/documents/e47fe86ce1174ac19ea6d431499c9e05?download=a80b4bc8414f47359b80c29da2eb98fd",
+          "id": "e47fe86ce1174ac19ea6d431499c9e05",
+          "datePublished": "2027-01-01T00:00:00+02:00",
+          "dateModified": "2027-01-01T00:00:00+02:00",
+          "author": "buyer"
+        }
+      ]
+    },
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "contractNotice",
+        "title": "contract.pdf",
+        "format": "application/pdf",
+        "documentOf": "contract",
+        "id": "ade5aa5239d34180b345d5f2e2c0ff89",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/ade5aa5239d34180b345d5f2e2c0ff89?download=acdee3c5fbb14da0b63000963dea8a81",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "contractSignature",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "documentOf": "contract",
+        "id": "c899ee1b7b7942c59c46495189472694",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/c899ee1b7b7942c59c46495189472694?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "supplier"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "contractSignature",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "documentOf": "contract",
+        "id": "50ebd9db6cbc4a62b1ac3722fb18428d",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/50ebd9db6cbc4a62b1ac3722fb18428d?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "supplier"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "contractSignature",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "documentOf": "contract",
+        "id": "ff487a5be3ec41a1a78078e891c4e9dd",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/ff487a5be3ec41a1a78078e891c4e9dd?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "buyer"
+      }
+    ],
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -349,490 +861,6 @@ Content-Type: application/json
         "status": "scheduled"
       }
     ],
-    "changes": [
-      {
-        "rationale": "причина зміни укр",
-        "rationale_en": "change cause en",
-        "rationaleTypes": [
-          "priceReductionWithoutQuantity"
-        ],
-        "id": "90b71c660536469081b7b8283ed0fcc1",
-        "status": "active",
-        "date": "2027-01-01T00:00:00+02:00",
-        "dateSigned": "2027-01-01T00:00:00+02:00",
-        "modifications": {
-          "value": {
-            "amount": 450.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false,
-            "amountNet": 450.0
-          },
-          "items": [
-            {
-              "id": "29cbde01600848de837efe5448e726fb",
-              "description": "Комп’ютерне обладнання для біда",
-              "quantity": 10.0,
-              "classification": {
-                "description": "Cartons",
-                "scheme": "ДК021",
-                "id": "44617100-9"
-              },
-              "additionalClassifications": [
-                {
-                  "scheme": "INN",
-                  "id": "17.21.1",
-                  "description": "папір і картон гофровані, паперова й картонна тара"
-                }
-              ],
-              "unit": {
-                "name": "кг",
-                "value": {
-                  "amount": 30.0,
-                  "currency": "UAH",
-                  "valueAddedTaxIncluded": false
-                },
-                "code": "KGM"
-              },
-              "deliveryAddress": {
-                "streetAddress": "вул. Банкова 1",
-                "locality": "м. Київ",
-                "region": "м. Київ",
-                "postalCode": "79000",
-                "countryName": "Україна"
-              },
-              "deliveryDate": {
-                "startDate": "2027-01-03T00:00:00+02:00",
-                "endDate": "2027-01-06T00:00:00+02:00"
-              },
-              "attributes": [
-                {
-                  "name": "Форма випуску",
-                  "values": [
-                    "Розчин для інфузій"
-                  ]
-                },
-                {
-                  "name": "Доза діючої речовини",
-                  "unit": {
-                    "name": "кілограми",
-                    "code": "KGM"
-                  },
-                  "value": 5
-                },
-                {
-                  "name": "Форма випуску 1",
-                  "values": [
-                    "Відповідь1",
-                    "Відповідь2"
-                  ]
-                }
-              ],
-              "product": "11111111111111111111111111111111",
-              "category": "655360-30230000-889652"
-            },
-            {
-              "id": "24726f3002834ed287ec1c07b91606cf",
-              "description": "Комп’ютерне обладнання",
-              "quantity": 5.0,
-              "classification": {
-                "description": "Cartons",
-                "scheme": "ДК021",
-                "id": "44617100-9"
-              },
-              "additionalClassifications": [
-                {
-                  "scheme": "INN",
-                  "id": "17.21.1",
-                  "description": "папір і картон гофровані, паперова й картонна тара"
-                }
-              ],
-              "unit": {
-                "name": "кг",
-                "value": {
-                  "amount": 30.0,
-                  "currency": "UAH",
-                  "valueAddedTaxIncluded": false
-                },
-                "code": "KGM"
-              },
-              "deliveryAddress": {
-                "streetAddress": "вул. Банкова 1",
-                "locality": "м. Київ",
-                "region": "м. Київ",
-                "postalCode": "79000",
-                "countryName": "Україна"
-              },
-              "deliveryDate": {
-                "startDate": "2027-01-03T00:00:00+02:00",
-                "endDate": "2027-01-06T00:00:00+02:00"
-              },
-              "product": "11111111111111111111111111111111",
-              "category": "655360-30230000-889652"
-            }
-          ]
-        },
-        "documents": [
-          {
-            "confidentiality": "public",
-            "title": "contract_change.pdf",
-            "format": "application/pdf",
-            "id": "88962047c28144d99916ae75c9a2a38a",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "dateModified": "2027-01-01T00:00:00+02:00",
-            "documentOf": "change",
-            "documentType": "contractNotice"
-          },
-          {
-            "confidentiality": "public",
-            "title": "sign.p7s",
-            "format": "application/pkcs7-signature",
-            "id": "cd808e0fa826419385fc289af3336dc3",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/cd808e0fa826419385fc289af3336dc3?download=9dc6bfe4683b4e63a799bbe366ba9376",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "dateModified": "2027-01-01T00:00:00+02:00",
-            "author": "supplier",
-            "documentOf": "change",
-            "documentType": "contractSignature"
-          },
-          {
-            "confidentiality": "public",
-            "title": "sign.p7s",
-            "format": "application/pkcs7-signature",
-            "id": "7ec213a096df47e4ac78b23d5ec7769e",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/7ec213a096df47e4ac78b23d5ec7769e?download=9dc6bfe4683b4e63a799bbe366ba9376",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "dateModified": "2027-01-01T00:00:00+02:00",
-            "author": "supplier",
-            "documentOf": "change",
-            "documentType": "contractSignature"
-          },
-          {
-            "confidentiality": "public",
-            "title": "sign.p7s",
-            "format": "application/pkcs7-signature",
-            "id": "130ae60632144714a6cc9086dc8260e2",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/130ae60632144714a6cc9086dc8260e2?download=9dc6bfe4683b4e63a799bbe366ba9376",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "dateModified": "2027-01-01T00:00:00+02:00",
-            "author": "buyer",
-            "documentOf": "change",
-            "documentType": "contractSignature"
-          }
-        ],
-        "author": "supplier",
-        "signatories": [
-          {
-            "role": "supplier",
-            "date": "2027-01-01T00:00:00+02:00"
-          },
-          {
-            "role": "buyer",
-            "date": "2027-01-01T00:00:00+02:00"
-          }
-        ]
-      },
-      {
-        "rationale": "причина зміни укр",
-        "rationale_en": "change cause en",
-        "rationaleTypes": [
-          "durationExtension"
-        ],
-        "id": "0229d3c171f64d19bbb10dcac0a4b49e",
-        "status": "cancelled",
-        "date": "2027-01-01T00:00:00+02:00",
-        "modifications": {
-          "period": {
-            "startDate": "2027-01-06T00:00:00+02:00",
-            "endDate": "2028-01-01T00:00:00+02:00"
-          }
-        },
-        "documents": [
-          {
-            "confidentiality": "public",
-            "title": "contract_change.pdf",
-            "format": "application/pdf",
-            "id": "9471624212664412824822e912a743df",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/0229d3c171f64d19bbb10dcac0a4b49e/documents/9471624212664412824822e912a743df?download=33830e473a1348d6a5a7e4eb3379672d",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "dateModified": "2027-01-01T00:00:00+02:00",
-            "documentOf": "change",
-            "documentType": "contractNotice"
-          }
-        ],
-        "cancellations": [
-          {
-            "id": "7d7f63e27c1b48b199af12d9525ceec4",
-            "status": "active",
-            "reason": "not actual change",
-            "reasonType": "requiresChanges",
-            "dateCreated": "2027-01-01T00:00:00+02:00",
-            "author": "supplier"
-          }
-        ],
-        "author": "supplier"
-      },
-      {
-        "rationale": "причина зміни укр",
-        "rationale_en": "change cause en",
-        "rationaleTypes": [
-          "itemPriceChange"
-        ],
-        "id": "4aa3b6691346446c9bf3a51ebe2bef44",
-        "status": "cancelled",
-        "date": "2027-01-01T00:00:00+02:00",
-        "modifications": {
-          "items": [
-            {
-              "id": "29cbde01600848de837efe5448e726fb",
-              "description": "Комп’ютерне обладнання для біда",
-              "quantity": 9.0,
-              "classification": {
-                "description": "Cartons",
-                "scheme": "ДК021",
-                "id": "44617100-9"
-              },
-              "additionalClassifications": [
-                {
-                  "scheme": "INN",
-                  "id": "17.21.1",
-                  "description": "папір і картон гофровані, паперова й картонна тара"
-                }
-              ],
-              "unit": {
-                "name": "кг",
-                "value": {
-                  "amount": 30.0,
-                  "currency": "UAH",
-                  "valueAddedTaxIncluded": false
-                },
-                "code": "KGM"
-              },
-              "deliveryAddress": {
-                "streetAddress": "вул. Банкова 1",
-                "locality": "м. Київ",
-                "region": "м. Київ",
-                "postalCode": "79000",
-                "countryName": "Україна"
-              },
-              "deliveryDate": {
-                "startDate": "2027-01-03T00:00:00+02:00",
-                "endDate": "2027-01-06T00:00:00+02:00"
-              },
-              "attributes": [
-                {
-                  "name": "Форма випуску",
-                  "values": [
-                    "Розчин для інфузій"
-                  ]
-                },
-                {
-                  "name": "Доза діючої речовини",
-                  "unit": {
-                    "name": "кілограми",
-                    "code": "KGM"
-                  },
-                  "value": 5
-                },
-                {
-                  "name": "Форма випуску 1",
-                  "values": [
-                    "Відповідь1",
-                    "Відповідь2"
-                  ]
-                }
-              ],
-              "product": "11111111111111111111111111111111",
-              "category": "655360-30230000-889652"
-            },
-            {
-              "id": "24726f3002834ed287ec1c07b91606cf",
-              "description": "Комп’ютерне обладнання",
-              "quantity": 5.0,
-              "classification": {
-                "description": "Cartons",
-                "scheme": "ДК021",
-                "id": "44617100-9"
-              },
-              "additionalClassifications": [
-                {
-                  "scheme": "INN",
-                  "id": "17.21.1",
-                  "description": "папір і картон гофровані, паперова й картонна тара"
-                }
-              ],
-              "unit": {
-                "name": "кг",
-                "value": {
-                  "amount": 30.0,
-                  "currency": "UAH",
-                  "valueAddedTaxIncluded": false
-                },
-                "code": "KGM"
-              },
-              "deliveryAddress": {
-                "streetAddress": "вул. Банкова 1",
-                "locality": "м. Київ",
-                "region": "м. Київ",
-                "postalCode": "79000",
-                "countryName": "Україна"
-              },
-              "deliveryDate": {
-                "startDate": "2027-01-03T00:00:00+02:00",
-                "endDate": "2027-01-06T00:00:00+02:00"
-              },
-              "product": "11111111111111111111111111111111",
-              "category": "655360-30230000-889652"
-            },
-            {
-              "id": "ef6fe4ce5c6d4850ae0b6becfb91fc90",
-              "description": "Додаткове комп’ютерне обладнання",
-              "quantity": 15.0,
-              "classification": {
-                "description": "Cartons",
-                "scheme": "ДК021",
-                "id": "44617100-9"
-              },
-              "additionalClassifications": [
-                {
-                  "scheme": "INN",
-                  "id": "17.21.1",
-                  "description": "папір і картон гофровані, паперова й картонна тара"
-                }
-              ],
-              "unit": {
-                "name": "кг",
-                "value": {
-                  "amount": 2.0,
-                  "currency": "UAH",
-                  "valueAddedTaxIncluded": false
-                },
-                "code": "KGM"
-              },
-              "deliveryAddress": {
-                "streetAddress": "вул. Банкова 1",
-                "locality": "м. Київ",
-                "region": "м. Київ",
-                "postalCode": "79000",
-                "countryName": "Україна"
-              },
-              "deliveryDate": {
-                "startDate": "2027-01-03T00:00:00+02:00",
-                "endDate": "2027-01-06T00:00:00+02:00"
-              },
-              "attributes": [
-                {
-                  "name": "Форма випуску",
-                  "values": [
-                    "Розчин для інфузій"
-                  ]
-                },
-                {
-                  "name": "Доза діючої речовини",
-                  "unit": {
-                    "name": "кілограми",
-                    "code": "KGM"
-                  },
-                  "value": 5
-                },
-                {
-                  "name": "Форма випуску 1",
-                  "values": [
-                    "Відповідь1",
-                    "Відповідь2"
-                  ]
-                }
-              ],
-              "product": "11111111111111111111111111111111",
-              "category": "655360-30230000-889652"
-            }
-          ]
-        },
-        "documents": [
-          {
-            "confidentiality": "public",
-            "title": "contract_change.pdf",
-            "format": "application/pdf",
-            "id": "e88e0646bb134fff9cfe8e010569e63b",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/4aa3b6691346446c9bf3a51ebe2bef44/documents/e88e0646bb134fff9cfe8e010569e63b?download=33830e473a1348d6a5a7e4eb3379672d",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "dateModified": "2027-01-01T00:00:00+02:00",
-            "documentOf": "change",
-            "documentType": "contractNotice"
-          }
-        ],
-        "cancellations": [
-          {
-            "id": "83452e3904d545f0b785bc01b70582d7",
-            "status": "active",
-            "reason": "not actual change",
-            "reasonType": "requiresChanges",
-            "dateCreated": "2027-01-01T00:00:00+02:00",
-            "author": "supplier"
-          }
-        ],
-        "author": "supplier"
-      }
-    ],
-    "documents": [
-      {
-        "confidentiality": "public",
-        "id": "8d38f4e981784f41af8d83394ab23dfa",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract.pdf",
-        "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/8d38f4e981784f41af8d83394ab23dfa?download=acdee3c5fbb14da0b63000963dea8a81",
-        "documentOf": "contract",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "documentType": "contractNotice"
-      },
-      {
-        "confidentiality": "public",
-        "id": "0ba0f2d440a74a968ead511f57c6e75b",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/0ba0f2d440a74a968ead511f57c6e75b?download=9dc6bfe4683b4e63a799bbe366ba9376",
-        "documentOf": "contract",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "documentType": "contractSignature",
-        "author": "supplier"
-      },
-      {
-        "confidentiality": "public",
-        "id": "65d65fce6a0f42cd90b342c2e0696527",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/65d65fce6a0f42cd90b342c2e0696527?download=9dc6bfe4683b4e63a799bbe366ba9376",
-        "documentOf": "contract",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "documentType": "contractSignature",
-        "author": "supplier"
-      },
-      {
-        "confidentiality": "public",
-        "id": "bedb884095c8436d87d47674ed9e0acf",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/bedb884095c8436d87d47674ed9e0acf?download=9dc6bfe4683b4e63a799bbe366ba9376",
-        "documentOf": "contract",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "documentType": "contractSignature",
-        "author": "buyer"
-      }
-    ],
     "signatories": [
       {
         "role": "supplier",
@@ -843,34 +871,6 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "terminationDetails": {
-      "reasonType": "disrupted",
-      "reason": "Договір розірвано достроково за згодою сторін",
-      "amountPaid": {
-        "amount": 200.0,
-        "currency": "UAH",
-        "amountNet": 200.0,
-        "valueAddedTaxIncluded": false
-      },
-      "status": "active",
-      "dateCreated": "2027-01-01T00:00:00+02:00",
-      "datePublished": "2027-01-01T00:00:00+02:00",
-      "documents": [
-        {
-          "confidentiality": "public",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "termination_sign.p7s",
-          "format": "application/pkcs7-signature",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details/documents/9fe10f27ccdf46ec855e95c65e919573?download=a80b4bc8414f47359b80c29da2eb98fd",
-          "documentOf": "contract",
-          "documentType": "terminationReport",
-          "id": "9fe10f27ccdf46ec855e95c65e919573",
-          "datePublished": "2027-01-01T00:00:00+02:00",
-          "dateModified": "2027-01-01T00:00:00+02:00",
-          "author": "buyer"
-        }
-      ]
-    },
     "id": "9747554b71504755b07fbc4dc78d9010"
   },
   "config": {

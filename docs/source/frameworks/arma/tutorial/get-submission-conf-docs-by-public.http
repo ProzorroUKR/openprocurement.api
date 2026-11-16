@@ -1,4 +1,4 @@
-GET /api/2.5/submissions/8c615538188b443e90ad63788fda2f5f/documents/81090217a2874adcbeff4a7837ce8aff HTTP/1.0
+GET /api/2.5/submissions/2ce146e3fc564ed88e0d668ffdd0e2a1/documents/655e11aa5e11476ca4a643ad79f89fb5 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,14 +8,14 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
     "documentType": "technicalSpecifications",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "specs.doc",
     "format": "application/msword",
     "language": "uk",
-    "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
-    "confidentiality": "buyerOnly",
-    "id": "81090217a2874adcbeff4a7837ce8aff",
+    "hash": "md5:00000000000000000000000000000000",
+    "id": "655e11aa5e11476ca4a643ad79f89fb5",
     "datePublished": "2027-01-17T00:00:00+02:00",
     "dateModified": "2027-01-17T00:00:00+02:00"
   }

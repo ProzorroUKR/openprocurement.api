@@ -160,13 +160,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8
 
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "title": "футляри до державних нагород",
     "status": "draft",
+    "title": "футляри до державних нагород",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -208,15 +208,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
-    "enquiryPeriod": {
-      "endDate": "2027-01-10T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-14T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-10T00:00:00+02:00",
-      "endDate": "2027-01-20T00:00:00+02:00"
-    },
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",
@@ -228,10 +219,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -239,10 +231,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+        ]
       }
     ],
+    "enquiryPeriod": {
+      "endDate": "2027-01-10T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-14T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-10T00:00:00+02:00",
+      "endDate": "2027-01-20T00:00:00+02:00"
+    },
     "procurementMethodType": "requestForProposal",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -279,18 +279,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "lots": [
       {
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "d7afc0eb4f6d42549557d7b3226417e6",
         "status": "active",
         "value": {
-          "currency": "UAH",
           "amount": 500.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "minimalStep": {
-          "currency": "UAH",
           "amount": 15.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
@@ -382,7 +382,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "38bca89f7ba4477d97f553d576fd6994"
+    "id": "f5b264bbf8d9400290749cb89e5d1cb8"
   },
   "config": {
     "hasAuction": true,

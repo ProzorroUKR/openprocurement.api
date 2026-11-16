@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/a90905bbe0c24a6387f3ecde4e87bcb4/complaints/3db50ebc52124424812681187e5ee06d/appeals?acc_token=0d56d9aa032c4600a7fbecd53c86be3f HTTP/1.0
+POST /api/2.5/tenders/34c547447aa64723b92f4f6069cbe9d0/complaints/cc0d30bf371746bf81f15f8f5c2325bb/appeals?acc_token=0d56d9aa032c4600a7fbecd53c86be3f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,12 +12,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a90905bbe0c24a6387f3ecde4e87bcb4/complaints/3db50ebc52124424812681187e5ee06d/appeals/48cf8532081f42a79fd6eb54c29e29f0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/34c547447aa64723b92f4f6069cbe9d0/complaints/cc0d30bf371746bf81f15f8f5c2325bb/appeals/15dcf82ac5094e41a1c7ae1ee4c72145
 
 {
   "data": {
     "description": "Test appeal",
-    "id": "48cf8532081f42a79fd6eb54c29e29f0",
+    "id": "15dcf82ac5094e41a1c7ae1ee4c72145",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "legislation": {

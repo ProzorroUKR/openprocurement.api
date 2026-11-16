@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/529089515689411f84e10eb418118905/bids HTTP/1.0
+POST /api/2.5/tenders/4e7591689c2f4791924d9c8ae340523a/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -13,18 +13,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "id": "00037257",
           "uri": "http://www.dus.gov.ua/"
         },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        },
-        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
           "region": "м. Київ",
           "postalCode": "01220",
           "countryName": "Україна"
-        }
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro"
       }
     ],
     "lotValues": [
@@ -83,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/529089515689411f84e10eb418118905/bids/2ea5a591410d48bba459e42ccc88ff2d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4e7591689c2f4791924d9c8ae340523a/bids/0780c303ae4d4eeb8364cb302e57b931
 
 {
   "data": {
@@ -103,6 +103,28 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/529089515689411f
         },
         "quantity": 10.0,
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
+      }
+    ],
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "value": 0.1
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "value": 0.1
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
+        "date": "2027-01-01T00:01:00+02:00"
       }
     ],
     "tenderers": [
@@ -127,56 +149,34 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/529089515689411f
         "scale": "micro"
       }
     ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "date": "2027-01-01T00:01:00+02:00"
-      }
-    ],
     "status": "draft",
     "documents": [
       {
         "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
+        "language": "uk",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fa6d35497f649faafdc2dba7dcdecd5?Signature=wQyre6x8c9J%2BhDgF6s0ErHWpfTvY69rKWh0zTeBuAV%2FRCG3ULxdMVg0A3neC1CYwgROArxgXYK6efVfhOxzqDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "language": "uk",
-        "id": "40bf8a2593454667a47f33022b36cab0",
+        "id": "ef5b2bc051ae412e88c3ec116809eeb6",
         "datePublished": "2027-01-01T00:01:00+02:00",
         "dateModified": "2027-01-01T00:01:00+02:00"
       },
       {
         "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
+        "language": "uk",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/df847d0a972a47449fdbcfb6d0552db4?Signature=3Eg3y4sxqiCqbOiXdkha%2B6Yi%2BZm4mqrMqTB14pCZ8FRRMuk%2FyL2JMzmSEP3jkVfF%2FWRTTOeUjlfC29X8UShQDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "language": "uk",
-        "id": "f7bf4c239f414036a5d39023b6620349",
+        "id": "7c4acf58981d49ffb889c3c51c370ceb",
         "datePublished": "2027-01-01T00:01:00+02:00",
         "dateModified": "2027-01-01T00:01:00+02:00"
       }
     ],
-    "parameters": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE",
-        "value": 0.1
-      },
-      {
-        "code": "OCDS-123454-YEARS",
-        "value": 0.1
-      }
-    ],
-    "id": "2ea5a591410d48bba459e42ccc88ff2d",
+    "id": "0780c303ae4d4eeb8364cb302e57b931",
     "date": "2027-01-01T00:01:00+02:00"
   },
   "access": {

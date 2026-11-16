@@ -178,13 +178,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/378e03dd07374ae1873c8537dbd7d29c
 
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title": "футляри до державних нагород",
     "status": "draft",
+    "title": "футляри до державних нагород",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -223,13 +223,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea1
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-01-16T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "bbeae1084e134060a21c27bbfc19d7ec",
+        "id": "e4a2e0c5c9f24f3892f5420f449794f7",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -237,9 +233,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea1
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -261,7 +257,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea1
         }
       },
       {
-        "id": "554f9fb30946447badf6e4675e6ce021",
+        "id": "7a209fbd1549461bb4b435b4175243d5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -270,9 +266,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea1
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -294,6 +290,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea1
         }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-01-16T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "aboveThreshold",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -325,8 +325,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea1
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -472,7 +472,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea1
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "01138bc5e7e84ea188d95e681ade9584"
+    "id": "378e03dd07374ae1873c8537dbd7d29c"
   },
   "config": {
     "hasAuction": true,

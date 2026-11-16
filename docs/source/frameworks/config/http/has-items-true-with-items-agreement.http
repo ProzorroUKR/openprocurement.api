@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000002",
-    "frameworkID": "cbcaf826288e47eb9fb2b0b772acf2a3",
+    "frameworkID": "60814fda5baf4bc394977867cbfadfd7",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -24,23 +24,23 @@ Content-Type: application/json
         "legalName": "Назва організації"
       },
       "address": {
-        "countryName": "Україна",
         "streetAddress": "вул. Банкова, 11, корпус 1",
         "locality": "м. Київ",
         "region": "м. Київ",
-        "postalCode": "01220"
+        "postalCode": "01220",
+        "countryName": "Україна"
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "email": "aa@aa.com"
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -53,33 +53,33 @@ Content-Type: application/json
       {
         "id": "b68dbac1cb764c26b721248d7c0fa580",
         "qualificationID": "670f61175e264618a43b8a4bf7713f07",
-        "submissionID": "435ffafc8bfe4de39caee9d3b68de0e8",
+        "submissionID": "bb499c4dee7446c2a2270727a8c63499",
         "status": "active",
         "suppliers": [
           {
             "name": "Державне управління справами",
             "name_en": "State administration",
-            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00037256",
+              "legalName": "Державне управління справами",
               "legalName_en": "dus.gov.ua",
-              "uri": "http://www.dus.gov.ua/",
-              "legalName": "Державне управління справами"
+              "uri": "http://www.dus.gov.ua/"
             },
             "address": {
-              "countryName": "Україна",
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
-              "postalCode": "01220"
+              "postalCode": "01220",
+              "countryName": "Україна"
             },
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "telephone": "+0440000000",
-              "email": "aa@aa.com"
-            }
+              "email": "aa@aa.com",
+              "telephone": "+0440000000"
+            },
+            "scale": "micro"
           }
         ],
         "milestones": [
@@ -100,13 +100,12 @@ Content-Type: application/json
     "date": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "235d7e37be21494f8aa6ecd8b2117faa",
+        "id": "2e494a47368c492d80cf6124e0359af7",
         "description": "футляри до державних нагород",
-        "quantity": 5.0,
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -115,6 +114,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2027-01-03T00:00:00+02:00",
           "endDate": "2027-01-06T00:00:00+02:00"

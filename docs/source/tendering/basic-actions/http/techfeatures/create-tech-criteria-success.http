@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0de5d5b64d5147e085134c4bc27ea641/criteria?acc_token=e3ad090aabc1405f9432c9ba4101a386 HTTP/1.0
+POST /api/2.5/tenders/77da84ad4c294dfb907cc91bdf69467c/criteria?acc_token=e3ad090aabc1405f9432c9ba4101a386 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -143,7 +143,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "b2170a14909741d4b24e813ea3422349",
+      "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
       "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
       "source": "tenderer",
       "relatesTo": "item",
@@ -152,7 +152,7 @@ Content-Type: application/json
         "scheme": "LAW922",
         "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
       },
-      "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
+      "id": "449504f124db463ca7f38b4a6dcc688e",
       "legislation": [
         {
           "version": "2025-10-31",
@@ -187,23 +187,21 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "7ef6734197a1478e895c94709c687149",
           "description": "Підтверджується, що",
           "requirements": [
             {
-              "id": "0a966c026c094388bb46e815848c74e4",
               "title": "Діагональ екрану",
               "dataType": "number",
               "status": "active",
               "unit": {
-                "code": "INH",
-                "name": "дюйм"
+                "name": "дюйм",
+                "code": "INH"
               },
               "minValue": 23.8,
+              "id": "99e8a52ea2f949f180847fc3a36a35cc",
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "44301899b6a540ddad719b3ae6a9a9dc",
               "title": "Роздільна здатність",
               "dataType": "string",
               "status": "active",
@@ -211,10 +209,10 @@ Content-Type: application/json
                 "1920x1080"
               ],
               "expectedMinItems": 1,
+              "id": "534fba27eb9f4520a3efc58ef6b75cef",
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "823290faa06641d78d3ad40ab4ca88fd",
               "title": "Співвідношення сторін",
               "dataType": "string",
               "status": "active",
@@ -222,23 +220,23 @@ Content-Type: application/json
                 "16:9"
               ],
               "expectedMinItems": 1,
+              "id": "6f5eb3c2bdeb4182813a1bad8de0fe15",
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "a1f5b92b75f44deca447e3cc203a438f",
               "title": "Яскравість дисплея",
               "dataType": "integer",
               "status": "active",
               "unit": {
-                "code": "A24",
-                "name": "кд/м²"
+                "name": "кд/м²",
+                "code": "A24"
               },
               "minValue": 0,
               "maxValue": 250,
+              "id": "9a2a6129f88741ca9ba98a76a4eef07f",
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "f51cc39058494e94989ffb9ccbe55d90",
               "title": "Контрастність (статична)",
               "dataType": "string",
               "status": "active",
@@ -246,34 +244,34 @@ Content-Type: application/json
                 "1000:1"
               ],
               "expectedMinItems": 1,
+              "id": "a5d5a5be19c14e0ba6a8334dc81aa481",
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "44c265c4504443f3bce5ba843807e331",
               "title": "Кількість портів HDMI",
               "dataType": "integer",
               "status": "active",
               "unit": {
-                "code": "H87",
-                "name": "штук"
+                "name": "штук",
+                "code": "H87"
               },
               "minValue": 1,
+              "id": "57493eaada084c63b609fb86cf0465d5",
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "e9970755062d4b62a8dd06796fbb10c8",
               "title": "Кількість портів D-sub",
               "dataType": "integer",
               "status": "active",
               "unit": {
-                "code": "H87",
-                "name": "штук"
+                "name": "штук",
+                "code": "H87"
               },
               "minValue": 1,
+              "id": "e95fec27157347c6ae03cb3fe7743d91",
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "90274848704b4314811ac3a5ca8df656",
               "title": "Кабель для під’єднання",
               "dataType": "string",
               "status": "active",
@@ -281,21 +279,23 @@ Content-Type: application/json
                 "HDMI"
               ],
               "expectedMinItems": 1,
+              "id": "85db581b482445d0a58af31c2fdab484",
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "21b9a4eebb314a208809f1f338a9b3b1",
               "title": "Гарантія",
               "dataType": "integer",
               "status": "active",
               "unit": {
-                "code": "MON",
-                "name": "місяців"
+                "name": "місяців",
+                "code": "MON"
               },
               "minValue": 36,
+              "id": "36d383dfddd0481493a1c15ec81bfc07",
               "datePublished": "2027-01-01T00:00:00+02:00"
             }
-          ]
+          ],
+          "id": "9b09e23ebb724cb3a66303ac65026f54"
         }
       ]
     }

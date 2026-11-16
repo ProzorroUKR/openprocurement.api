@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/fa4dfc620aaf4f8da6da7b1677ddaf57?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
+GET /api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/989400b6e37b44288ae6b36f150d95bc?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+    "id": "989400b6e37b44288ae6b36f150d95bc",
     "status": "pending",
     "date": "2027-01-01T00:00:00+02:00",
     "value": {
@@ -48,17 +48,17 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "77c342f7d0174e74a736fea347241989",
-    "lotID": "dfc479e5269a43ba88eca688c70d3b05",
+    "bid_id": "22362ca5483047028defd421276a3633",
+    "lotID": "8a51791b85224c01ad4b295719149b7a",
     "period": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-29T00:00:00+02:00"
     },
     "milestones": [
       {
-        "description": "Обгрунтування продовження строків розгляду",
         "code": "extensionPeriod",
-        "id": "d7e558dce1314a479bb0240c2c653125",
+        "description": "Обгрунтування продовження строків розгляду",
+        "id": "bfe444173b7d460c90d8e7e87ac095bb",
         "date": "2027-01-01T00:00:00+02:00",
         "dueDate": "2027-01-29T00:00:00+02:00"
       }
@@ -67,13 +67,13 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "extensionReport",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9e73f25e6c244dedb63b178e39850910?Signature=BgUR7Gc5BoDndGmHyDa8gtnPb9KrDGv5MHpcJJWgl5wLcMbCUXLpoWVBt%2B%2FZSCiSD7y6YyiwBhz46%2ByzW1QKDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "language": "uk",
-        "id": "f376615f61544ca6bce3f6c2a7eb5f3d",
+        "id": "39be5802ebf2413a9ff0cef0983bcbe7",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner"

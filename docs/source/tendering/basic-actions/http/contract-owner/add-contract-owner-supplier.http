@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/b29ccfefe77c4e45bc0898315cdb3a6f/bids HTTP/1.0
+POST /api/2.5/tenders/3c08b9d270144467993586c2b4f31acb/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "daa74317a63e4218bff3f629c5d27225"
+          "id": "5793df98d99743d4b501fc9d593397f1"
         },
         "values": [
           "Розчин для інфузій"
@@ -51,13 +51,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "90b36f39999f4082a76c6d350ae6c086"
+          "id": "0af757c2fb1b4a448d8ce4b2dc595239"
         },
         "value": 5
       },
       {
         "requirement": {
-          "id": "f446c678114f49b99db76e28fd037fbd"
+          "id": "65acae73818d443d8d126f338c7fd1a6"
         },
         "values": [
           "Відповідь1",
@@ -101,57 +101,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b29ccfefe77c4e45bc0898315cdb3a6f/bids/66a02d79ac85445dad0f2cf5525904fd
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3c08b9d270144467993586c2b4f31acb/bids/a5f870c3a4ea470e8a8f4687ba738e67
 
 {
   "data": {
-    "requirementResponses": [
-      {
-        "requirement": {
-          "id": "daa74317a63e4218bff3f629c5d27225",
-          "title": "Форма випуску"
-        },
-        "values": [
-          "Розчин для інфузій"
-        ],
-        "id": "ae3d092cc543423aa1b4196922da57c8",
-        "classification": {
-          "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "90b36f39999f4082a76c6d350ae6c086",
-          "title": "Доза діючої речовини"
-        },
-        "value": 5,
-        "id": "6be89251de534d78bbe3756eaa166d28",
-        "unit": {
-          "code": "KGM",
-          "name": "кілограми"
-        },
-        "classification": {
-          "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "f446c678114f49b99db76e28fd037fbd",
-          "title": "Форма випуску 1"
-        },
-        "values": [
-          "Відповідь1",
-          "Відповідь2"
-        ],
-        "id": "ba5138b57b6c474a9f3ec216d24dd07a",
-        "classification": {
-          "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      }
-    ],
     "items": [
       {
         "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
@@ -221,7 +174,54 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b29ccfefe77c4e45
       }
     ],
     "status": "draft",
-    "id": "66a02d79ac85445dad0f2cf5525904fd",
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "5793df98d99743d4b501fc9d593397f1",
+          "title": "Форма випуску"
+        },
+        "values": [
+          "Розчин для інфузій"
+        ],
+        "id": "3bd267d559e34cb288902c1a236537b5",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "0af757c2fb1b4a448d8ce4b2dc595239",
+          "title": "Доза діючої речовини"
+        },
+        "value": 5,
+        "id": "42541a34e78a4f19ae3436ce799f7b30",
+        "unit": {
+          "name": "кілограми",
+          "code": "KGM"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "65acae73818d443d8d126f338c7fd1a6",
+          "title": "Форма випуску 1"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ],
+        "id": "60c9d6c2a2324eaaa88b3ef74f09f9ce",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      }
+    ],
+    "id": "a5f870c3a4ea470e8a8f4687ba738e67",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

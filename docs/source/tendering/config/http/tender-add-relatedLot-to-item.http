@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff?acc_token=bca86a8ecc4d4aa981506c9f90afa78a HTTP/1.0
+PATCH /api/2.5/tenders/f5e6a56428364271a817fe1c50c88b99?acc_token=bca86a8ecc4d4aa981506c9f90afa78a HTTP/1.0
 Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,17 +7,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "0e77ac7ddcc2484e81cb0bfdf2bd2637",
+        "id": "4b0f472add0f4cc8af5e25d25d189b80",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -36,8 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "2b1b594948f547af9eff49515789e928"
+        }
       }
     ]
   }
@@ -50,8 +50,8 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title": "футляри до державних нагород",
     "status": "draft",
+    "title": "футляри до державних нагород",
     "agreements": [
       {
         "id": "120e2d279ef84f8db8c5a993a4e58137"
@@ -98,23 +98,20 @@ Content-Type: application/json
         "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-01-16T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "0e77ac7ddcc2484e81cb0bfdf2bd2637",
+        "id": "4b0f472add0f4cc8af5e25d25d189b80",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -133,10 +130,13 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "2b1b594948f547af9eff49515789e928"
+        }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-01-16T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "competitiveOrdering",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -174,18 +174,18 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "2b1b594948f547af9eff49515789e928",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "2b1b594948f547af9eff49515789e928",
         "status": "active",
         "value": {
-          "currency": "UAH",
           "amount": 500.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "minimalStep": {
-          "currency": "UAH",
           "amount": 15.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
@@ -286,7 +286,7 @@ Content-Type: application/json
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "2b5eb9efd396490d8e3e662b7153c1ff"
+    "id": "f5e6a56428364271a817fe1c50c88b99"
   },
   "config": {
     "hasAuction": true,

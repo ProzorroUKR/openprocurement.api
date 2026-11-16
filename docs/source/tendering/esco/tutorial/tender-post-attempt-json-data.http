@@ -166,14 +166,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/85d2da9d49a34309a974e0cb03d9d47c
 
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title_en": "Services in school canteens",
-    "title": "Послуги шкільних їдалень",
     "status": "draft",
+    "title": "Послуги шкільних їдалень",
+    "title_en": "Services in school canteens",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -212,20 +212,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b26
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-02-01T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "eeb9e227cfc143d3968605e4f4aa1ca4",
+        "id": "05d0300737e64cba87a9f892a74ad513",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -243,14 +239,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b26
         }
       },
       {
-        "id": "8405e8fb34d54b5fbe926a120259df2f",
+        "id": "027633dd8dd74faea31f433d706a62f6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -268,6 +264,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b26
         }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "esco",
     "minValue": {
       "currency": "UAH",
@@ -407,7 +407,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b26
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "3eed1dac730f4b268ef8a2a9186faaba"
+    "id": "85d2da9d49a34309a974e0cb03d9d47c"
   },
   "config": {
     "hasAuction": true,

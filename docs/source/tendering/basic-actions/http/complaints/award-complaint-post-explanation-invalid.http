@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60/complaints/8449e0c561af45a28e16c2ca0e89dad5/posts?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
+POST /api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/27e7db41dfe740b4bed1811ce9316df0/complaints/89354f45cfba4806aeadc025d42fa521/posts?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Пояснення до скарги",
     "description": "Була така необхідність",
     "recipient": "complaint_owner",
-    "relatedObjection": "1badb18021f24b97adc12c6f36762137"
+    "relatedObjection": "8998cbd816c842feb84a37b776afc54b"
   }
 }
 

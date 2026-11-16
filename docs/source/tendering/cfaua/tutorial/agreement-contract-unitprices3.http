@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/agreements/9ed77f9be3594c058f334504330db2a0/contracts/962f56827dfc4fefa1366e9451f2a0ba?acc_token=2a6de43658e2421ebba95a5081d6b8e7 HTTP/1.0
+PATCH /api/2.5/tenders/1a7d51312dc14819b08cd100f828fec0/agreements/9ed77f9be3594c058f334504330db2a0/contracts/962f56827dfc4fefa1366e9451f2a0ba?acc_token=2a6de43658e2421ebba95a5081d6b8e7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "unitPrices": [
       {
-        "relatedItem": "fc82244e20cd47cf985e40b362a78cc7",
+        "relatedItem": "c2f538bf23ba43bb95b5fc64fd15f4ff",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       },
       {
-        "relatedItem": "7cb44f6498334186a6ce95698d970c67",
+        "relatedItem": "90fdc3c9845a49e199885b178e01cb2c",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -60,24 +60,24 @@ Content-Type: application/json
     ],
     "unitPrices": [
       {
-        "relatedItem": "fc82244e20cd47cf985e40b362a78cc7",
+        "relatedItem": "c2f538bf23ba43bb95b5fc64fd15f4ff",
         "value": {
-          "currency": "UAH",
           "amount": 0.5,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         }
       },
       {
-        "relatedItem": "7cb44f6498334186a6ce95698d970c67",
+        "relatedItem": "90fdc3c9845a49e199885b178e01cb2c",
         "value": {
-          "currency": "UAH",
           "amount": 0.5,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         }
       }
     ],
-    "awardID": "dca3e8cac9e54549a5f897bc4692be60",
-    "bidID": "92751d52c5ca4c57a05b7a86f5dacaf2",
+    "awardID": "87ebb3976cfa415197a2250afadc0a03",
+    "bidID": "5ff15b6ffde94405b05fb0bba2fcedc1",
     "date": "2027-01-01T00:02:01+02:00"
   }
 }

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/b5b8170db7cd44bc96ddc158023c3192?acc_token=e821726838304fff98409ab63dc9e230 HTTP/1.0
+PATCH /api/2.5/tenders/44189e39611e4a73ba710562f4c4e9d1/bids/ea2134457d2240f58d2e46dbdac2f789?acc_token=e821726838304fff98409ab63dc9e230 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "67dea3c4aabb41469f3f500178762300",
+        "id": "d3a0a937a9aa4a29890c61f0a66e64d8",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -28,7 +28,7 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
+        "id": "3fb10441035a453b9e6e37e42a339bc5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -37,6 +37,16 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amountPercentage": 50.0
+        },
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -65,31 +75,21 @@ Content-Type: application/json
     ],
     "status": "pending",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "b5b8170db7cd44bc96ddc158023c3192",
+    "id": "ea2134457d2240f58d2e46dbdac2f789",
     "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "5f4600dbd2014d69aca4bb919b34f1da",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
+        "language": "uk",
+        "id": "e91db889b83b461195bb3b9511fbd678",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/538464f12cbd43c8bd9b3cbf0f4247f2?Signature=u1B7sYL8z3Ln6DTCRNsAfwcN3Y8vEtNqm5eS1a6lbaxljYs1hfvdrRMmMyqUp6D1Pr4sfiBSn5oRcOBV6JgHCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amountPercentage": 50.0
-        },
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
-        "status": "pending",
-        "date": "2027-01-01T00:00:00+02:00"
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ],
     "submissionDate": "2027-01-01T00:00:00+02:00"

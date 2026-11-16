@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/cbcaf826288e47eb9fb2b0b772acf2a3?acc_token=0f2f2fe38721429aa3306518dd9dd942 HTTP/1.0
+PATCH /api/2.5/frameworks/60814fda5baf4bc394977867cbfadfd7?acc_token=0f2f2fe38721429aa3306518dd9dd942 HTTP/1.0
 Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,16 +18,37 @@ Content-Type: application/json
     "prettyID": "UA-F-2027-01-01-000004",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
+    "frameworkType": "dynamicPurchasingSystem",
     "status": "active",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
     "items": [
       {
-        "id": "235d7e37be21494f8aa6ecd8b2117faa",
+        "id": "2e494a47368c492d80cf6124e0359af7",
         "description": "футляри до державних нагород",
-        "quantity": 5.0,
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -36,6 +57,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2027-01-03T00:00:00+02:00",
           "endDate": "2027-01-06T00:00:00+02:00"
@@ -54,9 +76,9 @@ Content-Type: application/json
       }
     ],
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -73,28 +95,6 @@ Content-Type: application/json
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2028-02-05T00:00:00+02:00"
     },
-    "frameworkType": "dynamicPurchasingSystem",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "legalName": "Назва організації"
-      },
-      "address": {
-        "countryName": "Україна",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "email": "aa@aa.com"
-      },
-      "kind": "general"
-    },
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-15T00:00:00+02:00",
@@ -105,7 +105,7 @@ Content-Type: application/json
       "endDate": "2028-01-06T00:00:00+02:00"
     },
     "next_check": "2027-01-16T00:00:00+02:00",
-    "id": "cbcaf826288e47eb9fb2b0b772acf2a3"
+    "id": "60814fda5baf4bc394977867cbfadfd7"
   },
   "config": {
     "restrictedDerivatives": false,

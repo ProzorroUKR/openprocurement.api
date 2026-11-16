@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/8887db77f71c4a0496b39ac2c4eea78c/changes/4d2ff9f48f7c44f58df69aad8b60bbb9?acc_token=9870067ea6e64d14adf4016d24d15f0c HTTP/1.0
+PATCH /api/2.5/agreements/8887db77f71c4a0496b39ac2c4eea78c/changes/14849a8b72d1405fb131a61875e43c3a?acc_token=9870067ea6e64d14adf4016d24d15f0c HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "4d2ff9f48f7c44f58df69aad8b60bbb9",
+    "id": "14849a8b72d1405fb131a61875e43c3a",
     "status": "active",
     "date": "2027-01-01T00:00:00+02:00",
     "rationale": "Друга і третя поставка має бути розфасована",
@@ -25,7 +25,7 @@ Content-Type: application/json
     "rationaleType": "taxRate",
     "modifications": [
       {
-        "itemId": "1dec43e2ca1b4b8ea0abd024b9931a47",
+        "itemId": "57a91685e3474a7285208c407f685f73",
         "factor": 0.1605
       }
     ]

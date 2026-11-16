@@ -9,9 +9,32 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001-a-ea4a5ba075dd404db964b580ae32918c1",
-    "status": "active",
-    "owner": "broker",
     "agreementType": "closeFrameworkAgreementUA",
+    "status": "active",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-IPN",
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
     "contracts": [
       {
         "id": "633a51fd12d44a77ab03e65ccd808aa7",
@@ -43,11 +66,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 14.93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 14.93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -85,11 +108,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 14.93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 14.93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -127,11 +150,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 14.93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 14.93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -140,15 +163,16 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
+    "owner": "broker",
     "items": [
       {
-        "id": "1dec43e2ca1b4b8ea0abd024b9931a47",
+        "id": "57a91685e3474a7285208c407f685f73",
         "description": "футляри до державних нагород",
-        "quantity": 5.0,
+        "description_en": "Cases for state awards",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -157,6 +181,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -172,35 +197,10 @@ Content-Type: application/json
           "name": "item",
           "code": "KGM"
         },
-        "description_en": "Cases for state awards",
         "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
       }
     ],
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "name_en": "State administration",
-      "identifier": {
-        "scheme": "UA-IPN",
-        "id": "00037256",
-        "legalName_en": "dus.gov.ua",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "kind": "general",
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "name_en": "State administration",
-        "telephone": "+0440000000",
-        "availableLanguage": "uk"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      }
-    },
-    "tender_id": "4a370cddba9e4d9791dff10c6e02b9ee",
+    "tender_id": "f789f84ec0d64a2285f7dc2654685079",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -231,7 +231,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "changes": [
       {
-        "id": "4d2ff9f48f7c44f58df69aad8b60bbb9",
+        "id": "14849a8b72d1405fb131a61875e43c3a",
         "status": "active",
         "date": "2027-01-01T00:00:00+02:00",
         "rationale": "Друга і третя поставка має бути розфасована",
@@ -240,7 +240,7 @@ Content-Type: application/json
         "rationaleType": "taxRate",
         "modifications": [
           {
-            "itemId": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "itemId": "57a91685e3474a7285208c407f685f73",
             "factor": 0.1605
           }
         ]
@@ -248,15 +248,15 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "relatedItem": "4d2ff9f48f7c44f58df69aad8b60bbb9",
-        "id": "fde2e2edbb704b668d459653bef6dd57",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_changes.doc",
         "format": "application/msword",
+        "language": "uk",
+        "relatedItem": "14849a8b72d1405fb131a61875e43c3a",
+        "id": "d03a1e89fe414a16acdb73be0ebf3e54",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6c343bcdd7d241068f88138036b4e52a?Signature=cU7WXirw65OUUhuS5lZDppSTLBBAEOZ6GMLIefKy1mqh5Qe9B9T8b%2B%2BfoucGKMRZRL2%2FSJeoZWpypUlbWdU5DA%3D%3D&KeyID=a8968c46",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk",
         "documentOf": "change"
       }
     ],

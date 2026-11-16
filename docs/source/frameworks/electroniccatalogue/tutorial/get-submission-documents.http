@@ -1,4 +1,4 @@
-GET /api/2.5/submissions/520fbe0c81bf4a6b825b96215abaed9f/documents HTTP/1.0
+GET /api/2.5/submissions/ef314912f23c4378856f7e721407d2e2/documents HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,13 +9,13 @@ Content-Type: application/json
 {
   "data": [
     {
-      "hash": "md5:00000000000000000000000000000000",
+      "confidentiality": "public",
       "title": "submission_docs.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d9006a35da3b4389bf1be5cd34a3071a?Signature=i8SHbMgp8F%2BDTPKCmPFxk0f7CTww8xsbmAdwhOky%2FgyFcAIuTveMDAT69TBjFyLOOYgdCosl%2FL%2FQ6JWzoPq%2BCA%3D%3D&KeyID=a8968c46",
       "language": "uk",
-      "confidentiality": "public",
-      "id": "be00267ed6b544669151e08c44c748c1",
+      "hash": "md5:00000000000000000000000000000000",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d9006a35da3b4389bf1be5cd34a3071a?Signature=i8SHbMgp8F%2BDTPKCmPFxk0f7CTww8xsbmAdwhOky%2FgyFcAIuTveMDAT69TBjFyLOOYgdCosl%2FL%2FQ6JWzoPq%2BCA%3D%3D&KeyID=a8968c46",
+      "id": "dd71eaf62bd24e1ebf7d9f3d3901a764",
       "datePublished": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00"
     }

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/fa4dfc620aaf4f8da6da7b1677ddaf57?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
+PATCH /api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/989400b6e37b44288ae6b36f150d95bc?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -14,20 +14,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/27e7db41dfe740b4bed1811ce9316df0
 
 {
   "data": {
     "milestones": [
       {
-        "id": "d7e558dce1314a479bb0240c2c653125",
+        "id": "bfe444173b7d460c90d8e7e87ac095bb",
+        "code": "extensionPeriod",
         "dueDate": "2027-01-29T00:00:00+02:00",
         "description": "Обгрунтування продовження строків розгляду",
-        "date": "2027-01-01T00:00:00+02:00",
-        "code": "extensionPeriod"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "id": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+    "id": "989400b6e37b44288ae6b36f150d95bc",
     "status": "unsuccessful",
     "date": "2027-01-01T00:00:00+02:00",
     "value": {
@@ -67,49 +67,49 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         }
       }
     ],
-    "bid_id": "77c342f7d0174e74a736fea347241989",
-    "lotID": "dfc479e5269a43ba88eca688c70d3b05",
+    "bid_id": "22362ca5483047028defd421276a3633",
+    "lotID": "8a51791b85224c01ad4b295719149b7a",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "extensionReport",
-        "id": "f376615f61544ca6bce3f6c2a7eb5f3d",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "39be5802ebf2413a9ff0cef0983bcbe7",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9e73f25e6c244dedb63b178e39850910?Signature=BgUR7Gc5BoDndGmHyDa8gtnPb9KrDGv5MHpcJJWgl5wLcMbCUXLpoWVBt%2B%2FZSCiSD7y6YyiwBhz46%2ByzW1QKDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       },
       {
         "confidentiality": "public",
-        "id": "39775886f95642309cf5384467722739",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Unsuccessful_Reason.pdf",
         "format": "application/pdf",
+        "language": "uk",
+        "id": "7540e3c5ca704cfc99e3bebf5d9137f1",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4a2c835c20234675996acdb75895c85d?Signature=iHxmOhpjYq6HoLfeXXW9NG0%2Bj8YcKzwiehIwB6tN80u9XbtRgHkyE0rU82W0sRHgSnMD%2BE1lqCGU%2F%2BdGqAHlAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       },
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "b9365c5f6488463a867d78e43e8111ad",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "a2f0c58ca3984962b483a558cf312c6c",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b2a756363fa944d0a1f114ad61596941?Signature=8cPgccCsJm9usNSCzp3G3yLxIDRxzosP%2F0%2FvDRibTxJqlosOS4hYfXzGUP6CYl7yLbNABiFw9HaA4fv4HnOeDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {

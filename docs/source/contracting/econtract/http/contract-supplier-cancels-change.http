@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/0229d3c171f64d19bbb10dcac0a4b49e/cancellations?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
+POST /api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/4495d10fc0824189af7b9afbbe386bcf/cancellations?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
 Authorization: Bearer broker6
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,7 +18,7 @@ Content-Type: application/json
   "data": {
     "reason": "not actual change",
     "reasonType": "requiresChanges",
-    "id": "7d7f63e27c1b48b199af12d9525ceec4",
+    "id": "92f21f4ad03c4126915f545b02834951",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "status": "active",
     "author": "supplier"

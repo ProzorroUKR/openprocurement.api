@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/60ce681b504d42d5a9c88d2e99426985 HTTP/1.0
+GET /api/2.5/frameworks/ebe5fe5ff57f43dd900741a5a038f0bc HTTP/1.0
 Authorization: Bearer token
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,11 +11,33 @@ Content-Type: application/json
     "prettyID": "UA-F-2023-01-01-000001",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
+    "frameworkType": "electronicCatalogue",
     "status": "active",
+    "procuringEntity": {
+      "name": "Повна назва юридичної організації.",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "40996564",
+        "legalName": "Назва організації(ЦЗО)"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Назва організації(ЦЗО)",
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
+      },
+      "kind": "central"
+    },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -32,28 +54,6 @@ Content-Type: application/json
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2024-02-25T00:00:00+02:00"
     },
-    "frameworkType": "electronicCatalogue",
-    "procuringEntity": {
-      "name": "Повна назва юридичної організації.",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "40996564",
-        "legalName": "Назва організації(ЦЗО)"
-      },
-      "address": {
-        "countryName": "Україна",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220"
-      },
-      "contactPoint": {
-        "name": "Назва організації(ЦЗО)",
-        "telephone": "+0440000000",
-        "email": "aa@aa.com"
-      },
-      "kind": "central"
-    },
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-14T00:00:00+02:00",
@@ -65,7 +65,7 @@ Content-Type: application/json
     },
     "next_check": "2023-01-28T00:00:00+02:00",
     "agreementID": "6a527caaceb94ad398f77579768a6d67",
-    "id": "60ce681b504d42d5a9c88d2e99426985"
+    "id": "ebe5fe5ff57f43dd900741a5a038f0bc"
   },
   "config": {
     "restrictedDerivatives": false,

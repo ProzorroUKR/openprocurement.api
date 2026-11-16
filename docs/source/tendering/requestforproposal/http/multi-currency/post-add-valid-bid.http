@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/da2f9b55865040d385492b6c64bdb121/bids HTTP/1.0
+POST /api/2.5/tenders/815a850b23af4fbe956d5c3c52cdef88/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -44,22 +44,22 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 200,
           "currency": "USD"
         },
-        "relatedLot": "48bdc93d443647c48e7c604cdb5196a2"
+        "relatedLot": "25cf713f9c4146978cc9dcdd141d86fb"
       },
       {
         "value": {
           "amount": 400,
           "currency": "EUR"
         },
-        "relatedLot": "f1f783c62bb344558b4c1774fff00ca5"
+        "relatedLot": "d89d209f35d544d1a1521bf7fc260955"
       }
     ],
     "items": [
       {
         "quantity": 1,
         "description": "папір",
-        "id": "3efeda87127145b28f48da8634dd4cf3",
-        "relatedLot": "48bdc93d443647c48e7c604cdb5196a2",
+        "id": "b0f9a0d9571a4e22b5a2832a1381836f",
+        "relatedLot": "25cf713f9c4146978cc9dcdd141d86fb",
         "unit": {
           "name": "папір",
           "code": "KGM",
@@ -73,8 +73,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "quantity": 1,
         "description": "степлер",
-        "id": "c9b65b3130b14a83baabfff4a6725c24",
-        "relatedLot": "f1f783c62bb344558b4c1774fff00ca5",
+        "id": "b7521be9e63c423fa762ef74726b786f",
+        "relatedLot": "d89d209f35d544d1a1521bf7fc260955",
         "unit": {
           "name": "кілограм",
           "code": "KGM",
@@ -92,13 +92,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/da2f9b55865040d385492b6c64bdb121/bids/c3e4f5d69cee4fe0b00115013f318e77
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/815a850b23af4fbe956d5c3c52cdef88/bids/936b686cd9384084ae0da3ee347f2d63
 
 {
   "data": {
     "items": [
       {
-        "id": "3efeda87127145b28f48da8634dd4cf3",
+        "id": "b0f9a0d9571a4e22b5a2832a1381836f",
         "description": "папір",
         "unit": {
           "name": "папір",
@@ -110,10 +110,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/da2f9b55865040d3
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "48bdc93d443647c48e7c604cdb5196a2"
+        "relatedLot": "25cf713f9c4146978cc9dcdd141d86fb"
       },
       {
-        "id": "c9b65b3130b14a83baabfff4a6725c24",
+        "id": "b7521be9e63c423fa762ef74726b786f",
         "description": "степлер",
         "unit": {
           "name": "кілограм",
@@ -125,7 +125,29 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/da2f9b55865040d3
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "f1f783c62bb344558b4c1774fff00ca5"
+        "relatedLot": "d89d209f35d544d1a1521bf7fc260955"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 200.0,
+          "currency": "USD",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "25cf713f9c4146978cc9dcdd141d86fb",
+        "date": "2027-01-01T00:00:00+02:00"
+      },
+      {
+        "status": "pending",
+        "value": {
+          "amount": 400.0,
+          "currency": "EUR",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "d89d209f35d544d1a1521bf7fc260955",
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -160,30 +182,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/da2f9b55865040d3
         }
       }
     ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 200.0,
-          "currency": "USD",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "48bdc93d443647c48e7c604cdb5196a2",
-        "date": "2027-01-01T00:00:00+02:00"
-      },
-      {
-        "status": "pending",
-        "value": {
-          "amount": 400.0,
-          "currency": "EUR",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "f1f783c62bb344558b4c1774fff00ca5",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "status": "draft",
-    "id": "c3e4f5d69cee4fe0b00115013f318e77",
+    "id": "936b686cd9384084ae0da3ee347f2d63",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

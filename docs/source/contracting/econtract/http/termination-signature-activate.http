@@ -16,18 +16,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details/documents/9fe10f27ccdf46ec855e95c65e919573
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details/documents/e47fe86ce1174ac19ea6d431499c9e05
 
 {
   "data": {
     "confidentiality": "public",
-    "hash": "md5:00000000000000000000000000000000",
+    "documentType": "terminationReport",
     "title": "termination_sign.p7s",
     "format": "application/pkcs7-signature",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a80b4bc8414f47359b80c29da2eb98fd?Signature=ikQrOdxi2j3Ff8513SRCRAa5Z8Sycv%2FcEyoL2bhqxcw4wCA4tcsUwMuSO%2Fv3cIFZuldYiYAuCdN0wJwZcrjLAg%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
-    "documentType": "terminationReport",
-    "id": "9fe10f27ccdf46ec855e95c65e919573",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a80b4bc8414f47359b80c29da2eb98fd?Signature=ikQrOdxi2j3Ff8513SRCRAa5Z8Sycv%2FcEyoL2bhqxcw4wCA4tcsUwMuSO%2Fv3cIFZuldYiYAuCdN0wJwZcrjLAg%3D%3D&KeyID=a8968c46",
+    "id": "e47fe86ce1174ac19ea6d431499c9e05",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "author": "buyer"

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/529089515689411f84e10eb418118905/awards/f7c812762940445d80d2fc80d5db2b1f?acc_token=824e314dadea45d7ac8e49e0ff8477b9 HTTP/1.0
+PATCH /api/2.5/tenders/4e7591689c2f4791924d9c8ae340523a/awards/4ac4160234bb404bb30254af5f8c6126?acc_token=824e314dadea45d7ac8e49e0ff8477b9 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -13,11 +13,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/529089515689411f84e10eb418118905/awards/b0776013ac4c4f27a5c5f1ee311e9a96
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4e7591689c2f4791924d9c8ae340523a/awards/3d2e666c085544dca43485456b57bedf
 
 {
   "data": {
-    "id": "f7c812762940445d80d2fc80d5db2b1f",
+    "id": "4ac4160234bb404bb30254af5f8c6126",
     "status": "unsuccessful",
     "date": "2027-01-01T00:01:00+02:00",
     "value": {
@@ -26,8 +26,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/529089515689411f
       "valueAddedTaxIncluded": false
     },
     "weightedValue": {
-      "currency": "UAH",
       "amount": 388.11,
+      "currency": "UAH",
       "denominator": 1.2857142857142858
     },
     "suppliers": [
@@ -52,22 +52,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/529089515689411f
         "scale": "micro"
       }
     ],
-    "bid_id": "2ea5a591410d48bba459e42ccc88ff2d",
+    "bid_id": "0780c303ae4d4eeb8364cb302e57b931",
     "lotID": "66bd7aa82b7d403cb3626390997acbaf",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "8b50132496cb45b48961611cbf16dec5",
-        "datePublished": "2027-01-01T00:01:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "64c936ad985b47c19be999328999d32a",
+        "datePublished": "2027-01-01T00:01:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a499d50a22e54269a4c49b72eeb1ec6b?Signature=ezIzVFjQ2XwLY0TlkY6KWB36dyNtPZacTbX2mUvU5pBiv%2Bx37I6gsMbRy7g%2BBCTI4MtHA4UvkM6OePIE3N8RCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:01:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {

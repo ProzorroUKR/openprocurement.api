@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
+PATCH /api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/27e7db41dfe740b4bed1811ce9316df0?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,11 +12,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6e80a97f92474fe087b1b70e3676ed42
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/249599c17fb240fc8fa5ced2d7fdec3d
 
 {
   "data": {
-    "id": "6fe0daff4b544550ac5f0dc10b5a3f60",
+    "id": "27e7db41dfe740b4bed1811ce9316df0",
     "status": "cancelled",
     "date": "2027-01-01T00:00:03+02:00",
     "value": {
@@ -56,51 +56,57 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         }
       }
     ],
-    "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
-    "lotID": "dfc479e5269a43ba88eca688c70d3b05",
+    "bid_id": "447a861dd88f4554a8b89257db64542e",
+    "lotID": "8a51791b85224c01ad4b295719149b7a",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-01T00:00:03+02:00"
     },
     "complaints": [
       {
-        "id": "a23523ad0da9415a876c876f4ab5ada1",
+        "id": "8a160d06c9f34d58a82974179af02233",
         "complaintID": "UA-2027-01-01-000001-a.a2",
         "date": "2027-01-01T00:00:03+02:00",
         "status": "resolved",
         "documents": [
           {
             "confidentiality": "public",
-            "id": "59ce2a6d53c34220bd987c4a6df498b1",
-            "datePublished": "2027-01-01T00:00:03+02:00",
-            "hash": "md5:00000000000000000000000000000000",
             "title": "Complaint_Attachment.pdf",
             "format": "application/pdf",
+            "language": "uk",
+            "id": "3c66f33260bd474cbd08338b5ec2e98d",
+            "datePublished": "2027-01-01T00:00:03+02:00",
+            "hash": "md5:00000000000000000000000000000000",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/387779db79c3467fa8b929a750b5dbc6?Signature=%2B61%2FzHlwM2Do1rNjoS4OBZ2LnROIdHfx8JQuqiiwO%2FJNdUgC7MihOoc4rOQr7yJi7Ik%2BME2t4mPeEsuBYZRKCg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:03+02:00",
-            "author": "complaint_owner",
-            "language": "uk"
+            "author": "complaint_owner"
           },
           {
             "confidentiality": "public",
-            "id": "d240b10139e943338a20ec7abbe6a6ae",
-            "datePublished": "2027-01-01T00:00:03+02:00",
-            "hash": "md5:00000000000000000000000000000000",
             "title": "ComplaintResolution.pdf",
             "format": "application/pdf",
+            "language": "uk",
+            "id": "6d09fd980ad14a2e8c1fd2d36de162c9",
+            "datePublished": "2027-01-01T00:00:03+02:00",
+            "hash": "md5:00000000000000000000000000000000",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0907c76b4dbe46c79c1f0b9e752f1e49?Signature=7npSXwqz4bLWUO4uIv6FF2Tob%2FAPHc82WdB0mbzSOxF0RSKTA7cgmMqqNJ%2FAzR2CQmxeQnyRU4cKw2WbZ6XBBQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:03+02:00",
-            "author": "aboveThresholdReviewers",
-            "language": "uk"
+            "author": "aboveThresholdReviewers"
           }
         ],
         "type": "complaint",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "ДКП «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -112,12 +118,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "uri": "http://www.sc.gov.ua/",
-            "id": "00137256",
-            "legalName": "ДКП «Школяр»"
           }
         },
         "title": "Недостатньо інформації",
@@ -125,11 +125,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateSubmitted": "2027-01-01T00:00:03+02:00",
         "objections": [
           {
-            "id": "33b7fae0f6184f618311e5110eda78e6",
+            "id": "b2ba2afc537c433c88a07e6785f998f2",
             "title": "My objection",
             "description": "Test objection",
             "relatesTo": "award",
-            "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+            "relatedItem": "989400b6e37b44288ae6b36f150d95bc",
             "classification": {
               "scheme": "violation_amcu",
               "id": "corruptionDescription",
@@ -137,14 +137,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             },
             "requestedRemedies": [
               {
-                "id": "0215ec3cc675485f91867ffee94d6793",
+                "id": "61ef92ed6de54a5699484d16682ef061",
                 "type": "setAsideAward",
                 "description": "test"
               }
             ],
             "arguments": [
               {
-                "id": "f024afaba1e047728c9ba372d028fa80",
+                "id": "52e8ac08b7f7417db1e6d395cd608ea7",
                 "description": "test argument"
               }
             ],
@@ -164,15 +164,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "tendererActionDate": "2027-01-01T00:00:03+02:00"
       },
       {
-        "id": "2c41012a3a0e4e2383b19797af712aed",
+        "id": "d0eeb862c408465cabd71bfc36357c72",
         "complaintID": "UA-2027-01-01-000001-a.a3",
         "date": "2027-01-01T00:00:03+02:00",
         "status": "invalid",
         "type": "complaint",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "ДКП «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -184,12 +190,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "uri": "http://www.sc.gov.ua/",
-            "id": "00137256",
-            "legalName": "ДКП «Школяр»"
           }
         },
         "title": "Недостатньо інформації",
@@ -197,11 +197,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateSubmitted": "2027-01-01T00:00:03+02:00",
         "objections": [
           {
-            "id": "13d3ddae5b0a40abb66b7d20aecabe5a",
+            "id": "e5c58f846a5e4f4384fa2d29eff4a5f7",
             "title": "My objection",
             "description": "Test objection",
             "relatesTo": "award",
-            "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+            "relatedItem": "989400b6e37b44288ae6b36f150d95bc",
             "classification": {
               "scheme": "violation_amcu",
               "id": "corruptionDescription",
@@ -209,14 +209,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             },
             "requestedRemedies": [
               {
-                "id": "6f7efe5f680547029fb3f863c299c104",
+                "id": "7f04b4609b814aaeaaefc04dce697cfb",
                 "type": "setAsideAward",
                 "description": "test"
               }
             ],
             "arguments": [
               {
-                "id": "c0a06faaf6004d6f9b63046d8f98e1e0",
+                "id": "688189838b34494db5d26fd039e3e69d",
                 "description": "test argument"
               }
             ],
@@ -232,15 +232,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "acceptance": false
       },
       {
-        "id": "abf21cd37327419d8eb358bab966f004",
+        "id": "52dfda425010452ea6bb5626a92dba9e",
         "complaintID": "UA-2027-01-01-000001-a.a4",
         "date": "2027-01-01T00:00:03+02:00",
         "status": "declined",
         "type": "complaint",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "ДКП «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -252,12 +258,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "uri": "http://www.sc.gov.ua/",
-            "id": "00137256",
-            "legalName": "ДКП «Школяр»"
           }
         },
         "title": "Недостатньо інформації",
@@ -265,11 +265,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateSubmitted": "2027-01-01T00:00:03+02:00",
         "objections": [
           {
-            "id": "2305bf4e0fa342a7bf90c0c135193ea7",
+            "id": "fadb6ca3354640dc966762fad8e8f16c",
             "title": "My objection",
             "description": "Test objection",
             "relatesTo": "award",
-            "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+            "relatedItem": "989400b6e37b44288ae6b36f150d95bc",
             "classification": {
               "scheme": "violation_amcu",
               "id": "corruptionDescription",
@@ -277,14 +277,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             },
             "requestedRemedies": [
               {
-                "id": "09d6cd9288964e439a0d7a17f1536495",
+                "id": "110136c128174e71bc981752cb25d6fa",
                 "type": "setAsideAward",
                 "description": "test"
               }
             ],
             "arguments": [
               {
-                "id": "dd20dcf9fe6f428aa64374bd0f27821e",
+                "id": "f970bb65ff2a4462ab414e0594259e74",
                 "description": "test argument"
               }
             ],
@@ -302,15 +302,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateDecision": "2027-01-01T00:00:03+02:00"
       },
       {
-        "id": "6adf3c9ff3c74b1dbd8042972dad32e3",
+        "id": "65fc88170c0e4fc88f31f0b5332c0e59",
         "complaintID": "UA-2027-01-01-000001-a.a5",
         "date": "2027-01-01T00:00:03+02:00",
         "status": "declined",
         "type": "complaint",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "ДКП «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -322,12 +328,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "uri": "http://www.sc.gov.ua/",
-            "id": "00137256",
-            "legalName": "ДКП «Школяр»"
           }
         },
         "title": "Недостатньо інформації",
@@ -335,11 +335,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateSubmitted": "2027-01-01T00:00:03+02:00",
         "objections": [
           {
-            "id": "3905034a7b4a4923a22be9f6b4dc576d",
+            "id": "02cbaed106644f4aa82b7dcb94b7a9f3",
             "title": "My objection",
             "description": "Test objection",
             "relatesTo": "award",
-            "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+            "relatedItem": "989400b6e37b44288ae6b36f150d95bc",
             "classification": {
               "scheme": "violation_amcu",
               "id": "corruptionDescription",
@@ -347,14 +347,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             },
             "requestedRemedies": [
               {
-                "id": "bb52b011701d4793b047d96952b8f04e",
+                "id": "204df02a55374b3f8b8d3684740ea89e",
                 "type": "setAsideAward",
                 "description": "test"
               }
             ],
             "arguments": [
               {
-                "id": "15d74b22fc9a47b5b277150db0f02c3e",
+                "id": "e05a3b0e7a5649c4ba06167047991f24",
                 "description": "test argument"
               }
             ],
@@ -373,15 +373,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateDecision": "2027-01-01T00:00:03+02:00"
       },
       {
-        "id": "f38b06a18d424d889def0aec892c098a",
+        "id": "b48b0384f9cc45bd8a01a7a9de50827a",
         "complaintID": "UA-2027-01-01-000001-a.a6",
         "date": "2027-01-01T00:00:03+02:00",
         "status": "stopped",
         "type": "complaint",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "ДКП «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -393,12 +399,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "uri": "http://www.sc.gov.ua/",
-            "id": "00137256",
-            "legalName": "ДКП «Школяр»"
           }
         },
         "title": "Недостатньо інформації",
@@ -406,11 +406,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateSubmitted": "2027-01-01T00:00:03+02:00",
         "objections": [
           {
-            "id": "051b315764804995a2c058bfc8147601",
+            "id": "60196895771846408af0ae6e3c640c66",
             "title": "My objection",
             "description": "Test objection",
             "relatesTo": "award",
-            "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+            "relatedItem": "989400b6e37b44288ae6b36f150d95bc",
             "classification": {
               "scheme": "violation_amcu",
               "id": "corruptionDescription",
@@ -418,14 +418,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             },
             "requestedRemedies": [
               {
-                "id": "1166e3b28ad64de7b1e4d9dd347ec105",
+                "id": "c93cd6f3b561463b9f5dc51a2d012506",
                 "type": "setAsideAward",
                 "description": "test"
               }
             ],
             "arguments": [
               {
-                "id": "80d4b44752c4456789c108d53ad62424",
+                "id": "6da23b50812d4bd8bb0297c1a7d576d0",
                 "description": "test argument"
               }
             ],
@@ -446,7 +446,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateCanceled": "2027-01-01T00:00:03+02:00"
       },
       {
-        "id": "8213d84c7c314c0da6e7eb5af95623a1",
+        "id": "18ac724f54364c0284a61cab4402b76c",
         "complaintID": "UA-2027-01-01-000001-a.a7",
         "date": "2027-01-01T00:00:03+02:00",
         "author": {
@@ -479,11 +479,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateSubmitted": "2027-01-01T00:00:03+02:00",
         "satisfied": true,
         "type": "claim",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c"
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e"
       },
       {
-        "id": "9771b2cd621644caa9b6893ab3668549",
+        "id": "7c7fd46c7ab6495ca69b46c442a79e94",
         "complaintID": "UA-2027-01-01-000001-a.a8",
         "date": "2027-01-01T00:00:03+02:00",
         "author": {
@@ -516,19 +516,25 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateSubmitted": "2027-01-01T00:00:03+02:00",
         "satisfied": false,
         "type": "claim",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c"
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e"
       },
       {
-        "id": "8449e0c561af45a28e16c2ca0e89dad5",
+        "id": "89354f45cfba4806aeadc025d42fa521",
         "complaintID": "UA-2027-01-01-000001-a.a9",
         "date": "2027-01-01T00:00:03+02:00",
         "status": "pending",
         "type": "complaint",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "ДКП «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -540,23 +546,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "uri": "http://www.sc.gov.ua/",
-            "id": "00137256",
-            "legalName": "ДКП «Школяр»"
           }
         },
         "title": "Недостатньо інформації",
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
         "objections": [
           {
-            "id": "1badb18021f24b97adc12c6f36762137",
+            "id": "8998cbd816c842feb84a37b776afc54b",
             "title": "My objection",
             "description": "Test objection",
             "relatesTo": "award",
-            "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
+            "relatedItem": "989400b6e37b44288ae6b36f150d95bc",
             "classification": {
               "scheme": "violation_amcu",
               "id": "corruptionDescription",
@@ -564,14 +564,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             },
             "requestedRemedies": [
               {
-                "id": "98fb13cfbb854acbbc5120109dc309a9",
+                "id": "20a2faa2099c4079a545a42346658c36",
                 "type": "setAsideAward",
                 "description": "test"
               }
             ],
             "arguments": [
               {
-                "id": "df16b1928ad047f8bf9867c940aaa2dc",
+                "id": "e1a363ffb25748489fae6dbbce20fe8d",
                 "description": "test argument"
               }
             ],
@@ -588,8 +588,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "title": "Уточнення по вимозі",
             "description": "Відсутній документ",
             "recipient": "complaint_owner",
-            "relatedObjection": "1badb18021f24b97adc12c6f36762137",
-            "id": "9acfb4eadf2f47a8afa5fb412dffe7b9",
+            "relatedObjection": "8998cbd816c842feb84a37b776afc54b",
+            "id": "4bcfe0c45b6642348e801084edbda1fb",
             "datePublished": "2027-01-01T00:00:03+02:00",
             "author": "aboveThresholdReviewers"
           },
@@ -597,9 +597,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "title": "Уточнення по вимозі",
             "description": "Додано документ",
             "recipient": "aboveThresholdReviewers",
-            "relatedPost": "9acfb4eadf2f47a8afa5fb412dffe7b9",
-            "relatedObjection": "1badb18021f24b97adc12c6f36762137",
-            "id": "49afaacf0c9142d19554250e1a5a9848",
+            "relatedPost": "4bcfe0c45b6642348e801084edbda1fb",
+            "relatedObjection": "8998cbd816c842feb84a37b776afc54b",
+            "id": "e0117578b4a748afbf1c2648cb2d89eb",
             "datePublished": "2027-01-01T00:00:03+02:00",
             "author": "complaint_owner"
           },
@@ -607,8 +607,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "title": "Уточнення по вимозі",
             "description": "Відсутній документ",
             "recipient": "tender_owner",
-            "relatedObjection": "1badb18021f24b97adc12c6f36762137",
-            "id": "f620c7cceaf74ee8b892bb36022d3afd",
+            "relatedObjection": "8998cbd816c842feb84a37b776afc54b",
+            "id": "20528eb82c3d4ea59b0e5fbd0d30c7a4",
             "datePublished": "2027-01-01T00:00:03+02:00",
             "author": "aboveThresholdReviewers"
           },
@@ -616,17 +616,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
             "title": "Уточнення по вимозі",
             "description": "Додано документ",
             "recipient": "aboveThresholdReviewers",
-            "relatedPost": "f620c7cceaf74ee8b892bb36022d3afd",
-            "relatedObjection": "1badb18021f24b97adc12c6f36762137",
-            "id": "a322cc78d5ec4a298bc67bdbbee97b6c",
+            "relatedPost": "20528eb82c3d4ea59b0e5fbd0d30c7a4",
+            "relatedObjection": "8998cbd816c842feb84a37b776afc54b",
+            "id": "16cacd776c2543dba1dfd82a1bbde6a9",
             "datePublished": "2027-01-01T00:00:03+02:00",
             "author": "tender_owner"
           },
           {
             "title": "Пояснення до скарги",
             "description": "Була така необхідність",
-            "relatedObjection": "1badb18021f24b97adc12c6f36762137",
-            "id": "d8ee72339438498d8e9a9ec92cf5b24b",
+            "relatedObjection": "8998cbd816c842feb84a37b776afc54b",
+            "id": "264e708433dd467f990d4e507cc9e44c",
             "datePublished": "2027-01-01T00:00:03+02:00",
             "author": "tender_owner"
           }
@@ -634,14 +634,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "documents": [
           {
             "confidentiality": "public",
-            "relatedItem": "a322cc78d5ec4a298bc67bdbbee97b6c",
-            "hash": "md5:00000000000000000000000000000000",
             "title": "post_document_tender.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=ZXdIawKdRrq527SGraC6tfZnTHzMZJXce0DpWtcC0QrM8NpOiry9pITDrxvYGoUtgPn93228qwZcC9qy3O06Bg%3D%3D&KeyID=a8968c46",
             "language": "uk",
-            "id": "52f07542887a4b82ad31766e7b8bd508",
+            "relatedItem": "16cacd776c2543dba1dfd82a1bbde6a9",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=ZXdIawKdRrq527SGraC6tfZnTHzMZJXce0DpWtcC0QrM8NpOiry9pITDrxvYGoUtgPn93228qwZcC9qy3O06Bg%3D%3D&KeyID=a8968c46",
             "documentOf": "post",
+            "id": "da92639c6eb0455792cc4aa2ea4053b9",
             "datePublished": "2027-01-01T00:00:03+02:00",
             "dateModified": "2027-01-01T00:00:03+02:00",
             "author": "tender_owner"
@@ -649,22 +649,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         ]
       },
       {
-        "id": "0aabd475dd774e7a87e2eef4aec01562",
+        "id": "38efa23c1ba546118d544e3e61d1df55",
         "complaintID": "UA-2027-01-01-000001-a.a10",
         "date": "2027-01-01T00:00:03+02:00",
         "documents": [
           {
             "confidentiality": "public",
-            "id": "fda83dbc5b554e7cbad4afa0e32a012f",
-            "datePublished": "2027-01-01T00:00:03+02:00",
-            "hash": "md5:00000000000000000000000000000000",
             "title": "Complaint_Attachment.pdf",
             "format": "application/pdf",
+            "language": "uk",
+            "id": "b3450c32fdee4e669667c0003c2c6e83",
+            "datePublished": "2027-01-01T00:00:03+02:00",
+            "hash": "md5:00000000000000000000000000000000",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63b4b2815fe645caa2df84462953d6c6?Signature=xLuRNc84UZJp3AGfGhgufLwoOawxeAAJ%2FXRIM1blUyCYvFxEbd%2Bv8EIEyg9FniPs6JkHb1FIEYs%2BrSUqEd%2FQDg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:03+02:00",
-            "author": "complaint_owner",
-            "language": "uk"
+            "author": "complaint_owner"
           }
         ],
         "author": {
@@ -692,8 +692,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
         "status": "claim",
         "type": "claim",
-        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
+        "relatedLot": "8a51791b85224c01ad4b295719149b7a",
+        "bid_id": "447a861dd88f4554a8b89257db64542e",
         "dateSubmitted": "2027-01-01T00:00:03+02:00"
       }
     ],
@@ -701,16 +701,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "e695972a95124edb8852c72149830113",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "c330c5c1355542359fa95ded4bd67792",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/47e460a9bd464a1d9c3f4145b7d055c7?Signature=G6TNHFcKK%2FgpgxkX%2FgaAiFWQ9DTj%2B%2ByIEMWx8n4VkRV7o0YOIUvcC7KooLwYlnNrS6eW3WR0Ictfg3COKwBbCQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {

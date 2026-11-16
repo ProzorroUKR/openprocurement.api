@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db1b04eb8ce84e7cac926d276cb1acb7?acc_token=0dbb85b39f3042b2994a32b25ee60c71 HTTP/1.0
+PATCH /api/2.5/tenders/59a4275771034adc96aecf54bbf5f67c?acc_token=0dbb85b39f3042b2994a32b25ee60c71 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "6648baee9a954c998e50d914596e7a1f",
+        "id": "a9da8ab5e7784683a43c8ffae6a59229",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -20,9 +20,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 5.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {

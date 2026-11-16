@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/agreements/9ed77f9be3594c058f334504330db2a0?acc_token=2a6de43658e2421ebba95a5081d6b8e7 HTTP/1.0
+PATCH /api/2.5/tenders/1a7d51312dc14819b08cd100f828fec0/agreements/9ed77f9be3594c058f334504330db2a0?acc_token=2a6de43658e2421ebba95a5081d6b8e7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -25,7 +25,7 @@ Content-Type: application/json
     "dateSigned": "2027-01-01T00:03:03+02:00",
     "items": [
       {
-        "id": "fc82244e20cd47cf985e40b362a78cc7",
+        "id": "c2f538bf23ba43bb95b5fc64fd15f4ff",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -33,10 +33,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -55,11 +56,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "1045105100a341998426114b17a5c1ff"
+        }
       },
       {
-        "id": "7cb44f6498334186a6ce95698d970c67",
+        "id": "90fdc3c9845a49e199885b178e01cb2c",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -67,10 +67,11 @@ Content-Type: application/json
           "code": "GRM"
         },
         "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -89,8 +90,7 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "1045105100a341998426114b17a5c1ff"
+        }
       }
     ],
     "period": {
@@ -127,24 +127,24 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "fc82244e20cd47cf985e40b362a78cc7",
+            "relatedItem": "c2f538bf23ba43bb95b5fc64fd15f4ff",
             "value": {
-              "currency": "UAH",
               "amount": 0.5,
+              "currency": "UAH",
               "valueAddedTaxIncluded": false
             }
           },
           {
-            "relatedItem": "7cb44f6498334186a6ce95698d970c67",
+            "relatedItem": "90fdc3c9845a49e199885b178e01cb2c",
             "value": {
-              "currency": "UAH",
               "amount": 0.5,
+              "currency": "UAH",
               "valueAddedTaxIncluded": false
             }
           }
         ],
-        "awardID": "afd5c3adcc1243aa87e3bf06a3ab61ed",
-        "bidID": "377d1b722f0146da9263c3ad6e57ae75",
+        "awardID": "9b2d24902d0741cc8a04b472ec3080ee",
+        "bidID": "b4563a6d6be54c6ea6c61c75eba2b382",
         "date": "2027-01-01T00:02:01+02:00"
       },
       {
@@ -176,24 +176,24 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "fc82244e20cd47cf985e40b362a78cc7",
+            "relatedItem": "c2f538bf23ba43bb95b5fc64fd15f4ff",
             "value": {
-              "currency": "UAH",
               "amount": 0.5,
+              "currency": "UAH",
               "valueAddedTaxIncluded": false
             }
           },
           {
-            "relatedItem": "7cb44f6498334186a6ce95698d970c67",
+            "relatedItem": "90fdc3c9845a49e199885b178e01cb2c",
             "value": {
-              "currency": "UAH",
               "amount": 0.5,
+              "currency": "UAH",
               "valueAddedTaxIncluded": false
             }
           }
         ],
-        "awardID": "a7a392fa285d4e0589840ef1b2ef2eff",
-        "bidID": "bbc395d46c784ab39198465dcd6c0d82",
+        "awardID": "b784f2d3a3e640e0960f876de0bfabff",
+        "bidID": "2738de26b40d4ff681b0648dd2c2cbcb",
         "date": "2027-01-01T00:02:01+02:00"
       },
       {
@@ -225,24 +225,24 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "fc82244e20cd47cf985e40b362a78cc7",
+            "relatedItem": "c2f538bf23ba43bb95b5fc64fd15f4ff",
             "value": {
-              "currency": "UAH",
               "amount": 0.5,
+              "currency": "UAH",
               "valueAddedTaxIncluded": false
             }
           },
           {
-            "relatedItem": "7cb44f6498334186a6ce95698d970c67",
+            "relatedItem": "90fdc3c9845a49e199885b178e01cb2c",
             "value": {
-              "currency": "UAH",
               "amount": 0.5,
+              "currency": "UAH",
               "valueAddedTaxIncluded": false
             }
           }
         ],
-        "awardID": "dca3e8cac9e54549a5f897bc4692be60",
-        "bidID": "92751d52c5ca4c57a05b7a86f5dacaf2",
+        "awardID": "87ebb3976cfa415197a2250afadc0a03",
+        "bidID": "5ff15b6ffde94405b05fb0bba2fcedc1",
         "date": "2027-01-01T00:02:01+02:00"
       }
     ],
@@ -275,29 +275,29 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_first_document.doc",
         "format": "application/msdoc",
+        "language": "uk",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/40137a4b174840698ca8b3aaf28eeb5b?Signature=tCeyLe%2B3DjDDTG4vsAwydgsKxHNLxjB5dIhwG%2FonMKXaabEh2Q1Wv7BJgorwI%2BNr4GLZ2vQ3JJCzhznoFUT%2BAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "language": "uk",
-        "id": "1fbc78b342e9454f8c7cd8f9a31f62fb",
+        "id": "464b4790100042f0aa0f40415fedab0b",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "dateModified": "2027-01-01T00:02:01+02:00"
       },
       {
         "confidentiality": "public",
+        "title": "agreement_second_document.doc",
         "title_en": "Title of Document",
         "description_en": "Description of Document",
-        "id": "57c2b45aa7d34752a2d999736850ba4d",
+        "format": "application/msdoc",
+        "language": "en",
+        "id": "644d0a50303a4630bc4f9d011de8287f",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "agreement_second_document.doc",
-        "format": "application/msdoc",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b86c18d8ffe4836af041e14fe4337dd?Signature=OQ27UsW1yVx2dUOATRGqk5APhXGCyM3%2FBTwM%2BM72JoCkTDNlGuxjmz1DaQymNzGtEBCd6ZLr02Avrgpw5O4NCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-01T00:02:01+02:00",
-        "language": "en"
+        "dateModified": "2027-01-01T00:02:01+02:00"
       }
     ]
   }

@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/0b6127bcf7f945de8348cf09521d87ed?acc_token=d995817ea96d4dd897846ab1f81b9eb8 HTTP/1.0
+PATCH /api/2.5/plans/ba8537d5e26242de9f02687d8b96bd3c?acc_token=d995817ea96d4dd897846ab1f81b9eb8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "d479277b4de640f2be0271da681519cd",
+      "id": "e9675191dd4848148cac1c8d76f6cd87",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -67,7 +67,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "c3b82005506940e6bc123f6a0b3a5c3f",
+          "id": "6da21398c1374bbc93f0f37638937ffb",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -78,9 +78,9 @@ Content-Type: application/json
       ]
     },
     "classification": {
-      "description": "Seeds",
       "scheme": "ДК021",
-      "id": "03111000-2"
+      "id": "03111000-2",
+      "description": "Seeds"
     },
     "additionalClassifications": [
       {
@@ -92,11 +92,11 @@ Content-Type: application/json
     "planID": "UA-P-2027-01-02-000002-a",
     "items": [
       {
-        "id": "c8dcdfa07e7245e28ab61bd4ddab4a2a",
+        "id": "8642ae1d0b4f4c3e9f3c3608d9c45691",
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -123,11 +123,11 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "2401dfdfecaf4bddbe0fd540b932036e",
+        "id": "01c6735680aa48549c303180a8799bb3",
         "classification": {
-          "description": "Sunflower seeds",
           "scheme": "ДК021",
-          "id": "03111300-5"
+          "id": "03111300-5",
+          "description": "Sunflower seeds"
         },
         "additionalClassifications": [
           {
@@ -154,11 +154,11 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "f6544f11e4f34498a977caaf725957f7",
+        "id": "159d121cef7d42dea247cd6147336824",
         "classification": {
-          "description": "Cotton seeds",
           "scheme": "ДК021",
-          "id": "03111400-6"
+          "id": "03111400-6",
+          "description": "Cotton seeds"
         },
         "additionalClassifications": [
           {
@@ -187,7 +187,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "05deb89f86554b49aed7706b14302592",
+        "id": "b217a6e4a7e9497d848c349b7b731e7f",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -216,7 +216,7 @@ Content-Type: application/json
       "reason": "Підстава для скасування",
       "reason_en": "Reason of the cancellation",
       "status": "pending",
-      "id": "691562bafcfe4db9a3029f53213bb89d",
+      "id": "937bf679fa1c4971ad859b8eef134f8f",
       "date": "2027-01-02T01:00:33+02:00"
     },
     "rationale": {
@@ -231,7 +231,7 @@ Content-Type: application/json
     "dateCreated": "2027-01-02T01:00:33+02:00",
     "dateModified": "2027-01-02T01:00:33+02:00",
     "datePublished": "2027-01-02T01:00:33+02:00",
-    "id": "0b6127bcf7f945de8348cf09521d87ed"
+    "id": "ba8537d5e26242de9f02687d8b96bd3c"
   }
 }
 

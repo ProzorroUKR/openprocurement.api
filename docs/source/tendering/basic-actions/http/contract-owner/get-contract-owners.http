@@ -25,11 +25,10 @@ Content-Type: application/json
       {
         "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
         "description": "Комп’ютерне обладнання для біда",
-        "quantity": 10.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -38,6 +37,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 10.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -87,11 +87,10 @@ Content-Type: application/json
       {
         "id": "4a394e96ce404b50b469bc48dd41fbd9",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -100,6 +99,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -177,7 +177,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "b29ccfefe77c4e45bc0898315cdb3a6f",
+    "tender_id": "3c08b9d270144467993586c2b4f31acb",
     "tenderID": "UA-2027-01-01-000003-a",
     "mainProcurementCategory": "goods",
     "contractTemplateName": "GENERAL.0001.01",
@@ -348,12 +348,12 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "contract.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/597969bfb98f4a23bc8dd6ab380e86cb/documents/cd67637bb50048c7aaf37cbeb3fc1ea0?download=2c61b4785e0f424fb31ea3c528abb733",
         "documentOf": "contract",
-        "id": "cd67637bb50048c7aaf37cbeb3fc1ea0",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/597969bfb98f4a23bc8dd6ab380e86cb/documents/fb9b781f9c8643d89f63ab30610faecc?download=2c61b4785e0f424fb31ea3c528abb733",
+        "id": "fb9b781f9c8643d89f63ab30610faecc",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/9c59ca33a88e4ef3b8c91de75769beff/awards?acc_token=c03daed53a5348e38c5e1fa70b9f3230 HTTP/1.0
+POST /api/2.5/tenders/6d8f33b813384dda9de6ce295c0e8832/awards?acc_token=c03daed53a5348e38c5e1fa70b9f3230 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,18 +43,23 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "lotID": "bcd8947ab93146f38e29c3a79e6d9cef"
+    "lotID": "664a24a23b5749febc87ace248f16c71"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c59ca33a88e4ef3b8c91de75769beff/awards/6485474eb1734d0e9a673f763d21b83f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6d8f33b813384dda9de6ce295c0e8832/awards/da045ceacda84d69bae24c67ff4632de
 
 {
   "data": {
     "status": "pending",
+    "value": {
+      "amount": 475000.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -87,13 +92,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c59ca33a88e4ef3
         }
       }
     ],
-    "lotID": "bcd8947ab93146f38e29c3a79e6d9cef",
-    "value": {
-      "amount": 475000.0,
-      "valueAddedTaxIncluded": false,
-      "currency": "UAH"
-    },
-    "id": "6485474eb1734d0e9a673f763d21b83f",
+    "lotID": "664a24a23b5749febc87ace248f16c71",
+    "id": "da045ceacda84d69bae24c67ff4632de",
     "date": "2027-01-01T00:00:00+02:00"
   }
 }

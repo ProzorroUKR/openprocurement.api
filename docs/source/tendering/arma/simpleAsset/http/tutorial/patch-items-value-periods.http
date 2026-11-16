@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
+PATCH /api/2.5/tenders/c3d8d95364384682aa7b64bf8b90b743?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,31 +18,31 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2027-01-01T00:00:00+02:00",
-    "dateModified": "2027-01-01T00:00:00+02:00",
-    "dateCreated": "2027-01-01T00:00:00+02:00",
-    "tenderID": "UA-2027-01-01-000002-a",
+    "mainProcurementCategory": "services",
+    "status": "active.tendering",
+    "title": "Послуги шкільних їдалень",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "e874e85cc7d34abb83aaeef3c67a0467",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "cc813f63c6f84217807d7bc63cd5727c",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/160624db04d544858159de7ce1186f0d?Signature=5PQMJiK3eWOYu8uv%2BtTxCGEfcquXeaZ4VWZIeGLPa84%2BzuUjJO7BZjySlIy52a95mqct%2FQW%2BdF151VLB%2BB4MCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
-    "status": "active.tendering",
-    "owner": "broker",
-    "title": "Послуги шкільних їдалень",
-    "mainProcurementCategory": "services",
     "procurementMethod": "selective",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000002-a",
+    "owner": "broker",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -117,14 +117,9 @@ Content-Type: application/json
         "scheme": "LAW922"
       }
     },
-    "submissionMethod": "electronicAuction",
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-30T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "986fe60dd1744bae9e0db008b0839458",
+        "id": "5485e03ef061455f91002df53d56c3e4",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -132,10 +127,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d",
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -154,11 +150,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+        }
       },
       {
-        "id": "a6dfce64a54e45feab18eb2a8333750e",
+        "id": "20712f87973b4abd9359caa862cb5142",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -166,10 +161,11 @@ Content-Type: application/json
           "code": "PK"
         },
         "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d",
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -188,10 +184,14 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+        }
       }
     ],
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-30T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
     "awardCriteria": "ratedCriteria",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -220,11 +220,11 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "e213c834ada84d04a1da0e74dd81125d",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "e213c834ada84d04a1da0e74dd81125d",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "amountPercentage": 50.0
         },
@@ -248,7 +248,7 @@ Content-Type: application/json
     },
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "next_check": "2027-01-30T00:00:00+02:00",
-    "id": "2e677bc840cc4d20b3d892d352d9fb77"
+    "id": "c3d8d95364384682aa7b64bf8b90b743"
   },
   "config": {
     "hasAuction": true,

@@ -207,13 +207,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ce360589f33546849778bcbbae9f15d3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ea32fda77331466da96d1075a6cf78fb
 
 {
   "data": {
     "status": "draft",
     "procuringEntity": {
-      "id": "be6d2c82720247659aad377fe3c586c3",
+      "id": "f984e3fe2b854b1ba8ca76ebef5d5678",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -262,7 +262,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ce360589f335468497
       },
       "breakdown": [
         {
-          "id": "aab4e3c1a68a427e8dad3f74ed0f62bb",
+          "id": "198ab09e339a402b9b57520a499dcf85",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -273,9 +273,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ce360589f335468497
       ]
     },
     "classification": {
-      "description": "Seeds",
       "scheme": "ДК021",
-      "id": "03111000-2"
+      "id": "03111000-2",
+      "description": "Seeds"
     },
     "additionalClassifications": [
       {
@@ -286,11 +286,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ce360589f335468497
     ],
     "items": [
       {
-        "id": "d291056c3dc545378b96853f520b8e19",
+        "id": "0e458dd87bfd46a1beda9a68b77a0b8f",
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -317,11 +317,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ce360589f335468497
         "description": "Насіння гірчиці"
       },
       {
-        "id": "20f1b85afb634c2884a8bb11bd85c23a",
+        "id": "5be7c845ee4046d2a6f252c104cc1023",
         "classification": {
-          "description": "Sunflower seeds",
           "scheme": "ДК021",
-          "id": "03111300-5"
+          "id": "03111300-5",
+          "description": "Sunflower seeds"
         },
         "additionalClassifications": [
           {
@@ -348,11 +348,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ce360589f335468497
         "description": "Насіння соняшнику"
       },
       {
-        "id": "a2beb73aa07f4951b3b8628fb64d903b",
+        "id": "f7183ef3a78a47a99aa86ad3cd1a8f3c",
         "classification": {
-          "description": "Cotton seeds",
           "scheme": "ДК021",
-          "id": "03111400-6"
+          "id": "03111400-6",
+          "description": "Cotton seeds"
         },
         "additionalClassifications": [
           {
@@ -381,7 +381,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ce360589f335468497
     ],
     "buyers": [
       {
-        "id": "1f14ce42efbe4c9eb877db8336265f61",
+        "id": "5e21b81a202c41d48949b1c12a8d2442",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -419,7 +419,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ce360589f335468497
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "ce360589f33546849778bcbbae9f15d3"
+    "id": "ea32fda77331466da96d1075a6cf78fb"
   },
   "access": {
     "token": "163f6405e03e4141be8a267aa9e7196f",

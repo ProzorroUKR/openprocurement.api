@@ -15,17 +15,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/25135859cec94fe8a2b16d42aa589b54
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/184239d3e8b3440489f33f4f061b79d1
 
 {
   "data": {
     "confidentiality": "public",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "contract_changes.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8951da71589746199cc3c8345d51fe37?Signature=Eh6fL9ydZXf0LJtuYMxpGuv%2FXHFQXYwZm%2B8DvyXhiFKzbCN6MaGp5L%2B8E8onS82JHdVQMGE0KmXixTr7DS5lBQ%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
-    "id": "25135859cec94fe8a2b16d42aa589b54",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8951da71589746199cc3c8345d51fe37?Signature=Eh6fL9ydZXf0LJtuYMxpGuv%2FXHFQXYwZm%2B8DvyXhiFKzbCN6MaGp5L%2B8E8onS82JHdVQMGE0KmXixTr7DS5lBQ%3D%3D&KeyID=a8968c46",
+    "id": "184239d3e8b3440489f33f4f061b79d1",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00"
   }

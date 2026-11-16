@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/dfc7b16cb0ea4ab9b8559e121a359d7e/documents?acc_token=9ea8f5711d1344178c976151f86725a2 HTTP/1.0
+POST /api/2.5/tenders/81a4035ab3d944e39a8044366f96e622/bids/56628fe62f4b4d39b0ddc29d5ac2927e/documents?acc_token=9ea8f5711d1344178c976151f86725a2 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,19 +17,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/dfc7b16cb0ea4ab9b8559e121a359d7e/documents/9c640b1df12043109bedcf648570e338
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/81a4035ab3d944e39a8044366f96e622/bids/56628fe62f4b4d39b0ddc29d5ac2927e/documents/c6bc8f38c6db4c5694ba29b006a243d2
 
 {
   "data": {
-    "confidentialityRationale": "This document contains some secret data that shouldn't be public",
     "confidentiality": "buyerOnly",
-    "hash": "md5:00000000000000000000000000000000",
+    "confidentialityRationale": "This document contains some secret data that shouldn't be public",
     "title": "private.doc",
     "format": "application/msword",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/dfc7b16cb0ea4ab9b8559e121a359d7e/documents/9c640b1df12043109bedcf648570e338?download=bed8dcbd27644f418f3d0645d955859a",
-    "documentOf": "tender",
     "language": "uk",
-    "id": "9c640b1df12043109bedcf648570e338",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/81a4035ab3d944e39a8044366f96e622/bids/56628fe62f4b4d39b0ddc29d5ac2927e/documents/c6bc8f38c6db4c5694ba29b006a243d2?download=bed8dcbd27644f418f3d0645d955859a",
+    "documentOf": "tender",
+    "id": "c6bc8f38c6db4c5694ba29b006a243d2",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00"
   }

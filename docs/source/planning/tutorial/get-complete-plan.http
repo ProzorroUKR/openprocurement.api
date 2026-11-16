@@ -1,4 +1,4 @@
-GET /api/2.5/plans/54bce4a1b606481499b5a27fa4061d05 HTTP/1.0
+GET /api/2.5/plans/1a32964b13b7427986a0f840ab9608e3 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "status": "complete",
     "procuringEntity": {
-      "id": "503bc9b1bede47bf80d49b0668d02dff",
+      "id": "4848be50d5db4d74a389e9766f30a7ef",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -59,7 +59,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "b4665c0f076849b9bef21cd85b179728",
+          "id": "ced1866de1b14f7d9cf03438b918162d",
           "title": "local",
           "description": "Breakdown other description.",
           "value": {
@@ -70,24 +70,24 @@ Content-Type: application/json
             "countryName": "Україна",
             "addressDetails": [
               {
+                "scheme": "КАТОТТГ",
                 "id": "UA01020030010043419",
-                "description": "Ароматне",
-                "scheme": "КАТОТТГ"
+                "description": "Ароматне"
               }
             ]
           },
           "classification": {
+            "scheme": "ТПКВКМБ",
             "id": "2170",
-            "description": "Будівництво закладів охорони здоров’я",
-            "scheme": "ТПКВКМБ"
+            "description": "Будівництво закладів охорони здоров’я"
           }
         }
       ]
     },
     "classification": {
-      "description": "Seeds",
       "scheme": "ДК021",
-      "id": "03111000-2"
+      "id": "03111000-2",
+      "description": "Seeds"
     },
     "additionalClassifications": [
       {
@@ -99,11 +99,11 @@ Content-Type: application/json
     "planID": "UA-P-2027-01-01-000001-a",
     "items": [
       {
-        "id": "ce79c9ad9e6744abac1cce7c68152a5f",
+        "id": "87dd51c9066944d5b2dbb01128126b75",
         "classification": {
-          "description": "Vegetable seeds",
           "scheme": "ДК021",
-          "id": "03111700-9"
+          "id": "03111700-9",
+          "description": "Vegetable seeds"
         },
         "additionalClassifications": [
           {
@@ -125,7 +125,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "9c3ebce9fbe342c1b4d3ad4cd7c2ffa4",
+        "id": "034a0d1c38ba4e239f5198a31cf62fb5",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -162,8 +162,8 @@ Content-Type: application/json
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "datePublished": "2027-01-01T00:00:00+02:00",
-    "tender_id": "6463abeed6914b389f85cda24396b107",
-    "id": "54bce4a1b606481499b5a27fa4061d05"
+    "tender_id": "b89dd63e0104467991c272db0c20a4ec",
+    "id": "1a32964b13b7427986a0f840ab9608e3"
   }
 }
 

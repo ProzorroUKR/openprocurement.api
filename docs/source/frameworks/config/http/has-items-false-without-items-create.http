@@ -56,7 +56,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/7fc954c452a04a23bf36d3782e024519
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/0bd71ee4b56c4b739e67a16242301a4e
 
 {
   "data": {
@@ -66,10 +66,31 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/7fc954c452a04
     "qualificationPeriod": {
       "endDate": "2028-02-05T00:00:00+02:00"
     },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -79,33 +100,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/7fc954c452a04
       }
     ],
     "frameworkType": "dynamicPurchasingSystem",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "legalName": "Назва організації"
-      },
-      "address": {
-        "countryName": "Україна",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "email": "aa@aa.com"
-      },
-      "kind": "general"
-    },
     "prettyID": "UA-F-2027-01-01-000002",
     "owner": "brokerr",
     "date": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "7fc954c452a04a23bf36d3782e024519"
+    "id": "0bd71ee4b56c4b739e67a16242301a4e"
   },
   "access": {
     "token": "7ef83e3c4a0b427ebdb7d52f346b4445",

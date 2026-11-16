@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints HTTP/1.0
+POST /api/2.5/tenders/a2869580364445cbb2d044be16ea20ff/cancellations/fd98d335fb0f4b1fb8d8402b8948a27e/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -35,7 +35,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "cancellation",
-        "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+        "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -61,12 +61,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints/3254f878888c442c9a7351491c0ec82f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a2869580364445cbb2d044be16ea20ff/cancellations/fd98d335fb0f4b1fb8d8402b8948a27e/complaints/4e9e4685aeee459e9f0ce12f77e17bc1
 
 {
   "data": {
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -78,12 +84,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19a5d9d36c2143d8
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "uri": "http://www.sc.gov.ua/",
-        "id": "00137256",
-        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
@@ -92,10 +92,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19a5d9d36c2143d8
     "type": "complaint",
     "objections": [
       {
-        "id": "631fd6262f6644a4a47705b479b99d91",
+        "id": "218defd49edf4d829f5fd96346f9f9e0",
         "title": "My objection",
         "description": "Test objection",
-        "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+        "relatesTo": "cancellation",
+        "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -103,22 +104,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19a5d9d36c2143d8
         },
         "requestedRemedies": [
           {
-            "id": "c6554ba9ef7645a09801d13b6aac7378",
+            "id": "2bc7ea5f040c404380909edd1091f9d1",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "f96ef29790784a13aa1b6ed30610d8a3",
+            "id": "113a6a28502140e5862e94be5d6cfdd3",
             "description": "test argument"
           }
         ],
-        "sequenceNumber": 1,
-        "relatesTo": "cancellation"
+        "sequenceNumber": 1
       }
     ],
-    "id": "3254f878888c442c9a7351491c0ec82f",
+    "id": "4e9e4685aeee459e9f0ce12f77e17bc1",
     "date": "2027-01-01T00:00:00+02:00",
     "complaintID": "UA-2027-01-01-000001-a.a1",
     "value": {

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/eed496e1d6fe45af8c224fbe006b01e5?acc_token=19dcad98b0c94f409d29463ccbda97c3 HTTP/1.0
+PATCH /api/2.5/tenders/3231afae3f2e4f578caa03956c304735?acc_token=19dcad98b0c94f409d29463ccbda97c3 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "35111c6ae5f14b0d9ca94f8b7bb19508",
+        "id": "2eeecefc14554599868fabe442c65950",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -19,10 +19,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -41,11 +42,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b"
+        }
       },
       {
-        "id": "8d903a30c6ac4d3a86e5c4887844a1af",
+        "id": "3da4fdaf6ae6464db11427975be79eee",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -57,10 +57,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 2.0,
+        "relatedLot": "5de38758cc1b4ed981450ad5cc5b86bb",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -79,8 +80,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "5de38758cc1b4ed981450ad5cc5b86bb"
+        }
       }
     ]
   }

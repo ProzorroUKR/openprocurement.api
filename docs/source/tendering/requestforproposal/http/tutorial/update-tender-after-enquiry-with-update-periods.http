@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387?acc_token=d8581d628a634368ba91d9c19c84fcc9 HTTP/1.0
+PATCH /api/2.5/tenders/8dc20a5f5fcf4f6baaed6c36f53e9eac?acc_token=d8581d628a634368ba91d9c19c84fcc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -21,6 +21,56 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "goods",
+    "status": "active.tendering",
+    "title": "футляри до державних нагород",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "technicalSpecifications",
+        "title": "Notice.doc",
+        "description": "змінений опис документа",
+        "description_en": "document description modified",
+        "format": "application/msword",
+        "language": "uk",
+        "relatedItem": "ffffffffffffffffffffffffffffffff",
+        "id": "f2aa4d9763da418bab962991a06a75dd",
+        "datePublished": "2027-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d990d4897b1a47a19bf707544e0c8c39?Signature=Odg7g4lnQq9K23uhoeviII9%2BTeGyK%2BZebhgl5aO%2FJj1M4qGN5N%2Fq0TCVhB39EYEVdlWkc0V%2B3rnS%2FDb4w%2Fd7Bg%3D%3D&KeyID=a8968c46",
+        "documentOf": "item",
+        "dateModified": "2027-01-01T00:03:03+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "language": "uk",
+        "id": "cb31f08a4cef414da99679408d319d2e",
+        "datePublished": "2027-01-01T00:06:04+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/67b500f3327a4160bff847fa3b925862?Signature=QDxTKt%2F6a6o%2F969%2BED3IcEBTGuad5zzNYo28gOuxadXnyR0axXnzhPWvrEHCP4VwkSewBFtL2VvUFUHm%2FE9PBw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:06:04+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
+        "title": "AwardCriteria.pdf",
+        "description": "Нова версія AwardCriteria документу",
+        "description_en": "new version of the AwardCriteria document",
+        "format": "application/pdf",
+        "language": "en",
+        "id": "cb31f08a4cef414da99679408d319d2e",
+        "datePublished": "2027-01-01T00:10:05+02:00",
+        "hash": "md5:11111111111111111111111111111111",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1f6e46ecf5b4734b57a1aceb67834c1?Signature=%2Bq%2F%2FE5Sml8snWliS1olYK%2Bk9P5xg%2Bp0PVGPhAjQOELiMK882BsSWbDnohWwS9zCChlXkEgWdayK5lb2oDaVeBA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:10:05+02:00",
+        "author": "tender_owner"
+      }
+    ],
     "funders": [
       {
         "name": "Глобальний фонд",
@@ -45,13 +95,14 @@ Content-Type: application/json
         }
       }
     ],
+    "procurementMethod": "selective",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-07T00:14:06+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
     "questions": [
       {
-        "id": "b9d4534a99634f729b33bbee839a035a",
+        "id": "74c9b3588e7a4469b8450a8976508db6",
         "author": {
           "hash": "de0ae6b3e78dc1fe517f2eef1ae8b8fe"
         },
@@ -63,63 +114,12 @@ Content-Type: application/json
         "dateAnswered": "2027-01-01T00:10:05+02:00"
       }
     ],
-    "documents": [
-      {
-        "confidentiality": "public",
-        "documentType": "technicalSpecifications",
-        "description": "змінений опис документа",
-        "description_en": "document description modified",
-        "relatedItem": "ffffffffffffffffffffffffffffffff",
-        "id": "985d54386fcb430ba48b456c5742bc8a",
-        "datePublished": "2027-01-01T00:00:01+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d990d4897b1a47a19bf707544e0c8c39?Signature=Odg7g4lnQq9K23uhoeviII9%2BTeGyK%2BZebhgl5aO%2FJj1M4qGN5N%2Fq0TCVhB39EYEVdlWkc0V%2B3rnS%2FDb4w%2Fd7Bg%3D%3D&KeyID=a8968c46",
-        "documentOf": "item",
-        "dateModified": "2027-01-01T00:03:03+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      },
-      {
-        "confidentiality": "public",
-        "id": "18fbee73a760419a996f5d640231292b",
-        "datePublished": "2027-01-01T00:06:04+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/67b500f3327a4160bff847fa3b925862?Signature=QDxTKt%2F6a6o%2F969%2BED3IcEBTGuad5zzNYo28gOuxadXnyR0axXnzhPWvrEHCP4VwkSewBFtL2VvUFUHm%2FE9PBw%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:06:04+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      },
-      {
-        "confidentiality": "public",
-        "description": "Нова версія AwardCriteria документу",
-        "description_en": "new version of the AwardCriteria document",
-        "id": "18fbee73a760419a996f5d640231292b",
-        "datePublished": "2027-01-01T00:10:05+02:00",
-        "hash": "md5:11111111111111111111111111111111",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1f6e46ecf5b4734b57a1aceb67834c1?Signature=%2Bq%2F%2FE5Sml8snWliS1olYK%2Bk9P5xg%2Bp0PVGPhAjQOELiMK882BsSWbDnohWwS9zCChlXkEgWdayK5lb2oDaVeBA%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:10:05+02:00",
-        "author": "tender_owner",
-        "language": "en"
-      }
-    ],
-    "status": "active.tendering",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "goods",
     "agreements": [
       {
         "id": "144de8e79e64488a967c57cebaacb0d3"
       }
     ],
-    "procurementMethod": "selective",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "next_check": "2027-01-12T00:10:05+02:00",
     "contractChangeRationaleTypes": {
@@ -234,20 +234,6 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
-    "enquiryPeriod": {
-      "startDate": "2026-12-22T00:10:05+02:00",
-      "endDate": "2027-01-01T00:10:05+02:00",
-      "clarificationsUntil": "2027-01-06T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:10:05+02:00",
-      "endDate": "2027-01-12T00:10:05+02:00"
-    },
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",
@@ -259,10 +245,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "c8c942c988fd4533879fbcfab446faad",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -270,10 +257,23 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292"
+        ]
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2026-12-22T00:10:05+02:00",
+      "endDate": "2027-01-01T00:10:05+02:00",
+      "clarificationsUntil": "2027-01-06T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:10:05+02:00",
+      "endDate": "2027-01-12T00:10:05+02:00"
+    },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "requestForProposal",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -311,20 +311,20 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "c8c942c988fd4533879fbcfab446faad",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "85cde4d4a1ff46a6827912a154b6a292",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
+          "amount": 15.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "startDate": "2027-01-13T15:30:29.282000+02:00",
@@ -332,7 +332,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "c43b02880a284022ad414c5d3fff5387"
+    "id": "8dc20a5f5fcf4f6baaed6c36f53e9eac"
   },
   "config": {
     "hasAuction": true,

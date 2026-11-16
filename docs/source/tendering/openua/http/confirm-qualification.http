@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/awards/f2bc7d5d370b4d78abaaeeb7b9195b55?acc_token=0a7070152a044608bc2bafe9dd5c9c6d HTTP/1.0
+PATCH /api/2.5/tenders/81a4035ab3d944e39a8044366f96e622/awards/8b5dc466e4314544983119338dfd2b0d?acc_token=0a7070152a044608bc2bafe9dd5c9c6d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,14 +19,14 @@ Content-Type: application/json
   "data": {
     "milestones": [
       {
-        "id": "dbe8d517569e4785b4847874c66ef11c",
+        "id": "031bfc9bed984b09939881954870472d",
+        "code": "alp",
         "dueDate": "2026-12-31T00:02:01+02:00",
         "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
-        "date": "2027-01-01T00:02:01+02:00",
-        "code": "alp"
+        "date": "2027-01-01T00:02:01+02:00"
       }
     ],
-    "id": "f2bc7d5d370b4d78abaaeeb7b9195b55",
+    "id": "8b5dc466e4314544983119338dfd2b0d",
     "status": "active",
     "date": "2027-01-01T00:02:01+02:00",
     "value": {
@@ -66,22 +66,22 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "4a71216d80e64394ac075e1e12892fb1",
+    "bid_id": "c43145087d344a3b83983c08293b0706",
     "lotID": "ac6a3f9689df4f6eba8d8bd3377618e0",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "36a8d24c79fd48358a8412d216387370",
-        "datePublished": "2027-01-01T00:02:01+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "fa86596478f74eca8e2e22e769201509",
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/53ffe675289548d083d392b23761e107?Signature=lYnXMa9lN41KDNCuGL1kOSNt9Ldl%2BuZh4KkT42fOIdVNCtTWIaV4VlBob2lMrA7XYR%2BIojnhqJ7Hx30SSiieDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:02:01+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {

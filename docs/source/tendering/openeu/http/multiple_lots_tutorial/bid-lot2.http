@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/a5da18c74cea4c11b40a51939ebb318f/bids HTTP/1.0
+POST /api/2.5/tenders/272120ac6b1841b99b1cd1548dc1d910/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,19 +43,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "494018740b284299a86856a818a9d288"
+        "relatedLot": "1b50f3b6b2154a6fa4f7bc3f602a746e"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "value": {
           "amount": 500
         },
-        "relatedLot": "97452d5b4e4a4e30823239e20a854d19"
+        "relatedLot": "51ff57a816884f7eb9141ab7eca0e5ca"
       }
     ],
     "items": [
       {
-        "id": "cc9713d2b33f4f0f9e3c19388e11d1c6",
+        "id": "7e858e3ce05a45e08d71047bab55d2f2",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -68,10 +68,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "494018740b284299a86856a818a9d288"
+        "relatedLot": "1b50f3b6b2154a6fa4f7bc3f602a746e"
       },
       {
-        "id": "50ea6c99511447bcb963fb6d6c1fc441",
+        "id": "2964a404a3364df79de99792a9a676f1",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -84,7 +84,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "97452d5b4e4a4e30823239e20a854d19"
+        "relatedLot": "51ff57a816884f7eb9141ab7eca0e5ca"
       }
     ]
   }
@@ -93,13 +93,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11b40a51939ebb318f/bids/cc68d81253bf43e9844b48e6eba84099
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/272120ac6b1841b99b1cd1548dc1d910/bids/cd9194e1ca9844ebadf360a38873b98a
 
 {
   "data": {
     "items": [
       {
-        "id": "cc9713d2b33f4f0f9e3c19388e11d1c6",
+        "id": "7e858e3ce05a45e08d71047bab55d2f2",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -112,10 +112,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "494018740b284299a86856a818a9d288"
+        "relatedLot": "1b50f3b6b2154a6fa4f7bc3f602a746e"
       },
       {
-        "id": "50ea6c99511447bcb963fb6d6c1fc441",
+        "id": "2964a404a3364df79de99792a9a676f1",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -128,7 +128,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "97452d5b4e4a4e30823239e20a854d19"
+        "relatedLot": "51ff57a816884f7eb9141ab7eca0e5ca"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "1b50f3b6b2154a6fa4f7bc3f602a746e",
+        "date": "2027-01-01T00:00:00+02:00"
+      },
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "51ff57a816884f7eb9141ab7eca0e5ca",
+        "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -163,31 +186,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
         }
       }
     ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "494018740b284299a86856a818a9d288",
-        "date": "2027-01-01T00:00:00+02:00"
-      },
-      {
-        "status": "pending",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "97452d5b4e4a4e30823239e20a854d19",
-        "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "status": "draft",
-    "id": "cc68d81253bf43e9844b48e6eba84099",
+    "id": "cd9194e1ca9844ebadf360a38873b98a",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/1a08c0c252064a9a8cf24c8264e29e6d/complaints/db6a05c688124b2ba65786d893147b8b/documents?acc_token=3249b93eba9d4119831a7f3708450101 HTTP/1.0
+POST /api/2.5/tenders/fadfd357d95f414cbb83c333f5446183/complaints/35045b8983e44b848b923795d60f97e0/documents?acc_token=3249b93eba9d4119831a7f3708450101 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,18 +15,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a08c0c252064a9a8cf24c8264e29e6d/complaints/db6a05c688124b2ba65786d893147b8b/documents/2caa957fee3c4112a639ede03ab3939c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fadfd357d95f414cbb83c333f5446183/complaints/35045b8983e44b848b923795d60f97e0/documents/4618cbb7f58748b1a25a90737c210e4e
 
 {
   "data": {
     "confidentiality": "public",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "Evidence_Attachment.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b26be5ae7c34fba94a90ded82ea8f77?Signature=BUNzCuzNDxlsQErN6J%2BpEczxECckQ3X21eWWljMmudrqUDGMOXlyLAhh%2BAWSFauQxp8nprIF%2FJtKWUBHtSVICw%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "2caa957fee3c4112a639ede03ab3939c",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b26be5ae7c34fba94a90ded82ea8f77?Signature=BUNzCuzNDxlsQErN6J%2BpEczxECckQ3X21eWWljMmudrqUDGMOXlyLAhh%2BAWSFauQxp8nprIF%2FJtKWUBHtSVICw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
+    "id": "4618cbb7f58748b1a25a90737c210e4e",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "author": "complaint_owner"

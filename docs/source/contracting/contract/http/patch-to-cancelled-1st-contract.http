@@ -16,20 +16,19 @@ Content-Type: application/json
 {
   "data": {
     "buyerID": "11111111111111111111111111111111",
-    "awardID": "816f9fa1e5de4bd2b577288952992647",
+    "awardID": "616dcb500d8a46458cd6527f321a31b7",
     "contractID": "UA-2027-01-01-000001-a-a1",
     "title": "футляри до державних нагород",
     "dateModified": "2027-01-01T00:00:01+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "7930e4890f0a43ce870712c552d79f10",
+        "id": "abb95f2161c54bef88ca924ae8943bc0",
         "description": "телевізори",
-        "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -38,6 +37,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -61,7 +61,7 @@ Content-Type: application/json
         "relatedBuyer": "11111111111111111111111111111111"
       }
     ],
-    "tender_id": "6bbedf87e5834e7fb5352d419ad7dbcb",
+    "tender_id": "3217387122e04795be83ea3e3200c2ed",
     "tenderID": "UA-2027-01-01-000001-a",
     "mainProcurementCategory": "goods",
     "owner": "broker",

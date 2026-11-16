@@ -11,13 +11,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "115b5ce2729f4006bbb93820b5a35c49",
+        "id": "4681416496da472181db94c07caab285",
         "description": "телевізори",
-        "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -26,6 +25,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -59,20 +59,19 @@ Content-Type: application/json
 {
   "data": {
     "buyerID": "11111111111111111111111111111111",
-    "awardID": "991aaba7d0f54d72b5ecb8943bfcdcd0",
+    "awardID": "41c0d0dc9d164772afbbb1dd9148f088",
     "contractID": "UA-2027-01-01-000001-a-a1",
     "title": "футляри до державних нагород",
     "dateModified": "2027-01-01T00:00:01+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "115b5ce2729f4006bbb93820b5a35c49",
+        "id": "4681416496da472181db94c07caab285",
         "description": "телевізори",
-        "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -81,6 +80,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "value": {
@@ -104,7 +104,7 @@ Content-Type: application/json
         "relatedBuyer": "11111111111111111111111111111111"
       }
     ],
-    "tender_id": "4cfaeb49bb7a41ec8d7d8b5acf44d86f",
+    "tender_id": "f7c7646ae3864d729af19b0ce6050365",
     "tenderID": "UA-2027-01-01-000001-a",
     "mainProcurementCategory": "goods",
     "owner": "broker",
