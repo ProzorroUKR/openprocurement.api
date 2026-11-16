@@ -1,6 +1,5 @@
 import logging
 from importlib import import_module
-from typing import Type
 from unittest.mock import ANY, MagicMock, call, patch
 
 from pymongo import UpdateOne
@@ -8,7 +7,7 @@ from pymongo import UpdateOne
 from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 
 econtract_migration = import_module("openprocurement.contracting.core.migrations.0014_migrate_econtract_tender_fields")
-BaseMigration: Type[PymongoCollectionMigration] = econtract_migration.Migration
+BaseMigration: type[PymongoCollectionMigration] = econtract_migration.Migration
 
 TENDER_PROJECTION: dict = econtract_migration.TENDER_PROJECTION
 

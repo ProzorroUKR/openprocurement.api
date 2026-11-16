@@ -1,10 +1,11 @@
 import hashlib
 import json
+from collections.abc import Callable
 from datetime import datetime, timedelta
 from decimal import ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
-from typing import Callable, Optional, get_args
+from typing import get_args
 
 from pyramid.request import Request
 
@@ -459,7 +460,7 @@ class ContractStateMixing:
 
     @staticmethod
     def validate_activate_contract_with_review_request(
-        request, tender: dict, after: dict, lot_id: Optional[str] = None
+        request, tender: dict, after: dict, lot_id: str | None = None
     ) -> None:
         if check_is_contract_waiting_for_inspector_approve(tender, lot_id):
             raise_operation_error(

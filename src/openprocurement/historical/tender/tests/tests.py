@@ -57,7 +57,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/javascript")
         self.assertIn('callback({"data": {"', response.body.decode())
-        response = self.app.get("/tenders/{}/historical?" "opt_pretty=1".format(tender["id"]))
+        response = self.app.get("/tenders/{}/historical?opt_pretty=1".format(tender["id"]))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertIn('{\n    "data": {\n        "', response.body.decode())

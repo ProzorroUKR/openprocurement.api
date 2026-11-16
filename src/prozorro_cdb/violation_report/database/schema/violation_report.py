@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import StrEnum
-from typing import Literal, Optional
+from typing import Literal
 from uuid import uuid4
 
 from pydantic import Field
@@ -36,7 +36,7 @@ class DecisionDBModel(BaseModel):
     description: str = Field(description="Опис рішення", max_length=5_000)
     documents: list[Document] = Field(default_factory=list, description="Документи рішення (від ЦЗО)")
     dateModified: datetime = Field(description="Дата оновлення")
-    datePublished: Optional[datetime] = Field(default=None, description="Дата публікації")
+    datePublished: datetime | None = Field(default=None, description="Дата публікації")
     status: DraftActiveObjectStatus = Field(default=DraftActiveObjectStatus.draft)
 
 
@@ -45,7 +45,7 @@ class DefendantStatementDBModel(BaseModel):
     description: str = Field(description="Контраргументи / Позиція постачальника", max_length=5_000)
     documents: list[Document] = Field(default_factory=list, description="Документи Постачальника (відповідача)")
     dateModified: datetime = Field(description="Дата оновлення")
-    datePublished: Optional[datetime] = Field(default=None, description="Дата публікації")
+    datePublished: datetime | None = Field(default=None, description="Дата публікації")
     status: DraftActiveObjectStatus = Field(default=DraftActiveObjectStatus.draft)
 
 
@@ -73,19 +73,19 @@ class ViolationReportDBModel(BaseModel):
     public_modified: float = Field(default=0)  # this field is added by MongodbStore
     violationReportID: str = Field(description="Більш візуально прийнятний ідентифікатор")
     status: ViolationReportStatus = Field(default=ViolationReportStatus.draft)
-    mode: Optional[Literal["test"]] = Field(None, description="Тест мод (з тендера)")
+    mode: Literal["test"] | None = Field(None, description="Тест мод (з тендера)")
     tender_id: str
     contract_id: str
     dateCreated: datetime = Field(description="Дата створення")
     dateModified: datetime = Field(description="Дата оновлення")
-    datePublished: Optional[datetime] = Field(None, description="Дата публікації")
+    datePublished: datetime | None = Field(None, description="Дата публікації")
 
     author: Buyer = Field(description="Інформація про Замовника (скаржника)")
     defendants: list[Supplier] = Field(min_length=1, description="Інформація про Постачальника (відповідача)")
     authority: ProcuringEntity = Field(None, description="Інформація про ЦЗО (власник відбору)")
 
     # вкладені об'єкти що додаються іншими сторонами
-    defendantPeriod: Optional[Period] = Field(None, description="Період коли відповідачу дозволено надавати пояснення")
+    defendantPeriod: Period | None = Field(None, description="Період коли відповідачу дозволено надавати пояснення")
     defendantStatements: list[DefendantStatementDBModel] = Field(
         default_factory=list, description="Контраргументи Постачальника"
     )

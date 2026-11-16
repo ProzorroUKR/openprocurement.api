@@ -191,7 +191,7 @@ def milestone_24h(self):
             "errors": [
                 {
                     "description": (
-                        "Can't change status to 'active' " "until milestone.dueDate: {}".format(
+                        "Can't change status to 'active' until milestone.dueDate: {}".format(
                             created_milestone["dueDate"]
                         )
                     ),

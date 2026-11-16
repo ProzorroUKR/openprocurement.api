@@ -1,5 +1,3 @@
-from typing import Optional
-
 from prozorro_cdb.api.context import get_now_async
 from prozorro_cdb.api.database.schema.document import Document, DocumentTypes
 from prozorro_cdb.api.errors import JsonHTTPBadRequest
@@ -79,7 +77,7 @@ class ViolationReportDefendantState(BaseState):
         cls,
         defendant_statement: DefendantStatementDBModel,
         data: DefendantStatementPatchRequestData,
-    ) -> Optional[DefendantStatementDBModel]:
+    ) -> DefendantStatementDBModel | None:
         if defendant_statement.description != data.description:
             defendant_statement.description = data.description
             defendant_statement.dateModified = get_now_async()
@@ -146,7 +144,7 @@ class ViolationReportDefendantState(BaseState):
         document: Document,
         doc_index: int,
         updates: PatchDocument,
-    ) -> Optional[Document]:
+    ) -> Document | None:
         changes = updates.model_dump(exclude_none=True)
         updated_document = document.model_copy(update=changes)
         if document != updated_document:
@@ -183,7 +181,7 @@ class ViolationReportDefendantState(BaseState):
         cls,
         defendant_statement: DefendantStatementDBModel,
         document_id: str,
-    ) -> Optional[DefendantStatementDBModel]:
+    ) -> DefendantStatementDBModel | None:
         doc_len = len(defendant_statement.documents)
         defendant_statement.documents = [d for d in defendant_statement.documents if d.id != document_id]
         if doc_len != len(defendant_statement.documents):

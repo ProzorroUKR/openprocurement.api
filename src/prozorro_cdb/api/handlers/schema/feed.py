@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 from prozorro_cdb.api.database.schema.common import BaseModel
 
 
@@ -15,6 +13,6 @@ class PageListingModel(BaseModel):
 
 
 class ListingResponseModel(BaseModel):
-    data: List[ListingResponseDataModel]
+    data: list[ListingResponseDataModel]
     next_page: PageListingModel
-    prev_page: Optional[PageListingModel]
+    prev_page: PageListingModel | None

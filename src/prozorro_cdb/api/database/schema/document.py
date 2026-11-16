@@ -1,6 +1,5 @@
 from datetime import datetime
 from enum import StrEnum
-from typing import Optional
 from uuid import uuid4
 
 from pydantic import Field
@@ -61,13 +60,13 @@ class Document(BaseModel):
     dateModified: datetime
     datePublished: datetime
 
-    documentType: Optional[DocumentTypes] = None
-    title: Optional[str] = None
-    title_en: Optional[str] = None
-    title_ru: Optional[str] = None
-    description: Optional[str] = None
-    description_en: Optional[str] = None
-    description_ru: Optional[str] = None
-    format: Optional[str] = Field(None, pattern=r"^[-\w]+/[-\.\w\+]+$")
-    language: Optional[DocumentLanguage] = DocumentLanguage.UK
-    relatedItem: Optional[str] = None  # MD5Type → str з regex
+    documentType: DocumentTypes | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    format: str | None = Field(None, pattern=r"^[-\w]+/[-\.\w\+]+$")
+    language: DocumentLanguage | None = DocumentLanguage.UK
+    relatedItem: str | None = None  # MD5Type → str з regex

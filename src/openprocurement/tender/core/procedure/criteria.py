@@ -1,5 +1,5 @@
 from collections import Counter
-from typing import Any, Optional, Tuple, Union
+from typing import Any
 
 from pyramid.request import Request
 
@@ -130,7 +130,7 @@ class TenderCriterionMixin:
                     if data_type in validation_rules:
                         validation_rules[data_type](req, tender_criterion.get("classification", {}).get("id"))
 
-    def _resolve_market_criterion(self, tender_criterion: dict) -> Optional[Tuple[dict, str, bool]]:
+    def _resolve_market_criterion(self, tender_criterion: dict) -> tuple[dict, str, bool] | None:
         # check only localization and tech criteria, because only these are in market
         market_criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
         if tender_criterion["classification"]["id"] not in market_criteria_ids:
@@ -167,7 +167,7 @@ class TenderCriterionMixin:
 
         return None
 
-    def validate_criteria_requirement_from_market(self, data: Union[dict, list]) -> None:
+    def validate_criteria_requirement_from_market(self, data: dict | list) -> None:
         if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
             return
 
@@ -409,7 +409,7 @@ class TenderCriterionMixin:
                 status=422,
             )
 
-    def validate_criteria_classification(self, data: Union[dict, list]) -> None:
+    def validate_criteria_classification(self, data: dict | list) -> None:
         if not tender_created_after(CRITERIA_CLASSIFICATION_VALIDATION_FROM):
             return
 

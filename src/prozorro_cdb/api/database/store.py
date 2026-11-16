@@ -1,10 +1,11 @@
+import builtins
 import os
 from contextlib import asynccontextmanager
 from contextvars import ContextVar, Token
 from decimal import Decimal
 from logging import getLogger
 from time import monotonic
-from typing import Any, Dict, List, Optional, Self, TypeVar
+from typing import Any, Self, TypeVar
 from uuid import uuid4
 
 from bson.codec_options import CodecOptions, TypeCodec, TypeRegistry
@@ -304,7 +305,7 @@ class MongodbStore:
         return obj
 
     @staticmethod
-    async def find(collection: AsyncCollection, filters: Dict[str, Any]) -> List[Any]:
+    async def find(collection: AsyncCollection, filters: dict[str, Any]) -> builtins.list[Any]:
         result = await collection.find(filter=filters, session=get_db_session_async()).to_list(None)
         return result
 
@@ -315,7 +316,7 @@ SaveDataT = TypeVar("SaveDataT", bound=BaseModel)
 class BaseCollection:
     store: MongodbStore
     object_name = "dummy"
-    collection_name: Optional[str] = None  # collection name can be hardcoded
+    collection_name: str | None = None  # collection name can be hardcoded
 
     def __init__(self, store, settings):
         self.store = store
@@ -414,7 +415,7 @@ class BaseCollection:
         result = await self.store.delete(self.collection, uid)
         return result
 
-    async def find(self, filters: Dict[str, Any]):
+    async def find(self, filters: dict[str, Any]):
         # if a client doesn't use SESSION cookie, reading from primary solves the issues.
         # So client should use the cookie.
         doc = await self.store.find(self.collection, filters)

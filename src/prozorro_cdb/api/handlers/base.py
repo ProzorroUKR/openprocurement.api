@@ -1,5 +1,6 @@
 import hashlib
-from typing import Any, Callable, Dict, Literal
+from collections.abc import Callable
+from typing import Any, Literal
 
 from aiohttp import web
 from aiohttp.web_response import StreamResponse
@@ -201,7 +202,7 @@ class MongodbResourceListingAsync(BaseView):
             data["prev_page"] = self.get_page(base_url, prev_params)
         return data
 
-    def get_page(self, base_url: URL, params: Dict[str, Any]):
+    def get_page(self, base_url: URL, params: dict[str, Any]):
         path = str(base_url.with_query(params))
         return {
             "offset": params.get("offset", ""),

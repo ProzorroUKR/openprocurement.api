@@ -1,6 +1,6 @@
+from collections.abc import Callable
 from datetime import datetime, timedelta
 from logging import getLogger
-from typing import Callable, Optional
 
 from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.constants_env import (
@@ -1088,7 +1088,7 @@ class ChronographEventsMixin:
             else:
                 self.calc_bid_values(tender, bid, bid)
 
-    def calc_bid_values(self, tender: dict, bid: dict, value_container: dict, lot_id: str = None) -> Optional[dict]:
+    def calc_bid_values(self, tender: dict, bid: dict, value_container: dict, lot_id: str = None) -> dict | None:
         initial_value = value_container.get("value", {})
         if initial_value:
             value_container["initialValue"] = initial_value

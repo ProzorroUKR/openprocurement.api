@@ -6,7 +6,7 @@ import time
 from argparse import ArgumentParser
 from copy import deepcopy
 from dataclasses import dataclass
-from typing import Any, Optional, Type
+from typing import Any
 from unittest.mock import MagicMock, patch
 
 import sentry_sdk
@@ -134,7 +134,7 @@ class CollectionMigration(BaseMigration):
         """Get MongoDB collection. Subclasses must implement."""
         raise NotImplementedError("Subclasses must implement get_collection")
 
-    def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
+    def update_document(self, doc: dict, context: dict = None) -> dict | None:
         """Process a single document. Subclasses must implement.
 
         :param doc: dict of document to process
@@ -221,7 +221,7 @@ class CollectionMigration(BaseMigration):
             },
         ]
 
-    def process_pipeline(self, doc: dict, context: dict = None) -> Optional[list[dict]]:
+    def process_pipeline(self, doc: dict, context: dict = None) -> list[dict] | None:
         """Generate update pipeline for a single document.
 
         :param doc: Original document
@@ -325,7 +325,7 @@ class PymongoCollectionMigration(CollectionMigration):
         collection: Collection = self.get_collection()
         return self.wrap_collection(collection)
 
-    def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
+    def update_document(self, doc: dict, context: dict = None) -> dict | None:
         """Process a single document.
 
         :param doc: dict of document to process
@@ -335,7 +335,7 @@ class PymongoCollectionMigration(CollectionMigration):
         """
         raise NotImplementedError("Subclasses must implement update_document")
 
-    def process_operation(self, doc: dict, context: dict = None) -> Optional[UpdateOne]:
+    def process_operation(self, doc: dict, context: dict = None) -> UpdateOne | None:
         """Generate update operation for a single document.
 
         :param pipeline: Pipeline of update operations
@@ -652,7 +652,7 @@ class PymongoCollectionMigrationArgumentParser(CollectionMigrationArgumentParser
         )
 
 
-def init_migration(migration: Type[BaseMigration], parser: Type[BaseMigrationArgumentParser]) -> BaseMigration:
+def init_migration(migration: type[BaseMigration], parser: type[BaseMigrationArgumentParser]) -> BaseMigration:
     os.environ["NO_GEVENT_MONKEY_PATCH"] = "1"
     from openprocurement.api.app import load_config
 
@@ -666,8 +666,8 @@ def init_migration(migration: Type[BaseMigration], parser: Type[BaseMigrationArg
 
 
 def migrate(
-    migration: Type[BaseMigration],
-    parser: Type[BaseMigrationArgumentParser] = BaseMigrationArgumentParser,
+    migration: type[BaseMigration],
+    parser: type[BaseMigrationArgumentParser] = BaseMigrationArgumentParser,
 ):
     migration_instance = init_migration(migration, parser)
     if migration_instance.args.test:
@@ -677,8 +677,8 @@ def migrate(
 
 
 def migrate_collection(
-    migration: Type[PymongoCollectionMigration],
-    parser: Type[PymongoCollectionMigrationArgumentParser] = PymongoCollectionMigrationArgumentParser,
+    migration: type[PymongoCollectionMigration],
+    parser: type[PymongoCollectionMigrationArgumentParser] = PymongoCollectionMigrationArgumentParser,
 ):
     migrate(migration, parser)
 

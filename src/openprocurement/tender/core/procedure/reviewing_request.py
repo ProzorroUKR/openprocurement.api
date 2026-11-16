@@ -1,5 +1,3 @@
-from typing import Optional
-
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 
@@ -27,7 +25,7 @@ class ReviewRequestBlockMixin:
 
     @staticmethod
     def validate_action_with_exist_inspector_review_request(
-        allowed_fields: Optional[tuple] = None,
+        allowed_fields: tuple | None = None,
         lot_id: str = "",
     ) -> None:
         request = get_request()

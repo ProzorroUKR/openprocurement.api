@@ -269,8 +269,9 @@ class PlanState(BaseState):
                 if standstill_end.isoformat() > after["tender"]["tenderPeriod"]["startDate"]:
                     raise_operation_error(
                         self.request,
-                        "Can't update procuringEntity later than {} "
-                        "business days before tenderPeriod.StartDate".format(PROCURING_ENTITY_STANDSTILL.days),
+                        "Can't update procuringEntity later than {} business days before tenderPeriod.StartDate".format(
+                            PROCURING_ENTITY_STANDSTILL.days
+                        ),
                     )
                 # invalidate active milestones and update milestone.dateModified
                 for m in after["milestones"]:

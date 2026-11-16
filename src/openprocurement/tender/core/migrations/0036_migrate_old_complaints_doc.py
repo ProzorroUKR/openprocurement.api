@@ -200,10 +200,7 @@ class Migration(PymongoCollectionMigration):
             )
         else:
             post_document["url"] = (
-                f"/tenders/{doc['_id']}"
-                f"/complaints/{complaint['id']}"
-                f"/documents/{post_document['id']}"
-                f"?download={key}"
+                f"/tenders/{doc['_id']}/complaints/{complaint['id']}/documents/{post_document['id']}?download={key}"
             )
 
         if procurement_method_type == "belowThreshold":

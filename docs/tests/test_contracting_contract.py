@@ -441,13 +441,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             change = response.json["data"]
 
         with open(TARGET_DIR + "view-contract-change.http", "w") as self.app.file_obj:
-            response = self.app.get(f'/contracts/{contract_id}/changes/{change["id"]}')
+            response = self.app.get(f"/contracts/{contract_id}/changes/{change['id']}")
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["id"], change["id"])
 
         with open(TARGET_DIR + "patch-contract-change.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f'/contracts/{contract_id}/changes/{change["id"]}?acc_token={tender_token}',
+                f"/contracts/{contract_id}/changes/{change['id']}?acc_token={tender_token}",
                 {"data": {"rationale": "Друга і третя поставка має бути розфасована"}},
             )
             self.assertEqual(response.status, "200 OK")
@@ -556,7 +556,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # apply contract change
         with open(TARGET_DIR + "apply-contract-change.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f'/contracts/{contract_id}/changes/{change["id"]}?acc_token={tender_token}',
+                f"/contracts/{contract_id}/changes/{change['id']}?acc_token={tender_token}",
                 {"data": {"status": "active", "dateSigned": get_now().isoformat()}},
             )
             self.assertEqual(response.status, "200 OK")
@@ -704,9 +704,9 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
         contracts = response.json["data"]
 
-        response = self.app.get(f"/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}")
+        response = self.app.get(f"/contracts/{contracts[0]['id']}?acc_token={self.owner_token}")
         contract_1 = response.json["data"]
-        response = self.app.get(f"/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}")
+        response = self.app.get(f"/contracts/{contracts[1]['id']}?acc_token={self.owner_token}")
         contract_2 = response.json["data"]
 
         self.app.authorization = ("Basic", ("broker", ""))
@@ -716,7 +716,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + "patch-1st-contract-value.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f'/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}',
+                f"/contracts/{contracts[0]['id']}?acc_token={self.owner_token}",
                 {"data": {"value": new_value, "items": new_items}},
             )
             self.assertEqual(response.status, "200 OK")
@@ -726,35 +726,35 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         set_items_unit(new_items, new_value)
         with open(TARGET_DIR + "patch-2nd-contract-value.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f'/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}',
+                f"/contracts/{contracts[1]['id']}?acc_token={self.owner_token}",
                 {"data": {"value": new_value, "items": new_items}},
             )
             self.assertEqual(response.status, "200 OK")
 
         response = self.app.put_json(
-            f'/contracts/{contracts[0]["id"]}/buyer/signer_info?acc_token={self.owner_token}',
+            f"/contracts/{contracts[0]['id']}/buyer/signer_info?acc_token={self.owner_token}",
             {"data": test_signer_info},
         )
         self.assertEqual(response.status, "200 OK")
 
         response = self.app.put_json(
-            f'/contracts/{contracts[0]["id"]}/suppliers/signer_info?acc_token={self.bid_token}',
+            f"/contracts/{contracts[0]['id']}/suppliers/signer_info?acc_token={self.bid_token}",
             {"data": test_signer_info},
         )
 
         response = self.app.put_json(
-            f'/contracts/{contracts[1]["id"]}/buyer/signer_info?acc_token={self.owner_token}',
+            f"/contracts/{contracts[1]['id']}/buyer/signer_info?acc_token={self.owner_token}",
             {"data": test_signer_info},
         )
         self.assertEqual(response.status, "200 OK")
 
         response = self.app.put_json(
-            f'/contracts/{contracts[1]["id"]}/suppliers/signer_info?acc_token={self.bid_token}',
+            f"/contracts/{contracts[1]['id']}/suppliers/signer_info?acc_token={self.bid_token}",
             {"data": test_signer_info},
         )
 
         response = self.app.patch_json(
-            f'/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}',
+            f"/contracts/{contracts[0]['id']}?acc_token={self.owner_token}",
             {
                 "data": {
                     "status": "active",
@@ -769,7 +769,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            f'/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}',
+            f"/contracts/{contracts[1]['id']}?acc_token={self.owner_token}",
             {
                 "data": {
                     "status": "active",
@@ -843,13 +843,13 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + "patch-to-cancelled-1st-contract.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f'/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}', {"data": {"status": "cancelled"}}
+                f"/contracts/{contracts[0]['id']}?acc_token={self.owner_token}", {"data": {"status": "cancelled"}}
             )
             self.assertEqual(response.status, "200 OK")
 
         with open(TARGET_DIR + "patch-to-cancelled-2nd-contract-error.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f'/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}',
+                f"/contracts/{contracts[1]['id']}?acc_token={self.owner_token}",
                 {"data": {"status": "cancelled"}},
                 status=403,
             )

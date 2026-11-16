@@ -1,5 +1,3 @@
-from typing import Type
-
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import get_items, set_item
@@ -34,8 +32,8 @@ def resolve_document(request, item_name, container):
 
 
 class DocumentResourceMixin:
-    state_class: Type[BaseState]
-    serializer_class: Type[BaseSerializer] = DocumentSerializer
+    state_class: type[BaseState]
+    serializer_class: type[BaseSerializer] = DocumentSerializer
     container: str = "documents"
     item_name: str
 

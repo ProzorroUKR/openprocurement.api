@@ -9,10 +9,11 @@ The data is validated in two steps: conversion errors (wrong types, unknown fiel
 
 import ast
 import re
+from collections.abc import Callable
 from contextlib import contextmanager
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import Any, Callable
+from typing import Any
 
 from pydantic import ValidationError as PydanticValidationError
 from pydantic_core import ErrorDetails

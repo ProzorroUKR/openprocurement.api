@@ -1,11 +1,10 @@
 import logging
 from importlib import import_module
-from typing import Type
 
 from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 
 tender_migration = import_module("openprocurement.tender.core.migrations.0034_migrate_contract_template_name")
-BaseMigration: Type[PymongoCollectionMigration] = tender_migration.Migration
+BaseMigration: type[PymongoCollectionMigration] = tender_migration.Migration
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)

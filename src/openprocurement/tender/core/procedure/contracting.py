@@ -2,7 +2,6 @@ from collections import defaultdict
 from copy import deepcopy
 from datetime import timedelta
 from logging import getLogger
-from typing import Dict, List
 from uuid import uuid4
 
 from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
@@ -118,7 +117,7 @@ def add_contracts(request, award):
     return contracts_added
 
 
-def merge_items(bid_items: List[Dict], tender_items: List[Dict]) -> List[Dict]:
+def merge_items(bid_items: list[dict], tender_items: list[dict]) -> list[dict]:
     tender_items = deepcopy(tender_items)
     tender_item_by_id = {i["id"]: i for i in tender_items}
     for bid_item in bid_items:
@@ -195,7 +194,7 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
     return contract_data
 
 
-def clean_objs(objs: List[Dict], model, forbidden_fields=None):
+def clean_objs(objs: list[dict], model, forbidden_fields=None):
     if not objs:
         return
 

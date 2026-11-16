@@ -1,14 +1,12 @@
-from typing import Union
-
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_object
 
 
-def get_award() -> Union[dict, None]:
+def get_award() -> dict | None:
     return get_object("award")
 
 
-def get_cancellation() -> Union[dict, None]:
+def get_cancellation() -> dict | None:
     return get_object("cancellation")
 
 

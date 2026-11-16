@@ -341,7 +341,7 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    "description": "Can't delete object if tender not in " "['draft'] statuses",
+                    "description": "Can't delete object if tender not in ['draft'] statuses",
                     "location": "body",
                     "name": "data",
                 }
@@ -365,7 +365,7 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    "description": "Can't delete object if tender not in " "['draft'] statuses",
+                    "description": "Can't delete object if tender not in ['draft'] statuses",
                     "location": "body",
                     "name": "data",
                 }
@@ -380,7 +380,7 @@ def patch_criteria_rg(self):
     rg_id = criteria[0]["requirementGroups"][0]["id"]
 
     request_path = (
-        f"/tenders/{self.tender_id}/criteria/{criteria_id}" f"/requirement_groups/{rg_id}?acc_token={self.tender_token}"
+        f"/tenders/{self.tender_id}/criteria/{criteria_id}/requirement_groups/{rg_id}?acc_token={self.tender_token}"
     )
 
     updated_fields = {

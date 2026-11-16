@@ -1,5 +1,5 @@
+from collections.abc import Callable
 from re import compile
-from typing import Callable
 
 from prozorro_cdb.api.migrations.utils import AsyncCollectionMigration, migrate_collection
 from prozorro_cdb.violation_report.database.collection import ViolationReportCollection

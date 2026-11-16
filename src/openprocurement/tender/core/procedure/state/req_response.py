@@ -1,5 +1,3 @@
-from typing import List
-
 from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
@@ -284,7 +282,7 @@ class RequirementResponsesRulesMixin(BaseState):
 
     def validate_evidence_related_document(
         self, parent_data: dict, evidence: dict, raise_error: bool = True
-    ) -> List[dict]:
+    ) -> list[dict]:
         parent_obj_name = self.requirement_responses_parent_obj_name
         related_doc = evidence.get("relatedDocument")
         if not related_doc and evidence.get("type") == "document" and not bid_in_invalid_status():
@@ -329,7 +327,7 @@ class RequirementResponsesRulesMixin(BaseState):
             if datatype(expected_value) != value:
                 raise ValidationError(
                     f'Value "{value}" does not match expected value "{expected_value}" '
-                    f'in requirement {requirement["id"]}'
+                    f"in requirement {requirement['id']}"
                 )
 
     @classmethod
@@ -356,8 +354,7 @@ class RequirementResponsesRulesMixin(BaseState):
 
         if expected_max_items is not None and expected_max_items < len(unique_values):
             raise ValidationError(
-                f"Count of values is higher than maximum of {expected_max_items} "
-                f"for requirement {requirement['id']}"
+                f"Count of values is higher than maximum of {expected_max_items} for requirement {requirement['id']}"
             )
 
         if allow_extra_values:
@@ -370,8 +367,7 @@ class RequirementResponsesRulesMixin(BaseState):
         else:
             if expected_min_items is not None and expected_min_items > len(unique_values):
                 raise ValidationError(
-                    f"Count of values is less than minimum of {expected_min_items} "
-                    f"for requirement {requirement['id']}"
+                    f"Count of values is less than minimum of {expected_min_items} for requirement {requirement['id']}"
                 )
 
             if expected_values and not set(unique_values).issubset(set(expected_values)):

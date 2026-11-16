@@ -1,5 +1,4 @@
 import logging
-from typing import List, Optional, Tuple
 
 from aiohttp.web import HTTPNoContent, HTTPNotFound
 from aiohttp_pydantic.oas.typing import r200, r204
@@ -44,7 +43,7 @@ class ViolationReportDetailsView(BaseView):
 class ViolationReportDocumentListView(BaseView):
     view_name = "violation_report_document_list"
 
-    async def get(self, violation_report_id: str, /) -> r200[DataModel[List[Document]]]:
+    async def get(self, violation_report_id: str, /) -> r200[DataModel[list[Document]]]:
         """
         Tags: ViolationReports.details
         """
@@ -85,8 +84,8 @@ class ViolationReportDocumentView(BaseView):
     async def resolve_document(
         violation_report_id: str,
         document_id: str,
-        download: Optional[str] = None,
-    ) -> Tuple[Document, int, ViolationReportDBModel]:
+        download: str | None = None,
+    ) -> tuple[Document, int, ViolationReportDBModel]:
         violation_report = await get_violation_report_or_404(violation_report_id)
         for doc_index, document in reversed(list(enumerate(violation_report.details.documents))):
             if document.id == document_id and (download is None or download in document.url):

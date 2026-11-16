@@ -1,5 +1,4 @@
 from logging import getLogger
-from typing import List, Optional, Tuple
 
 from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
@@ -30,7 +29,7 @@ def resolve_req_response(request: Request, parent_obj_name: str) -> None:
 
 
 class BaseReqResponseResource(TenderBaseResource):
-    def __acl__(self) -> List[Tuple[str, str, str]]:
+    def __acl__(self) -> list[tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_req_response"),
@@ -49,7 +48,7 @@ class BaseReqResponseResource(TenderBaseResource):
     def modify_tender(self):
         return self.parent_obj_name != "bid"
 
-    def collection_post(self) -> Optional[dict]:
+    def collection_post(self) -> dict | None:
         parent = self.get_parent()
         req_responses = self.request.validated["data"]
         if "requirementResponses" not in parent:
@@ -83,7 +82,7 @@ class BaseReqResponseResource(TenderBaseResource):
         data = self.serializer_class(self.request.validated["requirement_response"], **kwargs).data
         return {"data": data}
 
-    def patch(self) -> Optional[dict]:
+    def patch(self) -> dict | None:
         updated_req_response = self.request.validated["data"]
         if not updated_req_response:
             return None
@@ -103,7 +102,7 @@ class BaseReqResponseResource(TenderBaseResource):
             kwargs = {self.parent_obj_name: self.get_parent(), "tender": self.request.validated["tender"]}
             return {"data": self.serializer_class(updated_req_response, **kwargs).data}
 
-    def delete(self) -> Optional[dict]:
+    def delete(self) -> dict | None:
         parent = self.get_parent()
         req_response = self.request.validated["requirement_response"]
 

@@ -1,4 +1,4 @@
-from typing import Iterable
+from collections.abc import Iterable
 
 
 def enum_members(values: Iterable[str]) -> dict[str, str]:

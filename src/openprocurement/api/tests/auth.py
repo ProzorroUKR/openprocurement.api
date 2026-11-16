@@ -60,7 +60,7 @@ class AuthTest(unittest.TestCase):
 
     def test_authenticated_userid_utf8(self):
         request = testing.DummyRequest()
-        inputs = (b"m\xc3\xb6rk\xc3\xb6:" b"m\xc3\xb6rk\xc3\xb6password").decode("utf-8")
+        inputs = (b"m\xc3\xb6rk\xc3\xb6:m\xc3\xb6rk\xc3\xb6password").decode("utf-8")
         request.headers["Authorization"] = "Basic %s" % (base64.b64encode(inputs.encode("utf-8")).decode("latin-1"))
 
         def check(username, password, request):
@@ -71,7 +71,7 @@ class AuthTest(unittest.TestCase):
 
     def test_authenticated_userid_latin1(self):
         request = testing.DummyRequest()
-        inputs = (b"m\xc3\xb6rk\xc3\xb6:" b"m\xc3\xb6rk\xc3\xb6password").decode("utf-8")
+        inputs = (b"m\xc3\xb6rk\xc3\xb6:m\xc3\xb6rk\xc3\xb6password").decode("utf-8")
         request.headers["Authorization"] = "Basic %s" % (base64.b64encode(inputs.encode("latin-1")).decode("latin-1"))
 
         def check(username, password, request):

@@ -1,7 +1,8 @@
 from base64 import b64decode, b64encode
 from binascii import Error as BinasciiError
+from collections.abc import Iterable, Iterator
 from time import time
-from typing import Iterable, Iterator, Tuple, TypeVar
+from typing import TypeVar
 from urllib.parse import parse_qsl, quote, unquote, urlencode, urlparse
 from uuid import uuid4
 
@@ -20,7 +21,7 @@ DocumentDataT = TypeVar("DocumentDataT", bound=PostDocument)
 
 def upload_documents(
     documents: list[DocumentDataT], current_url: str, doc_ids: Iterator[str] = None
-) -> Iterable[Tuple[str, DocumentDataT]]:
+) -> Iterable[tuple[str, DocumentDataT]]:
     doc_config = get_request_async().app.doc_storage_config
     for document in documents:
         check_document(doc_config, document)

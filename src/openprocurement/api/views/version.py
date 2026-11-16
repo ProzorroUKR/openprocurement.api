@@ -15,7 +15,7 @@ def get_version(request):
             "API": version("openprocurement.api"),
             "standards": {
                 "version": version("standards"),
-                "url": f'{STANDARDS_BASE_URL}/{version("standards")}',
+                "url": f"{STANDARDS_BASE_URL}/{version('standards')}",
             },
         }
     )

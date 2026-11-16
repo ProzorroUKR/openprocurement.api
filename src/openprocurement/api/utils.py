@@ -6,7 +6,6 @@ from datetime import datetime
 from functools import partial
 from json import dumps
 from time import time as ttime
-from typing import Optional
 from urllib.parse import urlencode, urlparse, urlunsplit
 from uuid import uuid4
 
@@ -76,7 +75,7 @@ def get_obj_by_id(
     collection_name: str,
     obj_id: str,
     raise_error: bool = True,
-    first_revision_only: Optional[bool] = None,
+    first_revision_only: bool | None = None,
 ):
     if not obj_id:
         return

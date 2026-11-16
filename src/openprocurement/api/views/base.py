@@ -1,6 +1,7 @@
 import hashlib
+from collections.abc import Callable
 from logging import getLogger
-from typing import Any, Callable
+from typing import Any
 
 from bson import Timestamp
 

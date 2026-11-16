@@ -1,7 +1,6 @@
 from datetime import timedelta
 from decimal import Decimal
 from logging import getLogger
-from typing import Optional
 
 from barbecue import calculate_coeficient
 
@@ -515,7 +514,7 @@ class TenderStateAwardingMixin:
         return weighted_value
 
     @classmethod
-    def calc_weighted_value(cls, tender: dict, bid: dict, value_container: dict, lot_id: str = None) -> Optional[dict]:
+    def calc_weighted_value(cls, tender: dict, bid: dict, value_container: dict, lot_id: str = None) -> dict | None:
         value = value_container.get("value", {})
 
         if not value:
@@ -549,7 +548,7 @@ class TenderStateAwardingMixin:
         return None
 
     @staticmethod
-    def calc_addition(tender: dict, bid: dict, lot_id: str = None) -> Optional[float]:
+    def calc_addition(tender: dict, bid: dict, lot_id: str = None) -> float | None:
         """
         Calculates addition for weighted value for: LCC
         """
@@ -595,7 +594,7 @@ class TenderStateAwardingMixin:
         return addition
 
     @classmethod
-    def calc_denominator(cls, tender: dict, bid: dict, lot_id: str = None) -> Optional[float]:
+    def calc_denominator(cls, tender: dict, bid: dict, lot_id: str = None) -> float | None:
         """
         Calculates denominator for weighted value for: features
         """

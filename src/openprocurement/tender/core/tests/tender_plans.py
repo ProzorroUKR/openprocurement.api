@@ -156,7 +156,7 @@ def test_fail_not_draft(app, plan):
     query = {"Signature": signature, "KeyID": keyid}
     doc_url = "http://localhost/get/{}?{}".format(uuid, urlencode(query))
     response = app.post_json(
-        f'/tenders/{tender["data"]["id"]}/documents?acc_token={tender["access"]["token"]}',
+        f"/tenders/{tender['data']['id']}/documents?acc_token={tender['access']['token']}",
         {
             "data": {  # pass documents with the tender post request
                 "title": "name.doc",
@@ -176,7 +176,7 @@ def test_fail_not_draft(app, plan):
     query = {"Signature": signature, "KeyID": keyid}
     doc_url = "http://localhost/get/{}?{}".format(uuid, urlencode(query))
     response = app.post_json(
-        f'/tenders/{tender["data"]["id"]}/documents?acc_token={tender["access"]["token"]}',
+        f"/tenders/{tender['data']['id']}/documents?acc_token={tender['access']['token']}",
         {
             "data": {
                 "title": "sign.p7s",
