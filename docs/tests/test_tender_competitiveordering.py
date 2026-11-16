@@ -388,7 +388,7 @@ class TenderrCOShortResourceTest(
         #  Auction
         self.set_status("active.auction")
         self.app.authorization = ("Basic", ("auction", ""))
-        auction1_url = f'{self.auctions_url}/tenders/{self.tender_id}_{lot["id"]}'
+        auction1_url = f"{self.auctions_url}/tenders/{self.tender_id}_{lot['id']}"
         patch_data = {
             "lots": [
                 {
@@ -418,7 +418,7 @@ class TenderrCOShortResourceTest(
             ],
         }
         response = self.app.patch_json(
-            f'/tenders/{self.tender_id}/auction/{lot["id"]}?acc_token={owner_token}', {"data": patch_data}
+            f"/tenders/{self.tender_id}/auction/{lot['id']}?acc_token={owner_token}", {"data": patch_data}
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -429,7 +429,7 @@ class TenderrCOShortResourceTest(
         auction_bids_data[0]["lotValues"][0]["value"]["amount"] = 250  # too low price
 
         self.app.post_json(
-            f'/tenders/{self.tender_id}/auction/{lot["id"]}',
+            f"/tenders/{self.tender_id}/auction/{lot['id']}",
             {
                 "data": {
                     "bids": [
@@ -883,7 +883,7 @@ class TenderrCOLongResourceTest(
         #  Auction
         self.set_status("active.auction")
         self.app.authorization = ("Basic", ("auction", ""))
-        auction1_url = f'{self.auctions_url}/tenders/{self.tender_id}_{lot["id"]}'
+        auction1_url = f"{self.auctions_url}/tenders/{self.tender_id}_{lot['id']}"
         patch_data = {
             "lots": [
                 {
@@ -913,7 +913,7 @@ class TenderrCOLongResourceTest(
             ],
         }
         response = self.app.patch_json(
-            f'/tenders/{self.tender_id}/auction/{lot["id"]}?acc_token={owner_token}', {"data": patch_data}
+            f"/tenders/{self.tender_id}/auction/{lot['id']}?acc_token={owner_token}", {"data": patch_data}
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -924,7 +924,7 @@ class TenderrCOLongResourceTest(
         auction_bids_data[0]["lotValues"][0]["value"]["amount"] = 250  # too low price
 
         self.app.post_json(
-            f'/tenders/{self.tender_id}/auction/{lot["id"]}',
+            f"/tenders/{self.tender_id}/auction/{lot['id']}",
             {
                 "data": {
                     "bids": [

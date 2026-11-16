@@ -1,5 +1,4 @@
 from logging import getLogger
-from typing import List, Optional, Tuple
 
 from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
@@ -25,7 +24,7 @@ def resolve_criterion(request: Request) -> None:
 
 
 class BaseCriterionResource(TenderBaseResource):
-    def __acl__(self) -> List[Tuple[str, str, str]]:
+    def __acl__(self) -> list[tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_criterion"),
@@ -46,7 +45,7 @@ class BaseCriterionResource(TenderBaseResource):
         content_type="application/json",
         permission="create_criterion",
     )
-    def collection_post(self) -> Optional[dict]:
+    def collection_post(self) -> dict | None:
         self.state.validate_criterion_post_request()
         tender = self.request.validated["tender"]
         criteria = self.request.validated["data"]
@@ -87,7 +86,7 @@ class BaseCriterionResource(TenderBaseResource):
         content_type="application/json",
         permission="edit_criterion",
     )
-    def patch(self) -> Optional[dict]:
+    def patch(self) -> dict | None:
         self.state.validate_criterion_patch_request()
         updated_criterion = self.request.validated["data"]
         if not updated_criterion:

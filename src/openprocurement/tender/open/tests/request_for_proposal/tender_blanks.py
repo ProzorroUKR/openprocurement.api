@@ -301,7 +301,7 @@ def create_tender_invalid(self):
                 "description": [
                     {
                         "additionalClassifications": [
-                            "One of additional classifications should be " "one of [ДК003, ДК015, ДК018, specialNorms]."
+                            "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
                         ]
                     }
                 ],

@@ -1,5 +1,4 @@
 import logging
-from typing import List, Union
 from uuid import uuid4
 
 from aiohttp_pydantic.oas.typing import r200, r201
@@ -56,7 +55,7 @@ class ViolationReportView(BaseView):
         self,
         violation_report_id: str,
         /,
-        body: DataModel[Union[ViolationReportPatchDetailsRequestData, ViolationReportPublishRequestData]],
+        body: DataModel[ViolationReportPatchDetailsRequestData | ViolationReportPublishRequestData],
     ) -> r200[ViolationReportDBModel]:
         """
         Tags: ViolationReports
@@ -89,7 +88,7 @@ class ViolationReportView(BaseView):
 
 
 class TenderViolationReportListView(BaseView):
-    async def get(self, tender_id: str, /) -> r200[List[ViolationReportDBModel]]:
+    async def get(self, tender_id: str, /) -> r200[list[ViolationReportDBModel]]:
         """
         Tags: ViolationReports
         """
@@ -100,7 +99,7 @@ class TenderViolationReportListView(BaseView):
 class ContractViolationReportListView(BaseView):
     view_name = "contract_violation_report_list"
 
-    async def get(self, contract_id: str, /) -> r200[List[ViolationReportDBModel]]:
+    async def get(self, contract_id: str, /) -> r200[list[ViolationReportDBModel]]:
         """
         Tags: ViolationReports
         """

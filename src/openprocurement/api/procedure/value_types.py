@@ -2,9 +2,10 @@
 Converters of values by a data type name (`dataType` of criteria requirements and their responses).
 """
 
+from collections.abc import Callable
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
-from typing import Any, Callable
+from typing import Any
 
 from openprocurement.api.procedure.errors import ConversionError
 

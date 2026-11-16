@@ -286,10 +286,7 @@ class TenderAwardComplaintObjectionMixin:
         return self.app.post_json(url, {"data": doc_data}, status=status)
 
     def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
-        url = (
-            f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{complaint_id}?"
-            f"acc_token={complaint_token}"
-        )
+        url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{complaint_id}?acc_token={complaint_token}"
         return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
 

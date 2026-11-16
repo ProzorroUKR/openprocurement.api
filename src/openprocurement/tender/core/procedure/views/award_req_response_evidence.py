@@ -1,5 +1,3 @@
-from typing import Optional
-
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.award_req_response import (
     resolve_award,
@@ -25,7 +23,7 @@ class AwardReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
         content_type="application/json",
         permission="create_rr_evidence",
     )
-    def collection_post(self) -> Optional[dict]:
+    def collection_post(self) -> dict | None:
         self.state.validate_req_response_evidence_post_request()
         return super().collection_post()
 
@@ -41,13 +39,13 @@ class AwardReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
         content_type="application/json",
         permission="edit_rr_evidence",
     )
-    def patch(self) -> Optional[dict]:
+    def patch(self) -> dict | None:
         self.state.validate_req_response_evidence_patch_request()
         return super().patch()
 
     @json_view(
         permission="edit_rr_evidence",
     )
-    def delete(self) -> Optional[dict]:
+    def delete(self) -> dict | None:
         self.state.validate_req_response_evidence_delete_request()
         return super().delete()

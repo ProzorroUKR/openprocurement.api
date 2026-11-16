@@ -11,7 +11,8 @@ What the base class does on top of pydantic:
 """
 
 import functools
-from typing import Annotated, Any, Callable, ClassVar, get_args, get_origin
+from collections.abc import Callable
+from typing import Annotated, Any, ClassVar, get_args, get_origin
 
 from pydantic import (
     AliasChoices,

@@ -1,4 +1,4 @@
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic import Field
 
@@ -13,5 +13,5 @@ class Tender(BaseModel):
     id: str = Field(alias="_id")
     procurementMethodType: str
     agreement: TenderAgreement
-    procurementMethodDetails: Optional[str] = None
-    mode: Optional[Literal["test"]] = None
+    procurementMethodDetails: str | None = None
+    mode: Literal["test"] | None = None

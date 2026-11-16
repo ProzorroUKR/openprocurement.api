@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import EmailStr, HttpUrl
 
@@ -12,29 +12,29 @@ from prozorro_cdb.api.database.schema.common import BaseModel
 class Identifier(BaseModel):
     id: Any
     scheme: str
-    legalName: Optional[str] = None
-    legalName_en: Optional[str] = None
-    legalName_ru: Optional[str] = None
-    uri: Optional[HttpUrl] = None
+    legalName: str | None = None
+    legalName_en: str | None = None
+    legalName_ru: str | None = None
+    uri: HttpUrl | None = None
 
 
 class ContactPoint(BaseModel):
     name: str
-    name_en: Optional[str] = None
-    name_ru: Optional[str] = None
-    email: Optional[EmailStr] = None
-    telephone: Optional[str] = None
-    faxNumber: Optional[str] = None
-    url: Optional[HttpUrl] = None
+    name_en: str | None = None
+    name_ru: str | None = None
+    email: EmailStr | None = None
+    telephone: str | None = None
+    faxNumber: str | None = None
+    url: HttpUrl | None = None
 
 
 class Classification(BaseModel):
     id: str
     scheme: str
     description: str
-    description_en: Optional[str] = None
-    description_ru: Optional[str] = None
-    uri: Optional[HttpUrl] = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    uri: HttpUrl | None = None
 
 
 class AddressClassification(Classification):
@@ -42,27 +42,27 @@ class AddressClassification(Classification):
 
 
 class Address(BaseModel):
-    streetAddress: Optional[str] = None
-    locality: Optional[str] = None
-    region: Optional[str] = None
-    postalCode: Optional[str] = None
+    streetAddress: str | None = None
+    locality: str | None = None
+    region: str | None = None
+    postalCode: str | None = None
     countryName: str
-    countryName_en: Optional[str] = None
-    countryName_ru: Optional[str] = None
-    addressDetails: Optional[list[AddressClassification]] = None
+    countryName_en: str | None = None
+    countryName_ru: str | None = None
+    addressDetails: list[AddressClassification] | None = None
 
 
 class Organization(BaseModel):
     """An organization"""
 
     name: str
-    name_en: Optional[str] = None
+    name_en: str | None = None
     identifier: Identifier
-    additionalIdentifiers: Optional[list[Identifier]] = None
-    additionalContactPoints: Optional[list[ContactPoint]] = None
-    address: Optional[Address] = None
-    contactPoint: Optional[ContactPoint] = None
-    contract_owner: Optional[str] = None
+    additionalIdentifiers: list[Identifier] | None = None
+    additionalContactPoints: list[ContactPoint] | None = None
+    address: Address | None = None
+    contactPoint: ContactPoint | None = None
+    contract_owner: str | None = None
 
 
 class SignerInfo(BaseModel):
@@ -77,15 +77,15 @@ class SignerInfo(BaseModel):
 class Supplier(Organization):
     """Supplier organization"""
 
-    scale: Optional[OrganizationScale] = None
-    signerInfo: Optional[SignerInfo] = None
+    scale: OrganizationScale | None = None
+    signerInfo: SignerInfo | None = None
 
 
 class Buyer(Organization):
     """Buyer (procuring entity) organization"""
 
-    kind: Optional[ProcuringEntityKind] = None
-    signerInfo: Optional[SignerInfo] = None
+    kind: ProcuringEntityKind | None = None
+    signerInfo: SignerInfo | None = None
 
 
 class ProcuringEntity(Organization):

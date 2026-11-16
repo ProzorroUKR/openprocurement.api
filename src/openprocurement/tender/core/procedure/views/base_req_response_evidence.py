@@ -1,5 +1,4 @@
 from logging import getLogger
-from typing import List, Optional, Tuple
 
 from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
@@ -25,7 +24,7 @@ def resolve_evidence(request: Request) -> None:
 
 
 class BaseReqResponseEvidenceResource(TenderBaseResource):
-    def __acl__(self) -> List[Tuple[str, str, str]]:
+    def __acl__(self) -> list[tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_rr_evidence"),
@@ -44,7 +43,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
             or self.parent_obj_name != "bid"
         )
 
-    def collection_post(self) -> Optional[dict]:
+    def collection_post(self) -> dict | None:
         req_response = self.request.validated["requirement_response"]
         evidence = self.request.validated["data"]
         if "evidences" not in req_response:
@@ -73,7 +72,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
         data = self.serializer_class(self.request.validated["evidence"]).data
         return {"data": data}
 
-    def patch(self) -> Optional[dict]:
+    def patch(self) -> dict | None:
         updated_evidence = self.request.validated["data"]
         if not updated_evidence:
             return None
@@ -92,7 +91,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
             )
             return {"data": self.serializer_class(updated_evidence).data}
 
-    def delete(self) -> Optional[dict]:
+    def delete(self) -> dict | None:
         req_response = self.request.validated["requirement_response"]
         evidence = self.request.validated["evidence"]
 

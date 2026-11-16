@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 import inspect
+from collections.abc import Callable
 from decimal import Decimal
 from functools import cache
-from typing import Any, Callable, Generic, Optional, TypeVar, Union
+from typing import Any
 
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.utils import to_decimal
-
-T = TypeVar("T")
 
 
 @cache
@@ -27,7 +26,7 @@ def evaluate_serializer(serializer: Callable, value: Any, **kwargs) -> Any:
     return instance
 
 
-class AbstractSerializer(Generic[T]):
+class AbstractSerializer[T]:
     _data: Any
     _kwargs: dict[str, Any]
 
@@ -59,7 +58,7 @@ class BaseSerializer(AbstractSerializer[dict[str, Any]]):
     def data(self) -> dict[str, Any]:
         return self.serialize(self.raw, **self.kwargs)
 
-    def serialize(self, data: Optional[dict[str, Any]], **kwargs) -> dict[str, Any]:
+    def serialize(self, data: dict[str, Any] | None, **kwargs) -> dict[str, Any]:
         # pre-serialize
         # data can be None: an empty nested object
         items = [] if data is None else list(data.items())
@@ -99,7 +98,7 @@ class BaseSerializer(AbstractSerializer[dict[str, Any]]):
 
 
 class ListSerializer(AbstractSerializer[list[Any]]):
-    def __init__(self, serializer: Callable, data: Optional[list[Any]] = None, **kwargs):
+    def __init__(self, serializer: Callable, data: list[Any] | None = None, **kwargs):
         self.serializer = serializer
         self._data = data
         self._kwargs = kwargs.copy()
@@ -131,7 +130,7 @@ class BaseUIDSerializer(BaseSerializer):
         "attachments",
     }
 
-    def serialize(self, data: Optional[dict[str, Any]], **kwargs) -> dict[str, Any]:
+    def serialize(self, data: dict[str, Any] | None, **kwargs) -> dict[str, Any]:
         if data is not None:
             data = data.copy()
             for field in self.un_underscore_fields:
@@ -139,5 +138,5 @@ class BaseUIDSerializer(BaseSerializer):
         return super().serialize(data, **kwargs)
 
 
-def decimal_serializer(value: Union[int, float, str]) -> Decimal:
+def decimal_serializer(value: int | float | str) -> Decimal:
     return to_decimal(value)

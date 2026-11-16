@@ -1,5 +1,4 @@
 import logging
-from typing import List, Optional, Tuple, Union
 from uuid import uuid4
 
 from aiohttp.web import HTTPNoContent, HTTPNotFound
@@ -125,7 +124,7 @@ class ViolationReportDecisionView(DecisionDetailMixing, BaseView):
         violation_report_id: str,
         decision_id: str,
         /,
-        body: DataModel[Union[DecisionPatchRequestData, DecisionActivateRequestData]],
+        body: DataModel[DecisionPatchRequestData | DecisionActivateRequestData],
     ) -> r201[DataModel[DecisionDBModel]]:
         """
         Tags: ViolationReports.decisions
@@ -179,7 +178,7 @@ class ViolationReportDecisionView(DecisionDetailMixing, BaseView):
 class ViolationReportDecisionDocumentListView(DecisionDetailMixing, BaseView):
     view_name = "violation_report_decision_document_list"
 
-    async def get(self, violation_report_id: str, decision_id: str, /) -> r200[DataModel[List[Document]]]:
+    async def get(self, violation_report_id: str, decision_id: str, /) -> r200[DataModel[list[Document]]]:
         """
         Tags: ViolationReports.decisions
         """
@@ -224,8 +223,8 @@ class ViolationReportDecisionDocumentView(DecisionDetailMixing, BaseView):
     view_name = "violation_report_decision_document"
 
     async def resolve_document(
-        self, violation_report_id: str, decision_id: str, document_id: str, download: Optional[str] = None
-    ) -> Tuple[Document, int, DecisionDBModel, ViolationReportDBModel]:
+        self, violation_report_id: str, decision_id: str, document_id: str, download: str | None = None
+    ) -> tuple[Document, int, DecisionDBModel, ViolationReportDBModel]:
         violation_report = await get_violation_report_or_404(violation_report_id)
         decision = self.get_decision(violation_report, decision_id)
         for doc_index, document in reversed(list(enumerate(decision.documents))):

@@ -67,8 +67,7 @@ def run(env, args):
         cursor.close()
 
     logger.info(
-        f"Updating tenders with qualificationPeriod.reportingDatePublication field finished: "
-        f"updated {count} tenders"
+        f"Updating tenders with qualificationPeriod.reportingDatePublication field finished: updated {count} tenders"
     )
 
     logger.info(f"Successful migration: {migration_name}")

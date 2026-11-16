@@ -1,5 +1,4 @@
 from logging import getLogger
-from typing import List, Optional, Tuple
 
 from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
@@ -33,7 +32,7 @@ def resolve_requirement_group(request: Request) -> None:
 
 
 class BaseRequirementGroupResource(TenderBaseResource):
-    def __acl__(self) -> List[Tuple[str, str, str]]:
+    def __acl__(self) -> list[tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_rg"),
@@ -55,7 +54,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
         content_type="application/json",
         permission="create_rg",
     )
-    def collection_post(self) -> Optional[dict]:
+    def collection_post(self) -> dict | None:
         self.state.validate_requirement_group_post_request()
         requirement_group = self.request.validated["data"]
         criterion = self.request.validated["criterion"]
@@ -94,7 +93,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
         content_type="application/json",
         permission="edit_rg",
     )
-    def patch(self) -> Optional[dict]:
+    def patch(self) -> dict | None:
         self.state.validate_requirement_group_patch_request()
         updated_requirement_group = self.request.validated["data"]
         if not updated_requirement_group:

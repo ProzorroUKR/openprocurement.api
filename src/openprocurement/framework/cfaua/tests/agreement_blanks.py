@@ -271,7 +271,7 @@ def agreement_patch_invalid(self):
         response.json["errors"],
         [
             {
-                "description": "Can't generate credentials in current (terminated)" " agreement status",
+                "description": "Can't generate credentials in current (terminated) agreement status",
                 "location": "body",
                 "name": "data",
             }

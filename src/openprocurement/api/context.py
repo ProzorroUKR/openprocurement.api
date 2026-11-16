@@ -1,6 +1,5 @@
 import threading
 from datetime import datetime
-from typing import Optional, Union
 
 from pymongo.client_session import ClientSession
 from pyramid.request import Request
@@ -19,12 +18,12 @@ def set_request(request):
     thread_context.request = request
 
 
-def get_json_data() -> Union[list, dict]:
+def get_json_data() -> list | dict:
     bid = thread_context.request.validated.get("json_data")
     return bid
 
 
-def get_data() -> Union[list, dict]:
+def get_data() -> list | dict:
     bid = thread_context.request.validated.get("data")
     return bid
 
@@ -47,9 +46,9 @@ def get_request_now() -> datetime:
     return thread_context.now
 
 
-def get_db_session() -> Optional[ClientSession]:
+def get_db_session() -> ClientSession | None:
     return getattr(thread_context, "db_session", None)
 
 
-def set_db_session(db_session: Optional[ClientSession]):
+def set_db_session(db_session: ClientSession | None):
     thread_context.db_session = db_session

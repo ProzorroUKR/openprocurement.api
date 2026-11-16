@@ -2241,8 +2241,8 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
         [
             {
                 "description": [
-                    'Responses are required for all criteria with source tenderer/winner, '
-                    f'failed for criteria {criteria[-1]["id"]}'
+                    "Responses are required for all criteria with source tenderer/winner, "
+                    f"failed for criteria {criteria[-1]['id']}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",

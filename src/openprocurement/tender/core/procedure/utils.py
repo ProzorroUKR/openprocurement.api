@@ -1,11 +1,11 @@
 import math
 import urllib.parse
+from collections.abc import Iterable
 from copy import deepcopy
 from datetime import datetime, timedelta
 from decimal import Decimal
 from hashlib import sha512
 from logging import getLogger
-from typing import Iterable, Optional
 from uuid import uuid4
 
 from barbecue import vnmax
@@ -219,7 +219,7 @@ def find_item_by_id(list_items: list, find_id: str) -> dict:
     return {}
 
 
-def get_criterion_requirement(tender, requirement_id) -> Optional[dict]:
+def get_criterion_requirement(tender, requirement_id) -> dict | None:
     for criteria in tender.get("criteria", ""):
         for group in criteria.get("requirementGroups", ""):
             for req in group.get("requirements", ""):
@@ -227,7 +227,7 @@ def get_criterion_requirement(tender, requirement_id) -> Optional[dict]:
                     return criteria
 
 
-def bid_in_invalid_status() -> Optional[bool]:
+def bid_in_invalid_status() -> bool | None:
     request = get_request()
     if "/bids" not in request.url:
         return None
@@ -377,7 +377,7 @@ def validate_features_custom_weight(data, features, max_sum):
         else:
             if round(vnmax(features), 15) > max_sum:
                 raise ValidationError(
-                    "Sum of max value of all features should be " "less then or equal to {:.0f}%".format(max_sum * 100)
+                    "Sum of max value of all features should be less then or equal to {:.0f}%".format(max_sum * 100)
                 )
 
 
@@ -457,7 +457,7 @@ def extract_path(request):
     return path
 
 
-def extract_tender_id(request) -> Optional[str]:
+def extract_tender_id(request) -> str | None:
     if request.matchdict and "tender_id" in request.matchdict:
         return request.matchdict.get("tender_id")
 

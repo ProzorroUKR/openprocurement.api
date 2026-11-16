@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from typing import Any, Optional, Type
+from typing import Any
 
 from pymongo import UpdateOne
 from pymongo.asynchronous.collection import AsyncCollection
@@ -49,7 +49,7 @@ class AsyncCollectionMigration(CollectionMigration):
     def collection(self) -> AsyncCollection:
         return self.get_collection()
 
-    def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
+    def update_document(self, doc: dict, context: dict = None) -> dict | None:
         """Process a single document.
 
         :param doc: dict of document to process
@@ -79,7 +79,7 @@ class AsyncCollectionMigration(CollectionMigration):
             finally:
                 reset_db_session_async(token)
 
-    def process_operation(self, doc: dict, context: dict = None) -> Optional[UpdateOne]:
+    def process_operation(self, doc: dict, context: dict = None) -> UpdateOne | None:
         """Generate update operation for a single document.
 
         :param pipeline: Pipeline of update operations
@@ -142,8 +142,8 @@ class AsyncCollectionMigration(CollectionMigration):
 
 
 def migrate_collection(
-    migration: Type[AsyncCollectionMigration],
-    parser: Type[CollectionMigrationArgumentParser] = CollectionMigrationArgumentParser,
+    migration: type[AsyncCollectionMigration],
+    parser: type[CollectionMigrationArgumentParser] = CollectionMigrationArgumentParser,
 ):
     migration_instance = init_migration(migration, parser)
     asyncio.run(migration_instance.run())

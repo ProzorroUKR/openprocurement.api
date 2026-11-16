@@ -1,5 +1,3 @@
-from typing import Optional
-
 from aiohttp.web import HTTPBadRequest
 
 from prozorro_cdb.api.context import get_now_async
@@ -81,7 +79,7 @@ class ViolationReportDecisionState(BaseState):
         cls,
         decision: DecisionDBModel,
         data: DecisionPatchRequestData,
-    ) -> Optional[DecisionDBModel]:
+    ) -> DecisionDBModel | None:
         is_changed = False
 
         if decision.description != data.description:
@@ -170,7 +168,7 @@ class ViolationReportDecisionState(BaseState):
         document: Document,
         doc_index: int,
         updates: PatchDocument,
-    ) -> Optional[Document]:
+    ) -> Document | None:
         changes = updates.model_dump(exclude_none=True)
         updated_document = document.model_copy(update=changes)
         if document != updated_document:
@@ -207,7 +205,7 @@ class ViolationReportDecisionState(BaseState):
         cls,
         decision: DecisionDBModel,
         document_id: str,
-    ) -> Optional[DecisionDBModel]:
+    ) -> DecisionDBModel | None:
         doc_len = len(decision.documents)
         decision.documents = [d for d in decision.documents if d.id != document_id]
         if doc_len != len(decision.documents):

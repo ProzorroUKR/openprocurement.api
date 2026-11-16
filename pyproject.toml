@@ -60,9 +60,9 @@ dependencies = [
 dev = [
     "autoflake==2.2.1",
     "bandit[toml]==1.7.7",
-    "mypy==1.11.2",
+    "mypy==2.4.1",
     "pylint==3.0.3",
-    "ruff==0.6.9",
+    "ruff==0.17.5",
     "docutils<0.19",
     "sphinx>=7.1.0",
     "sphinx-intl>=2.1.0",
@@ -311,14 +311,31 @@ exclude = [
 line-length = 120
 indent-width = 4
 
-# Assume Python 3.11
-target-version = "py311"
+# Assume Python 3.13
+target-version = "py313"
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = ["E4", "E7", "E9", "F", "I"]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "F",
+    "I",
+    # the modern syntax of type hints
+    "UP006",
+    "UP007",
+    "UP035",
+    "UP037",
+    "UP040",
+    "UP043",
+    "UP045",
+    "UP046",
+    "UP047",
+    "UP049",
+]
 ignore = []
 exclude = [
     "src/openprocurement/api/tests/**",
@@ -365,7 +382,7 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.13"
 plugins = ["pydantic.mypy"]
 ignore_missing_imports = true
 check_untyped_defs = false
@@ -376,6 +393,8 @@ disable_error_code = [
     "assignment",
     "index",
     "return",
+    # the notes about the annotations in the untyped functions (check_untyped_defs is off)
+    "annotation-unchecked",
 ]
 
 exclude = '/(site-packages|__pycache__|\..*)/$'
@@ -390,10 +409,8 @@ warn_untyped_fields = true
 [[tool.mypy.overrides]]
 module = [
     "openprocurement.*",
-    "setuptools.*",
     "freezegun.*",
     "jmespath.*",
-    "pythonjsonlogger.*",
     "pymongo.*",
     "bson.*",
     "pytz.*",
@@ -413,12 +430,10 @@ module = [
     "jsonpath_ng.*",
     "simplejson.*",
     "pkg_resources.*",
-    "mock.*",
     "zope.*",
     "barbecue.*",
     "esculator.*",
     "parameterized.*",
-    "jinja2.*",
     "nacl.*",
     "ciso8601.*",
     "iso8601.*",

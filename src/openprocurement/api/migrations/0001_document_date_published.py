@@ -213,8 +213,8 @@ def run(env, args):
     time_spent = get_now() - start_date
 
     logger.info(
-        f"Time spent: {time_spent.days} days, {time_spent.seconds//3600} hours, "
-        f"{(time_spent.seconds//60)%60 if time_spent.seconds > 3600 else time_spent.seconds} seconds"
+        f"Time spent: {time_spent.days} days, {time_spent.seconds // 3600} hours, "
+        f"{(time_spent.seconds // 60) % 60 if time_spent.seconds > 3600 else time_spent.seconds} seconds"
     )
     logger.info(f"Successful migration: {migration_name}")
 

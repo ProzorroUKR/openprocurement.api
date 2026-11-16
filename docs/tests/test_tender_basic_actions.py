@@ -4446,7 +4446,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         with open(TARGET_DIR + "criteria/lcc-with-invalid-award-criteria.http", "w") as self.app.file_obj:
             self.app.post_json(
-                f'/tenders/{tender["id"]}/criteria?acc_token={owner_token}',
+                f"/tenders/{tender['id']}/criteria?acc_token={owner_token}",
                 {"data": test_lcc_tender_criteria},
                 status=422,
             )
@@ -4460,7 +4460,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         with open(TARGET_DIR + "criteria/lcc-with-valid-award-criteria.http", "w") as self.app.file_obj:
             self.app.post_json(
-                f'/tenders/{tender["id"]}/criteria?acc_token={owner_token}',
+                f"/tenders/{tender['id']}/criteria?acc_token={owner_token}",
                 {"data": test_lcc_tender_criteria},
             )
 

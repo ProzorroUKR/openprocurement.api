@@ -77,8 +77,7 @@ def run(env, args):
 
                 if count and count % log_every == 0:
                     logger.info(
-                        f"Updating tenders requirementResponses(bids, awards, qualifications): "
-                        f"updated {count} tenders"
+                        f"Updating tenders requirementResponses(bids, awards, qualifications): updated {count} tenders"
                     )
             except Exception as e:
                 logger.info(f"ERROR: Tender with id {tender['_id']}. Caught {type(e).__name__}.")

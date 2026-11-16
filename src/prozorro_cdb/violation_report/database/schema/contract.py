@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from pydantic import Field
 
@@ -14,4 +13,4 @@ class Contract(BaseModel):
     buyer: Buyer
     suppliers: list[Supplier]
 
-    dateSigned: Optional[datetime] = None
+    dateSigned: datetime | None = None

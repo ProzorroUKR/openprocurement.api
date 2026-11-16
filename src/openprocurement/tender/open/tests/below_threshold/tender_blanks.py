@@ -3744,8 +3744,8 @@ def activate_bid_guarantee_multilot(self):
         [
             {
                 "description": [
-                    'Responses are required for all criteria with source tenderer/winner, '
-                    f'failed for criteria {lot_criteria["id"]}, {winner_criteria["id"]}'
+                    "Responses are required for all criteria with source tenderer/winner, "
+                    f"failed for criteria {lot_criteria['id']}, {winner_criteria['id']}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -3771,8 +3771,8 @@ def activate_bid_guarantee_multilot(self):
         [
             {
                 "description": [
-                    'Responses are required for all criteria with source tenderer/winner, '
-                    f'failed for criteria {winner_criteria["id"]}'
+                    "Responses are required for all criteria with source tenderer/winner, "
+                    f"failed for criteria {winner_criteria['id']}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",

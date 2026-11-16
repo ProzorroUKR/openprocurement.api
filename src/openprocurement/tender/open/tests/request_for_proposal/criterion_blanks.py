@@ -48,7 +48,7 @@ def delete_requirement_evidence(self):
     self.set_status("active.enquiries")
 
     with mock.patch(
-        "openprocurement.tender.core.procedure.state" ".tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         response = self.app.delete(
@@ -62,7 +62,7 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    "description": "Can't delete object if tender not in " "['draft'] statuses",
+                    "description": "Can't delete object if tender not in ['draft'] statuses",
                     "location": "body",
                     "name": "data",
                 }
@@ -71,7 +71,7 @@ def delete_requirement_evidence(self):
 
         self.set_status("active.auction")
         with mock.patch(
-            "openprocurement.tender.core.procedure.state" ".tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
+            "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
             calculate_date(get_now(), timedelta(days=1)),
         ):
             response = self.app.delete(
@@ -85,14 +85,14 @@ def delete_requirement_evidence(self):
                 response.json["errors"],
                 [
                     {
-                        "description": "Can't delete object if tender not in " "['draft', 'active.enquiries'] statuses",
+                        "description": "Can't delete object if tender not in ['draft', 'active.enquiries'] statuses",
                         "location": "body",
                         "name": "data",
                     }
                 ],
             )
             with mock.patch(
-                "openprocurement.tender.core.procedure.state" ".tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
+                "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
                 get_now() - timedelta(days=1),
             ):
                 response = self.app.delete(
@@ -106,7 +106,7 @@ def delete_requirement_evidence(self):
                     response.json["errors"],
                     [
                         {
-                            "description": "Can't delete object if tender not in " "['draft'] statuses",
+                            "description": "Can't delete object if tender not in ['draft'] statuses",
                             "location": "body",
                             "name": "data",
                         }

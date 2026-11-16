@@ -1,5 +1,3 @@
-from typing import Optional
-
 from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
@@ -35,7 +33,7 @@ class QualificationReqResponseResource(BaseReqResponseResource):
         content_type="application/json",
         permission="create_req_response",
     )
-    def collection_post(self) -> Optional[dict]:
+    def collection_post(self) -> dict | None:
         self.state.validate_req_response_post_request()
         return super().collection_post()
 
@@ -51,13 +49,13 @@ class QualificationReqResponseResource(BaseReqResponseResource):
         content_type="application/json",
         permission="edit_req_response",
     )
-    def patch(self) -> Optional[dict]:
+    def patch(self) -> dict | None:
         self.state.validate_req_response_patch_request()
         return super().patch()
 
     @json_view(
         permission="edit_req_response",
     )
-    def delete(self) -> Optional[dict]:
+    def delete(self) -> dict | None:
         self.state.validate_req_response_delete_request()
         return super().delete()

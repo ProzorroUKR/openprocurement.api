@@ -51,8 +51,7 @@ class TenderEmptyResourceTest(BaseWebTest):
         self.assertEqual(response.status, "200 OK")
 
         response = self.app.get(
-            f"/tenders?offset={datetime.fromisoformat('2015-01-01T00:00:00+02:00').timestamp()}"
-            "&descending=1&limit=10"
+            f"/tenders?offset={datetime.fromisoformat('2015-01-01T00:00:00+02:00').timestamp()}&descending=1&limit=10"
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")

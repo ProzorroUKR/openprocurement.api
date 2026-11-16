@@ -2040,7 +2040,7 @@ class TenderCriteriaRulesMixin(BaseState):
                 if not item:
                     raise_operation_error(
                         self.request,
-                        f'For {criterion["classification"]["id"]} criteria `relatedItem` should be item from tender',
+                        f"For {criterion['classification']['id']} criteria `relatedItem` should be item from tender",
                         status=422,
                     )
                 elif criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:

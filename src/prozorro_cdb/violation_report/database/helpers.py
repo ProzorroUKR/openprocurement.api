@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 from aiohttp import web
 
@@ -64,9 +63,7 @@ async def get_violation_report_or_404(violation_report_id: str) -> ViolationRepo
     return ViolationReportDBModel.model_validate(obj)
 
 
-async def get_tender_violation_reports(
-    tender_id: str, contract_id: Optional[str] = None
-) -> list[ViolationReportDBModel]:
+async def get_tender_violation_reports(tender_id: str, contract_id: str | None = None) -> list[ViolationReportDBModel]:
     db = get_mongodb()
     filters = {"tender_id": tender_id}
     if contract_id is not None:

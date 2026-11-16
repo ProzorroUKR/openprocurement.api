@@ -1,5 +1,3 @@
-from typing import Optional
-
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from prozorro_cdb.api.context import get_now_async
 from prozorro_cdb.api.database.schema.common import Period
@@ -108,7 +106,7 @@ class ViolationReportDetailsState(BaseState):
         cls,
         violation_report: ViolationReportDBModel,
         request_data: ViolationReportPatchDetailsRequestData,
-    ) -> Optional[ViolationReportDBModel]:
+    ) -> ViolationReportDBModel | None:
         now = get_now_async()
         # if there are more fields, you could use .model_copy(update=...) and compare with result object
         if (
@@ -161,7 +159,7 @@ class ViolationReportDetailsState(BaseState):
         document: Document,
         doc_index: int,
         updates: PatchDocument,
-    ) -> Optional[Document]:
+    ) -> Document | None:
         changes = updates.model_dump(exclude_none=True)
         updated_document = document.model_copy(update=changes)
         if document != updated_document:
@@ -200,7 +198,7 @@ class ViolationReportDetailsState(BaseState):
         cls,
         violation_report: ViolationReportDBModel,
         document_id: str,
-    ) -> Optional[ViolationReportDBModel]:
+    ) -> ViolationReportDBModel | None:
         doc_len = len(violation_report.details.documents)
         violation_report.details.documents = [d for d in violation_report.details.documents if d.id != document_id]
         if doc_len != len(violation_report.details.documents):

@@ -1,5 +1,4 @@
 import logging
-from typing import List, Optional, Tuple, Union
 from uuid import uuid4
 
 from aiohttp.web import HTTPNoContent, HTTPNotFound
@@ -132,7 +131,7 @@ class DefendantStatementView(DefendantStatementDetailMixing, BaseView):
         violation_report_id: str,
         defendant_statement_id: str,
         /,
-        body: DataModel[Union[DefendantStatementPatchRequestData, DefendantStatementActivateRequestData]],
+        body: DataModel[DefendantStatementPatchRequestData | DefendantStatementActivateRequestData],
     ) -> r201[DataModel[DefendantStatementDBModel]]:
         """
         Tags: ViolationReports.defendantStatements
@@ -187,7 +186,7 @@ class DefendantStatementView(DefendantStatementDetailMixing, BaseView):
 class DefendantStatementDocumentListView(DefendantStatementDetailMixing, BaseView):
     view_name = "defendant_statement_document_list"
 
-    async def get(self, violation_report_id: str, defendant_statement_id: str, /) -> r200[DataModel[List[Document]]]:
+    async def get(self, violation_report_id: str, defendant_statement_id: str, /) -> r200[DataModel[list[Document]]]:
         """
         Tags: ViolationReports.defendantStatements
         """
@@ -237,8 +236,8 @@ class DefendantStatementDocumentView(DefendantStatementDetailMixing, BaseView):
         violation_report_id: str,
         defendant_statement_id: str,
         document_id: str,
-        download: Optional[str] = None,
-    ) -> Tuple[Document, int, DefendantStatementDBModel, ViolationReportDBModel]:
+        download: str | None = None,
+    ) -> tuple[Document, int, DefendantStatementDBModel, ViolationReportDBModel]:
         violation_report = await get_violation_report_or_404(violation_report_id)
         obj = self.get_defendant_statement(violation_report, defendant_statement_id)
         for doc_index, document in reversed(list(enumerate(obj.documents))):
