@@ -4,12 +4,10 @@ import inspect
 from collections.abc import Callable
 from decimal import Decimal
 from functools import cache
-from typing import Any, Generic, TypeVar
+from typing import Any
 
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.utils import to_decimal
-
-T = TypeVar("T")
 
 
 @cache
@@ -28,7 +26,7 @@ def evaluate_serializer(serializer: Callable, value: Any, **kwargs) -> Any:
     return instance
 
 
-class AbstractSerializer(Generic[T]):
+class AbstractSerializer[T]:
     _data: Any
     _kwargs: dict[str, Any]
 
