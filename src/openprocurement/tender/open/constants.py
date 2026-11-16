@@ -1,29 +1,21 @@
 from datetime import datetime, timedelta
+from typing import Literal
 
-from openprocurement.api.constants import TZ, WORKING_DAYS_WITH_WORKING_WEEKENDS
+from openprocurement.api.constants import TZ, WORKING_DAYS_WITH_WORKING_WEEKENDS, ProcurementMethodType
 
 # procurement method types served by the open package
-ABOVE_THRESHOLD = "aboveThreshold"
-ABOVE_THRESHOLD_UA = "aboveThresholdUA"
-ABOVE_THRESHOLD_EU = "aboveThresholdEU"
-ABOVE_THRESHOLD_UA_DEFENSE = "aboveThresholdUA.defense"
-SIMPLE_DEFENSE = "simple.defense"
-COMPETITIVE_ORDERING = "competitiveOrdering"
-BELOW_THRESHOLD = "belowThreshold"
-REQUEST_FOR_PROPOSAL = "requestForProposal"
-OPEN_TENDERING = "openTendering"
-
-OPEN_PROCUREMENT_METHOD_TYPES = [
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    SIMPLE_DEFENSE,
-    COMPETITIVE_ORDERING,
-    BELOW_THRESHOLD,
-    REQUEST_FOR_PROPOSAL,
-    OPEN_TENDERING,
+OpenProcurementMethodType = Literal[  # type: ignore[valid-type]
+    ProcurementMethodType.BELOW_THRESHOLD,
+    ProcurementMethodType.ABOVE_THRESHOLD,
+    ProcurementMethodType.ABOVE_THRESHOLD_UA,
+    ProcurementMethodType.ABOVE_THRESHOLD_EU,
+    ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE,
+    ProcurementMethodType.SIMPLE_DEFENSE,
+    ProcurementMethodType.COMPETITIVE_ORDERING,
+    ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+    ProcurementMethodType.OPEN_TENDERING,
 ]
+
 
 # route name prefix of the resources shared by the open procedures
 OPEN_ROUTE_PREFIX = "open"

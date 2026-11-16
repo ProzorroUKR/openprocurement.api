@@ -1,15 +1,13 @@
-from schematics.types import BaseType, StringType
+from typing import Any
 
-from openprocurement.api.constants import ORA_CODES
+from openprocurement.api.constants import OraCode
 from openprocurement.api.procedure.models.identifier import Identifier
 
 
 class PatchIdentifier(Identifier):
-    scheme = StringType(
-        choices=ORA_CODES
-    )  # The scheme that holds the unique identifiers used to identify the item being identified.
-    id = BaseType()  # The identifier of the organization in the selected scheme.
+    scheme: OraCode | None = None
+    id: Any = None
 
 
 class LegislationIdentifier(Identifier):
-    scheme = StringType()
+    scheme: str | None = None

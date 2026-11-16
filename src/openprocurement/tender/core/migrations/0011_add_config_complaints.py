@@ -3,12 +3,8 @@ import os
 
 from pymongo.errors import OperationFailure
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.open.constants import BELOW_THRESHOLD, COMPETITIVE_ORDERING
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -19,13 +15,13 @@ def has_tender_complaints_populator(tender):
         return tender["config"]["tenderComplaints"]
     pmt = tender.get("procurementMethodType")
     if pmt in (
-        BELOW_THRESHOLD,
-        COMPETITIVE_ORDERING,
-        REPORTING,
-        NEGOTIATION,
-        NEGOTIATION_QUICK,
-        PQ,
-        CFA_SELECTION,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+        ProcurementMethodType.PRICE_QUOTATION,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
     ):
         return False
     return True
@@ -36,13 +32,13 @@ def has_award_complaints_populator(tender):
         return tender["config"]["awardComplaints"]
     pmt = tender.get("procurementMethodType")
     if pmt in (
-        BELOW_THRESHOLD,
-        COMPETITIVE_ORDERING,
-        REPORTING,
-        PQ,
-        CFA_SELECTION,
-        CD_EU_TYPE,
-        CD_UA_TYPE,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.PRICE_QUOTATION,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     ):
         return False
     return True
@@ -53,11 +49,11 @@ def has_cancellation_complaints_populator(tender):
         return tender["config"]["cancellationComplaints"]
     pmt = tender.get("procurementMethodType")
     if pmt in (
-        BELOW_THRESHOLD,
-        COMPETITIVE_ORDERING,
-        REPORTING,
-        PQ,
-        CFA_SELECTION,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.PRICE_QUOTATION,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
     ):
         return False
     return True

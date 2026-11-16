@@ -1,20 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    SIMPLE_DEFENSE,
-)
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -23,13 +11,25 @@ logger = logging.getLogger(__name__)
 def award_complain_duration_populator(tender):
     pmt = tender.get("procurementMethodType")
 
-    if pmt in [ABOVE_THRESHOLD_UA, ABOVE_THRESHOLD_EU, NEGOTIATION, STAGE_2_UA_TYPE, STAGE_2_EU_TYPE, ESCO, CFA_UA]:
+    if pmt in [
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+        ProcurementMethodType.ESCO,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
+    ]:
         return 10
-    elif pmt in [ABOVE_THRESHOLD, COMPETITIVE_ORDERING, NEGOTIATION_QUICK]:
+    elif pmt in [
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ]:
         return 5
-    elif pmt in [SIMPLE_DEFENSE, ABOVE_THRESHOLD_UA_DEFENSE]:
+    elif pmt in [ProcurementMethodType.SIMPLE_DEFENSE, ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE]:
         return 4
-    elif pmt in [BELOW_THRESHOLD]:
+    elif pmt in [ProcurementMethodType.BELOW_THRESHOLD]:
         return 2
     else:
         return 0

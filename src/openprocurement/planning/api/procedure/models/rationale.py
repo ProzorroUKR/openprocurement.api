@@ -1,9 +1,9 @@
-from schematics.types import StringType
+from pydantic import Field
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType
+from openprocurement.api.procedure.types import IsoDateTime
 
 
 class RationaleObject(Model):
-    description = StringType(required=True, max_length=2048)
-    date = IsoDateTimeType()
+    description: str = Field(max_length=2048)
+    date: IsoDateTime | None = None

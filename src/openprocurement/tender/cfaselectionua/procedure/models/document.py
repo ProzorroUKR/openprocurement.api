@@ -1,15 +1,18 @@
-from schematics.types import MD5Type, StringType
+from pydantic import Field
 
-from openprocurement.api.procedure.types import HashType
+from openprocurement.api.procedure.types import (
+    MD5,
+    Hash,
+)
 from openprocurement.tender.core.procedure.models.document import BaseDocument
 
 
 class CFASelectionContractDocument(BaseDocument):
-    id = MD5Type(required=True)
-    datePublished = StringType(required=True)
-    hash = HashType()
-    title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)  # Link to the document or attachment.
-    dateModified = StringType()
-    author = StringType()
+    id: MD5
+    datePublished: str
+    hash: Hash | None = None
+    title: str
+    format: str = Field(pattern=r"^[-\w]+/[-\.\w\+]+$")
+    url: str
+    dateModified: str | None = None
+    author: str | None = None

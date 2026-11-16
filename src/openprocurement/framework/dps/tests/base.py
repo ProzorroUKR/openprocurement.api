@@ -1,3 +1,4 @@
+from openprocurement.api.constants import FrameworkType
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -10,14 +11,13 @@ from openprocurement.framework.core.tests.base import (
     tenderer,
     test_submission_config,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.framework import Framework
 from openprocurement.framework.dps.tests.periods import PERIODS
 
 now = get_now()
 
 test_framework_dps_data = {
-    "frameworkType": DPS_TYPE,
+    "frameworkType": FrameworkType.DYNAMIC_PURCHASING_SYSTEM,
     "procuringEntity": {
         "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000", "email": "aa@aa.com"},
         "identifier": {"scheme": "UA-EDR", "id": "00037256", "legalName": "Назва організації"},
@@ -49,7 +49,7 @@ test_framework_dps_config = {
 
 test_submission_data = {
     "tenderers": [tenderer],
-    "submissionType": DPS_TYPE,
+    "submissionType": FrameworkType.DYNAMIC_PURCHASING_SYSTEM,
 }
 
 
@@ -65,7 +65,7 @@ class BaseFrameworkWebTest(BaseFrameworkCoreWebTest):
     initial_submission_data: dict | None = None
     initial_submission_config: dict | None = None
     framework_class = Framework
-    framework_type = DPS_TYPE
+    framework_type = FrameworkType.DYNAMIC_PURCHASING_SYSTEM
     periods = PERIODS
 
     def save_changes(self):

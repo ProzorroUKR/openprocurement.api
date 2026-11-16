@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.cfaua.procedure.state.qualification_claim import (
     CFAUAQualificationClaimState,
 )
@@ -19,7 +20,7 @@ from openprocurement.tender.core.procedure.views.qualification_complaint import 
     name="closeFrameworkAgreementUA:Tender Qualification Complaints Get",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     request_method=["GET"],
     description="Tender EU qualification complaints get",
 )
@@ -31,7 +32,7 @@ class CFAUAQualificationClaimAndComplaintGetResource(QualificationComplaintGetRe
     name="closeFrameworkAgreementUA:Tender Qualification Claims",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     request_method=["POST", "PATCH"],
     complaintType="claim",
     description="Tender EU qualification claims",
@@ -44,7 +45,7 @@ class CFAUATenderQualificationClaimResource(QualificationClaimResource):
     name="closeFrameworkAgreementUA:Tender Qualification Complaints",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Tender EU qualification complaints",

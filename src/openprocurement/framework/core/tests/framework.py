@@ -3,26 +3,8 @@ import unittest
 from datetime import datetime
 from unittest.mock import MagicMock
 
-from schematics.transforms import wholelist
-from schematics.types import StringType
-from schematics.types.serializable import serializable
-
-from openprocurement.framework.core.procedure.models.framework import (
-    Framework as BaseFramework,
-)
 from openprocurement.framework.core.tests.base import BaseFrameworkTest
 from openprocurement.framework.core.utils import FrameworkTypePredicate
-
-
-class Framework(BaseFramework):
-    class Options:
-        roles = {"draft": wholelist()}
-
-    frameworkType = StringType(choices=["electronicCatalogue"], default="electronicCatalogue")
-
-    @serializable(serialized_name="date")
-    def old_date(self):
-        pass
 
 
 class FrameworksResourceTest(BaseFrameworkTest):

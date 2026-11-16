@@ -1,12 +1,12 @@
-from schematics.exceptions import ValidationError
-from schematics.types import StringType
-from schematics.types.compound import ModelType
+from typing import Literal
 
-from openprocurement.api.procedure.types import ListType
-from openprocurement.api.validation import validate_uniq_id
-from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA, SIMPLE_ASSET_ARMA
+from pydantic import field_validator
+
+from openprocurement.api.constants import ProcurementMethodType
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import validate_uniq_id
 from openprocurement.tender.arma.procedure.models.lot import ARMALot, ARMAPatchTenderLot, ARMAPostTenderLot
-from openprocurement.tender.core.constants import AWARD_CRITERIA_CHOICES
+from openprocurement.tender.core.constants import AwardCriteria
 from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.tender import (
@@ -34,22 +34,35 @@ class ARMAPostTender(
     TenderMilestonesMixin,
     PostBaseTender,
 ):
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(ARMAPostTenderLot, required=True), validators=[validate_uniq_id])
+    awardCriteria: AwardCriteria | None = None
+    procuringEntity: ProcuringEntity
+    lots: list[ARMAPostTenderLot] | None = None
 
-    def validate_lots(self, data, value):
+    @field_validator("lots")
+    @classmethod
+    def validate_lots(cls, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
+        return value
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class ComplexAssetPostTender(ARMAPostTender):
-    procurementMethodType = StringType(choices=[COMPLEX_ASSET_ARMA], default=COMPLEX_ASSET_ARMA)
+    procurementMethodType: Literal[ProcurementMethodType.COMPLEX_ASSET_ARMA] = (  # type: ignore[valid-type]
+        ProcurementMethodType.COMPLEX_ASSET_ARMA
+    )
 
 
 class SimpleAssetPostTender(TenderFeaturesMixin, ARMAPostTender):
-    procurementMethodType = StringType(choices=[SIMPLE_ASSET_ARMA], default=SIMPLE_ASSET_ARMA)
-    agreement = ModelType(AgreementUUID, required=True)
+    procurementMethodType: Literal[ProcurementMethodType.SIMPLE_ASSET_ARMA] = (  # type: ignore[valid-type]
+        ProcurementMethodType.SIMPLE_ASSET_ARMA
+    )
+    agreement: AgreementUUID
 
 
 class ARMAPatchTender(
@@ -60,31 +73,46 @@ class ARMAPatchTender(
     PatchTenderMilestonesMixin,
     PatchBaseTender,
 ):
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
-    procuringEntity = ModelType(ProcuringEntity)
-    lots = ListType(ModelType(ARMAPatchTenderLot, required=True), validators=[validate_uniq_id])
+    awardCriteria: AwardCriteria | None = None
+    procuringEntity: ProcuringEntity | None = None
+    lots: list[ARMAPatchTenderLot] | None = None
 
-    def validate_lots(self, data, value):
+    @field_validator("lots")
+    @classmethod
+    def validate_lots(cls, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
+        return value
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class SimpleAssetPatchTender(PatchTenderFeaturesMixin, ARMAPatchTender):
-    agreement = ModelType(AgreementUUID)
+    agreement: AgreementUUID | None = None
 
 
 class ARMATender(
     TenderSubmissionMixin, TenderGuaranteeMixin, TenderPeriodsMixin, TenderItemsMixin, TenderMilestonesMixin, BaseTender
 ):
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(ARMALot, required=True), validators=[validate_uniq_id])
+    awardCriteria: AwardCriteria | None = None
+    procuringEntity: ProcuringEntity
+    lots: list[ARMALot] | None = None
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class ComplexAssetTender(ARMATender):
-    procurementMethodType = StringType(choices=[COMPLEX_ASSET_ARMA], required=True)
+    procurementMethodType: Literal[ProcurementMethodType.COMPLEX_ASSET_ARMA]  # type: ignore[valid-type]
 
 
 class SimpleAssetTender(TenderFeaturesMixin, ARMATender):
-    procurementMethodType = StringType(choices=[SIMPLE_ASSET_ARMA], required=True)
-    agreement = ModelType(AgreementUUID, required=True)
+    procurementMethodType: Literal[ProcurementMethodType.SIMPLE_ASSET_ARMA]  # type: ignore[valid-type]
+    agreement: AgreementUUID

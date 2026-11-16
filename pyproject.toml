@@ -46,7 +46,6 @@ dependencies = [
     "python-json-logger==2.0.1",
     "repoze-profile==2.3",
     "request-id-middleware",
-    "schematics",
     "sentry-sdk==2.29.1",
     # 82+ dropped pkg_resources, which pyramid, cornice and paste still import
     "setuptools==81.0.0",
@@ -126,7 +125,6 @@ dev = [
 package = true
 
 [tool.uv.sources]
-schematics = { git = "https://github.com/ProzorroUKR/schematics.git", rev = "1.1.3-prozorro.1" }
 request-id-middleware = { git = "https://github.com/ProzorroUKR/request_id_middleware.git", rev = "0.1.2" }
 esculator = { git = "https://github.com/ProzorroUKR/esculator.git", rev = "0.0.2" }
 dateorro = { git = "https://github.com/ProzorroUKR/dateorro.git", rev = "0.0.3" }
@@ -400,7 +398,6 @@ module = [
     "bson.*",
     "pytz.*",
     "pyramid.*",
-    "schematics.*",
     "paste.*",
     "cornice.*",
     "webob.*",

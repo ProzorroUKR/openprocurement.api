@@ -1,20 +1,18 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.document import (
     CoreMilestoneDocumentResource,
 )
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
-)
 
 
 @resource(
-    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Agreements Contracts Milestone Documents",
+    name=f"{AgreementType.ELECTRONIC_CATALOGUE}:Agreements Contracts Milestone Documents",
     collection_path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}/documents",
     path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}/documents/{document_id}",
     description="Agreement contract milestone related binary files (PDFs, etc.)",
-    agreementType=ELECTRONIC_CATALOGUE_TYPE,
+    agreementType=AgreementType.ELECTRONIC_CATALOGUE,
 )
 class MilestoneDocumentResource(CoreMilestoneDocumentResource):
     @json_view(permission="view_framework")

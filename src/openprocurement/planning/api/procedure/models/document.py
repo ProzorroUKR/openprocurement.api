@@ -1,43 +1,55 @@
+from typing import Literal
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field, model_validator
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.types import HashType
-from openprocurement.tender.core.procedure.models.document import BaseDocument, BasePostDocument
+from openprocurement.api.procedure.errors import REQUIRED_MESSAGE, FieldError
+from openprocurement.api.procedure.models.document import BaseTenderDocument as BaseDocument
+from openprocurement.api.procedure.types import MD5, Hash
 
 
-class PostDocument(BasePostDocument):
-    @serializable
-    def datePublished(self):
+class PostDocument(BaseDocument):
+    hash: Hash | None = None
+    title: str  # A title of the document.
+    format: str = Field(pattern=r"^[-\w]+/[-\.\w\+]+$")
+    url: str  # Link to the document or attachment.
+    language: Literal["uk", "en", "ru"] = "uk"
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    documentOf: str | None = None
+
+    @computed_field
+    def datePublished(self) -> str:
         return get_request_now().isoformat()
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> str:
         return get_request_now().isoformat()
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    documentOf = StringType(required=False)
+    @model_validator(mode="after")
+    def validate_related_item(self):
+        if not self.relatedItem and self.documentOf in ("item", "lot"):
+            raise FieldError("relatedItem", REQUIRED_MESSAGE)
+        return self
 
 
 class PatchDocument(BaseDocument):
-    language = StringType(choices=["uk", "en", "ru"])
-    documentOf = StringType(required=False)
+    language: Literal["uk", "en", "ru"] | None = None
+    documentOf: str | None = None
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> str:
         return get_request_now().isoformat()
 
 
 class Document(BaseDocument):
-    id = MD5Type(required=True)
-    datePublished = StringType(required=True)
-    hash = HashType()
-    title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)  # Link to the document or attachment.
-    documentOf = StringType(required=False)
-    dateModified = StringType()
-    author = StringType()
-    language = StringType(choices=["uk", "en", "ru"])
+    id: MD5
+    datePublished: str
+    hash: Hash | None = None
+    title: str  # A title of the document.
+    format: str = Field(pattern=r"^[-\w]+/[-\.\w\+]+$")
+    url: str  # Link to the document or attachment.
+    documentOf: str | None = None
+    dateModified: str | None = None
+    author: str | None = None
+    language: Literal["uk", "en", "ru"] | None = None

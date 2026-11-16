@@ -19,7 +19,7 @@ def create_framework_draft_invalid_kind(self):
             {
                 "description": {
                     "kind": [
-                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                        "Value must be one of ['authority', 'central', 'defense', 'general', 'other', 'social', 'special']."
                     ]
                 },
                 "location": "body",

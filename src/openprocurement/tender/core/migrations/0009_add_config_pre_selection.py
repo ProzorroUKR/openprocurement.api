@@ -1,10 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -13,9 +11,9 @@ logger = logging.getLogger(__name__)
 def pre_selection_populator(tender):
     pmt = tender.get("procurementMethodType")
     if pmt in (
-        CFA_SELECTION,
-        PQ,
-        COMPETITIVE_ORDERING,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+        ProcurementMethodType.PRICE_QUOTATION,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
     ):
         return True
     return False

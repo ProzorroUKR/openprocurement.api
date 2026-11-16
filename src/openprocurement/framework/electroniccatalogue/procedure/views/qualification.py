@@ -1,11 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.qualification import (
     QualificationsResource,
-)
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
 )
 from openprocurement.framework.electroniccatalogue.procedure.state.framework import (
     ElectronicDialogueFrameworkState,
@@ -13,11 +11,11 @@ from openprocurement.framework.electroniccatalogue.procedure.state.framework imp
 
 
 @resource(
-    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Qualifications",
+    name=f"{FrameworkType.ELECTRONIC_CATALOGUE}:Qualifications",
     collection_path="/qualifications",
     path="/qualifications/{qualification_id}",
-    description=f"{ELECTRONIC_CATALOGUE_TYPE} qualifications",
-    qualificationType=ELECTRONIC_CATALOGUE_TYPE,
+    description=f"{FrameworkType.ELECTRONIC_CATALOGUE} qualifications",
+    qualificationType=FrameworkType.ELECTRONIC_CATALOGUE,
     accept="application/json",
 )
 class ElectronicCatalogueQualificationResource(QualificationsResource):

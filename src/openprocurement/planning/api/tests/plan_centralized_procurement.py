@@ -1,3 +1,4 @@
+from openprocurement.planning.api.constants import MilestoneStatus, MilestoneType
 from copy import deepcopy
 from datetime import datetime, timedelta
 from uuid import uuid4
@@ -9,9 +10,8 @@ from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.api.utils import get_now
 from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_DESCRIPTION,
-    MILESTONE_APPROVAL_TITLE,
+    MilestoneTitle,
 )
-from openprocurement.planning.api.procedure.models.milestone import Milestone
 from openprocurement.planning.api.tests.base import (
     generate_docservice_url,
     test_plan_data,
@@ -42,8 +42,8 @@ central_procuring_entity = {
 
 def test_milestone_data(app):
     test_milestone = {
-        "title": MILESTONE_APPROVAL_TITLE,
-        "type": Milestone.TYPE_APPROVAL,
+        "title": MilestoneTitle.APPROVAL,
+        "type": MilestoneType.APPROVAL,
         "author": milestone_author,
         "dueDate": datetime.now().isoformat(),
         "documents": [
@@ -75,8 +75,8 @@ def test_fail_create_plan_with_milestone(app):
     test_data["status"] = "draft"
     test_data["milestones"] = [
         {
-            "title": MILESTONE_APPROVAL_TITLE,
-            "type": Milestone.TYPE_APPROVAL,
+            "title": MilestoneTitle.APPROVAL,
+            "type": MilestoneType.APPROVAL,
             "author": milestone_author,
             "dueDate": "2001-10-30T11:15:26.641038+03:00",
         }
@@ -113,7 +113,7 @@ def test_post_milestone_author_validate_identifier(app, centralized_plan):
     app.post_json("/plans/{}/milestones".format(plan["id"]), {"data": data}, status=201)
 
 
-@pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
+@pytest.mark.parametrize("test_status", [MilestoneStatus.MET, MilestoneStatus.NOT_MET, MilestoneStatus.INVALID])
 def test_fail_post_milestone_status(app, centralized_plan, test_status):
     """
     milestone can only be posted in scheduled status
@@ -156,7 +156,7 @@ def test_post_milestone(app, centralized_plan):
         "documents",
     }
     assert milestone["description"] == MILESTONE_APPROVAL_DESCRIPTION
-    assert milestone["status"] == Milestone.STATUS_SCHEDULED
+    assert milestone["status"] == MilestoneStatus.SCHEDULED
     date_modified = parse_date(milestone["dateModified"])
     assert get_now() - date_modified < timedelta(seconds=1)
     assert "documents" in milestone
@@ -182,7 +182,7 @@ def centralized_milestone(app, centralized_plan):
     return result
 
 
-@pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_SCHEDULED])
+@pytest.mark.parametrize("test_status", [MilestoneStatus.MET, MilestoneStatus.SCHEDULED])
 def test_fail_post_another_milestone(app, centralized_milestone, test_status):
     """
     broker can't post another milestone with the same author
@@ -207,7 +207,7 @@ def test_fail_post_another_milestone(app, centralized_milestone, test_status):
     }
 
 
-@pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
+@pytest.mark.parametrize("test_status", [MilestoneStatus.NOT_MET, MilestoneStatus.INVALID])
 def test_success_post_another_milestone(app, centralized_milestone, test_status):
     """
     broker can post another milestone with the same author
@@ -248,7 +248,7 @@ def test_forbidden_patch_milestone(app, centralized_milestone):
     }
 
 
-@pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
+@pytest.mark.parametrize("test_status", [MilestoneStatus.NOT_MET, MilestoneStatus.INVALID])
 def test_fail_patch_due_date(app, centralized_milestone, test_status):
     """
     milestone owner can't patch dueDate if status != scheduled
@@ -292,7 +292,7 @@ def test_patch_milestone(app, centralized_milestone):
     request_data = {
         "description": "What?",
         "dueDate": "2001-10-30T11:15:26.641038+03:00",
-        "status": Milestone.STATUS_MET,
+        "status": MilestoneStatus.MET,
     }
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -318,7 +318,7 @@ def test_patch_milestone(app, centralized_milestone):
     assert result["dateModified"] == result["dateMet"] == response.json["data"]["dateMet"]
 
 
-@pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
+@pytest.mark.parametrize("test_status", [MilestoneStatus.NOT_MET, MilestoneStatus.INVALID])
 def test_fail_patch_description(app, centralized_milestone, test_status):
     """
     milestone owner can't patch description if status not in (scheduled, met)
@@ -350,7 +350,7 @@ def test_fail_patch_description(app, centralized_milestone, test_status):
     }
 
 
-@pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_SCHEDULED])
+@pytest.mark.parametrize("test_status", [MilestoneStatus.MET, MilestoneStatus.SCHEDULED])
 def test_success_patch_description(app, centralized_milestone, test_status):
     """
     milestone owner can patch description if status in (scheduled, met)
@@ -374,7 +374,7 @@ def test_success_patch_description(app, centralized_milestone, test_status):
     assert response.json["data"]["description"] == new_description
 
 
-@pytest.mark.parametrize("test_status", [Milestone.STATUS_MET, Milestone.STATUS_NOT_MET])
+@pytest.mark.parametrize("test_status", [MilestoneStatus.MET, MilestoneStatus.NOT_MET])
 def test_success_patch_milestone_status(app, centralized_milestone, test_status):
     """
     milestone owner can set its status to met or notMet
@@ -395,7 +395,7 @@ def test_success_patch_milestone_status(app, centralized_milestone, test_status)
     assert result_plan["dateModified"] == result["dateModified"]
     assert result["status"] == test_status
     assert result["dateModified"] > milestone["dateModified"]
-    if test_status == Milestone.STATUS_MET:
+    if test_status == MilestoneStatus.MET:
         assert result["dateModified"] == result["dateMet"]
     else:
         assert "dateMet" not in result
@@ -412,7 +412,7 @@ def test_fail_patch_milestone_status(app, centralized_milestone):
 
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
-        {"data": {"status": Milestone.STATUS_INVALID}},
+        {"data": {"status": MilestoneStatus.INVALID}},
         status=403,
     )
     assert response.json == {
@@ -587,10 +587,10 @@ def test_update_milestone_documents(app, centralized_milestone):
 @pytest.mark.parametrize(
     "test_statuses",
     [
-        (Milestone.STATUS_SCHEDULED, Milestone.STATUS_INVALID),
-        (Milestone.STATUS_MET, Milestone.STATUS_INVALID),
-        (Milestone.STATUS_NOT_MET, Milestone.STATUS_NOT_MET),
-        (Milestone.STATUS_INVALID, Milestone.STATUS_INVALID),
+        (MilestoneStatus.SCHEDULED, MilestoneStatus.INVALID),
+        (MilestoneStatus.MET, MilestoneStatus.INVALID),
+        (MilestoneStatus.NOT_MET, MilestoneStatus.NOT_MET),
+        (MilestoneStatus.INVALID, MilestoneStatus.INVALID),
     ],
 )
 def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone, test_statuses):
@@ -629,7 +629,7 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
     assert response.json["data"]["procuringEntity"] == new_procuring_entity
     assert response.json["data"]["milestones"][0]["status"] == expected_status
     assert response.json["data"]["dateModified"] > plan["dateModified"]
-    if expected_status == Milestone.STATUS_INVALID and test_status != Milestone.STATUS_INVALID:
+    if expected_status == MilestoneStatus.INVALID and test_status != MilestoneStatus.INVALID:
         assert response.json["data"]["milestones"][0]["dateModified"] == response.json["data"]["dateModified"]
 
 
@@ -698,7 +698,7 @@ def test_fail_patch_plan_procuring_entity_not_in_time(app, centralized_milestone
     }
 
 
-@pytest.mark.parametrize("test_status", [Milestone.STATUS_NOT_MET, Milestone.STATUS_INVALID])
+@pytest.mark.parametrize("test_status", [MilestoneStatus.NOT_MET, MilestoneStatus.INVALID])
 def test_success_patch_plan_procuring_entity_not_in_time(app, centralized_milestone, test_status):
     """
     As plan owner I can change procuringEntity later that 2 working days before plan.tender.tenderPeriod.startDate

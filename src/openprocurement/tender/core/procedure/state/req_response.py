@@ -1,7 +1,6 @@
 from typing import List
 
-from schematics.exceptions import ConversionError, ValidationError
-
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
@@ -9,7 +8,9 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.errors import ConversionError, ValidationError
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.value_types import TYPEMAP
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.core.constants import CRITERION_LOCALIZATION, CRITERION_TECHNICAL_FEATURES, ReqStatuses
@@ -17,7 +18,6 @@ from openprocurement.tender.core.procedure.context import get_bid
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchRequirementResponse,
     RequirementResponse,
-    validate_response_requirement_uniq,
 )
 from openprocurement.tender.core.procedure.state.utils import diff_items
 from openprocurement.tender.core.procedure.utils import (
@@ -27,7 +27,13 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_before,
 )
-from openprocurement.tender.core.procedure.validation import TYPEMAP
+
+
+def validate_responses_requirement_uniq(responses: list[dict]) -> None:
+    """one response for a requirement (the data of a state)"""
+    requirement_ids = [(response.get("requirement") or {}).get("id") for response in responses]
+    if len(requirement_ids) != len(set(requirement_ids)):
+        raise ValidationError([{"requirement": "Items should be unique by fields: requirement.id"}])
 
 
 class RequirementResponsesRulesMixin(BaseState):
@@ -77,7 +83,7 @@ class RequirementResponsesRulesMixin(BaseState):
                 checked_evidences.extend((response, evidence) for evidence in evidences.added + evidences.changed_after)
         errors = []
         try:
-            validate_response_requirement_uniq(responses)
+            validate_responses_requirement_uniq(responses)
         except ValidationError as e:
             errors.extend(self.response_error(message) for message in e.messages)
         self.raise_requirement_responses_errors(errors)
@@ -184,7 +190,7 @@ class RequirementResponsesRulesMixin(BaseState):
         if criterion and criterion["source"] == "winner":
             # active.pre-qualification added in CS-20110
             valid_statuses = ["active.awarded", "active.qualification", "active.pre-qualification"]
-            if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
+            if tender["procurementMethodType"] in (ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,):
                 valid_statuses.append("active.qualification.stand-still")
             if tender["status"] not in valid_statuses:
                 raise ValidationError([{"evidences": ["available only in {} status".format(valid_statuses)]}])
@@ -320,7 +326,7 @@ class RequirementResponsesRulesMixin(BaseState):
     def _match_expected_value(cls, datatype, requirement, value):
         expected_value = requirement.get("expectedValue")
         if expected_value is not None:
-            if datatype.to_native(expected_value) != value:
+            if datatype(expected_value) != value:
                 raise ValidationError(
                     f'Value "{value}" does not match expected value "{expected_value}" '
                     f'in requirement {requirement["id"]}'
@@ -331,11 +337,11 @@ class RequirementResponsesRulesMixin(BaseState):
         min_value = requirement.get("minValue")
         max_value = requirement.get("maxValue")
 
-        if min_value is not None and value < datatype.to_native(min_value):
+        if min_value is not None and value < datatype(min_value):
             raise ValidationError(
                 f"Value {value} is lower than minimal required {min_value} in requirement {requirement['id']}"
             )
-        if max_value is not None and value > datatype.to_native(max_value):
+        if max_value is not None and value > datatype(max_value):
             raise ValidationError(
                 f"Value {value} is higher than required {max_value} in requirement {requirement['id']}"
             )
@@ -345,7 +351,7 @@ class RequirementResponsesRulesMixin(BaseState):
         expected_min_items = requirement.get("expectedMinItems")
         expected_max_items = requirement.get("expectedMaxItems")
         expected_values = requirement.get("expectedValues", [])
-        expected_values = {datatype.to_native(i) for i in expected_values}
+        expected_values = {datatype(i) for i in expected_values}
         unique_values = set(values)
 
         if expected_max_items is not None and expected_max_items < len(unique_values):
@@ -390,7 +396,7 @@ class RequirementResponsesRulesMixin(BaseState):
 
         if values is not None:
             try:
-                values = [datatype.to_native(v) for v in values]
+                values = [datatype(v) for v in values]
             except ConversionError as e:
                 raise ValidationError([{"value": e.messages}])
 
@@ -453,7 +459,7 @@ class BidRequirementResponsesRulesMixin(RequirementResponsesRulesMixin):
         criterion = get_criterion_requirement(tender, requirement_id)
         if criterion and criterion["source"] == "winner":
             awarded_status = ["active.awarded", "active.qualification"]
-            if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
+            if tender["procurementMethodType"] in (ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,):
                 awarded_status.append("active.qualification.stand-still")
             valid_statuses.extend(awarded_status)
             if tender["status"] not in awarded_status:

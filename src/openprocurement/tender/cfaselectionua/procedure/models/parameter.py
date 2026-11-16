@@ -1,4 +1,6 @@
-from openprocurement.api.procedure.types import StringDecimalType
+from openprocurement.api.procedure.types import (
+    StringDecimal,
+)
 from openprocurement.tender.core.procedure.models.parameter import (
     Parameter,
     PatchParameter,
@@ -6,8 +8,8 @@ from openprocurement.tender.core.procedure.models.parameter import (
 
 
 class CFASelectionParameter(Parameter):
-    value = StringDecimalType(required=True)
+    value: StringDecimal
 
 
 class CFASelectionPatchParameter(PatchParameter):
-    value = StringDecimalType()
+    value: StringDecimal | None = None

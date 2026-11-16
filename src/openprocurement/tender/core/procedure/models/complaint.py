@@ -1,15 +1,18 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import BaseType, BooleanType, MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field, field_validator
 
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import Model, validate_uniq_id
 from openprocurement.api.procedure.models.identifier import Identifier
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.api.procedure.utils import is_item_owner
-from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.models.complaint_objection import (
     AwardComplaintObjection,
     CancellationComplaintObjection,
@@ -23,53 +26,50 @@ from openprocurement.tender.core.procedure.models.document import (
 )
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.value import BasicValue
-from openprocurement.tender.core.procedure.validation import (
-    validate_numerated,
-)
 
 
 class ComplaintIdentifier(Identifier):
-    id = BaseType(required=True)
-    legalName = StringType(required=True)
+    id: Any
+    legalName: str
 
 
 class ComplaintOrganization(Organization):
-    identifier = ModelType(ComplaintIdentifier, required=True)
+    identifier: ComplaintIdentifier
 
 
 class PostComplaintOrganization(Organization):
-    identifier = ModelType(ComplaintIdentifier, required=True)
+    identifier: ComplaintIdentifier
 
 
 class PostComplaint(Model):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def date(self):
+    @computed_field
+    def date(self) -> Any:
         return get_request_now().isoformat()
 
-    author = ModelType(PostComplaintOrganization, required=True)
-    title = StringType(required=True)
-    description = StringType()
-    status = StringType(choices=["draft", "pending"], default="draft")
-    type = StringType(choices=["complaint"], default="complaint")  # feel free to choose
-    relatedLot = MD5Type()
-    objections = ListType(
-        ModelType(TenderComplaintObjection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
-    documents = ListType(ModelType(PostComplaintDocument, required=True))
+    author: PostComplaintOrganization
+    title: str
+    description: str | None = None
+    status: Literal["draft", "pending"] = "draft"
+    type: Literal["complaint"] = "complaint"
+    relatedLot: MD5 | None = None
+    objections: list[TenderComplaintObjection] | None = Field(None, min_length=1)
+    documents: list[PostComplaintDocument] | None = None
+
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
 
 
 class PostComplaintFromBid(PostComplaint):
-    @serializable
-    def bid_id(self):
+    @computed_field
+    def bid_id(self) -> Any:
         request = get_request()
         tender = get_tender()
         for bid in tender.get("bids", ""):
@@ -78,99 +78,99 @@ class PostComplaintFromBid(PostComplaint):
 
 
 class PostAwardComplaint(PostComplaintFromBid):
-    objections = ListType(
-        ModelType(AwardComplaintObjection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
+    objections: list[AwardComplaintObjection] | None = Field(None, min_length=1)
+
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
 
 
 class PostCancellationComplaint(PostComplaint):
-    objections = ListType(
-        ModelType(CancellationComplaintObjection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
+    objections: list[CancellationComplaintObjection] | None = Field(None, min_length=1)
+
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
 
 
 class PostQualificationComplaint(PostComplaintFromBid):
-    objections = ListType(
-        ModelType(QualificationComplaintObjection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
+    objections: list[QualificationComplaintObjection] | None = Field(None, min_length=1)
+
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
 
 
 class DraftPatchComplaint(Model):
-    status = StringType(choices=["draft", "pending", "mistaken"])  # pending is for old rules
-    author = ModelType(ComplaintOrganization)  # author of claim
-    title = StringType()  # title of the claim
-    description = StringType()  # description of the claim
-    objections = ListType(
-        ModelType(TenderComplaintObjection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
+    status: Literal["draft", "pending", "mistaken"] | None = None
+    author: ComplaintOrganization | None = None
+    title: str | None = None
+    description: str | None = None
+    objections: list[TenderComplaintObjection] | None = Field(None, min_length=1)
+
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
 
 
 class DraftPatchAwardComplaint(DraftPatchComplaint):
-    objections = ListType(
-        ModelType(AwardComplaintObjection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
+    objections: list[AwardComplaintObjection] | None = Field(None, min_length=1)
+
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
 
 
 class DraftPatchCancellationComplaint(DraftPatchComplaint):
-    objections = ListType(
-        ModelType(CancellationComplaintObjection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
+    objections: list[CancellationComplaintObjection] | None = Field(None, min_length=1)
+
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
 
 
 class DraftPatchQualificationComplaint(DraftPatchComplaint):
-    objections = ListType(
-        ModelType(QualificationComplaintObjection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
+    objections: list[QualificationComplaintObjection] | None = Field(None, min_length=1)
+
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
 
 
 class CancellationPatchComplaint(Model):
-    status = StringType(choices=["cancelled", "stopping"])  # TODO: different models for "cancelled", "stopping"
-    cancellationReason = StringType()
+    status: Literal["cancelled", "stopping"] | None = None
+    cancellationReason: str | None = None
 
-    @serializable
-    def dateCanceled(self):
+    @computed_field
+    def dateCanceled(self) -> Any:
         return get_request_now().isoformat()
 
 
 class BotPatchComplaint(Model):
-    status = StringType(choices=["pending", "mistaken"])
-    rejectReason = StringType(
-        choices=[
+    status: Literal["pending", "mistaken"] | None = None
+    rejectReason: (
+        Literal[
             "buyerViolationsCorrected",
             "lawNonCompliance",
             "alreadyExists",
@@ -180,27 +180,24 @@ class BotPatchComplaint(Model):
             "incorrectPayment",
             "tenderOrLotCancelledBeforePayment",
         ]
-    )
+        | None
+    ) = None
 
 
 class TendererActionPatchComplaint(Model):
-    tendererAction = StringType()
-
-    # @serializable
-    # def tendererActionDate(self):
-    #     return get_now().isoformat()
+    tendererAction: str | None = None
 
 
 class TendererResolvePatchComplaint(Model):
-    tendererAction = StringType()
-    status = StringType(choices=["satisfied", "resolved"])
+    tendererAction: str | None = None
+    status: Literal["satisfied", "resolved"] | None = None
 
 
 class ReviewPatchComplaint(Model):
-    status = StringType(choices=["accepted", "declined", "satisfied", "invalid", "mistaken", "stopped"])
-    decision = StringType()
-    rejectReason = StringType(
-        choices=[
+    status: Literal["accepted", "declined", "satisfied", "invalid", "mistaken", "stopped"] | None = None
+    decision: str | None = None
+    rejectReason: (
+        Literal[
             "buyerViolationsCorrected",
             "lawNonCompliance",
             "alreadyExists",
@@ -210,22 +207,23 @@ class ReviewPatchComplaint(Model):
             "incorrectPayment",
             "tenderOrLotCancelledBeforePayment",
         ]
-    )
-    rejectReasonDescription = StringType()
-    reviewDate = IsoDateTimeType()
-    reviewPlace = StringType()
+        | None
+    ) = None
+    rejectReasonDescription: str | None = None
+    reviewDate: IsoDateTime | None = None
+    reviewPlace: str | None = None
 
 
 class AdministratorPatchComplaint(Model):
-    value = ModelType(BasicValue)
+    value: BasicValue | None = None
 
 
 class Complaint(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    complaintID = StringType()
-    date = IsoDateTimeType(default=get_request_now)  # autogenerated date of posting
-    status = StringType(
-        choices=[
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    complaintID: str | None = None
+    date: IsoDateTime = Field(default_factory=get_request_now)
+    status: (
+        Literal[
             "draft",
             "claim",
             "answered",
@@ -240,54 +238,39 @@ class Complaint(Model):
             "satisfied",
             "stopped",
         ]
-    )
-    documents = ListType(ModelType(Document, required=True))
-    type = StringType(
-        choices=["claim", "complaint"],
-    )  # 'complaint' if status in ['pending'] or 'claim' if status in ['draft', 'claim', 'answered']
-    owner_token = StringType()
-    transfer_token = StringType()
-    owner = StringType()
-    relatedLot = MD5Type()
-    bid_id = MD5Type()
-    # complainant
-    author = ModelType(ComplaintOrganization, required=True)  # author of claim
-    title = StringType(required=True)  # title of the claim
-    description = StringType()  # description of the claim
-    dateSubmitted = IsoDateTimeType()
-    objections = ListType(
-        ModelType(Objection, required=True),
-        min_size=1,
-        validators=[
-            validate_uniq_id,
-            validate_numerated(field_name="sequenceNumber"),
-        ],
-    )
-    # tender owner
-    resolution = StringType()
-    resolutionType = StringType(choices=["invalid", "resolved", "declined"])
-    dateAnswered = IsoDateTimeType()
-    tendererAction = StringType()
-    tendererActionDate = IsoDateTimeType()
-    # complainant
-    satisfied = BooleanType()
-    dateEscalated = IsoDateTimeType()
-    # reviewer
-    decision = StringType()
-    dateDecision = IsoDateTimeType()
-    acceptance = BooleanType()
-    dateAccepted = IsoDateTimeType()
-    rejectReasonDescription = StringType()
-    reviewDate = IsoDateTimeType()
-    reviewPlace = StringType()
-
-    # complainant
-    cancellationReason = StringType()
-    dateCanceled = IsoDateTimeType()
-
-    value = ModelType(BasicValue)
-    rejectReason = StringType(
-        choices=[
+        | None
+    ) = None
+    documents: list[Document] | None = None
+    type: Literal["claim", "complaint"] | None = None
+    owner_token: str | None = None
+    transfer_token: str | None = None
+    owner: str | None = None
+    relatedLot: MD5 | None = None
+    bid_id: MD5 | None = None
+    author: ComplaintOrganization
+    title: str
+    description: str | None = None
+    dateSubmitted: IsoDateTime | None = None
+    objections: list[Objection] | None = Field(None, min_length=1)
+    resolution: str | None = None
+    resolutionType: Literal["invalid", "resolved", "declined"] | None = None
+    dateAnswered: IsoDateTime | None = None
+    tendererAction: str | None = None
+    tendererActionDate: IsoDateTime | None = None
+    satisfied: bool | None = None
+    dateEscalated: IsoDateTime | None = None
+    decision: str | None = None
+    dateDecision: IsoDateTime | None = None
+    acceptance: bool | None = None
+    dateAccepted: IsoDateTime | None = None
+    rejectReasonDescription: str | None = None
+    reviewDate: IsoDateTime | None = None
+    reviewPlace: str | None = None
+    cancellationReason: str | None = None
+    dateCanceled: IsoDateTime | None = None
+    value: BasicValue | None = None
+    rejectReason: (
+        Literal[
             "buyerViolationsCorrected",
             "lawNonCompliance",
             "alreadyExists",
@@ -297,8 +280,28 @@ class Complaint(Model):
             "incorrectPayment",
             "tenderOrLotCancelledBeforePayment",
         ]
-    )
+        | None
+    ) = None
+    posts: Any = None
+    appeals: Any = None
 
-    # child structures
-    posts = BaseType()
-    appeals = BaseType()
+    @field_validator("objections")
+    @classmethod
+    def validate_objections_items(cls, value):
+        validate_uniq_id(value)
+        validate_numerated(field_name="sequenceNumber")(value)
+        return value
+
+
+def validate_numerated(field_name="sequenceNumber"):
+    def validator(value):
+        if not value:
+            return
+        for i, obj in enumerate(value):
+            number = getattr(obj, field_name)
+            if number is not None and number != i + 1:  # field can be optional
+                raise ValidationError(
+                    f"Field {field_name} should contain incrementing sequence numbers starting from 1"
+                )
+
+    return validator

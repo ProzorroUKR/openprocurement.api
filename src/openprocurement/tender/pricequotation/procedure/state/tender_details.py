@@ -1,8 +1,6 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
-)
-from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
+from openprocurement.api.constants import AgreementType
+from openprocurement.tender.core.constants import AwardCriteria
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixin,
 )
@@ -28,13 +26,13 @@ class PQTenderDetailsState(TenderDetailsMixin, PQTenderState):
     items_classification_id_check = False
     criterion_classification_required = False
     criterion_relates_to_required = False
-    award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
+    award_criteria_choices = (AwardCriteria.LOWEST_COST,)
     patch_status_choices = ("draft", "active.tendering")
     cpv_prefix_check = False
     procurement_kinds_not_required_sign = ("other",)
     agreement_field = "agreement"
     related_lot_in_items_check = False
-    agreement_allowed_types = [ELECTRONIC_CATALOGUE_TYPE]
+    agreement_allowed_types = [AgreementType.ELECTRONIC_CATALOGUE]
     agreement_min_active_contracts = 1
     agreement_procuring_entity_match_check = False
     profiles_agreement_id_check = True

@@ -1,7 +1,5 @@
-from schematics.types import StringType
-
-from openprocurement.api.procedure.types import ModelType
-from openprocurement.framework.arma.constants import ARMA_TYPE
+from openprocurement.api.constants import FrameworkType
+from openprocurement.framework.arma.constants import ARMAFrameworkType
 from openprocurement.framework.core.procedure.models.framework import (
     Framework as BaseFramework,
 )
@@ -22,18 +20,18 @@ from openprocurement.framework.core.procedure.models.organization import (
 
 
 class PostFramework(BasePostFramework):
-    frameworkType = StringType(default=ARMA_TYPE)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
+    frameworkType: ARMAFrameworkType = FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY
+    procuringEntity: ProcuringEntity
 
 
 class PatchFramework(BasePatchFramework):
-    procuringEntity = ModelType(PatchProcuringEntity)
+    procuringEntity: PatchProcuringEntity | None = None
 
 
 class Framework(BaseFramework):
-    frameworkType = StringType(default=ARMA_TYPE)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
+    frameworkType: ARMAFrameworkType = FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY
+    procuringEntity: ProcuringEntity
 
 
 class PatchActiveFramework(BasePatchActiveFramework):
-    procuringEntity = ModelType(PatchActiveProcuringEntity)
+    procuringEntity: PatchActiveProcuringEntity | None = None

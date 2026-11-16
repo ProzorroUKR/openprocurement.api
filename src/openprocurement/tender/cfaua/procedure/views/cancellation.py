@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.serializers.tender import (
     CFAUATenderSerializer,
@@ -18,7 +19,7 @@ from openprocurement.tender.core.utils import context_view
     name="closeFrameworkAgreementUA:Tender Cancellations",
     collection_path="/tenders/{tender_id}/cancellations",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Tender cancellations",
 )
 class CFAUACancellationResource(BaseCancellationResource):

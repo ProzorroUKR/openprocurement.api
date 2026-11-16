@@ -1,18 +1,16 @@
-from schematics.types import StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
+from typing import Any, Literal
 
-from openprocurement.api.procedure.models.base import Model
+from pydantic import Field, computed_field, field_validator
+
+from openprocurement.api.constants import ProcurementMethodType
+from openprocurement.api.procedure.models.base import (
+    Model,
+    model_field_validator,
+    validate_object_id_uniq,
+    validate_uniq_id,
+)
 from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.api.procedure.types import ListType
-from openprocurement.api.validation import validate_uniq_id
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_EU_TYPE,
-    CD_UA_TYPE,
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
 from openprocurement.tender.competitivedialogue.procedure.models.item import CDItem
 from openprocurement.tender.core.procedure.models.criterion import Criterion
 from openprocurement.tender.core.procedure.models.tender import (
@@ -21,111 +19,124 @@ from openprocurement.tender.core.procedure.models.tender import (
     Tender,
     validate_cd_shortlisted_firm_ids,
 )
-from openprocurement.tender.core.procedure.validation import validate_object_id_uniq
 
 
 class CDStage1EUPostTender(PostTender):
-    procurementMethodType = StringType(choices=[CD_EU_TYPE], default=CD_EU_TYPE)
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_EU] = (  # type: ignore[valid-type]
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU
+    )
 
 
 class CDStage1EUPatchTender(PatchTender):
-    procurementMethodType = StringType(choices=[CD_EU_TYPE])
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_EU] | None = None  # type: ignore[valid-type]
 
 
 class CDStage1EUTender(Tender):
-    procurementMethodType = StringType(choices=[CD_EU_TYPE], required=True)
-
-    stage2TenderID = StringType()  # TODO: move to a distinct endpoint
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_EU]  # type: ignore[valid-type]
+    stage2TenderID: str | None = None
 
 
 class CDStage1UAPostTender(CDStage1EUPostTender):
-    procurementMethodType = StringType(choices=[CD_UA_TYPE], default=CD_UA_TYPE)
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_UA] = (  # type: ignore[valid-type]
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA
+    )
 
 
 class CDStage1UAPatchTender(CDStage1EUPatchTender):
-    procurementMethodType = StringType(choices=[CD_UA_TYPE])
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_UA] | None = None  # type: ignore[valid-type]
 
 
 class CDStage1UATender(CDStage1EUTender):
-    procurementMethodType = StringType(choices=[CD_UA_TYPE], required=True)
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_UA]  # type: ignore[valid-type]
 
 
 class CDStage2LotId(Model):
-    id = StringType()
+    id: str | None = None
 
 
 class CDStage2Firm(Model):
-    identifier = ModelType(Identifier, required=True)
-    name = StringType(required=True)
-    lots = ListType(ModelType(CDStage2LotId, required=True))
+    identifier: Identifier
+    name: str
+    lots: list[CDStage2LotId] | None = None
 
 
 class CDStage2EUPostTender(PostTender):
-    procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE], default=STAGE_2_EU_TYPE)
-
-    owner = StringType(required=True)
-    tenderID = StringType()  # in tests it's not passed
-    dialogue_token = StringType(required=True)
-    dialogueID = StringType()
-    shortlistedFirms = ListType(ModelType(CDStage2Firm, required=True), min_size=3, required=True)
-
-    items = ListType(
-        ModelType(CDItem, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id],
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2] = (  # type: ignore[valid-type]
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2
     )
-    tenderPeriod = ModelType(PeriodEndRequired)
+    owner: str
+    # the number of the first stage tender with ".2" (the input), the output is `tenderID` (not generated)
+    stage2_tender_id: str | None = Field(None, alias="tenderID", exclude=True)
+    dialogue_token: str
+    dialogueID: str | None = None
+    shortlistedFirms: list[CDStage2Firm] = Field(min_length=3)
+    items: list[CDItem] = Field(min_length=1)
+    tenderPeriod: PeriodEndRequired | None = None
+    criteria: list[Criterion] | None = None
 
-    criteria = ListType(
-        ModelType(Criterion, required=True),
-        validators=[validate_object_id_uniq],
-    )
+    @computed_field
+    def tenderID(self) -> Any:
+        return self.stage2_tender_id
 
-    @serializable(serialized_name="tenderID")
-    def serialize_tender_id(self):
-        return self.tenderID  # just return what have been passed
+    @model_field_validator("shortlistedFirms")
+    def validate_shortlisted_firms(self, value):
+        validate_cd_shortlisted_firm_ids(self, value)
 
-    # Non-required mainProcurementCategory
-    def validate_shortlistedFirms(self, data, value):
-        validate_cd_shortlisted_firm_ids(data, value)
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("criteria")
+    @classmethod
+    def validate_criteria_items(cls, value):
+        validate_object_id_uniq(value)
+        return value
 
 
 class CDStage2EUPatchTender(PatchTender):
-    procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE])
+    procurementMethodType: (  # type: ignore[valid-type]
+        Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2] | None
+    ) = None
+    items: list[CDItem] | None = Field(None, min_length=1)
 
-    items = ListType(
-        ModelType(CDItem, required=True),
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class CDStage2EUTender(Tender):
-    procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE], required=True)
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2]  # type: ignore[valid-type]
+    dialogue_token: str
+    dialogueID: str | None = None
+    items: list[CDItem] = Field(min_length=1)
+    shortlistedFirms: list[CDStage2Firm] = Field(min_length=3)
 
-    dialogue_token = StringType(required=True)
-    dialogueID = StringType()
+    @model_field_validator("shortlistedFirms")
+    def validate_shortlisted_firms(self, value):
+        validate_cd_shortlisted_firm_ids(self, value)
 
-    items = ListType(
-        ModelType(CDItem, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
-    shortlistedFirms = ListType(ModelType(CDStage2Firm, required=True), min_size=3, required=True)
-
-    def validate_shortlistedFirms(self, data, value):
-        validate_cd_shortlisted_firm_ids(data, value)
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class CDStage2UAPostTender(CDStage2EUPostTender):
-    procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], default=STAGE_2_UA_TYPE)
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2] = (  # type: ignore[valid-type]
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2
+    )
 
 
 class CDStage2UAPatchTender(CDStage2EUPatchTender):
-    procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE])
+    procurementMethodType: (  # type: ignore[valid-type]
+        Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2] | None
+    ) = None
 
 
 class CDStage2UATender(CDStage2EUTender):
-    procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], required=True)
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2]  # type: ignore[valid-type]

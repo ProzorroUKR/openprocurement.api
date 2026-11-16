@@ -1,10 +1,9 @@
-from schematics.types import StringType
-
+from openprocurement.api.constants import FrameworkType
 from openprocurement.framework.core.procedure.models.qualification import (
     Qualification as BaseQualification,
 )
-from openprocurement.framework.ifi.constants import IFI_TYPE
+from openprocurement.framework.ifi.constants import IFIFrameworkType
 
 
 class Qualification(BaseQualification):
-    qualificationType = StringType(default=IFI_TYPE, required=True)
+    qualificationType: IFIFrameworkType = FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS

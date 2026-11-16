@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.cfaselectionua.procedure.state.bid_req_response_evidence import (
     CFASelectionBidReqResponseEvidenceState,
 )
@@ -12,7 +13,7 @@ from openprocurement.tender.core.procedure.views.bid_req_response_evidence impor
     name="closeFrameworkAgreementSelectionUA:Bid Requirement Response Evidence",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/requirement_responses/{requirement_response_id}/evidences",
     path="/tenders/{tender_id}/bids/{bid_id}/requirement_responses/{requirement_response_id}/evidences/{evidence_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
     description="Tenderbidder evidences",
 )
 class BidReqResponseResource(BaseBidReqResponseEvidenceResource):

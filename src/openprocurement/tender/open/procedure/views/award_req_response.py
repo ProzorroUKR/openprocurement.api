@@ -1,16 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award_req_response import AwardReqResponseResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX
 from openprocurement.tender.open.procedure.state.award_req_response import (
     AboveThresholdAwardReqResponseState,
     AboveThresholdUAAwardReqResponseState,
@@ -27,22 +19,22 @@ from openprocurement.tender.open.procedure.state.award_req_response import (
     path="/tenders/{tender_id}/awards/{award_id}/requirement_responses/{requirement_response_id}",
     description="Tender award requirement responses",
     procurementMethodType=[
-        ABOVE_THRESHOLD,
-        ABOVE_THRESHOLD_UA,
-        ABOVE_THRESHOLD_EU,
-        OPEN_TENDERING,
-        COMPETITIVE_ORDERING,
-        BELOW_THRESHOLD,
-        REQUEST_FOR_PROPOSAL,
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.OPEN_TENDERING,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL,
     ],
 )
 class OpenAwardReqResponseResource(AwardReqResponseResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdAwardReqResponseState,
-        ABOVE_THRESHOLD_UA: AboveThresholdUAAwardReqResponseState,
-        ABOVE_THRESHOLD_EU: AboveThresholdUAAwardReqResponseState,
-        OPEN_TENDERING: OpenTenderingAwardReqResponseState,
-        COMPETITIVE_ORDERING: COAwardReqResponseState,
-        BELOW_THRESHOLD: BelowThresholdAwardReqResponseState,
-        REQUEST_FOR_PROPOSAL: RFPAwardReqResponseState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdAwardReqResponseState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUAAwardReqResponseState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdUAAwardReqResponseState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingAwardReqResponseState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COAwardReqResponseState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdAwardReqResponseState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPAwardReqResponseState,
     }

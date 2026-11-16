@@ -1,18 +1,14 @@
-from schematics.types import StringType
-
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.contact import (
     ContactPoint as BaseContactPoint,
 )
 from openprocurement.api.procedure.models.organization import (
-    PROCURING_ENTITY_KIND_CHOICES,
     BusinessOrganization,
     ProcuringEntityKind,
 )
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
-from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.framework.core.procedure.models.address import Address, FullAddress
 from openprocurement.framework.core.procedure.models.contact import (
     ContactPoint,
@@ -25,43 +21,37 @@ from openprocurement.framework.core.procedure.models.identifier import (
 
 
 class Organization(BaseOrganization):
-    contactPoint = ModelType(BaseContactPoint, required=True)
-    address = ModelType(Address, required=True)
+    contactPoint: BaseContactPoint
+    address: Address
 
 
 class ProcuringEntity(BaseOrganization):
-    identifier = ModelType(Identifier, required=True)
-    additionalIdentifiers = ListType(ModelType(Identifier))
-    address = ModelType(FullAddress, required=True)
-    contactPoint = ModelType(ContactPoint, required=True)
-    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, default=ProcuringEntityKind.GENERAL, required=True)
-
-    def validate_identifier(self, data, identifier):
-        pass
+    identifier: Identifier
+    additionalIdentifiers: list[Identifier] | None = None
+    address: FullAddress
+    contactPoint: ContactPoint
+    kind: ProcuringEntityKind = ProcuringEntityKind.GENERAL
 
 
 class PatchProcuringEntity(BaseOrganization):
-    name = StringType()
-    identifier = ModelType(Identifier)
-    additionalIdentifiers = ListType(ModelType(Identifier))
-    address = ModelType(FullAddress)
-    contactPoint = ModelType(PatchContactPoint)
-    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
-
-    def validate_identifier(self, data, identifier):
-        pass
+    name: str | None = None
+    identifier: Identifier | None = None
+    additionalIdentifiers: list[Identifier] | None = None
+    address: FullAddress | None = None
+    contactPoint: PatchContactPoint | None = None
+    kind: ProcuringEntityKind | None = None
 
 
 class PatchActiveProcuringEntity(Model):
-    contactPoint = ModelType(PatchContactPoint)
+    contactPoint: PatchContactPoint | None = None
 
 
 class SubmissionBusinessOrganization(BusinessOrganization):
-    identifier = ModelType(SubmissionIdentifier, required=True)
-    address = ModelType(FullAddress, required=True)
-    contactPoint = ModelType(ContactPoint, required=True)
+    identifier: SubmissionIdentifier
+    address: FullAddress
+    contactPoint: ContactPoint
 
 
 class ContractBusinessOrganization(BusinessOrganization):
-    contactPoint = ModelType(BaseContactPoint, required=True)
-    address = ModelType(Address, required=True)
+    contactPoint: BaseContactPoint
+    address: Address

@@ -1,8 +1,8 @@
+from openprocurement.api.constants import ProcurementMethodType
 import unittest
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderWebTest,
     test_tender_arma_bids,
@@ -49,7 +49,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_arma_data
     initial_lots = test_lots_data = test_tender_arma_lots
     initial_bids = test_bids_data = test_tender_arma_bids
-    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING[COMPLEX_ASSET_ARMA]
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING[ProcurementMethodType.COMPLEX_ASSET_ARMA]
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)

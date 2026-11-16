@@ -46,7 +46,7 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_START_DATE_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
-    AWARD_CRITERIA_LOWEST_COST,
+    AwardCriteria,
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
@@ -89,7 +89,7 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
     milestones_validation_required = False
     main_procurement_category_required = False
     procuring_entity_available_language_default = "uk"
-    award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
+    award_criteria_choices = (AwardCriteria.LOWEST_COST,)
     patch_status_choices = (
         "draft",
         "draft.pending",
@@ -254,7 +254,7 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
             agreement_data.pop("documents", None)
             agreement_data.pop("agreementType", None)
             with handle_data_exceptions(get_request()):
-                tender_agreement = PatchAgreement(agreement_data).serialize()
+                tender_agreement = PatchAgreement.validate_data(agreement_data)
             tender["agreements"][0].update(tender_agreement)
             return tender["agreements"][0]
 

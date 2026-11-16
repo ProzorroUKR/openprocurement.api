@@ -5,11 +5,8 @@ from time import sleep
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.open.constants import BELOW_THRESHOLD, SIMPLE_DEFENSE
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -34,7 +31,15 @@ def bulk_update(bulk, collection):
 
 
 def tender_with_eligible_awards(pmt):
-    return pmt not in (BELOW_THRESHOLD, REPORTING, NEGOTIATION, NEGOTIATION_QUICK, CFA_SELECTION, PQ, SIMPLE_DEFENSE)
+    return pmt not in (
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+        ProcurementMethodType.PRICE_QUOTATION,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+    )
 
 
 def run(env, args):

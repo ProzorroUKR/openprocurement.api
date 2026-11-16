@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from logging import getLogger
 from typing import Callable, Optional
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
@@ -11,7 +12,6 @@ from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import context_unpack, raise_operation_error
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
@@ -493,26 +493,26 @@ class ChronographEventsMixin:
                         if lotValue.get("status", "pending") == "pending" and lotValue["relatedLot"] in active_lots:
                             if lot_id and lotValue["relatedLot"] != lot_id:
                                 continue
-                            qualification = Qualification(
+                            qualification = Qualification.validate_data(
                                 {
                                     "bidID": bid["id"],
                                     "status": "pending",
                                     "lotID": lotValue["relatedLot"],
                                     "date": get_request_now().isoformat(),
                                 }
-                            ).serialize()
+                            )
                             tender["qualifications"].append(qualification)
                             new_qualifications.append(qualification["id"])
         else:
             for bid in bids:
                 if bid["status"] == "pending":
-                    qualification = Qualification(
+                    qualification = Qualification.validate_data(
                         {
                             "bidID": bid["id"],
                             "status": "pending",
                             "date": get_request_now().isoformat(),
                         }
-                    ).serialize()
+                    )
                     tender["qualifications"].append(qualification)
                     new_qualifications.append(qualification["id"])
         return new_qualifications
@@ -743,7 +743,10 @@ class ChronographEventsMixin:
 
     @staticmethod
     def invalidate_not_agreement_members_bids(tender):
-        if not tender["config"]["hasPreSelectionAgreement"] or tender["procurementMethodType"] == CFA_SELECTION:
+        if (
+            not tender["config"]["hasPreSelectionAgreement"]
+            or tender["procurementMethodType"] == ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA
+        ):
             return
 
         agreement = get_object("agreement")
@@ -992,7 +995,7 @@ class ChronographEventsMixin:
 
     def calc_tender_values(self, tender: dict) -> None:
         self.calc_tender_guarantee(tender)
-        if tender.get("procurementMethodType") == "esco":
+        if tender.get("procurementMethodType") == ProcurementMethodType.ESCO:
             self.calc_tender_min_value(tender)
         else:
             self.calc_tender_value(tender)

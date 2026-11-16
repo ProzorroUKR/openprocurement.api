@@ -1016,7 +1016,7 @@ def create_tender_bid_invalid(self):
         {
             "value": {
                 "yearlyPaymentsPercentage": 0.9,
-                "annualCostsReduction": 751.5,
+                "annualCostsReduction": [751.5],
                 "contractDuration": {"years": 25},
             },
             "relatedLot": self.initial_lots[0]["id"],

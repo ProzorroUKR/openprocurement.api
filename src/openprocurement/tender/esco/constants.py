@@ -1,6 +1,10 @@
 from datetime import timedelta
+from typing import Literal
 
-ESCO = "esco"
+from openprocurement.api.constants import ProcurementMethodType
+
+ESCOProcurementMethodType = Literal[ProcurementMethodType.ESCO]  # type: ignore[valid-type]
+
 
 ESCO_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,

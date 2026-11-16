@@ -1,6 +1,7 @@
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.limited.procedure.state.award import (
     NegotiationAwardState,
@@ -14,7 +15,7 @@ from openprocurement.tender.limited.procedure.state.award import (
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",
-    procurementMethodType="reporting",
+    procurementMethodType=ProcurementMethodType.REPORTING,
 )
 class ReportingAwardResource(TenderAwardResource):
     state_class = ReportingAwardState
@@ -40,7 +41,7 @@ class ReportingAwardResource(TenderAwardResource):
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",
-    procurementMethodType="negotiation",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
 )
 class NegotiationAwardResource(TenderAwardResource):
     state_class = NegotiationAwardState
@@ -66,7 +67,7 @@ class NegotiationAwardResource(TenderAwardResource):
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",
-    procurementMethodType="negotiation.quick",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
 )
 class NegotiationQuickAwardResource(NegotiationAwardResource):
     state_class = NegotiationQuickAwardState

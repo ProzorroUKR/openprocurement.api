@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.cfaua.procedure.state.bid_document import (
     CFAUABidDocumentState,
     CFAUABidFinancialDocumentState,
@@ -16,7 +17,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
     name="closeFrameworkAgreementUA:Tender Bid Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Tender bidder documents",
 )
 class TenderBidDocumentResource(BaseTenderBidDocumentResource):
@@ -27,7 +28,7 @@ class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     name="closeFrameworkAgreementUA:Tender Bid Eligibility Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Tender bidder eligibility documents",
 )
 class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
@@ -38,7 +39,7 @@ class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResou
     name="closeFrameworkAgreementUA:Tender Bid Financial Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Tender bidder financial documents",
 )
 class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
@@ -49,7 +50,7 @@ class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource)
     name="closeFrameworkAgreementUA:Tender Bid Qualification Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Tender bidder qualification documents",
 )
 class TenderBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):

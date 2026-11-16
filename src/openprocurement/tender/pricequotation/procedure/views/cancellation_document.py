@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.cancellation_document import (
     CancellationDocumentResource,
 )
-from openprocurement.tender.pricequotation.constants import PQ
 
 
 @resource(
-    name=f"{PQ}:Tender Cancellation Documents",
+    name=f"{ProcurementMethodType.PRICE_QUOTATION}:Tender Cancellation Documents",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}",
-    procurementMethodType=PQ,
+    procurementMethodType=ProcurementMethodType.PRICE_QUOTATION,
     description="Tender cancellation documents",
 )
 class PQCancellationDocumentResource(CancellationDocumentResource):

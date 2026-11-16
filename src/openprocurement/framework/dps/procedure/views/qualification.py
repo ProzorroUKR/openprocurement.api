@@ -1,19 +1,19 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.qualification import (
     QualificationsResource,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.state.framework import DPSFrameworkState
 
 
 @resource(
-    name=f"{DPS_TYPE}:Qualifications",
+    name=f"{FrameworkType.DYNAMIC_PURCHASING_SYSTEM}:Qualifications",
     collection_path="/qualifications",
     path="/qualifications/{qualification_id}",
-    description=f"{DPS_TYPE} qualifications",
-    qualificationType=DPS_TYPE,
+    description=f"{FrameworkType.DYNAMIC_PURCHASING_SYSTEM} qualifications",
+    qualificationType=FrameworkType.DYNAMIC_PURCHASING_SYSTEM,
     accept="application/json",
 )
 class DPSQualificationResource(QualificationsResource):

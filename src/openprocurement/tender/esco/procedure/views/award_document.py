@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award_document import BaseAwardDocumentResource
 
 
@@ -7,7 +8,7 @@ from openprocurement.tender.core.procedure.views.award_document import BaseAward
     name="esco:Tender Award Documents",
     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender ESCO Award documents",
 )
 class ESCOTenderBidDocumentResource(BaseAwardDocumentResource):

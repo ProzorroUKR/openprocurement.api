@@ -3,7 +3,7 @@ from decimal import Decimal
 from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA, EU_REQUIRED_MULTILINGUAL_FIELDS
+from openprocurement.tender.core.constants import EU_REQUIRED_MULTILINGUAL_FIELDS, AwardCriteria
 from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults, DecimalAuctionResults
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.state.tender import TenderState
@@ -34,8 +34,8 @@ class ESCOTenderDetailsState(TenderDetailsMixin, TenderState):
     milestones_required = False
     milestones_delivery_financing_required = False
     features_max_weight = 0.25
-    award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
-    award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
+    award_criteria_choices = (AwardCriteria.RATED_CRITERIA,)
+    award_criteria_default = AwardCriteria.RATED_CRITERIA
     minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
 
     def on_post(self, tender):

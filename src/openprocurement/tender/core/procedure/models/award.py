@@ -1,12 +1,15 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import BaseType, BooleanType, MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.tender.core.procedure.models.award_milestone import (
     AwardMilestoneListMixin,
 )
@@ -25,73 +28,59 @@ from openprocurement.tender.core.procedure.models.value import (
 
 
 class PostAward(BaseAward):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def date(self):
+    @computed_field
+    def date(self) -> Any:
         return get_request_now().isoformat()
 
-    status = StringType(required=True, choices=["pending"], default="pending")
-    value = ModelType(Value)
-    weightedValue = ModelType(WeightedValue)
-    suppliers = ListType(
-        ModelType(Supplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
-    )
-    items = ListType(ModelType(Item))
-    bid_id = MD5Type(required=True)
-    lotID = MD5Type()
-    complaintPeriod = ModelType(Period)
-    subcontractingDetails = StringType()
+    status: Literal["pending"] = "pending"
+    value: Value | None = None
+    weightedValue: WeightedValue | None = None
+    suppliers: list[Supplier] = Field(min_length=1, max_length=1)
+    items: list[Item] | None = None
+    bid_id: MD5
+    lotID: MD5 | None = None
+    complaintPeriod: Period | None = None
+    subcontractingDetails: str | None = None
 
 
 class PatchAward(ObjResponseMixin, BaseAward):
-    status = StringType(choices=["pending", "unsuccessful", "active", "cancelled"])
-    qualified = BooleanType()
-    eligible = BooleanType()
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    items = ListType(ModelType(Item))
-    subcontractingDetails = StringType()
+    status: Literal["pending", "active", "unsuccessful", "cancelled"] | None = None
+    qualified: bool | None = None
+    eligible: bool | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    items: list[Item] | None = None
+    subcontractingDetails: str | None = None
 
 
 class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
-    date = IsoDateTimeType(required=True)
-    value = ModelType(Value)
-    weightedValue = ModelType(WeightedValue)
-    suppliers = ListType(
-        ModelType(Supplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
-    )
-    bid_id = MD5Type(required=True)
-    lotID = MD5Type()
-    complaintPeriod = ModelType(Period)
-    subcontractingDetails = StringType()
-    complaints = BaseType()
-    documents = ListType(ModelType(Document, required=True))
-    items = ListType(ModelType(Item))
-    period = ModelType(Period)
-
-    qualified = BooleanType()
-    eligible = BooleanType()  # qualified/eligible rules: AwardStateMixin.validate_award_qualified_eligible
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-
-
-# reporting: plain value (no defaults from the tender)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    status: Literal["pending", "active", "unsuccessful", "cancelled"]
+    date: IsoDateTime
+    value: Value | None = None
+    weightedValue: WeightedValue | None = None
+    suppliers: list[Supplier] = Field(min_length=1, max_length=1)
+    bid_id: MD5
+    lotID: MD5 | None = None
+    complaintPeriod: Period | None = None
+    subcontractingDetails: str | None = None
+    complaints: Any = None
+    documents: list[Document] | None = None
+    items: list[Item] | None = None
+    period: Period | None = None
+    qualified: bool | None = None
+    eligible: bool | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None

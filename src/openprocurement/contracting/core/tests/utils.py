@@ -1,6 +1,7 @@
+from types import SimpleNamespace
 from uuid import uuid4
 
-from openprocurement.api.context import set_request_now
+from openprocurement.api.context import get_request, set_request, set_request_now
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.procedure.models.contract import PostContract
 from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_config
@@ -45,8 +46,16 @@ def create_contract(self, data, config=None):
     tender = self.mongodb.tenders.get(data["tender_id"])
     if not tender:
         create_minimal_tender_for_contract(self.mongodb, data)
+        tender = self.mongodb.tenders.get(data["tender_id"])
 
-    contract = PostContract(data).serialize()
+    # the model validators take the tender from the request (in the API they run within the request of the tender),
+    # not from whatever request a previous test left in the thread context
+    previous_request = get_request()
+    set_request(SimpleNamespace(validated={"tender": tender}))
+    try:
+        contract = PostContract.model_validate(data).serialize()
+    finally:
+        set_request(previous_request)
     if config:
         contract["config"] = config
     self.mongodb.contracts.save(contract, insert=True)

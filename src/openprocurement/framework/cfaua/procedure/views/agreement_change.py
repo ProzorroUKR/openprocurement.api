@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import apply_data_patch, get_items, set_item
@@ -11,7 +12,6 @@ from openprocurement.api.utils import (
     raise_operation_error,
     update_logging_context,
 )
-from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.state.change import ChangeState
 from openprocurement.framework.cfaua.procedure.utils import apply_modifications
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
@@ -26,10 +26,10 @@ def resolve_change(request):
 
 
 @resource(
-    name=f"{CFA_UA}:Agreement Changes",
+    name=f"{AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA}:Agreement Changes",
     collection_path="/agreements/{agreement_id}/changes",
     path="/agreements/{agreement_id}/changes/{change_id}",
-    agreementType=CFA_UA,
+    agreementType=AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Agreement Changes",
 )
 class AgreementChangesResource(AgreementBaseResource):

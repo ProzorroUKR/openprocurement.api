@@ -4,11 +4,11 @@ from datetime import datetime, timedelta
 from decimal import ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
-from typing import Callable, Optional
+from typing import Callable, Optional, get_args
 
 from pyramid.request import Request
-from schematics.types import BaseType
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.constants_env import (
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
@@ -19,6 +19,7 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_request, get_tender
+from openprocurement.api.procedure.errors import REQUIRED_MESSAGE
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import get_items, parse_date, to_decimal
 from openprocurement.api.procedure.validation import (
@@ -48,7 +49,7 @@ from openprocurement.contracting.core.procedure.utils import (
     is_owner_by_fields,
     is_tender_owner,
 )
-from openprocurement.tender.arma.constants import ARMA_PROCUREMENT_METHOD_TYPES
+from openprocurement.tender.arma.constants import ARMAProcurementMethodType
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixin
 from openprocurement.tender.core.procedure.state.tender import BlockComplaintMixin
@@ -70,7 +71,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_milestones_duration_type,
     validate_milestones_sequence_number,
 )
-from openprocurement.tender.open.constants import REQUEST_FOR_PROPOSAL
 from openprocurement.tender.open.procedure.state.tender import (
     BelowThresholdIgnoredClaimMixin,
 )
@@ -646,7 +646,11 @@ class ContractRequestRulesMixin:
         """the supplier (bid owner); the contract owner too for the limited procedures"""
         contract = self.request.validated["contract"]
         tender_type = self.request.validated["tender"]["procurementMethodType"]
-        limited_procedures = ("reporting", "negotiation", "negotiation.quick")
+        limited_procedures = (
+            ProcurementMethodType.REPORTING,
+            ProcurementMethodType.NEGOTIATION,
+            ProcurementMethodType.NEGOTIATION_QUICK,
+        )
         if not (
             is_bid_owner(self.request, contract)
             or tender_type in limited_procedures
@@ -776,7 +780,7 @@ class ContractState(
     def validate_value(self, value: dict):
         if value:
             tender = get_tender()
-            if tender.get("procurementMethodType") in ARMA_PROCUREMENT_METHOD_TYPES:
+            if tender.get("procurementMethodType") in get_args(ARMAProcurementMethodType):
                 validate_field(value, "amountPercentage")
             else:
                 validate_field(value, "amount")
@@ -898,7 +902,7 @@ class ContractState(
             if contract_amount_net is None:
                 raise_operation_error(
                     request,
-                    {"amountNet": BaseType.MESSAGES["required"]},
+                    {"amountNet": REQUIRED_MESSAGE},
                     status=422,
                     name=name,
                 )
@@ -987,30 +991,30 @@ class ContractState(
                 self.validate_contract_active_patch(request, before, after)
 
     def check_agreements(self, tender: dict) -> bool:
-        if tender["procurementMethodType"] == "closeFrameworkAgreementSelectionUA":
+        if tender["procurementMethodType"] == ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA:
             return self.check_cfaseslectionua_agreements(tender)
         else:
             return super().check_agreements(tender)
 
     def check_award_complaints(self, tender: dict, now: datetime) -> None:
-        if tender["procurementMethodType"] == "closeFrameworkAgreementSelectionUA":
+        if tender["procurementMethodType"] == ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA:
             self.check_cfaseslectionua_award_complaints(tender, now)
         else:
             super().check_award_complaints(tender, now)
 
     def check_award_lot_complaints(self, tender: dict, lot_id: str, lot_awards: list, now: datetime) -> bool:
-        if tender["procurementMethodType"] == "closeFrameworkAgreementSelectionUA":
+        if tender["procurementMethodType"] == ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA:
             return self.check_cfaseslectionua_award_lot_complaints(tender, lot_id, lot_awards, now)
         else:
             return super().check_award_lot_complaints(tender, lot_id, lot_awards, now)
 
     def check_tender_status_method(self) -> None:
         tender_status_methods = {
-            "belowThreshold": self.check_belowtreshold_status_method,
-            "reporting": self.check_reporting_tender_status_method,
-            "negotiation": self.check_negotiation_tender_status_method,
-            "negotiation.quick": self.check_negotiation_tender_status_method,
-            REQUEST_FOR_PROPOSAL: self.check_belowtreshold_status_method,
+            ProcurementMethodType.BELOW_THRESHOLD: self.check_belowtreshold_status_method,
+            ProcurementMethodType.REPORTING: self.check_reporting_tender_status_method,
+            ProcurementMethodType.NEGOTIATION: self.check_negotiation_tender_status_method,
+            ProcurementMethodType.NEGOTIATION_QUICK: self.check_negotiation_tender_status_method,
+            ProcurementMethodType.REQUEST_FOR_PROPOSAL: self.check_belowtreshold_status_method,
         }
         tender_type = self.request.validated["tender"]["procurementMethodType"]
         tender_status_method = tender_status_methods.get(tender_type, super().check_tender_status_method)
@@ -1025,7 +1029,7 @@ class ContractState(
         tender_type = tender.get("procurementMethodType", "")
         self.validate_contract_signing(before, after)
         self.add_esco_contract_duration_to_period(before, after)
-        if tender_type in ("negotiation", "negotiation.quick"):
+        if tender_type in (ProcurementMethodType.NEGOTIATION, ProcurementMethodType.NEGOTIATION_QUICK):
             self.validate_limited_contract_with_cancellations(before, after)
 
         award = get_tender_award_by_contract(tender, after)
@@ -1191,7 +1195,9 @@ class ContractState(
                 status=422,
             )
 
-        if tender.get("procurementMethodType") == "priceQuotation" and date_signed < dt_from_iso(award.get("date")):
+        if tender.get("procurementMethodType") == ProcurementMethodType.PRICE_QUOTATION and date_signed < dt_from_iso(
+            award.get("date")
+        ):
             raise_operation_error(
                 self.request,
                 [f"Contract signature date should be after award activation date ({award['date']})"],
@@ -1269,7 +1275,7 @@ class ContractState(
 
     def add_esco_contract_duration_to_period(self, before, after):
         tender = get_tender()
-        if tender["procurementMethodType"] != "esco":
+        if tender["procurementMethodType"] != ProcurementMethodType.ESCO:
             return
 
         if not (period := after.get("period")) or before.get("period") == period:

@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.qualification_milestone import (
     QualificationMilestoneResource as BaseQualificationMilestoneResource,
 )
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 
 
 @resource(
-    name=f"{REPORTING}:Tender Qualification Milestones",
+    name=f"{ProcurementMethodType.REPORTING}:Tender Qualification Milestones",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones/{milestone_id}",
-    procurementMethodType=REPORTING,
+    procurementMethodType=ProcurementMethodType.REPORTING,
     description="Tender qualification milestones",
 )
 class ReportingQualificationMilestoneResource(BaseQualificationMilestoneResource):
@@ -18,10 +18,10 @@ class ReportingQualificationMilestoneResource(BaseQualificationMilestoneResource
 
 
 @resource(
-    name=f"{NEGOTIATION}:Tender Qualification Milestones",
+    name=f"{ProcurementMethodType.NEGOTIATION}:Tender Qualification Milestones",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones/{milestone_id}",
-    procurementMethodType=NEGOTIATION,
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
     description="Tender qualification milestones",
 )
 class NegotiationQualificationMilestoneResource(BaseQualificationMilestoneResource):
@@ -29,10 +29,10 @@ class NegotiationQualificationMilestoneResource(BaseQualificationMilestoneResour
 
 
 @resource(
-    name=f"{NEGOTIATION_QUICK}:Tender Qualification Milestones",
+    name=f"{ProcurementMethodType.NEGOTIATION_QUICK}:Tender Qualification Milestones",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones/{milestone_id}",
-    procurementMethodType=NEGOTIATION_QUICK,
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
     description="Tender qualification milestones",
 )
 class NegotiationQuickQualificationMilestoneResource(BaseQualificationMilestoneResource):

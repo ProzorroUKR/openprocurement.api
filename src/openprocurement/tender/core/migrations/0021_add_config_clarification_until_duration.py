@@ -1,27 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_EU_TYPE,
-    CD_UA_TYPE,
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    SIMPLE_DEFENSE,
-)
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -35,23 +16,29 @@ def clarification_until_duration_populator(tender):
     """
     pmt = tender.get("procurementMethodType")
     if pmt in [
-        ABOVE_THRESHOLD,
-        ABOVE_THRESHOLD_EU,
-        ABOVE_THRESHOLD_UA,
-        CD_EU_TYPE,
-        CD_UA_TYPE,
-        COMPETITIVE_ORDERING,
-        ESCO,
-        SIMPLE_DEFENSE,
-        STAGE_2_EU_TYPE,
-        STAGE_2_UA_TYPE,
-        CFA_UA,
-        ABOVE_THRESHOLD_UA_DEFENSE,
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.ESCO,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE,
     ]:
         return 3
-    if pmt in [BELOW_THRESHOLD]:
+    if pmt in [ProcurementMethodType.BELOW_THRESHOLD]:
         return 1
-    if pmt in [CFA_SELECTION, NEGOTIATION, NEGOTIATION_QUICK, PQ, REPORTING]:
+    if pmt in [
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+        ProcurementMethodType.PRICE_QUOTATION,
+        ProcurementMethodType.REPORTING,
+    ]:
         return 0
 
 

@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
-from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.framework.arma.procedure.state.framework import ARMAFrameworkState
 from openprocurement.framework.core.procedure.views.qualification import (
     QualificationsResource,
@@ -9,11 +9,11 @@ from openprocurement.framework.core.procedure.views.qualification import (
 
 
 @resource(
-    name=f"{ARMA_TYPE}:Qualifications",
+    name=f"{FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY}:Qualifications",
     collection_path="/qualifications",
     path="/qualifications/{qualification_id}",
-    description=f"{ARMA_TYPE} qualifications",
-    qualificationType=ARMA_TYPE,
+    description=f"{FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY} qualifications",
+    qualificationType=FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY,
     accept="application/json",
 )
 class ARMAQualificationResource(QualificationsResource):

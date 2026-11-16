@@ -13,7 +13,6 @@ from jsonpatch import JsonPatchException
 from jsonpatch import apply_patch as apply_json_patch
 from jsonpointer import JsonPointerException, resolve_pointer
 from pyramid.exceptions import URLDecodeError
-from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants import (
     AUCTION_REPLAN_BUFFER_MINUTES,
@@ -21,6 +20,7 @@ from openprocurement.api.constants import (
     CONTRACT_TEMPLATES,
     DEFAULT_CONTRACT_TEMPLATE_KEY,
     TZ,
+    ProcurementMethodType,
 )
 from openprocurement.api.constants_env import (
     BID_ITEMS_REQUIRED_FROM,
@@ -32,6 +32,7 @@ from openprocurement.api.context import get_request as get_api_request
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.errors import ValidationError
 from openprocurement.api.procedure.utils import (
     append_revision,
     get_revision_changes,
@@ -53,8 +54,6 @@ from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.competitivedialogue.constants import (
     CD_STAGE_2_EU_DEFAULT_CONFIG,
     CD_STAGE_2_UA_DEFAULT_CONFIG,
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
 )
 from openprocurement.tender.core.constants import (
     AUCTION_STAND_STILL_TIME,
@@ -971,10 +970,10 @@ def prepare_stage2_tender_data(tender: dict) -> dict:
             new_tender[field_name] = tender[field_name]
 
     if tender["procurementMethodType"].endswith("EU"):
-        new_tender["procurementMethodType"] = STAGE_2_EU_TYPE
+        new_tender["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2
         config = CD_STAGE_2_EU_DEFAULT_CONFIG
     else:
-        new_tender["procurementMethodType"] = STAGE_2_UA_TYPE
+        new_tender["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2
         config = CD_STAGE_2_UA_DEFAULT_CONFIG
 
     new_tender["tenderPeriod"] = {

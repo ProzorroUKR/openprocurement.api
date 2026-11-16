@@ -1,7 +1,3 @@
-from schematics.types import StringType
-from schematics.types.compound import ModelType
-
-from openprocurement.api.procedure.types import ListType
 from openprocurement.contracting.core.procedure.models.contract import (
     Contract as BaseContract,
 )
@@ -20,13 +16,13 @@ from openprocurement.contracting.econtract.procedure.models.termination_details 
 
 
 class PostContract(BasePostContract):
-    author = StringType()
+    author: str | None = None
 
 
 class Contract(BaseContract):
-    changes = ListType(ModelType(Change, required=True))
-    documents = ListType(ModelType(Document, required=True))
-    cancellations = ListType(ModelType(Cancellation, required=True))
-    author = StringType()
-    signatories = ListType(ModelType(Signatory, required=True))
-    terminationDetails = ModelType(TerminationDetails)
+    changes: list[Change] | None = None
+    documents: list[Document] | None = None
+    cancellations: list[Cancellation] | None = None
+    author: str | None = None
+    signatories: list[Signatory] | None = None
+    terminationDetails: TerminationDetails | None = None

@@ -1,70 +1,82 @@
+from typing import Any, Literal
 from uuid import uuid4
 
 from isodate import duration_isoformat
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, MD5Type, StringType
-from schematics.types.compound import ModelType
+from pydantic import Field, field_validator
 
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import Model, model_field_validator, validate_uniq_code, validate_uniq_id
+from openprocurement.api.procedure.models.milestone import Milestone
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.tender.cfaua.constants import CFA_UA_MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.procedure.models.agreement_contract import CFAAgreementContract
 from openprocurement.tender.cfaua.procedure.models.feature import CFAFeature
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import Item
-from openprocurement.tender.core.procedure.models.milestone import Milestone
 
 
 class CFAPatchAgreement(Model):
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-
-    status = StringType(choices=["pending", "active", "cancelled", "unsuccessful"])
-    period = ModelType(Period)
-    dateSigned = IsoDateTimeType()
-    agreementNumber = StringType()
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    status: Literal["pending", "active", "unsuccessful", "cancelled"] | None = None
+    period: Period | None = None
+    dateSigned: IsoDateTime | None = None
+    agreementNumber: str | None = None
 
 
 class CFAAgreement(Model):
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    agreementID: str | None = None
+    agreementNumber: str | None = None
+    date: IsoDateTime | None = None
+    dateSigned: IsoDateTime | None = None
+    features: list[CFAFeature] | None = None
+    items: list[Item] | None = None
+    period: Period | None = None
+    status: Literal["pending", "active", "unsuccessful", "cancelled"]
+    contracts: list[CFAAgreementContract] | None = None
+    milestones: list[Milestone] | None = None
+    documents: Any = None
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    agreementID = StringType()
-    agreementNumber = StringType()
-    date = IsoDateTimeType()
-    dateSigned = IsoDateTimeType()
-    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
-    items = ListType(ModelType(Item, required=True))
-    period = ModelType(Period)
-    status = StringType(choices=["pending", "active", "cancelled", "unsuccessful"], required=True)
-    contracts = ListType(ModelType(CFAAgreementContract, required=True))
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
+    @model_field_validator("features")
+    def validate_features(self, features):
+        validate_related_items(self, features)
 
-    documents = BaseType()
-
-    def validate_features(self, data, features):
-        validate_related_items(data, features)
-
-    def validate_period(self, data, value):
-        if data.get("status") == "active":
+    @model_field_validator("period")
+    def validate_period(self, value):
+        if self.status == "active":
             if not value:
                 raise ValidationError("Period is required for agreement signing.")
             if not value.startDate or not value.endDate:
                 raise ValidationError("startDate and endDate are required in agreement.period.")
-
             calculated_end_date = value.startDate + CFA_UA_MAX_AGREEMENT_PERIOD
             if value.endDate > calculated_end_date:
                 raise ValidationError(
                     f"Agreement period can't be greater than {duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD)}."
                 )
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
+
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value

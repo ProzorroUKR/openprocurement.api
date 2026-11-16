@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
 from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,
@@ -15,7 +16,7 @@ from openprocurement.tender.esco.procedure.state.award_complaint import (
     name="esco:Tender Award Complaints Get",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["GET"],
     description="Tender ESCO award complaints get",
 )
@@ -27,7 +28,7 @@ class ESCOAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
     name="esco:Tender Award Claims",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["POST", "PATCH"],
     complaintType="claim",
     description="Tender ESCO award claims",
@@ -40,7 +41,7 @@ class ESCOTenderAwardClaimResource(AwardClaimResource):
     name="esco:Tender Award Complaints",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Tender ESCO award complaints",

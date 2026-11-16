@@ -3,6 +3,7 @@ from copy import deepcopy
 from cornice.resource import resource
 from pyramid.security import Allow
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.context import set_request_now
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
@@ -16,7 +17,7 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
     name="closeFrameworkAgreementSelectionUA:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
     description="closeFrameworkAgreementSelectionUA tenders",
     accept="application/json",
 )

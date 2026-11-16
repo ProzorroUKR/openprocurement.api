@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 import random
 from copy import deepcopy
 from datetime import timedelta
@@ -20,13 +21,12 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.models.organization import (
-    PROCURING_ENTITY_KIND_CHOICES,
+    ProcuringEntityKind,
     ProcuringEntityKind,
 )
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.core.procedure.models.tender_base import MainProcurementCategory
 from openprocurement.tender.core.tests.base import (
     ocds_release_schema,
@@ -719,7 +719,7 @@ def create_tender_invalid(self):
                 "name": "procuringEntity",
                 "description": {
                     "kind": [
-                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                        "Value must be one of ['authority', 'central', 'defense', 'general', 'other', 'social', 'special']."
                     ]
                 },
             }
@@ -1326,7 +1326,7 @@ def validate_procurement_entity_kind(self):
         "openprocurement.tender.core.procedure.state.tender.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
         get_now() - timedelta(days=1),
     ):
-        for kind in PROCURING_ENTITY_KIND_CHOICES:
+        for kind in ProcuringEntityKind:
             resp_status = 201 if kind in self.allowed_proc_entity_kinds else 422
             data["procuringEntity"]["kind"] = kind
             extra_data = {}
@@ -1365,7 +1365,7 @@ def validate_procurement_entity_kind_patch(self):
         "openprocurement.tender.core.procedure.state.tender.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
         get_now() - timedelta(days=1),
     ):
-        for kind in PROCURING_ENTITY_KIND_CHOICES:
+        for kind in ProcuringEntityKind:
             resp_status = 200 if kind in self.allowed_proc_entity_kinds else 422
             entity["kind"] = kind
             entity["name"] = f"new name for {kind}"
@@ -4899,7 +4899,7 @@ def contract_template_name_set(self):
 
     def test_forbidden_for_works_and_services(pmt):
         for category in (MainProcurementCategory.WORKS, MainProcurementCategory.SERVICES):
-            if pmt == CFA_UA and category == MainProcurementCategory.WORKS:
+            if pmt == ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA and category == MainProcurementCategory.WORKS:
                 continue
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",

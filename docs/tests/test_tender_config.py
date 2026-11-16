@@ -8,7 +8,7 @@ from uuid import uuid4
 import standards
 from dateutil.parser import parse
 
-from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING, FrameworkType
 from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
@@ -24,7 +24,6 @@ from openprocurement.framework.core.tests.base import (
     FrameworkActionsTestMixin,
     test_submission_config,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
@@ -2336,7 +2335,7 @@ class HasPrequalificationTenderConfigTest(TenderConfigBaseTest):
 
 
 class HasPreSelectionAgreementTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin):
-    framework_type = DPS_TYPE
+    framework_type = FrameworkType.DYNAMIC_PURCHASING_SYSTEM
 
     def test_docs_has_pre_selection_agreement_values_csv(self):
         self.write_config_values_csv(
@@ -2806,7 +2805,7 @@ class QualificationDurationTenderConfigTest(TenderConfigBaseTest):
 
 class RestrictedTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin):
     initial_auth = ("Basic", ("brokerr", ""))
-    framework_type = DPS_TYPE
+    framework_type = FrameworkType.DYNAMIC_PURCHASING_SYSTEM
 
     def test_docs_restricted_values_csv(self):
         self.write_config_values_csv(

@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.cancellation_complaint_document import (
     CancellationComplaintDocumentResource,
 )
@@ -12,7 +13,7 @@ from openprocurement.tender.limited.procedure.state.cancellation_complaint_docum
     name="negotiation:Tender Cancellation Complaint Documents",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType="negotiation",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
     description="Tender negotiation cancellation complaint documents",
 )
 class NegotiationCancellationComplaintDocumentResource(CancellationComplaintDocumentResource):
@@ -23,7 +24,7 @@ class NegotiationCancellationComplaintDocumentResource(CancellationComplaintDocu
     name="negotiation.quick:Tender Cancellation Complaint Documents",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType="negotiation.quick",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
     description="Tender negotiation.quick cancellation complaint documents",
 )
 class NegotiationQuickCancellationComplaintDocumentResource(CancellationComplaintDocumentResource):

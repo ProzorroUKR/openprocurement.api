@@ -1,16 +1,17 @@
-from schematics.types import StringType
-from schematics.types.compound import ModelType
+from typing import Literal
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.procedure.types import (
+    IsoDateTime,
+)
 from openprocurement.contracting.econtract.procedure.models.document import Document
 from openprocurement.contracting.econtract.procedure.models.value import AmountPaid
 
 
 class BaseTerminationDetails(Model):
-    reasonType = StringType(choices=["completed", "disrupted"])
-    reason = StringType()
-    amountPaid = ModelType(AmountPaid)
+    reasonType: Literal["completed", "disrupted"] | None = None
+    reason: str | None = None
+    amountPaid: AmountPaid | None = None
 
 
 class PostTerminationDetails(BaseTerminationDetails):
@@ -18,11 +19,11 @@ class PostTerminationDetails(BaseTerminationDetails):
 
 
 class TerminationDetails(BaseTerminationDetails):
-    status = StringType(required=True, choices=["draft", "active"])
-    dateCreated = IsoDateTimeType(required=True)
-    datePublished = IsoDateTimeType()
-    documents = ListType(ModelType(Document, required=True))
+    status: Literal["draft", "active"]
+    dateCreated: IsoDateTime
+    datePublished: IsoDateTime | None = None
+    documents: list[Document] | None = None
 
 
 class PatchContractTerminationDetails(Model):
-    terminationDetails = ModelType(PostTerminationDetails)
+    terminationDetails: PostTerminationDetails | None = None

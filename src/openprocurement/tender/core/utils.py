@@ -1,11 +1,13 @@
 import re
 from datetime import timedelta
+from enum import Enum
 from functools import wraps
 from logging import getLogger
+from typing import Literal, get_args, get_origin
 
 from dateorro import calc_datetime
 
-from openprocurement.api.constants import TENDER_CRITERIA_RULES, WORKING_DAYS
+from openprocurement.api.constants import TENDER_CRITERIA_RULES, WORKING_DAYS, ProcurementMethodType
 from openprocurement.api.context import get_request_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.utils import (
@@ -32,6 +34,15 @@ class ProcurementMethodTypePredicate:
     """Route predicate factory for procurementMethodType route predicate."""
 
     def __init__(self, val, config):
+        # a value, a list of values, an enum or a `Literal` of procurement method types (all of them)
+        if isinstance(val, type) and issubclass(val, Enum):
+            val = [member.value for member in val]
+        elif get_origin(val) is Literal:
+            val = [str(value) for value in get_args(val)]
+        elif isinstance(val, (list, tuple, set)):
+            val = [str(value) for value in val]
+        else:
+            val = str(val)
         self.val = val
 
     def text(self):
@@ -60,7 +71,7 @@ class ProcurementMethodTypePredicate:
         data = cls.tender_data(request)
         if data is None:
             return None
-        return data.get("procurementMethodType", "belowThreshold")
+        return data.get("procurementMethodType", ProcurementMethodType.BELOW_THRESHOLD)
 
     @classmethod
     def route_prefix(cls, request):
@@ -78,7 +89,8 @@ ROUTE_PREFIXES = {}
 
 
 def register_route_prefix(prefix, procurement_method_types):
-    for procurement_method_type in procurement_method_types:
+    """`procurement_method_types`: a `Literal` of the procurement method types of a package"""
+    for procurement_method_type in get_args(procurement_method_types):
         ROUTE_PREFIXES[procurement_method_type] = prefix
 
 

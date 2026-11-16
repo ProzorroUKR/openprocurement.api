@@ -1,4 +1,4 @@
-from schematics.types import StringType
+from typing import Literal
 
 from openprocurement.api.procedure.models.document import Document as BaseDocument
 from openprocurement.api.procedure.models.document import (
@@ -10,20 +10,12 @@ from openprocurement.api.procedure.models.document import (
 
 
 class PostDocument(BasePostDocument):
-    documentOf = StringType(
-        required=True,
-        choices=["tender", "item", "contract", "agreement", "lot", "change"],
-        default="agreement",
-    )
+    documentOf: Literal["tender", "item", "contract", "agreement", "lot", "change"] = "agreement"
 
 
 class PatchDocument(BasePatchDocument):
-    documentOf = StringType(choices=["tender", "item", "contract", "agreement", "lot", "change"])
+    documentOf: Literal["tender", "item", "contract", "agreement", "lot", "change"] | None = None
 
 
 class Document(BaseDocument):
-    documentOf = StringType(
-        required=True,
-        choices=["tender", "item", "contract", "agreement", "lot", "change"],
-        default="agreement",
-    )
+    documentOf: Literal["tender", "item", "contract", "agreement", "lot", "change"] = "agreement"

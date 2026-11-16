@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 from openprocurement.tender.esco.procedure.state.criterion import ESCOCriterionState
 
@@ -8,7 +9,7 @@ from openprocurement.tender.esco.procedure.state.criterion import ESCOCriterionS
     name="esco:Tender Criteria",
     collection_path="/tenders/{tender_id}/criteria",
     path="/tenders/{tender_id}/criteria/{criterion_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender criteria",
 )
 class CriterionResource(BaseCriterionResource):

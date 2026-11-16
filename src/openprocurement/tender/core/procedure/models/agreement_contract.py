@@ -1,7 +1,8 @@
-from schematics.types import MD5Type
-
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import (
+    MD5,
+)
 
 
 class Contract(Model):
-    id = MD5Type(required=True)
+    id: MD5

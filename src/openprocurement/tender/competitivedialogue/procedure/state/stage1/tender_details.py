@@ -65,7 +65,10 @@ class CDStage1TenderDetailsStateMixin(TenderDetailsMixin, CDStage1TenderState):
         if after == "active.stage2.waiting":
             # prepare stage2 tender
             new_tender = prepare_stage2_tender_data(data)
-            new_tender = self.stage_2_tender_model(new_tender).serialize()
+            # the post model allows "draft" only (for the API), the stage 2 tender starts in "draft.stage2"
+            status = new_tender.pop("status")
+            new_tender = self.stage_2_tender_model.validate_data(new_tender)
+            new_tender["status"] = status
             new_tender["config"] = self.stage_2_config
             self.stage_2_tender_state(self.request).on_post(new_tender)
             # create stage2 tender

@@ -1,18 +1,15 @@
+from typing import Annotated, Any, Literal
 from uuid import uuid4
 
-from schematics.types import BaseType, BooleanType, StringType
-from schematics.types.compound import ModelType, PolyModelType
-from schematics.types.serializable import serializable
+from pydantic import Discriminator, Field, Tag, computed_field, field_validator, model_validator
 
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import Model, RootModel, validate_uniq_id
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import (
     AmountPercentageValue,
     ContractValue,
 )
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.utils import get_contract_value_class
-from openprocurement.api.validation import validate_uniq_id
+from openprocurement.api.procedure.types import IsoDateTime
 from openprocurement.contracting.core.procedure.models.access import AccessDetails
 from openprocurement.contracting.core.procedure.models.change import Change
 from openprocurement.contracting.core.procedure.models.document import Document
@@ -30,212 +27,175 @@ from openprocurement.contracting.core.procedure.models.organization import (
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
 
 
+def contract_value_kind(value: Any) -> str | None:
+    """the value of a contract is either a percentage of the amount or a regular one"""
+    if isinstance(value, Model):
+        return type(value).__name__
+    if isinstance(value, dict):
+        return "AmountPercentageValue" if "amountPercentage" in value else "ContractValue"
+    return None
+
+
+ContractValueField = Annotated[
+    Annotated[AmountPercentageValue, Tag("AmountPercentageValue")] | Annotated[ContractValue, Tag("ContractValue")],
+    Discriminator(contract_value_kind),
+]
+
+
 class PostContract(Model):
     """
     Model only for auto-creating contract
     """
 
-    @serializable
-    def transfer_token(self):
+    @computed_field
+    def transfer_token(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def status(self):
+    @computed_field
+    def status(self) -> Any:
         return "pending"
 
-    id = StringType()
-    _id = StringType(deserialize_from=["id", "doc_id"])
-    awardID = StringType()
-    contractID = StringType()
-    buyerID = StringType()
-    contractNumber = StringType()
+    @computed_field(alias="_id")
+    def doc_id(self) -> str | None:
+        """the database document of the contract has the id of the contract"""
+        return self.id
 
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
+    id: str | None = None
+    awardID: str | None = None
+    contractID: str | None = None
+    buyerID: str | None = None
+    contractNumber: str | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    period: Period | None = None
+    value: ContractValueField | None = None
+    items: list[Item] | None = None
+    buyer: Buyer
+    suppliers: list[Supplier] | None = Field(None, min_length=1, max_length=1)
+    owner: str | None = None
+    access: list[AccessDetails] | None = None
+    tender_id: str
+    tenderID: str | None = None
+    mainProcurementCategory: str | None = None
+    mode: Literal["test"] | None = None
+    amountPaid: AmountPaid | None = None
+    contractTemplateName: str | None = None
+    milestones: list[ContractMilestone] | None = None
+    contractChangeRationaleTypes: Any = None
 
-    period = ModelType(Period)
-    value = PolyModelType(
-        (
-            AmountPercentageValue,
-            ContractValue,
-        ),
-        claim_function=get_contract_value_class,
-    )
-
-    items = ListType(ModelType(Item, required=True))
-    buyer = ModelType(Buyer, required=True)
-    suppliers = ListType(ModelType(Supplier), min_size=1, max_size=1)
-
-    owner = StringType()
-    access = ListType(ModelType(AccessDetails, required=True))
-    tender_id = StringType(required=True)
-    tenderID = StringType()
-    mainProcurementCategory = StringType()
-    mode = StringType(choices=["test"])
-
-    amountPaid = ModelType(AmountPaid)
-    contractTemplateName = StringType()
-    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_uniq_id])
-    contractChangeRationaleTypes = BaseType()
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class BasePatchContract(Model):
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    implementation = ModelType(Implementation)
-    status = StringType(choices=["terminated", "active"])
-    period = ModelType(Period)
-    value = PolyModelType(
-        (
-            AmountPercentageValue,
-            ContractValue,
-        ),
-        claim_function=get_contract_value_class,
-    )
-    items = ListType(ModelType(Item, required=True), min_size=1)
-    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_uniq_id])
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    implementation: Implementation | None = None
+    status: Literal["active", "terminated"] | None = None
+    period: Period | None = None
+    value: ContractValueField | None = None
+    items: list[Item] | None = Field(None, min_length=1)
+    milestones: list[ContractMilestone] | None = None
+
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
-class Contract(Model):
+class Contract(RootModel):
     """Contract"""
 
-    _id = StringType(deserialize_from=["id", "doc_id"])
-    _rev = StringType()
-    doc_type = StringType()
-    public_modified = BaseType()
-    public_ts = BaseType()
+    buyerID: str | None = None
+    awardID: str | None = None
+    contractID: str | None = None
+    contractNumber: str | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    dateSigned: IsoDateTime | None = None
+    date: IsoDateTime | None = None
+    dateModified: IsoDateTime | None = None
+    dateCreated: IsoDateTime | None = None
+    items: list[Item] | None = Field(None, min_length=1)
+    tender_token: str | None = None
+    tender_id: str
+    tenderID: str | None = None
+    mainProcurementCategory: str | None = None
+    owner_token: str | None = None
+    transfer_token: str = Field(default_factory=lambda: uuid4().hex)
+    owner: str | None = None
+    mode: Literal["test"] | None = None
+    status: Literal["pending", "pending.winner-signing", "terminated", "active", "cancelled"] | None = None
+    period: Period | None = None
+    buyer: Buyer
+    suppliers: list[Supplier] | None = Field(None, min_length=1, max_length=1)
+    contractTemplateName: str | None = None
+    changes: list[Change] | None = None
+    terminationDetails: str | None = None
+    implementation: Implementation | None = None
+    is_masked: bool | None = None
+    documents: list[Document] | None = None
+    amountPaid: AmountPaid | None = None
+    value: ContractValueField | None = None
+    contractChangeRationaleTypes: Any = None
+    bid_owner: str | None = None
+    bid_token: str | None = None
+    access: list[AccessDetails] | None = None
+    config: Any = None
+    attachments_: Any = Field(None, alias="_attachments")
+    milestones: list[ContractMilestone] | None = None
 
-    buyerID = StringType()
-    awardID = StringType()
-    contractID = StringType()
-    contractNumber = StringType()
-    title = StringType()  # Contract title
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()  # Contract description
-    description_en = StringType()
-    description_ru = StringType()
-    dateSigned = IsoDateTimeType()
-    date = IsoDateTimeType()
-
-    dateModified = IsoDateTimeType()
-    dateCreated = IsoDateTimeType()
-    items = ListType(
-        ModelType(Item, required=True),
-        required=False,
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
-    tender_token = StringType()  # deprecated
-    tender_id = StringType(required=True)
-    tenderID = StringType()
-    mainProcurementCategory = StringType()
-    owner_token = StringType()  # deprecated
-    transfer_token = StringType(default=lambda: uuid4().hex)
-    owner = StringType()
-    mode = StringType(choices=["test"])
-    status = StringType(
-        choices=[
-            "pending",
-            "pending.winner-signing",
-            "terminated",
-            "active",
-            "cancelled",
-        ]
-    )
-    period = ModelType(Period)
-    buyer = ModelType(Buyer, required=True)
-    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
-    contractTemplateName = StringType()
-    changes = ListType(ModelType(Change, required=True))
-    terminationDetails = StringType()
-    implementation = ModelType(Implementation)
-    is_masked = BooleanType()
-
-    documents = ListType(ModelType(Document, required=True))
-    amountPaid = ModelType(AmountPaid)
-    value = PolyModelType(
-        (
-            AmountPercentageValue,
-            ContractValue,
-        ),
-        claim_function=get_contract_value_class,
-    )
-
-    contractChangeRationaleTypes = BaseType()
-
-    bid_owner = StringType()  # deprecated
-    bid_token = StringType()  # deprecated
-
-    access = ListType(ModelType(AccessDetails, required=True))
-
-    revisions = BaseType()
-
-    config = BaseType()
-
-    _attachments = BaseType()  # deprecated
-    milestones = ListType(ModelType(ContractMilestone, required=True))
-
-    @serializable(
-        serialized_name="amountPaid",
-        serialize_when_none=False,
-        type=ModelType(AmountPaid),
-    )
-    def contract_amountPaid(self):
+    @model_validator(mode="after")
+    def set_amount_paid_defaults(self):
+        # amountPaid takes currency and valueAddedTaxIncluded of the value
         if self.amountPaid and isinstance(self.value, ContractValue):
-            self.amountPaid.currency = self.value.currency if self.value else self.amountPaid.currency
+            self.amountPaid.currency = self.value.currency
             if self.amountPaid.valueAddedTaxIncluded is None:
                 self.amountPaid.valueAddedTaxIncluded = self.value.valueAddedTaxIncluded
-        return self.amountPaid
+        return self
+
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class PatchContract(BasePatchContract):
-    status = StringType(choices=["pending", "terminated", "active", "cancelled"])
-    items = ListType(ModelType(Item, required=True), min_size=1)
-    terminationDetails = StringType()
-    amountPaid = ModelType(AmountPaid)
-    value = PolyModelType(
-        (
-            AmountPercentageValue,
-            ContractValue,
-        ),
-        claim_function=get_contract_value_class,
-    )
+    status: Literal["pending", "active", "cancelled", "terminated"] | None = None
+    items: list[Item] | None = Field(None, min_length=1)
+    terminationDetails: str | None = None
+    amountPaid: AmountPaid | None = None
+    value: ContractValueField | None = None
 
 
 class PatchContractPending(BasePatchContract):
-    status = StringType(choices=["pending", "terminated", "active", "cancelled"])
-    items = ListType(ModelType(Item, required=True), min_size=1)
-    dateSigned = IsoDateTimeType()
-    contractNumber = StringType()
-    value = PolyModelType(
-        (
-            AmountPercentageValue,
-            ContractValue,
-        ),
-        claim_function=get_contract_value_class,
-    )
+    status: Literal["pending", "active", "cancelled", "terminated"] | None = None
+    items: list[Item] | None = Field(None, min_length=1)
+    dateSigned: IsoDateTime | None = None
+    contractNumber: str | None = None
+    value: ContractValueField | None = None
 
 
 class AdministratorPatchContract(Model):
-    contractNumber = StringType()
-    status = StringType(
-        choices=[
-            "pending",
-            "pending.winner-signing",
-            "terminated",
-            "active",
-            "cancelled",
-        ]
-    )
-    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
-    buyer = ModelType(Buyer)
-    mode = StringType(choices=["test"])
+    contractNumber: str | None = None
+    status: Literal["pending", "pending.winner-signing", "terminated", "active", "cancelled"] | None = None
+    suppliers: list[Supplier] | None = Field(None, min_length=1, max_length=1)
+    buyer: Buyer | None = None
+    mode: Literal["test"] | None = None

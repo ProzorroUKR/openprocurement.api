@@ -1,19 +1,19 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.submission import (
     SubmissionsResource,
 )
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.framework.ifi.procedure.state.framework import IFIFrameworkState
 
 
 @resource(
-    name=f"{IFI_TYPE}:Submissions",
+    name=f"{FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS}:Submissions",
     collection_path="/submissions",
     path="/submissions/{submission_id}",
-    description=f"{IFI_TYPE} submissions",
-    submissionType=IFI_TYPE,
+    description=f"{FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS} submissions",
+    submissionType=FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS,
     accept="application/json",
 )
 class IFISubmissionResource(SubmissionsResource):

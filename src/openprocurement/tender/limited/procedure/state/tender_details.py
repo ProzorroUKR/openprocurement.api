@@ -2,6 +2,7 @@ from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
     CPV_GROUP_PREFIX_LENGTH,
     PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING,
+    ProcurementMethodType,
 )
 from openprocurement.api.constants_env import (
     CAUSE_DETAILS_REQUIRED_FROM,
@@ -43,7 +44,9 @@ class LimitedCauseDetailsMixin(BaseState):
     def validate_cause_required(self, data):
         if tender_created_after(CAUSE_DETAILS_REQUIRED_FROM):
             if not data.get("causeDetails"):
-                if data.get("procurementMethodType") == "reporting" and not reporting_cause_is_required(data):
+                if data.get(
+                    "procurementMethodType"
+                ) == ProcurementMethodType.REPORTING and not reporting_cause_is_required(data):
                     pass
                 else:
                     raise_operation_error(
@@ -64,11 +67,13 @@ class LimitedCauseDetailsMixin(BaseState):
                     )
         else:
             if not data.get("cause") and not data.get("causeDetails"):
-                if data.get("procurementMethodType") == "reporting" and not reporting_cause_is_required(data):
+                if data.get(
+                    "procurementMethodType"
+                ) == ProcurementMethodType.REPORTING and not reporting_cause_is_required(data):
                     pass
-                elif data.get("procurementMethodType") == "negotiation.quick" and tender_created_before(
-                    QUICK_CAUSE_REQUIRED_FROM
-                ):
+                elif data.get(
+                    "procurementMethodType"
+                ) == ProcurementMethodType.NEGOTIATION_QUICK and tender_created_before(QUICK_CAUSE_REQUIRED_FROM):
                     pass
                 else:
                     raise_operation_error(

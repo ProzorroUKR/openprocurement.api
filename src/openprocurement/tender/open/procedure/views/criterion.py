@@ -1,17 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX
 from openprocurement.tender.open.procedure.state.criterion import (
     AboveThresholdCriterionState,
     AboveThresholdEUCriterionState,
@@ -36,24 +27,26 @@ from openprocurement.tender.open.procedure.views.base import (
     path="/tenders/{tender_id}/criteria/{criterion_id}",
     description="Tender criteria",
     procurementMethodType=[
-        ABOVE_THRESHOLD,
-        ABOVE_THRESHOLD_UA,
-        ABOVE_THRESHOLD_EU,
-        OPEN_TENDERING,
-        SIMPLE_DEFENSE,
-        COMPETITIVE_ORDERING,
-        BELOW_THRESHOLD,
-        REQUEST_FOR_PROPOSAL,
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.OPEN_TENDERING,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL,
     ],
 )
 class OpenBaseCriterionResource(BaseCriterionResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdCriterionState,
-        ABOVE_THRESHOLD_UA: AboveThresholdUACriterionState,
-        ABOVE_THRESHOLD_EU: AboveThresholdEUCriterionState,
-        OPEN_TENDERING: OpenTenderingStateClass(OpenTenderingUACriterionState, OpenTenderingEUCriterionState),
-        SIMPLE_DEFENSE: SimpleDefenseCriterionState,
-        COMPETITIVE_ORDERING: COStateClass(COShortCriterionState, COLongCriterionState),
-        BELOW_THRESHOLD: BelowThresholdCriterionState,
-        REQUEST_FOR_PROPOSAL: RFPCriterionState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdCriterionState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUACriterionState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEUCriterionState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingStateClass(
+            OpenTenderingUACriterionState, OpenTenderingEUCriterionState
+        ),
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseCriterionState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COStateClass(COShortCriterionState, COLongCriterionState),
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdCriterionState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPCriterionState,
     }

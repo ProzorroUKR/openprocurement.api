@@ -1,17 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.criterion_rg import BaseRequirementGroupResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX
 from openprocurement.tender.open.procedure.state.criterion_rg import (
     AboveThresholdEURequirementGroupState,
     AboveThresholdRequirementGroupState,
@@ -36,26 +27,28 @@ from openprocurement.tender.open.procedure.views.base import (
     path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups/{requirement_group_id}",
     description="Tender criteria requirement group",
     procurementMethodType=[
-        ABOVE_THRESHOLD,
-        ABOVE_THRESHOLD_UA,
-        ABOVE_THRESHOLD_EU,
-        OPEN_TENDERING,
-        SIMPLE_DEFENSE,
-        COMPETITIVE_ORDERING,
-        BELOW_THRESHOLD,
-        REQUEST_FOR_PROPOSAL,
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.OPEN_TENDERING,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL,
     ],
 )
 class OpenBaseRequirementGroupResource(BaseRequirementGroupResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdRequirementGroupState,
-        ABOVE_THRESHOLD_UA: AboveThresholdUARequirementGroupState,
-        ABOVE_THRESHOLD_EU: AboveThresholdEURequirementGroupState,
-        OPEN_TENDERING: OpenTenderingStateClass(
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdRequirementGroupState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUARequirementGroupState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEURequirementGroupState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingStateClass(
             OpenTenderingUARequirementGroupState, OpenTenderingEURequirementGroupState
         ),
-        SIMPLE_DEFENSE: SimpleDefenseRequirementGroupState,
-        COMPETITIVE_ORDERING: COStateClass(COShortRequirementGroupState, COLongRequirementGroupState),
-        BELOW_THRESHOLD: BelowThresholdRequirementGroupState,
-        REQUEST_FOR_PROPOSAL: RFPRequirementGroupState,
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseRequirementGroupState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COStateClass(
+            COShortRequirementGroupState, COLongRequirementGroupState
+        ),
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdRequirementGroupState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPRequirementGroupState,
     }

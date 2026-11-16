@@ -1,10 +1,14 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import BaseType, MD5Type, StringType, URLType
-from schematics.types.compound import ModelType
+from pydantic import Field
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+    Url,
+)
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 from openprocurement.tender.core.procedure.models.value import (
     BasicValue,
@@ -14,49 +18,43 @@ from openprocurement.tender.core.procedure.models.value import (
 
 
 class BaseLot(Model):
-    title = StringType(required=True, min_length=1)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    status = StringType(choices=["active", "cancelled", "unsuccessful", "complete"], default="active")
+    title: str = Field(min_length=1)
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    status: Literal["active", "cancelled", "unsuccessful", "complete"] = "active"
 
 
 class TenderLotMixin(Model):
-    id = MD5Type(required=True)
-    date = IsoDateTimeType()
+    id: MD5
+    date: IsoDateTime | None = None
 
 
 class PostBaseLot(BaseLot):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(choices=["active"], default="active")
-
-
-# --- For work from view ---
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    status: Literal["active"] = "active"
 
 
 class PatchLot(BaseLot):
-    title = StringType()
-    value = ModelType(EstimatedValue)
-    minimalStep = ModelType(EstimatedValue)
-    guarantee = ModelType(BasicValue)
-    status = StringType(choices=["active"])
+    title: str | None = None
+    value: EstimatedValue | None = None
+    minimalStep: EstimatedValue | None = None
+    guarantee: BasicValue | None = None
+    status: Literal["active"] | None = None
 
 
 class PostLot(PostBaseLot):
-    value = ModelType(PostEstimatedValue, required=True)
-    minimalStep = ModelType(PostEstimatedValue)
-    guarantee = ModelType(BasicValue)
-
-
-# --- For work from tender ---
+    value: PostEstimatedValue
+    minimalStep: PostEstimatedValue | None = None
+    guarantee: BasicValue | None = None
 
 
 class PatchTenderLot(BaseLot, TenderLotMixin):
-    value = ModelType(EstimatedValue, required=True)
-    minimalStep = ModelType(EstimatedValue)
-    guarantee = ModelType(BasicValue)
+    value: EstimatedValue
+    minimalStep: EstimatedValue | None = None
+    guarantee: BasicValue | None = None
 
 
 class PostTenderLot(PostLot, TenderLotMixin):
@@ -64,10 +62,9 @@ class PostTenderLot(PostLot, TenderLotMixin):
 
 
 class Lot(BaseLot, TenderLotMixin):
-    value = ModelType(EstimatedValue, required=True)
-    minimalStep = ModelType(EstimatedValue)
-    guarantee = ModelType(BasicValue)
-
-    auctionPeriod = ModelType(LotAuctionPeriod)
-    auctionUrl = URLType()
-    numberOfBids = BaseType()  # deprecated
+    value: EstimatedValue
+    minimalStep: EstimatedValue | None = None
+    guarantee: BasicValue | None = None
+    auctionPeriod: LotAuctionPeriod | None = None
+    auctionUrl: Url | None = None
+    numberOfBids: Any = None

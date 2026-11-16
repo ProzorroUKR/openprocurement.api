@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
 from openprocurement.tender.esco.procedure.models.value import ESCODynamicValue
@@ -11,7 +12,7 @@ from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
     name="esco:Tender Auction",
     collection_path="/tenders/{tender_id}/auction",
     path="/tenders/{tender_id}/auction/{auction_lot_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender ESCO Auction data",
 )
 class ESCOTenderAuctionResource(TenderAuctionResource):
@@ -29,7 +30,7 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
             if "value" in passed_bid:
                 value = tender_bids[passed_bid["id"]]["value"].copy()
                 value.update(passed_bid["value"])
-                passed_bid["value"] = ESCODynamicValue(value).serialize()
+                passed_bid["value"] = ESCODynamicValue.validate_data(value)
         return self.report_auction_results()
 
     @json_view(
@@ -49,5 +50,5 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
                     if value:
                         value = bid_values[passed_bid["id"]][lv["relatedLot"]].copy()
                         value.update(lv["value"])
-                        lv["value"] = ESCODynamicValue(value).serialize()
+                        lv["value"] = ESCODynamicValue.validate_data(value)
         return self.report_lot_auction_results()

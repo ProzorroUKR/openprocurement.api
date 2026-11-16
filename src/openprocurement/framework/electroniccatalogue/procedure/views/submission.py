@@ -1,11 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.submission import (
     SubmissionsResource,
-)
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
 )
 from openprocurement.framework.electroniccatalogue.procedure.state.framework import (
     ElectronicDialogueFrameworkState,
@@ -13,11 +11,11 @@ from openprocurement.framework.electroniccatalogue.procedure.state.framework imp
 
 
 @resource(
-    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Submissions",
+    name=f"{FrameworkType.ELECTRONIC_CATALOGUE}:Submissions",
     collection_path="/submissions",
     path="/submissions/{submission_id}",
-    description=f"{ELECTRONIC_CATALOGUE_TYPE} submissions",
-    submissionType=ELECTRONIC_CATALOGUE_TYPE,
+    description=f"{FrameworkType.ELECTRONIC_CATALOGUE} submissions",
+    submissionType=FrameworkType.ELECTRONIC_CATALOGUE,
     accept="application/json",
 )
 class ElectronicCatalogueSubmissionResource(SubmissionsResource):

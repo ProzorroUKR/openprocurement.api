@@ -1,19 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.complaint_document import TenderComplaintDocumentResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_PROCUREMENT_METHOD_TYPES,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX, OpenProcurementMethodType
 from openprocurement.tender.open.procedure.state.complaint_document import (
     AboveThresholdComplaintDocumentState,
     BelowThresholdComplaintDocumentState,
@@ -28,17 +17,17 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}",
     description="Tender complaint documents",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenTenderComplaintDocumentResource(TenderComplaintDocumentResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdComplaintDocumentState,
-        ABOVE_THRESHOLD_UA: AboveThresholdComplaintDocumentState,
-        ABOVE_THRESHOLD_EU: AboveThresholdComplaintDocumentState,
-        OPEN_TENDERING: OpenTenderingComplaintDocumentState,
-        ABOVE_THRESHOLD_UA_DEFENSE: AboveThresholdComplaintDocumentState,
-        SIMPLE_DEFENSE: AboveThresholdComplaintDocumentState,
-        COMPETITIVE_ORDERING: COComplaintDocumentState,
-        BELOW_THRESHOLD: BelowThresholdComplaintDocumentState,
-        REQUEST_FOR_PROPOSAL: RFPComplaintDocumentState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdComplaintDocumentState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdComplaintDocumentState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdComplaintDocumentState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingComplaintDocumentState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: AboveThresholdComplaintDocumentState,
+        ProcurementMethodType.SIMPLE_DEFENSE: AboveThresholdComplaintDocumentState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COComplaintDocumentState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdComplaintDocumentState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPComplaintDocumentState,
     }

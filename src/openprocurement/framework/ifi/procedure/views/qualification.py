@@ -1,19 +1,19 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.qualification import (
     QualificationsResource,
 )
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.framework.ifi.procedure.state.framework import IFIFrameworkState
 
 
 @resource(
-    name=f"{IFI_TYPE}:Qualifications",
+    name=f"{FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS}:Qualifications",
     collection_path="/qualifications",
     path="/qualifications/{qualification_id}",
-    description=f"{IFI_TYPE} qualifications",
-    qualificationType=IFI_TYPE,
+    description=f"{FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS} qualifications",
+    qualificationType=FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS,
     accept="application/json",
 )
 class IFIQualificationResource(QualificationsResource):

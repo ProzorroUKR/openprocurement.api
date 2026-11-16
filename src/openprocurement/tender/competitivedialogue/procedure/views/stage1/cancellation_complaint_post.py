@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.cancellation_complaint_post import (
     BaseCancellationComplaintPostResource,
 )
 
 
 @resource(
-    name="{}:Tender Cancellation Complaint Posts".format(CD_EU_TYPE),
+    name="{}:Tender Cancellation Complaint Posts".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU),
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/posts",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/posts/{post_id}",
-    procurementMethodType=CD_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
     description="Tender cancellation complaint posts",
 )
 class CDEUCancellationComplaintPostResource(BaseCancellationComplaintPostResource):
@@ -18,10 +18,10 @@ class CDEUCancellationComplaintPostResource(BaseCancellationComplaintPostResourc
 
 
 @resource(
-    name="{}:Tender Cancellation Complaint Posts".format(CD_UA_TYPE),
+    name="{}:Tender Cancellation Complaint Posts".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA),
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/posts",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/posts/{post_id}",
-    procurementMethodType=CD_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     description="Tender cancellation complaint posts",
 )
 class CDUACancellationComplaintPostResource(BaseCancellationComplaintPostResource):

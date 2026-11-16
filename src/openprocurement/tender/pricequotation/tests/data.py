@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 from copy import deepcopy
 from datetime import timedelta
 
@@ -13,7 +14,6 @@ from openprocurement.tender.core.tests.utils import set_tender_multi_buyers, set
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_milestones,
 )
-from openprocurement.tender.pricequotation.constants import PQ
 
 now = get_now()
 
@@ -136,7 +136,7 @@ test_tender_pq_data = {
     "mainProcurementCategory": "goods",
     "procuringEntity": test_tender_pq_procuring_entity,
     "value": {"amount": 22000, "currency": "UAH"},
-    "procurementMethodType": PQ,
+    "procurementMethodType": ProcurementMethodType.PRICE_QUOTATION,
     "procurementMethod": "selective",
     "items": [test_tender_pq_item],
     "agreement": {"id": "0" * 32},

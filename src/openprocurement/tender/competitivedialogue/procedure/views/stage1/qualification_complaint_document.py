@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.qualification_complaint_document import (
     QualificationComplaintDocumentResource,
 )
 
 
 @resource(
-    name="{}:Tender Qualification Complaint Documents".format(CD_EU_TYPE),
+    name="{}:Tender Qualification Complaint Documents".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU),
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType=CD_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
     description="Competitive Dialogue EU Qualification Complaint Documents",
 )
 class CDEUQualificationComplaintDocumentResource(QualificationComplaintDocumentResource):
@@ -18,10 +18,10 @@ class CDEUQualificationComplaintDocumentResource(QualificationComplaintDocumentR
 
 
 @resource(
-    name="{}:Tender Qualification Complaint Documents".format(CD_UA_TYPE),
+    name="{}:Tender Qualification Complaint Documents".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA),
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType=CD_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     description="Competitive Dialogue UA Qualification Complaint Documents",
 )
 class CDUAQualificationComplaintDocumentResource(QualificationComplaintDocumentResource):

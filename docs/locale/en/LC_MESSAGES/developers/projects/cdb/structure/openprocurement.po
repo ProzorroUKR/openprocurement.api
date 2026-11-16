@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-04 01:52+0300\n"
+"POT-Creation-Date: 2026-11-11 01:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Синхронний підпроект: ``openprocurement``"
 msgstr ""
 
-msgid "Стек: **Pyramid + pymongo + schematics**. Основний продакшн API із повною функціональністю."
+msgid "Стек: **Pyramid + pymongo + pydantic**. Основний продакшн API із повною функціональністю."
 msgstr ""
 
 msgid "Коренева директорія: ``src/openprocurement/``"
@@ -97,7 +97,7 @@ msgstr ""
 msgid "``procedure/models/``"
 msgstr ""
 
-msgid "Базові schematics-моделі: ``Address``, ``Document``, ``Organization``, ``Period``, ``Value`` тощо"
+msgid "Базові pydantic-моделі: ``Address``, ``Document``, ``Organization``, ``Period``, ``Value`` тощо"
 msgstr ""
 
 msgid "``procedure/state/base.py``"
@@ -163,10 +163,10 @@ msgstr ""
 msgid "**Запити до БД** → лише з ``procedure/views/`` (через ``request.registry.mongodb.<collection>``)"
 msgstr ""
 
-msgid "**Валідація вхідних даних** → ``procedure/models/`` (schematics) і ``validation.py``"
+msgid "**Валідація вхідних даних** → ``procedure/models/`` (pydantic) і ``validation.py``"
 msgstr ""
 
-msgid "**Спільні schematics-моделі тендерного домену** → ``tender/core/procedure/models/``; відмінності між типами процедур, що зводяться до обмежень (обов'язковість поля, ліміти, допустимі значення), реалізуються атрибутами й ``validate_*``-методами state-класів (``items_delivery_required``, ``required_multilingual_fields``, ``features_max_weight``, ``patch_status_choices`` тощо), а не окремими моделями. Окремі моделі з префіксом (``ESCO*``, ``CFA*`` ...) допускаються лише для структурних відмінностей (інші типи чи набір полів)"
+msgid "**Спільні pydantic-моделі тендерного домену** → ``tender/core/procedure/models/``; відмінності між типами процедур, що зводяться до обмежень (обов'язковість поля, ліміти, допустимі значення), реалізуються атрибутами й ``validate_*``-методами state-класів (``items_delivery_required``, ``required_multilingual_fields``, ``features_max_weight``, ``patch_status_choices`` тощо), а не окремими моделями. Окремі моделі з префіксом (``ESCO*``, ``CFA*`` ...) допускаються лише для структурних відмінностей (інші типи чи набір полів)"
 msgstr ""
 
 msgid "**Реєстр процедур** → ``tender/core/procedure/registry.py``: ``PROCEDURE_MODELS`` зіставляє ``procurementMethodType`` з core-моделями процедури (``ProcedureModels``: tender/bid/award/lot/agreement для POST, PATCH і збереженого об'єкта); state-класи отримують моделі через ``get_procedure_models``"
@@ -186,4 +186,16 @@ msgstr ""
 
 msgid "**Глобальні константи з часовою прив'язкою** → ``constants_env.py`` (читаються з env або ``constants.ini``)"
 msgstr ""
+
+#~ msgid "Стек: **Pyramid + pymongo + schematics**. Основний продакшн API із повною функціональністю."
+#~ msgstr ""
+
+#~ msgid "Базові schematics-моделі: ``Address``, ``Document``, ``Organization``, ``Period``, ``Value`` тощо"
+#~ msgstr ""
+
+#~ msgid "**Валідація вхідних даних** → ``procedure/models/`` (schematics) і ``validation.py``"
+#~ msgstr ""
+
+#~ msgid "**Спільні schematics-моделі тендерного домену** → ``tender/core/procedure/models/``; відмінності між типами процедур, що зводяться до обмежень (обов'язковість поля, ліміти, допустимі значення), реалізуються атрибутами й ``validate_*``-методами state-класів (``items_delivery_required``, ``required_multilingual_fields``, ``features_max_weight``, ``patch_status_choices`` тощо), а не окремими моделями. Окремі моделі з префіксом (``ESCO*``, ``CFA*`` ...) допускаються лише для структурних відмінностей (інші типи чи набір полів)"
+#~ msgstr ""
 

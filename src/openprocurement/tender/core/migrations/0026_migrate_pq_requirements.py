@@ -6,10 +6,10 @@ from decimal import Decimal
 
 from pyramid.paster import bootstrap
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigrationArgumentParser
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import get_now
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -186,7 +186,7 @@ def run(env, args):
     cursor = collection.find(
         {
             "status": {"$in": ["draft", "active.tendering"]},
-            "procurementMethodType": PQ,
+            "procurementMethodType": ProcurementMethodType.PRICE_QUOTATION,
             "criteria": {"$exists": True},
         },
         {"criteria": 1, "bids": 1},
@@ -236,7 +236,7 @@ def create_temporary_db(env):
             collection.find(
                 {
                     "status": {"$in": ["draft", "active.tendering"]},
-                    "procurementMethodType": PQ,
+                    "procurementMethodType": ProcurementMethodType.PRICE_QUOTATION,
                     "criteria": {"$exists": True},
                 },
                 no_cursor_timeout=True,

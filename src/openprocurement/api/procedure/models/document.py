@@ -1,139 +1,198 @@
 from enum import StrEnum
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field, model_validator
 
 from openprocurement.api.context import get_request_now
+from openprocurement.api.procedure.errors import FieldError
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import HashType
+from openprocurement.api.procedure.types import MD5, Hash
 
-DOCUMENT_TYPES = (
-    "tenderNotice",
-    "awardNotice",
-    "contractNotice",
-    "notice",
-    "biddingDocuments",
-    "technicalSpecifications",
-    "evaluationCriteria",
-    "clarifications",
-    "shortlistedFirms",
-    "riskProvisions",
-    "billOfQuantity",
-    "bidders",
-    "conflictOfInterest",
-    "debarments",
-    "evaluationReports",
-    "winningBid",
-    "complaints",
-    "contractSigned",
-    "contractArrangements",
-    "contractSchedule",
-    "contractAnnexe",
-    "contractGuarantees",
-    "subContract",
-    "eligibilityCriteria",
-    "contractProforma",
-    "commercialProposal",
-    "qualificationDocuments",
-    "eligibilityDocuments",
-    "registerExtract",
-    "registerUSR",
-    "registerFiscal",
-    "winningBid",
-    "evidence",
-    "register",
-    "cancellationReport",
-    "acceptanceReport",
-)
+
+class DocumentType(StrEnum):
+    TENDER_NOTICE = "tenderNotice"
+    AWARD_NOTICE = "awardNotice"
+    CONTRACT_NOTICE = "contractNotice"
+    NOTICE = "notice"
+    BIDDING_DOCUMENTS = "biddingDocuments"
+    TECHNICAL_SPECIFICATIONS = "technicalSpecifications"
+    EVALUATION_CRITERIA = "evaluationCriteria"
+    CLARIFICATIONS = "clarifications"
+    SHORTLISTED_FIRMS = "shortlistedFirms"
+    RISK_PROVISIONS = "riskProvisions"
+    BILL_OF_QUANTITY = "billOfQuantity"
+    BIDDERS = "bidders"
+    CONFLICT_OF_INTEREST = "conflictOfInterest"
+    DEBARMENTS = "debarments"
+    EVALUATION_REPORTS = "evaluationReports"
+    WINNING_BID = "winningBid"
+    COMPLAINTS = "complaints"
+    CONTRACT_SIGNED = "contractSigned"
+    CONTRACT_ARRANGEMENTS = "contractArrangements"
+    CONTRACT_SCHEDULE = "contractSchedule"
+    CONTRACT_ANNEXE = "contractAnnexe"
+    CONTRACT_GUARANTEES = "contractGuarantees"
+    SUB_CONTRACT = "subContract"
+    ELIGIBILITY_CRITERIA = "eligibilityCriteria"
+    CONTRACT_PROFORMA = "contractProforma"
+    COMMERCIAL_PROPOSAL = "commercialProposal"
+    QUALIFICATION_DOCUMENTS = "qualificationDocuments"
+    ELIGIBILITY_DOCUMENTS = "eligibilityDocuments"
+    REGISTER_EXTRACT = "registerExtract"
+    REGISTER_USR = "registerUSR"
+    REGISTER_FISCAL = "registerFiscal"
+    EVIDENCE = "evidence"
+    REGISTER = "register"
+    CANCELLATION_REPORT = "cancellationReport"
+    ACCEPTANCE_REPORT = "acceptanceReport"
+
+
+class TenderDocumentType(StrEnum):
+    """document types of tenders, contracts and plans"""
+
+    TENDER_NOTICE = "tenderNotice"
+    AWARD_NOTICE = "awardNotice"
+    CONTRACT_NOTICE = "contractNotice"
+    NOTICE = "notice"
+    BIDDING_DOCUMENTS = "biddingDocuments"
+    TECHNICAL_SPECIFICATIONS = "technicalSpecifications"
+    EVALUATION_CRITERIA = "evaluationCriteria"
+    CLARIFICATIONS = "clarifications"
+    SHORTLISTED_FIRMS = "shortlistedFirms"
+    RISK_PROVISIONS = "riskProvisions"
+    BILL_OF_QUANTITY = "billOfQuantity"
+    BIDDERS = "bidders"
+    CONFLICT_OF_INTEREST = "conflictOfInterest"
+    DEBARMENTS = "debarments"
+    EVALUATION_REPORTS = "evaluationReports"
+    WINNING_BID = "winningBid"
+    COMPLAINTS = "complaints"
+    CONTRACT_SIGNED = "contractSigned"
+    CONTRACT_ARRANGEMENTS = "contractArrangements"
+    CONTRACT_SCHEDULE = "contractSchedule"
+    CONTRACT_ANNEXE = "contractAnnexe"
+    CONTRACT_GUARANTEES = "contractGuarantees"
+    PROGRESS_REPORT = "progressReport"
+    SUB_CONTRACT = "subContract"
+    ELIGIBILITY_CRITERIA = "eligibilityCriteria"
+    CONTRACT_PROFORMA = "contractProforma"
+    COMMERCIAL_PROPOSAL = "commercialProposal"
+    QUALIFICATION_DOCUMENTS = "qualificationDocuments"
+    ELIGIBILITY_DOCUMENTS = "eligibilityDocuments"
+    REGISTER_EXTRACT = "registerExtract"
+    REGISTER_USR = "registerUSR"
+    REGISTER_FISCAL = "registerFiscal"
+    EVIDENCE = "evidence"
+    REGISTER = "register"
+    PROPOSAL = "proposal"
+    EXTENSION_REPORT = "extensionReport"
+    DEVIATION_REPORT = "deviationReport"
+    CANCELLATION_REPORT = "cancellationReport"
+    ACCEPTANCE_REPORT = "acceptanceReport"
+
+
+DOCUMENT_FORMAT_REGEX = r"^[-\w]+/[-\.\w\+]+$"
+
+
+class DocumentLanguage(StrEnum):
+    UK = "uk"
+    EN = "en"
+    RU = "ru"
 
 
 class ConfidentialityType(StrEnum):
-    BUYER_ONLY = "buyerOnly"
     PUBLIC = "public"
+    BUYER_ONLY = "buyerOnly"
 
 
 class BaseDocument(Model):
-    documentType = StringType(choices=DOCUMENT_TYPES)
-    title = StringType()  # A title of the document.
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()  # A description of the document.
-    description_en = StringType()
-    description_ru = StringType()
-    format = StringType(regex=r"^[-\w]+/[-\.\w\+]+$")
-    language = StringType()
-    relatedItem = MD5Type()
+    documentType: DocumentType | None = None
+    title: str | None = None  # A title of the document.
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None  # A description of the document.
+    description_en: str | None = None
+    description_ru: str | None = None
+    format: str | None = Field(None, pattern=DOCUMENT_FORMAT_REGEX)
+    language: str | None = None
+    relatedItem: MD5 | None = None
 
 
 class PostDocument(BaseDocument):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> str:
         return uuid4().hex
 
-    @serializable
-    def datePublished(self):
+    @computed_field
+    def datePublished(self) -> str:
         return get_request_now().isoformat()
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> str:
         return get_request_now().isoformat()
 
-    hash = HashType()
-    title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)  # Link to the document or attachment.
-    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
+    hash: Hash | None = None
+    title: str  # A title of the document.
+    format: str = Field(pattern=DOCUMENT_FORMAT_REGEX)
+    url: str  # Link to the document or attachment.
+    language: DocumentLanguage = "uk"
 
 
 class Document(BaseDocument):
-    id = MD5Type(required=True)
-    datePublished = StringType(required=True)
-    hash = HashType()
-    title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)  # Link to the document or attachment.
-    dateModified = StringType()
-    author = StringType()
-    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
+    id: MD5
+    datePublished: str
+    hash: Hash | None = None
+    title: str  # A title of the document.
+    format: str = Field(pattern=DOCUMENT_FORMAT_REGEX)
+    url: str  # Link to the document or attachment.
+    dateModified: str | None = None
+    author: str | None = None
+    language: DocumentLanguage = "uk"
 
 
 class PatchDocument(BaseDocument):
-    language = StringType(choices=["uk", "en", "ru"])
+    language: DocumentLanguage | None = None
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> str:
         return get_request_now().isoformat()
 
 
-def validate_confidentiality_rationale(data, val):
-    confidentiality = data.get("confidentiality")
+def validate_confidentiality_rationale(confidentiality: str | None, rationale: str | None) -> None:
     if confidentiality == ConfidentialityType.BUYER_ONLY:
-        if not val:
-            raise ValidationError("confidentialityRationale is required")
-        elif len(val) < 30:
-            raise ValidationError("confidentialityRationale should contain at least 30 characters")
+        if not rationale:
+            raise ValueError("confidentialityRationale is required")
+        elif len(rationale) < 30:
+            raise ValueError("confidentialityRationale should contain at least 30 characters")
 
 
 class ConfidentialDocumentMixin(Model):
-    confidentiality = StringType(
-        choices=[
-            ConfidentialityType.PUBLIC.value,
-            ConfidentialityType.BUYER_ONLY.value,
-        ],
-    )
-    confidentialityRationale = StringType()
+    confidentiality: ConfidentialityType | None = None
+    confidentialityRationale: str | None = None
 
-    def validate_confidentialityRationale(self, data, val):
-        validate_confidentiality_rationale(data, val)
+    @model_validator(mode="after")
+    def validate_confidentiality_rationale(self):
+        try:
+            validate_confidentiality_rationale(self.confidentiality, self.confidentialityRationale)
+        except ValueError as e:
+            raise FieldError("confidentialityRationale", str(e))
+        return self
 
 
 class PostConfidentialDocumentMixin(ConfidentialDocumentMixin):
-    confidentiality = StringType(
-        choices=[
-            ConfidentialityType.PUBLIC.value,
-            ConfidentialityType.BUYER_ONLY.value,
-        ],
-        default=ConfidentialityType.PUBLIC.value,
-    )
+    confidentiality: ConfidentialityType = ConfidentialityType.PUBLIC.value
+
+
+class BaseTenderDocument(Model):
+    """`BaseDocument` with the document types of tenders, contracts and plans"""
+
+    documentType: TenderDocumentType | None = None
+    title: str | None = None  # A title of the document.
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None  # A description of the document.
+    description_en: str | None = None
+    description_ru: str | None = None
+    format: str | None = Field(None, pattern=DOCUMENT_FORMAT_REGEX)
+    language: str | None = None
+    relatedItem: MD5 | None = None

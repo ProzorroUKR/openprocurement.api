@@ -1,22 +1,23 @@
 import standards
-from schematics.exceptions import ValidationError
-from schematics.types import StringType
+from pydantic import field_validator
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import ModelType
 
 unit_codes = standards.load("unit_codes/recommended.json")
 UNIT_CODES = unit_codes.keys()
 
 
 class Unit(Model):
-    name = StringType()
-    name_en = StringType()
-    name_ru = StringType()
-    value = ModelType(Value)
-    code = StringType(required=True)
+    name: str | None = None
+    name_en: str | None = None
+    name_ru: str | None = None
+    value: Value | None = None
+    code: str
 
-    def validate_code(self, unit, code):
+    @field_validator("code")
+    @classmethod
+    def validate_code(cls, code: str) -> str:
         if code not in UNIT_CODES:
-            raise ValidationError("Code should be one of valid unit codes.")
+            raise ValueError("Code should be one of valid unit codes.")
+        return code

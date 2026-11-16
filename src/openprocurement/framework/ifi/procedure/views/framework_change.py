@@ -1,15 +1,15 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.framework.core.procedure.views.change import CoreChangeResource
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.framework.ifi.procedure.state.change import IFIChangeState
 
 
 @resource(
-    name=f"{IFI_TYPE}:Framework Change",
+    name=f"{FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS}:Framework Change",
     collection_path="/frameworks/{framework_id}/changes",
     path="/frameworks/{framework_id}/changes/{change_id}",
-    frameworkType=IFI_TYPE,
+    frameworkType=FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS,
     description="Framework related changes",
 )
 class FrameworkPeriodChangeResource(CoreChangeResource):

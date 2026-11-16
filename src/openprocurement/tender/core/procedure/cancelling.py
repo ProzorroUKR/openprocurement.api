@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
@@ -5,9 +6,9 @@ from openprocurement.tender.core.procedure.utils import tender_created_after_202
 class CancellationBlockMixin:
     # procedures whose process is not blocked by pending cancellations
     cancellation_blocks_exempt_procurement_method_types = (
-        "belowThreshold",
-        "closeFrameworkAgreementSelectionUA",
-        "requestForProposal",
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL,
     )
 
     def cancellation_blocks_tender(self, tender, lot_id=None):

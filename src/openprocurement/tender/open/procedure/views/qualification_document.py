@@ -1,12 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.qualification_document import BaseQualificationDocumentResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_EU,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX
 
 
 @resource(
@@ -14,7 +10,11 @@ from openprocurement.tender.open.constants import (
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/documents",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}",
     description="Tender qualification documents",
-    procurementMethodType=[ABOVE_THRESHOLD_EU, REQUEST_FOR_PROPOSAL, OPEN_TENDERING],
+    procurementMethodType=[
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+        ProcurementMethodType.OPEN_TENDERING,
+    ],
 )
 class OpenBaseQualificationDocumentResource(BaseQualificationDocumentResource):
     pass

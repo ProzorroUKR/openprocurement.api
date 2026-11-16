@@ -1,14 +1,14 @@
 from cornice.resource import resource
 
-from openprocurement.framework.arma.constants import ARMA_TYPE
+from openprocurement.api.constants import FrameworkType
 from openprocurement.framework.core.procedure.views.question import CoreQuestionResource
 
 
 @resource(
-    name=f"{ARMA_TYPE}:Framework Questions",
+    name=f"{FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY}:Framework Questions",
     collection_path="/frameworks/{framework_id}/questions",
     path="/frameworks/{framework_id}/questions/{question_id}",
-    frameworkType=ARMA_TYPE,
+    frameworkType=FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY,
     description="Framework related questions",
 )
 class FrameworkQuestionsResource(CoreQuestionResource):

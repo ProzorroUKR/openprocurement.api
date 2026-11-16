@@ -1,18 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX
 from openprocurement.tender.open.procedure.state.lot import (
     AboveThresholdEUTenderLotState,
     AboveThresholdTenderLotState,
@@ -38,26 +28,28 @@ from openprocurement.tender.open.procedure.views.base import (
     path="/tenders/{tender_id}/lots/{lot_id}",
     description="Tender lots",
     procurementMethodType=[
-        ABOVE_THRESHOLD,
-        ABOVE_THRESHOLD_UA,
-        ABOVE_THRESHOLD_EU,
-        OPEN_TENDERING,
-        ABOVE_THRESHOLD_UA_DEFENSE,
-        SIMPLE_DEFENSE,
-        COMPETITIVE_ORDERING,
-        BELOW_THRESHOLD,
-        REQUEST_FOR_PROPOSAL,
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.OPEN_TENDERING,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL,
     ],
 )
 class OpenTenderLotResource(TenderLotResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdTenderLotState,
-        ABOVE_THRESHOLD_UA: AboveThresholdUATenderLotState,
-        ABOVE_THRESHOLD_EU: AboveThresholdEUTenderLotState,
-        OPEN_TENDERING: OpenTenderingStateClass(OpenTenderingUATenderLotState, OpenTenderingEUTenderLotState),
-        ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderLotState,
-        SIMPLE_DEFENSE: SimpleDefenseTenderLotState,
-        COMPETITIVE_ORDERING: COStateClass(COShortTenderLotState, COLongTenderLotState),
-        BELOW_THRESHOLD: BelowThresholdTenderLotState,
-        REQUEST_FOR_PROPOSAL: RFPTenderLotState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdTenderLotState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUATenderLotState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEUTenderLotState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingStateClass(
+            OpenTenderingUATenderLotState, OpenTenderingEUTenderLotState
+        ),
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderLotState,
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseTenderLotState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COStateClass(COShortTenderLotState, COLongTenderLotState),
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdTenderLotState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPTenderLotState,
     }

@@ -2,12 +2,9 @@ import logging
 import os
 from datetime import timedelta
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, STAGE_2_EU_TYPE
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_EU
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -15,7 +12,14 @@ logger = logging.getLogger(__name__)
 
 def count_reporting_date_publication(tender):
     pmt = tender.get("procurementMethodType")
-    qualification_types = (ABOVE_THRESHOLD_EU, CFA_UA, ESCO, CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE)
+    qualification_types = (
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
+        ProcurementMethodType.ESCO,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+    )
     period_end_date = parse_date(tender.get("qualificationPeriod", {}).get("endDate"))
     reporting_date = period_end_date - timedelta(days=6) if pmt in qualification_types else period_end_date
     return reporting_date.isoformat()

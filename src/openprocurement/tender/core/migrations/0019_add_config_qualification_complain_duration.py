@@ -1,11 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, STAGE_2_EU_TYPE
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_EU
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -13,7 +10,14 @@ logger = logging.getLogger(__name__)
 
 def qualification_complain_duration_populator(tender):
     pmt = tender.get("procurementMethodType")
-    if pmt in [ABOVE_THRESHOLD_EU, CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE, ESCO, CFA_UA]:
+    if pmt in [
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+        ProcurementMethodType.ESCO,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
+    ]:
         return 5
     return 0
 

@@ -1,8 +1,12 @@
-from schematics.types import StringType
+from typing import Literal
+
+from pydantic import Field
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType
+from openprocurement.api.procedure.types import (
+    IsoDateTime,
+)
 
 
 class PostSignatory(Model):
@@ -10,6 +14,5 @@ class PostSignatory(Model):
 
 
 class Signatory(Model):
-    role = StringType(choices=["buyer", "supplier"])
-    date = IsoDateTimeType(default=get_request_now)
-    # todo: think on how to identify who confirmed the signatory when supplier count will be more than 1
+    role: Literal["buyer", "supplier"] | None = None
+    date: IsoDateTime = Field(default_factory=get_request_now)

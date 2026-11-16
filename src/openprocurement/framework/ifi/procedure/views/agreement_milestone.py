@@ -1,18 +1,18 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.milestone import (
     AgreementContractMilestonesResource,
 )
-from openprocurement.framework.ifi.constants import IFI_TYPE
 
 
 @resource(
-    name=f"{IFI_TYPE}:Agreements Contracts Milestones",
+    name=f"{AgreementType.INTERNATIONAL_FINANCIAL_INSTITUTIONS}:Agreements Contracts Milestones",
     collection_path="/agreements/{agreement_id}/contracts/{contract_id}/milestones",
     path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}",
     description="Agreements Contracts Milestones",
-    agreementType=IFI_TYPE,
+    agreementType=AgreementType.INTERNATIONAL_FINANCIAL_INSTITUTIONS,
     accept="application/json",
 )
 class IFIAgreementContractMilestoneResource(AgreementContractMilestonesResource):

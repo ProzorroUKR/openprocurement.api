@@ -7,10 +7,10 @@ from time import sleep
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.utils import get_now
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -59,7 +59,13 @@ def run(env, args):
         {
             "public_modified": {"$gte": DATE.timestamp()},
             "is_public": True,
-            "procurementMethodType": {"$in": [REPORTING, NEGOTIATION, NEGOTIATION_QUICK]},
+            "procurementMethodType": {
+                "$in": [
+                    ProcurementMethodType.REPORTING,
+                    ProcurementMethodType.NEGOTIATION,
+                    ProcurementMethodType.NEGOTIATION_QUICK,
+                ]
+            },
             "cause": "lastHope",
             "contracts": {"$exists": 1},
         },

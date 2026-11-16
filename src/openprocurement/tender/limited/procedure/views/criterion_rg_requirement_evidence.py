@@ -1,9 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
     BaseEligibleEvidenceResource,
 )
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.limited.procedure.state.criterion_rg_requirement_evidence import (
     NegotiationEligibleEvidenceState,
     NegotiationQuickEligibleEvidenceState,
@@ -12,12 +12,12 @@ from openprocurement.tender.limited.procedure.state.criterion_rg_requirement_evi
 
 
 @resource(
-    name=f"{REPORTING}:Requirement Eligible Evidence",
+    name=f"{ProcurementMethodType.REPORTING}:Requirement Eligible Evidence",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
-    procurementMethodType=f"{REPORTING}",
+    procurementMethodType=f"{ProcurementMethodType.REPORTING}",
     description="Tender requirement evidence",
 )
 class ReportingEligibleEvidenceResource(BaseEligibleEvidenceResource):
@@ -25,12 +25,12 @@ class ReportingEligibleEvidenceResource(BaseEligibleEvidenceResource):
 
 
 @resource(
-    name=f"{NEGOTIATION}:Requirement Eligible Evidence",
+    name=f"{ProcurementMethodType.NEGOTIATION}:Requirement Eligible Evidence",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
-    procurementMethodType=f"{NEGOTIATION}",
+    procurementMethodType=f"{ProcurementMethodType.NEGOTIATION}",
     description="Tender requirement evidence",
 )
 class NegotiationEligibleEvidenceResource(ReportingEligibleEvidenceResource):
@@ -38,12 +38,12 @@ class NegotiationEligibleEvidenceResource(ReportingEligibleEvidenceResource):
 
 
 @resource(
-    name=f"{NEGOTIATION_QUICK}:Requirement Eligible Evidence",
+    name=f"{ProcurementMethodType.NEGOTIATION_QUICK}:Requirement Eligible Evidence",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
-    procurementMethodType=f"{NEGOTIATION_QUICK}",
+    procurementMethodType=f"{ProcurementMethodType.NEGOTIATION_QUICK}",
     description="Tender requirement evidence",
 )
 class NegotiationQuickEligibleEvidenceResource(ReportingEligibleEvidenceResource):

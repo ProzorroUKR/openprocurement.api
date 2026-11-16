@@ -1,11 +1,7 @@
 from cornice.resource import resource
 
-from openprocurement.tender.arma.constants import (
-    ARMA_PROCUREMENT_METHOD_TYPES,
-    ARMA_ROUTE_PREFIX,
-    COMPLEX_ASSET_ARMA,
-    SIMPLE_ASSET_ARMA,
-)
+from openprocurement.api.constants import ProcurementMethodType
+from openprocurement.tender.arma.constants import ARMA_ROUTE_PREFIX, ARMAProcurementMethodType
 from openprocurement.tender.arma.procedure.state.award import (
     ComplexAssetAwardState,
     SimpleAssetAwardState,
@@ -18,10 +14,10 @@ from openprocurement.tender.core.procedure.views.award import TenderAwardResourc
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",
-    procurementMethodType=ARMA_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=ARMAProcurementMethodType,
 )
 class AwardResource(TenderAwardResource):
     state_classes = {
-        COMPLEX_ASSET_ARMA: ComplexAssetAwardState,
-        SIMPLE_ASSET_ARMA: SimpleAssetAwardState,
+        ProcurementMethodType.COMPLEX_ASSET_ARMA: ComplexAssetAwardState,
+        ProcurementMethodType.SIMPLE_ASSET_ARMA: SimpleAssetAwardState,
     }

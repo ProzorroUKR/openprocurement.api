@@ -1,66 +1,49 @@
-from schematics.types import BooleanType, MD5Type, StringType
+from pydantic import Field
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.api.procedure.types import (
+    MD5,
+)
 from openprocurement.tender.core.procedure.models.award import Award, PatchAward, PostAward
 from openprocurement.tender.core.procedure.models.organization import ContactLessSupplier, Supplier
 
 
 class LimitedAwardValue(Value):
-    valueAddedTaxIncluded = BooleanType(required=True, default=lambda: get_tender()["value"]["valueAddedTaxIncluded"])
-    currency = StringType(
-        required=True,
-        max_length=3,
-        min_length=3,
-        default=lambda: get_tender()["value"]["currency"],
-    )
+    valueAddedTaxIncluded: bool = Field(default_factory=lambda: get_tender()["value"]["valueAddedTaxIncluded"])
+    currency: str = Field(default_factory=lambda: get_tender()["value"]["currency"], min_length=3, max_length=3)
 
 
 class LimitedPostAward(PostAward):
-    bid_id = MD5Type()  # awards are created by the buyer, there are no bids
-    qualified = BooleanType()
-    eligible = BooleanType()
-    value = ModelType(LimitedAwardValue, required=True)
-    weightedValue = ModelType(LimitedAwardValue)
+    bid_id: MD5 | None = None
+    qualified: bool | None = None
+    eligible: bool | None = None
+    value: LimitedAwardValue
+    weightedValue: LimitedAwardValue | None = None
 
 
 class LimitedPatchAward(PatchAward):
-    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
-    value = ModelType(LimitedAwardValue)
-    lotID = MD5Type()
+    suppliers: list[Supplier] | None = Field(None, min_length=1, max_length=1)
+    value: LimitedAwardValue | None = None
+    lotID: MD5 | None = None
 
 
 class LimitedAward(Award):
-    bid_id = MD5Type()
-    value = ModelType(LimitedAwardValue, required=True)
-    weightedValue = ModelType(LimitedAwardValue)
+    bid_id: MD5 | None = None
+    value: LimitedAwardValue
+    weightedValue: LimitedAwardValue | None = None
 
 
 class ReportingPostAward(LimitedPostAward):
-    suppliers = ListType(
-        ModelType(ContactLessSupplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
-    )
-    value = ModelType(Value, required=True)
+    suppliers: list[ContactLessSupplier] = Field(min_length=1, max_length=1)
+    value: Value
 
 
 class ReportingPatchAward(LimitedPatchAward):
-    suppliers = ListType(
-        ModelType(ContactLessSupplier, required=True),
-        min_size=1,
-        max_size=1,
-    )
-    value = ModelType(Value)
+    suppliers: list[ContactLessSupplier] | None = Field(None, min_length=1, max_length=1)
+    value: Value | None = None
 
 
 class ReportingAward(LimitedAward):
-    suppliers = ListType(
-        ModelType(ContactLessSupplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
-    )
-    value = ModelType(Value, required=True)
+    suppliers: list[ContactLessSupplier] = Field(min_length=1, max_length=1)
+    value: Value

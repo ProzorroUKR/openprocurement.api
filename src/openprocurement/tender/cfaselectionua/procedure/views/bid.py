@@ -2,6 +2,7 @@ from logging import getLogger
 
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.cfaselectionua.procedure.serializers.bid import (
     BidSerializer,
 )
@@ -15,7 +16,7 @@ LOGGER = getLogger(__name__)
     name="closeFrameworkAgreementSelectionUA:Tender Bids",
     collection_path="/tenders/{tender_id}/bids",
     path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
     description="Tender bids",
 )
 class CFASelectionTenderBidResource(TenderBidResource):

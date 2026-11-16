@@ -2,6 +2,7 @@ import os
 import re
 from collections import ChainMap
 from datetime import time
+from enum import StrEnum
 from logging import getLogger
 
 import standards
@@ -16,6 +17,54 @@ from openprocurement.api.constants_utils import (
     parse_str_list,
     split_classifier_by_year,
 )
+from openprocurement.api.enums import enum_members
+
+
+class ProcurementMethodType(StrEnum):
+    """procurementMethodType of the tenders"""
+
+    BELOW_THRESHOLD = "belowThreshold"
+    ABOVE_THRESHOLD = "aboveThreshold"
+    ABOVE_THRESHOLD_UA = "aboveThresholdUA"
+    ABOVE_THRESHOLD_EU = "aboveThresholdEU"
+    ABOVE_THRESHOLD_UA_DEFENSE = "aboveThresholdUA.defense"
+    SIMPLE_DEFENSE = "simple.defense"
+    COMPETITIVE_ORDERING = "competitiveOrdering"
+    REQUEST_FOR_PROPOSAL = "requestForProposal"
+    OPEN_TENDERING = "openTendering"
+    COMPETITIVE_DIALOGUE_UA = "competitiveDialogueUA"
+    COMPETITIVE_DIALOGUE_EU = "competitiveDialogueEU"
+    COMPETITIVE_DIALOGUE_UA_STAGE2 = "competitiveDialogueUA.stage2"
+    COMPETITIVE_DIALOGUE_EU_STAGE2 = "competitiveDialogueEU.stage2"
+    ESCO = "esco"
+    CLOSE_FRAMEWORK_AGREEMENT_UA = "closeFrameworkAgreementUA"
+    CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA = "closeFrameworkAgreementSelectionUA"
+    REPORTING = "reporting"
+    NEGOTIATION = "negotiation"
+    NEGOTIATION_QUICK = "negotiation.quick"
+    PRICE_QUOTATION = "priceQuotation"
+    COMPLEX_ASSET_ARMA = "complexAsset.arma"
+    SIMPLE_ASSET_ARMA = "simpleAsset.arma"
+
+
+class FrameworkType(StrEnum):
+    """frameworkType of the frameworks (submissionType and qualificationType as well)"""
+
+    ELECTRONIC_CATALOGUE = "electronicCatalogue"
+    DYNAMIC_PURCHASING_SYSTEM = "dynamicPurchasingSystem"
+    INTERNATIONAL_FINANCIAL_INSTITUTIONS = "internationalFinancialInstitutions"
+    ASSET_RECOVERY_MANAGEMENT_AGENCY = "assetRecoveryManagementAgency"
+
+
+class AgreementType(StrEnum):
+    """agreementType of the agreements: of the frameworks and of closeFrameworkAgreementUA tenders"""
+
+    ELECTRONIC_CATALOGUE = FrameworkType.ELECTRONIC_CATALOGUE.value
+    DYNAMIC_PURCHASING_SYSTEM = FrameworkType.DYNAMIC_PURCHASING_SYSTEM.value
+    INTERNATIONAL_FINANCIAL_INSTITUTIONS = FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS.value
+    ASSET_RECOVERY_MANAGEMENT_AGENCY = FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY.value
+    CLOSE_FRAMEWORK_AGREEMENT_UA = ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA.value
+
 
 # Logging
 LOGGER = getLogger("openprocurement.api")
@@ -41,71 +90,71 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.pa
 
 # Tenders in which could be used criteria connected with guarantee
 GUARANTEE_ALLOWED_TENDER_TYPES = (
-    "belowThreshold",
-    "aboveThreshold",
-    "competitiveOrdering",
-    "aboveThresholdUA",
-    "aboveThresholdEU",
-    "esco",
-    "priceQuotation",
-    "competitiveDialogueUA",
-    "competitiveDialogueEU",
-    "competitiveDialogueUA.stage2",
-    "competitiveDialogueEU.stage2",
-    "closeFrameworkAgreementUA",
-    "closeFrameworkAgreementSelectionUA",
-    "requestForProposal",
-    "openTendering",
+    ProcurementMethodType.BELOW_THRESHOLD,
+    ProcurementMethodType.ABOVE_THRESHOLD,
+    ProcurementMethodType.COMPETITIVE_ORDERING,
+    ProcurementMethodType.ABOVE_THRESHOLD_UA,
+    ProcurementMethodType.ABOVE_THRESHOLD_EU,
+    ProcurementMethodType.ESCO,
+    ProcurementMethodType.PRICE_QUOTATION,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+    ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+    ProcurementMethodType.OPEN_TENDERING,
 )
 
 CONTRACT_GUARANTEE_ALLOWED_TENDER_TYPES = (
-    "belowThreshold",
-    "aboveThreshold",
-    "competitiveOrdering",
-    "aboveThresholdUA",
-    "aboveThresholdEU",
-    "esco",
-    "priceQuotation",
-    "competitiveDialogueUA.stage2",
-    "competitiveDialogueEU.stage2",
-    "closeFrameworkAgreementSelectionUA",
-    "requestForProposal",
-    "simple.defense",
-    "openTendering",
+    ProcurementMethodType.BELOW_THRESHOLD,
+    ProcurementMethodType.ABOVE_THRESHOLD,
+    ProcurementMethodType.COMPETITIVE_ORDERING,
+    ProcurementMethodType.ABOVE_THRESHOLD_UA,
+    ProcurementMethodType.ABOVE_THRESHOLD_EU,
+    ProcurementMethodType.ESCO,
+    ProcurementMethodType.PRICE_QUOTATION,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+    ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+    ProcurementMethodType.SIMPLE_DEFENSE,
+    ProcurementMethodType.OPEN_TENDERING,
 )
 
 BID_GUARANTEE_ALLOWED_TENDER_TYPES = (
-    "belowThreshold",
-    "aboveThreshold",
-    "competitiveOrdering",
-    "aboveThresholdUA",
-    "aboveThresholdEU",
-    "esco",
-    "competitiveDialogueUA.stage2",
-    "competitiveDialogueEU.stage2",
-    "closeFrameworkAgreementUA",
-    "closeFrameworkAgreementSelectionUA",
-    "requestForProposal",
-    "simple.defense",
-    "openTendering",
+    ProcurementMethodType.BELOW_THRESHOLD,
+    ProcurementMethodType.ABOVE_THRESHOLD,
+    ProcurementMethodType.COMPETITIVE_ORDERING,
+    ProcurementMethodType.ABOVE_THRESHOLD_UA,
+    ProcurementMethodType.ABOVE_THRESHOLD_EU,
+    ProcurementMethodType.ESCO,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+    ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+    ProcurementMethodType.SIMPLE_DEFENSE,
+    ProcurementMethodType.OPEN_TENDERING,
 )
 
 BID_REQUIRED_ITEMS_TENDER_TYPES = (
-    "belowThreshold",
-    "aboveThreshold",
-    "competitiveOrdering",
-    "aboveThresholdUA",
-    "aboveThresholdEU",
-    "competitiveDialogueUA",
-    "competitiveDialogueEU",
-    "competitiveDialogueUA.stage2",
-    "competitiveDialogueEU.stage2",
-    "closeFrameworkAgreementUA",
-    "closeFrameworkAgreementSelectionUA",
-    "esco",
-    "priceQuotation",
-    "requestForProposal",
-    "openTendering",
+    ProcurementMethodType.BELOW_THRESHOLD,
+    ProcurementMethodType.ABOVE_THRESHOLD,
+    ProcurementMethodType.COMPETITIVE_ORDERING,
+    ProcurementMethodType.ABOVE_THRESHOLD_UA,
+    ProcurementMethodType.ABOVE_THRESHOLD_EU,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+    ProcurementMethodType.ESCO,
+    ProcurementMethodType.PRICE_QUOTATION,
+    ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+    ProcurementMethodType.OPEN_TENDERING,
 )
 
 # Calendar
@@ -225,30 +274,46 @@ COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 
 # Tender config
 TENDER_CONFIG_JSONSCHEMAS = {
-    "aboveThreshold": standards.load("data_model/schema/TenderConfig/aboveThreshold.json"),
-    "competitiveOrdering": standards.load("data_model/schema/TenderConfig/competitiveOrdering.json"),
-    "aboveThresholdEU": standards.load("data_model/schema/TenderConfig/aboveThresholdEU.json"),
-    "aboveThresholdUA.defense": standards.load("data_model/schema/TenderConfig/aboveThresholdUA.defense.json"),
-    "aboveThresholdUA": standards.load("data_model/schema/TenderConfig/aboveThresholdUA.json"),
-    "belowThreshold": standards.load("data_model/schema/TenderConfig/belowThreshold.json"),
-    "closeFrameworkAgreementSelectionUA": standards.load(
+    ProcurementMethodType.ABOVE_THRESHOLD: standards.load("data_model/schema/TenderConfig/aboveThreshold.json"),
+    ProcurementMethodType.COMPETITIVE_ORDERING: standards.load(
+        "data_model/schema/TenderConfig/competitiveOrdering.json"
+    ),
+    ProcurementMethodType.ABOVE_THRESHOLD_EU: standards.load("data_model/schema/TenderConfig/aboveThresholdEU.json"),
+    ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: standards.load(
+        "data_model/schema/TenderConfig/aboveThresholdUA.defense.json"
+    ),
+    ProcurementMethodType.ABOVE_THRESHOLD_UA: standards.load("data_model/schema/TenderConfig/aboveThresholdUA.json"),
+    ProcurementMethodType.BELOW_THRESHOLD: standards.load("data_model/schema/TenderConfig/belowThreshold.json"),
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA: standards.load(
         "data_model/schema/TenderConfig/closeFrameworkAgreementSelectionUA.json"
     ),
-    "closeFrameworkAgreementUA": standards.load("data_model/schema/TenderConfig/closeFrameworkAgreementUA.json"),
-    "competitiveDialogueEU": standards.load("data_model/schema/TenderConfig/competitiveDialogueEU.json"),
-    "competitiveDialogueEU.stage2": standards.load("data_model/schema/TenderConfig/competitiveDialogueEU.stage2.json"),
-    "competitiveDialogueUA": standards.load("data_model/schema/TenderConfig/competitiveDialogueUA.json"),
-    "competitiveDialogueUA.stage2": standards.load("data_model/schema/TenderConfig/competitiveDialogueUA.stage2.json"),
-    "esco": standards.load("data_model/schema/TenderConfig/esco.json"),
-    "negotiation": standards.load("data_model/schema/TenderConfig/negotiation.json"),
-    "negotiation.quick": standards.load("data_model/schema/TenderConfig/negotiation.quick.json"),
-    "priceQuotation": standards.load("data_model/schema/TenderConfig/priceQuotation.json"),
-    "reporting": standards.load("data_model/schema/TenderConfig/reporting.json"),
-    "simple.defense": standards.load("data_model/schema/TenderConfig/simple.defense.json"),
-    "requestForProposal": standards.load("data_model/schema/TenderConfig/requestForProposal.json"),
-    "complexAsset.arma": standards.load("data_model/schema/TenderConfig/complexAsset.arma.json"),
-    "simpleAsset.arma": standards.load("data_model/schema/TenderConfig/simpleAsset.arma.json"),
-    "openTendering": standards.load("data_model/schema/TenderConfig/openTendering.json"),
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA: standards.load(
+        "data_model/schema/TenderConfig/closeFrameworkAgreementUA.json"
+    ),
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU: standards.load(
+        "data_model/schema/TenderConfig/competitiveDialogueEU.json"
+    ),
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2: standards.load(
+        "data_model/schema/TenderConfig/competitiveDialogueEU.stage2.json"
+    ),
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA: standards.load(
+        "data_model/schema/TenderConfig/competitiveDialogueUA.json"
+    ),
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2: standards.load(
+        "data_model/schema/TenderConfig/competitiveDialogueUA.stage2.json"
+    ),
+    ProcurementMethodType.ESCO: standards.load("data_model/schema/TenderConfig/esco.json"),
+    ProcurementMethodType.NEGOTIATION: standards.load("data_model/schema/TenderConfig/negotiation.json"),
+    ProcurementMethodType.NEGOTIATION_QUICK: standards.load("data_model/schema/TenderConfig/negotiation.quick.json"),
+    ProcurementMethodType.PRICE_QUOTATION: standards.load("data_model/schema/TenderConfig/priceQuotation.json"),
+    ProcurementMethodType.REPORTING: standards.load("data_model/schema/TenderConfig/reporting.json"),
+    ProcurementMethodType.SIMPLE_DEFENSE: standards.load("data_model/schema/TenderConfig/simple.defense.json"),
+    ProcurementMethodType.REQUEST_FOR_PROPOSAL: standards.load(
+        "data_model/schema/TenderConfig/requestForProposal.json"
+    ),
+    ProcurementMethodType.COMPLEX_ASSET_ARMA: standards.load("data_model/schema/TenderConfig/complexAsset.arma.json"),
+    ProcurementMethodType.SIMPLE_ASSET_ARMA: standards.load("data_model/schema/TenderConfig/simpleAsset.arma.json"),
+    ProcurementMethodType.OPEN_TENDERING: standards.load("data_model/schema/TenderConfig/openTendering.json"),
 }
 
 TENDER_CO_CONFIG_JSONSCHEMAS = {
@@ -277,12 +342,14 @@ TENDER_PROCEDURE_JSONSCHEMAS = {
 
 # Framework config
 FRAMEWORK_CONFIG_JSONSCHEMAS = {
-    "electronicCatalogue": standards.load("data_model/schema/FrameworkConfig/electronicCatalogue.json"),
-    "dynamicPurchasingSystem": standards.load("data_model/schema/FrameworkConfig/dynamicPurchasingSystem.json"),
-    "internationalFinancialInstitutions": standards.load(
+    FrameworkType.ELECTRONIC_CATALOGUE: standards.load("data_model/schema/FrameworkConfig/electronicCatalogue.json"),
+    FrameworkType.DYNAMIC_PURCHASING_SYSTEM: standards.load(
+        "data_model/schema/FrameworkConfig/dynamicPurchasingSystem.json"
+    ),
+    FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS: standards.load(
         "data_model/schema/FrameworkConfig/internationalFinancialInstitutions.json"
     ),
-    "assetRecoveryManagementAgency": standards.load(
+    FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY: standards.load(
         "data_model/schema/FrameworkConfig/assetRecoveryManagementAgency.json"
     ),
 }
@@ -352,41 +419,67 @@ TENDER_CAUSE_NEGOTIATION_QUICK = filter_archeved_items(TENDER_CAUSE_NEGOTIATION_
 
 # only active causes
 PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING = {
-    "reporting": TENDER_CAUSE_REPORTING,
-    "negotiation": TENDER_CAUSE_NEGOTIATION,
-    "negotiation.quick": TENDER_CAUSE_NEGOTIATION_QUICK,
+    ProcurementMethodType.REPORTING: TENDER_CAUSE_REPORTING,
+    ProcurementMethodType.NEGOTIATION: TENDER_CAUSE_NEGOTIATION,
+    ProcurementMethodType.NEGOTIATION_QUICK: TENDER_CAUSE_NEGOTIATION_QUICK,
 }
 
 PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING_ALL = {
-    "reporting": TENDER_CAUSE_REPORTING_ALL,
-    "negotiation": TENDER_CAUSE_NEGOTIATION_ALL,
-    "negotiation.quick": TENDER_CAUSE_NEGOTIATION_QUICK_ALL,
+    ProcurementMethodType.REPORTING: TENDER_CAUSE_REPORTING_ALL,
+    ProcurementMethodType.NEGOTIATION: TENDER_CAUSE_NEGOTIATION_ALL,
+    ProcurementMethodType.NEGOTIATION_QUICK: TENDER_CAUSE_NEGOTIATION_QUICK_ALL,
 }
 
 # Should be at the end of the file for now
 # TODO: move to modules initialization
 TENDER_CRITERIA_RULES = {
-    "aboveThreshold": load_criteria_rules("aboveThreshold", constants_env),
-    "competitiveOrdering": load_criteria_rules("competitiveOrdering", constants_env),
-    "aboveThresholdEU": load_criteria_rules("aboveThresholdEU", constants_env),
-    "aboveThresholdUA.defense": load_criteria_rules("aboveThresholdUA.defense", constants_env),
-    "aboveThresholdUA": load_criteria_rules("aboveThresholdUA", constants_env),
-    "belowThreshold": load_criteria_rules("belowThreshold", constants_env),
-    "closeFrameworkAgreementSelectionUA": load_criteria_rules("closeFrameworkAgreementSelectionUA", constants_env),
-    "closeFrameworkAgreementUA": load_criteria_rules("closeFrameworkAgreementUA", constants_env),
-    "competitiveDialogueEU": load_criteria_rules("competitiveDialogueEU", constants_env),
-    "competitiveDialogueEU.stage2": load_criteria_rules("competitiveDialogueEU.stage2", constants_env),
-    "competitiveDialogueUA": load_criteria_rules("competitiveDialogueUA", constants_env),
-    "competitiveDialogueUA.stage2": load_criteria_rules("competitiveDialogueUA.stage2", constants_env),
-    "esco": load_criteria_rules("esco", constants_env),
-    "negotiation": load_criteria_rules("negotiation", constants_env),
-    "negotiation.quick": load_criteria_rules("negotiation.quick", constants_env),
-    "priceQuotation": load_criteria_rules("priceQuotation", constants_env),
-    "reporting": load_criteria_rules("reporting", constants_env),
-    "simple.defense": load_criteria_rules("simple.defense", constants_env),
-    "complexAsset.arma": load_criteria_rules("complexAsset.arma", constants_env),
-    "simpleAsset.arma": load_criteria_rules("simpleAsset.arma", constants_env),
-    "openTendering": load_criteria_rules("openTendering", constants_env),
+    ProcurementMethodType.ABOVE_THRESHOLD: load_criteria_rules(ProcurementMethodType.ABOVE_THRESHOLD, constants_env),
+    ProcurementMethodType.COMPETITIVE_ORDERING: load_criteria_rules(
+        ProcurementMethodType.COMPETITIVE_ORDERING, constants_env
+    ),
+    ProcurementMethodType.ABOVE_THRESHOLD_EU: load_criteria_rules(
+        ProcurementMethodType.ABOVE_THRESHOLD_EU, constants_env
+    ),
+    ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: load_criteria_rules(
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE, constants_env
+    ),
+    ProcurementMethodType.ABOVE_THRESHOLD_UA: load_criteria_rules(
+        ProcurementMethodType.ABOVE_THRESHOLD_UA, constants_env
+    ),
+    ProcurementMethodType.BELOW_THRESHOLD: load_criteria_rules(ProcurementMethodType.BELOW_THRESHOLD, constants_env),
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA: load_criteria_rules(
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA, constants_env
+    ),
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA: load_criteria_rules(
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA, constants_env
+    ),
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU: load_criteria_rules(
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU, constants_env
+    ),
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2: load_criteria_rules(
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2, constants_env
+    ),
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA: load_criteria_rules(
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA, constants_env
+    ),
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2: load_criteria_rules(
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2, constants_env
+    ),
+    ProcurementMethodType.ESCO: load_criteria_rules(ProcurementMethodType.ESCO, constants_env),
+    ProcurementMethodType.NEGOTIATION: load_criteria_rules(ProcurementMethodType.NEGOTIATION, constants_env),
+    ProcurementMethodType.NEGOTIATION_QUICK: load_criteria_rules(
+        ProcurementMethodType.NEGOTIATION_QUICK, constants_env
+    ),
+    ProcurementMethodType.PRICE_QUOTATION: load_criteria_rules(ProcurementMethodType.PRICE_QUOTATION, constants_env),
+    ProcurementMethodType.REPORTING: load_criteria_rules(ProcurementMethodType.REPORTING, constants_env),
+    ProcurementMethodType.SIMPLE_DEFENSE: load_criteria_rules(ProcurementMethodType.SIMPLE_DEFENSE, constants_env),
+    ProcurementMethodType.COMPLEX_ASSET_ARMA: load_criteria_rules(
+        ProcurementMethodType.COMPLEX_ASSET_ARMA, constants_env
+    ),
+    ProcurementMethodType.SIMPLE_ASSET_ARMA: load_criteria_rules(
+        ProcurementMethodType.SIMPLE_ASSET_ARMA, constants_env
+    ),
+    ProcurementMethodType.OPEN_TENDERING: load_criteria_rules(ProcurementMethodType.OPEN_TENDERING, constants_env),
 }
 
 # Auction plannning configuration
@@ -443,6 +536,14 @@ CAUSE_TO_RATIONALE_TYPES_MAPPING_ALL = {
 }
 
 TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178 = (
-    "aboveThreshold",
-    "priceQuotation",
+    ProcurementMethodType.ABOVE_THRESHOLD,
+    ProcurementMethodType.PRICE_QUOTATION,
 )
+
+# profile id of the market catalogue (items of plans, tenders)
+PQ_PROFILE_PATTERN = re.compile(r"^\d{6}-\d{8}-\d{6}-\d{8}")
+
+
+# enums of the values above (for the models)
+OraCode = StrEnum("OraCode", enum_members(ORA_CODES))  # type: ignore[misc]
+PeriodChangeCause = StrEnum("PeriodChangeCause", enum_members(PERIOD_CHANGE_CAUSES))  # type: ignore[misc]

@@ -3,7 +3,7 @@ from typing import Optional
 
 from aiohttp import web
 
-from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.api.constants import ProcurementMethodType
 from prozorro_cdb.api.context import get_now_async
 from prozorro_cdb.api.database.store import get_mongodb
 from prozorro_cdb.violation_report.database.schema.agreement import Agreement
@@ -30,7 +30,7 @@ async def get_pq_tender_or_error(tender_id: str) -> Tender:
     tender = await db.tender.get(tender_id, first_revision_only=True)
     if tender is None:
         raise web.HTTPNotFound(text="Tender not found.")
-    if tender["procurementMethodType"] != PQ:
+    if tender["procurementMethodType"] != ProcurementMethodType.PRICE_QUOTATION:
         raise web.HTTPBadRequest(text="priceQuotation procedure expected.")
     return Tender.model_validate(tender)
 

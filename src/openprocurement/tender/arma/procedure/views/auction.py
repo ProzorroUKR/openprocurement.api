@@ -2,13 +2,9 @@ from typing import Callable
 
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view
-from openprocurement.tender.arma.constants import (
-    ARMA_PROCUREMENT_METHOD_TYPES,
-    ARMA_ROUTE_PREFIX,
-    COMPLEX_ASSET_ARMA,
-    SIMPLE_ASSET_ARMA,
-)
+from openprocurement.tender.arma.constants import ARMA_ROUTE_PREFIX, ARMAProcurementMethodType
 from openprocurement.tender.arma.procedure.state.tender import (
     ComplexAssetTenderState,
     SimpleAssetTenderState,
@@ -20,13 +16,13 @@ from openprocurement.tender.core.procedure.views.auction import TenderAuctionRes
     name=f"{ARMA_ROUTE_PREFIX}:Tender Auction",
     collection_path="/tenders/{tender_id}/auction",
     path="/tenders/{tender_id}/auction/{auction_lot_id}",
-    procurementMethodType=ARMA_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=ARMAProcurementMethodType,
     description="Tender auction data",
 )
 class AuctionResource(TenderAuctionResource):
     state_classes = {
-        COMPLEX_ASSET_ARMA: ComplexAssetTenderState,
-        SIMPLE_ASSET_ARMA: SimpleAssetTenderState,
+        ProcurementMethodType.COMPLEX_ASSET_ARMA: ComplexAssetTenderState,
+        ProcurementMethodType.SIMPLE_ASSET_ARMA: SimpleAssetTenderState,
     }
     patch_value_field_names = {"value", "initialValue", "weightedValue", "minimalStep"}
 

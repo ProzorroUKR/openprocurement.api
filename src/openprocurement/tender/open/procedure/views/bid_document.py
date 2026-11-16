@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
     BaseTenderBidFinancialDocumentResource,
     BaseTenderBidQualificationDocumentResource,
 )
-from openprocurement.tender.open.constants import OPEN_PROCUREMENT_METHOD_TYPES, OPEN_ROUTE_PREFIX
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX, OpenProcurementMethodType
 
 
 @resource(
@@ -14,7 +14,7 @@ from openprocurement.tender.open.constants import OPEN_PROCUREMENT_METHOD_TYPES,
     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
     description="Tender bidder documents",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenBaseTenderBidDocumentResource(BaseTenderBidDocumentResource):
     pass
@@ -25,7 +25,7 @@ class OpenBaseTenderBidDocumentResource(BaseTenderBidDocumentResource):
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
     description="Tender bidder eligibility documents",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenBaseTenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
     pass
@@ -36,7 +36,7 @@ class OpenBaseTenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocum
     collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
     description="Tender bidder financial documents",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenBaseTenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
     pass
@@ -47,7 +47,7 @@ class OpenBaseTenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentR
     collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
     description="Tender bidder qualification documents",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenBaseTenderBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
     pass

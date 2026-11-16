@@ -1,189 +1,182 @@
+"""
+Field types for pydantic models of the API (see models/base.py).
+"""
+
 import re
 from datetime import datetime, timedelta
 from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
 from hashlib import algorithms_guaranteed
 from hashlib import new as hash_new
+from typing import Annotated, Any
 
 from isodate import Duration, ISO8601Error, duration_isoformat, parse_duration
-from schematics.exceptions import ConversionError, StopValidation, ValidationError
-from schematics.types import BaseType, StringType
-from schematics.types import DecimalType as BaseDecimalType
-from schematics.types.compound import ListType as BaseListType
-from schematics.types.compound import ModelType as BaseModelType
+from pydantic import (
+    AfterValidator,
+    BeforeValidator,
+    PlainSerializer,
+)
+from pydantic import PlainValidator as PydanticPlainValidator
 
 from openprocurement.api.constants import TZ
+from openprocurement.api.procedure.errors import ConversionError
 from openprocurement.api.procedure.utils import parse_date
 
-
-class ListType(BaseListType):
-    def _custom_force_list(self, value):
-        """
-        Custom force list implementation to handle non-list values
-        > "v" -> ["v"]
-        > {"k": "v"} -> [{"k": "v"}]
-        > {"1": {"k2": "v2"}, "0": {"k1": "v1"}} -> [{"k1": "v1"}, {"k2": "v2"}]
-        """
-        if value is None:
-            return []
-
-        try:
-            if isinstance(value, str):
-                raise TypeError()
-
-            if isinstance(value, dict):
-                return [value[str(k)] for k in sorted(map(int, value.keys()))]
-
-            return list(value)
-        except (TypeError, ValueError):
-            return [value]
-
-    def to_native(self, value, context=None):
-        value = self._custom_force_list(value)
-        return super().to_native(value, context)
+# --- datetime ---
 
 
-class ModelType(BaseModelType):
-    # TODO: RM
-    pass
-
-
-class DecimalType(BaseDecimalType):
-    def __init__(self, precision=-3, min_value=None, max_value=None, **kwargs):
-        super().__init__(**kwargs)
-        self.min_value, self.max_value = min_value, max_value
-        self.precision = Decimal("1E{:d}".format(precision))
-
-    def _apply_precision(self, value):
-        try:
-            value = Decimal(value).quantize(self.precision, rounding=ROUND_HALF_UP).normalize()
-        except (TypeError, InvalidOperation):
-            raise ConversionError(self.messages["number_coerce"].format(value))
+def _parse_datetime(value: Any) -> datetime:
+    if isinstance(value, datetime):
         return value
+    try:
+        return parse_date(value, default_timezone=TZ)
+    except (ValueError, TypeError):
+        raise ConversionError(f"Could not parse {value}. Should be ISO8601.")
+    except OverflowError as e:
+        raise ConversionError(str(e))
 
-    def to_primitive(self, value, context=None):
-        return self._apply_precision(value)
 
-    def to_native(self, value, context=None):
-        value = self._apply_precision(value)
-        if value.is_nan():
-            raise ConversionError(self.messages["number_coerce"].format(value))
+IsoDateTime = Annotated[
+    datetime,
+    PydanticPlainValidator(_parse_datetime),
+    PlainSerializer(lambda value: value.isoformat(), return_type=str),
+]
+
+
+# --- strings ---
+
+
+def validate_md5(value: str) -> str:
+    if len(value) != 32:
+        raise ConversionError("Hash value is wrong length.")
+    try:
+        int(value, 16)
+    except ValueError:
+        raise ConversionError("Hash value is not hexadecimal.")
+    return value
+
+
+MD5 = Annotated[str, AfterValidator(validate_md5)]
+
+
+def _validate_hash(value: str) -> str:
+    if ":" not in value:
+        raise ConversionError("Hash type is not supported.")
+    hash_type, hash_value = value.split(":", 1)
+    if hash_type not in algorithms_guaranteed:
+        raise ConversionError("Hash type is not supported.")
+    if len(hash_value) != hash_new(hash_type).digest_size * 2:
+        raise ConversionError("Hash value is wrong length.")
+    try:
+        int(hash_value, 16)
+    except ValueError:
+        raise ConversionError("Hash value is not hexadecimal.")
+    return value
+
+
+Hash = Annotated[str, AfterValidator(_validate_hash)]
+
+URL_REGEX = re.compile(r"^https?://\S+$", re.IGNORECASE)
+
+
+def _validate_url(value: str) -> str:
+    if not URL_REGEX.match(value):
+        raise ValueError("Not a well formed URL.")
+    return value
+
+
+Url = Annotated[str, AfterValidator(_validate_url)]
+
+EMAIL_REGEX = re.compile(
+    # dot-atom
+    r"(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*"
+    # quoted-string
+    r'|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-011\013\014\016'
+    r'-\177])*"'
+    # domain
+    r")@(?:[A-Z0-9](?:[A-Z0-9-]{0,2000}[A-Z0-9])?\.)+[A-Z]{2,63}\.?$",
+    re.IGNORECASE,
+)
+
+
+def _validate_email(value: str) -> str:
+    if not EMAIL_REGEX.match(value):
+        raise ValueError("Not a well formed email address.")
+    return value
+
+
+Email = Annotated[str, AfterValidator(_validate_email)]
+
+
+# --- decimals ---
+
+
+def _to_decimal(value: Any, precision: Decimal) -> Decimal:
+    if isinstance(value, bool):
+        raise ConversionError(f"Number '{value}' failed to convert to a decimal.")
+    try:
+        return Decimal(str(value) if isinstance(value, float) else value).quantize(precision, rounding=ROUND_HALF_UP)
+    except (TypeError, ValueError, InvalidOperation):
+        raise ConversionError(f"Number '{value}' failed to convert to a decimal.")
+
+
+def DecimalOf(precision: int = -3) -> BeforeValidator:
+    """`Annotated[Decimal, DecimalOf(-2)]`: the value is quantized (ROUND_HALF_UP) to the precision and normalized"""
+    quant = Decimal(f"1E{precision:d}")
+
+    def validate(value: Any) -> Decimal:
+        result = _to_decimal(value, quant)
+        if result.is_nan():
+            raise ConversionError(f"Number '{value}' failed to convert to a decimal.")
+        return result.normalize()
+
+    return BeforeValidator(validate)
+
+
+def NormalizedDecimalOf(precision: int = -3) -> BeforeValidator:
+    """Like `DecimalOf`, but an integer value keeps one decimal place: 1 -> 1.0"""
+    quant = Decimal(f"1E{precision:d}")
+
+    def validate(value: Any) -> Decimal:
+        result = _to_decimal(value, quant).normalize()
+        if result == result.to_integral():
+            return result.quantize(Decimal("0.1"))
+        return result
+
+    return BeforeValidator(validate)
+
+
+def quantize(value: Any, precision: int) -> Decimal | None:
+    """the output value of a computed field: quantized like `DecimalOf(precision)`"""
+    if value is None:
+        return None
+    return _to_decimal(value, Decimal(f"1E{precision:d}")).normalize()
+
+
+DecimalValue = Annotated[Decimal, DecimalOf(-3)]
+NormalizedDecimal = Annotated[Decimal, NormalizedDecimalOf(-3)]
+StringDecimal = Annotated[
+    Decimal,
+    DecimalOf(-3),
+    PlainSerializer(lambda value: "{:f}".format(value), return_type=str),
+]
+
+
+# --- durations ---
+
+
+def _parse_duration(value: Any) -> Duration | timedelta:
+    if isinstance(value, (Duration, timedelta)):
         return value
+    try:
+        return parse_duration(value)
+    except TypeError:
+        raise ConversionError(f"Could not parse {value}. Should be ISO8601 Durations.")
+    except ISO8601Error as e:
+        raise ConversionError(str(e))
 
 
-# todo: remove this class when unified decimal solution is available
-class NormalizedDecimalType(DecimalType):
-    @staticmethod
-    def clean_decimal(value: Decimal, quantize_exp: Decimal = Decimal("0.1")):
-        value = value.normalize()
-        # If it's now an integer value, remove exponent
-        if value == value.to_integral():
-            return value.quantize(quantize_exp)
-        return value
-
-    def _apply_precision(self, value):
-        try:
-            value = self.clean_decimal(Decimal(value).quantize(self.precision, rounding=ROUND_HALF_UP))
-        except (TypeError, InvalidOperation):
-            raise ConversionError(self.messages["number_coerce"].format(value))
-        return value
-
-
-class StringDecimalType(BaseDecimalType):
-    def to_primitive(self, *args, **kwargs):
-        value = super().to_primitive(*args, **kwargs)
-        if isinstance(value, Decimal):
-            return "{:f}".format(value)
-        return value
-
-
-class URLType(StringType):
-    # TODO: remove custom URLType after newer version of schematics will be used. The latest version has universal regex.
-
-    MESSAGES = {
-        "invalid_url": "Not a well formed URL.",
-    }
-
-    URL_REGEX = re.compile(r"^https?://\S+$", re.IGNORECASE)
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-    def validate_url(self, value):
-        if not URLType.URL_REGEX.match(value):
-            raise StopValidation(self.messages["invalid_url"])
-
-
-class IsoDateTimeType(BaseType):
-    MESSAGES = {"parse": "Could not parse {0}. Should be ISO8601."}
-
-    def to_native(self, value, context=None):
-        if isinstance(value, datetime):
-            return value
-        try:
-            return parse_date(value, default_timezone=TZ)
-        except ValueError:
-            raise ConversionError(self.messages["parse"].format(value))
-        except OverflowError as e:
-            raise ConversionError(str(e))
-
-    def to_primitive(self, value, context=None):
-        if isinstance(value, datetime):
-            return value.isoformat()
-        return value
-
-
-class IsoDurationType(BaseType):
-    """Iso Duration format
-    P is the duration designator (referred to as "period"), and is always placed at the beginning of the duration.
-    Y is the year designator that follows the value for the number of years.
-    M is the month designator that follows the value for the number of months.
-    W is the week designator that follows the value for the number of weeks.
-    D is the day designator that follows the value for the number of days.
-    T is the time designator that precedes the time components.
-    H is the hour designator that follows the value for the number of hours.
-    M is the minute designator that follows the value for the number of minutes.
-    S is the second designator that follows the value for the number of seconds.
-    examples:  'P5000Y72M8W10DT55H3000M5S'
-    """
-
-    MESSAGES = {"parse": "Could not parse {0}. Should be ISO8601 Durations."}
-
-    def to_native(self, value, context=None):
-        if isinstance(value, Duration) or isinstance(value, timedelta):
-            return value
-        try:
-            return parse_duration(value)
-        except TypeError:
-            raise ConversionError(self.messages["parse"].format(value))
-        except ISO8601Error as e:
-            raise ConversionError(str(e))
-
-    def to_primitive(self, value, context=None):
-        return duration_isoformat(value)
-
-
-class HashType(StringType):
-    MESSAGES = {
-        "hash_invalid": "Hash type is not supported.",
-        "hash_length": "Hash value is wrong length.",
-        "hash_hex": "Hash value is not hexadecimal.",
-    }
-
-    def to_native(self, value, context=None):
-        value = super().to_native(value, context)
-
-        if ":" not in value:
-            raise ValidationError(self.messages["hash_invalid"])
-
-        hash_type, hash_value = value.split(":", 1)
-
-        if hash_type not in algorithms_guaranteed:
-            raise ValidationError(self.messages["hash_invalid"])
-
-        if len(hash_value) != hash_new(hash_type).digest_size * 2:
-            raise ValidationError(self.messages["hash_length"])
-        try:
-            int(hash_value, 16)
-        except ValueError:
-            raise ConversionError(self.messages["hash_hex"])
-        return value
+IsoDuration = Annotated[
+    Any,
+    PydanticPlainValidator(_parse_duration),
+    PlainSerializer(duration_isoformat, return_type=str),
+]

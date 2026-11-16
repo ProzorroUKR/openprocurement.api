@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view, raise_operation_error
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_credentials import (
     CDStage2CredentialsState,
 )
@@ -17,9 +17,9 @@ from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
 @resource(
-    name="{}:Tender credentials".format(STAGE_2_EU_TYPE),
+    name="{}:Tender credentials".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     path="/tenders/{tender_id}/credentials",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="Tender stage2 UE credentials",
 )
 class CD2EUCredentialsResource(TenderBaseResource):
@@ -48,9 +48,9 @@ class CD2EUCredentialsResource(TenderBaseResource):
 
 
 @resource(
-    name="{}:Tender credentials".format(STAGE_2_UA_TYPE),
+    name="{}:Tender credentials".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     path="/tenders/{tender_id}/credentials",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="Tender stage2 UA credentials",
 )
 class CD2UACredentialsResource(CD2EUCredentialsResource):

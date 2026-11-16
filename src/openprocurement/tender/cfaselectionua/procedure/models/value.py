@@ -1,7 +1,7 @@
-from schematics.types import FloatType
+from pydantic import Field
 
 from openprocurement.api.procedure.models.value import Value as BaseValue
 
 
 class CFASelectionUnitPriceValue(BaseValue):
-    amount = FloatType(min_value=0)
+    amount: float | None = Field(None, ge=0)

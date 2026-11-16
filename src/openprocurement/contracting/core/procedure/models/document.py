@@ -1,89 +1,84 @@
+from enum import StrEnum
+from typing import Any
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.document import (
+    BaseTenderDocument,
     ConfidentialDocumentMixin,
     ConfidentialityType,
     PostConfidentialDocumentMixin,
 )
-from openprocurement.api.procedure.types import HashType
-from openprocurement.tender.core.procedure.models.document import BaseDocument as BaseTenderDocument
-
-DOCUMENT_OFS = (
-    "tender",
-    "item",
-    "lot",
-    "contract",
-    "change",
+from openprocurement.api.procedure.types import (
+    MD5,
+    Hash,
 )
 
 
-# --- Base models ---
+class ContractDocumentOf(StrEnum):
+    TENDER = "tender"
+    ITEM = "item"
+    LOT = "lot"
+    CONTRACT = "contract"
+    CHANGE = "change"
 
 
 class BaseContractDocument(BaseTenderDocument):
-    documentOf = StringType(choices=DOCUMENT_OFS)
+    documentOf: ContractDocumentOf | None = None
 
 
 class BaseTransactionDocument(BaseTenderDocument):
-    documentOf = StringType(default="contract")
-
-
-# --- Contract document models ---
+    documentOf: str = "contract"
 
 
 class BasePostDocument(BaseContractDocument):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def datePublished(self):
+    @computed_field
+    def datePublished(self) -> Any:
         return get_request_now().isoformat()
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> Any:
         return get_request_now().isoformat()
 
-    hash = HashType()
-    title = StringType(required=True)
-    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)
-    documentOf = StringType(choices=DOCUMENT_OFS, default="contract")
-    author = StringType()
+    hash: Hash | None = None
+    title: str
+    format: str = Field(pattern=r"^[-\w]+/[-\.\w\+]+$")
+    url: str
+    documentOf: ContractDocumentOf = "contract"
+    author: str | None = None
 
 
 class BasePatchDocument(BaseContractDocument):
-    documentOf = StringType(choices=DOCUMENT_OFS)
+    documentOf: ContractDocumentOf | None = None
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> Any:
         return get_request_now().isoformat()
 
 
 class BaseDocument(BaseContractDocument):
-    id = MD5Type(required=True)
-    hash = HashType()
-    title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)  # Link to the document or attachment.
-    documentOf = StringType(choices=DOCUMENT_OFS, default="contract")
-    datePublished = StringType(required=True)
-    dateModified = StringType()
-    author = StringType()
+    id: MD5
+    hash: Hash | None = None
+    title: str
+    format: str = Field(pattern=r"^[-\w]+/[-\.\w\+]+$")
+    url: str
+    documentOf: ContractDocumentOf = "contract"
+    datePublished: str
+    dateModified: str | None = None
+    author: str | None = None
 
 
-# --- Transaction document models ---
-
-
-class PostTransactionDocument(BaseTransactionDocument, BasePostDocument):
+class PostTransactionDocument(BaseTransactionDocument, BasePostDocument):  # type: ignore[misc]
     pass
 
 
-class TransactionDocument(BaseTransactionDocument, BaseDocument):
+class TransactionDocument(BaseTransactionDocument, BaseDocument):  # type: ignore[misc]
     pass
 
 
@@ -92,13 +87,8 @@ class PostDocument(BasePostDocument, PostConfidentialDocumentMixin):
 
 
 class PatchDocument(BasePatchDocument):
-    confidentiality = StringType(
-        choices=[
-            ConfidentialityType.PUBLIC.value,
-            ConfidentialityType.BUYER_ONLY.value,
-        ]
-    )
-    confidentialityRationale = StringType()
+    confidentiality: ConfidentialityType | None = None
+    confidentialityRationale: str | None = None
 
 
 class Document(BaseDocument, ConfidentialDocumentMixin):

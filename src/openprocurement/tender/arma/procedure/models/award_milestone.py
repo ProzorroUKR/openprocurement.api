@@ -1,6 +1,5 @@
-from schematics.types import StringType
+from typing import Literal
 
-from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.award_milestone import (
     AwardMilestone,
     AwardMilestoneCode,
@@ -10,23 +9,12 @@ from openprocurement.tender.core.procedure.models.award_milestone import (
 
 
 class ARMAPostAwardMilestone(PostAwardMilestone):
-    code = StringType(
-        required=True,
-        choices=[
-            AwardMilestoneCode.CODE_24_HOURS.value,
-        ],
-    )
+    code: Literal[AwardMilestoneCode.CODE_24_HOURS]  # type: ignore[valid-type]
 
 
 class ARMAAwardMilestone(AwardMilestone):
-    code = StringType(
-        required=True,
-        choices=[
-            AwardMilestoneCode.CODE_24_HOURS.value,
-            AwardMilestoneCode.CODE_LOW_PRICE.value,
-        ],
-    )
+    code: Literal[AwardMilestoneCode.CODE_24_HOURS, AwardMilestoneCode.CODE_LOW_PRICE]  # type: ignore[valid-type]
 
 
 class ARMAAwardMilestoneListMixin(AwardMilestoneListMixin):
-    milestones = ListType(ModelType(ARMAAwardMilestone, required=True))
+    milestones: list[ARMAAwardMilestone] | None = None

@@ -1,13 +1,14 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import BooleanType, MD5Type, StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field, field_validator
 
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import Model, validate_uniq_code, validate_uniq_id
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.tender.core.procedure.models.base import BaseBid
 from openprocurement.tender.core.procedure.models.document import (
     Document,
@@ -32,28 +33,24 @@ from openprocurement.tender.core.procedure.models.value import (
 )
 
 
-# PATCH DATA ---
 class PatchBid(ObjResponseMixin, BaseBid):
-    items = ListType(ModelType(LocalizationItem, required=True))
-    parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_uniq_code])
-    value = ModelType(Value)
-    lotValues = ListType(ModelType(PatchLotValue, required=True))
-    tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
-    status = StringType(
-        choices=[
-            "draft",
-            "pending",
-            "active",
-            "invalid",
-            "invalid.pre-qualification",
-            "unsuccessful",
-            "deleted",
-        ],
-    )
-    subcontractingDetails = StringType()
-    # choices=[True]; whether the fields are required/rogue is validated in BidState
-    selfQualified = BooleanType(choices=[True])
-    selfEligible = BooleanType(choices=[True])
+    items: list[LocalizationItem] | None = None
+    parameters: list[PatchParameter] | None = None
+    value: Value | None = None
+    lotValues: list[PatchLotValue] | None = None
+    tenderers: list[Supplier] | None = Field(None, min_length=1, max_length=1)
+    status: (
+        Literal["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"] | None
+    ) = None
+    subcontractingDetails: str | None = None
+    selfQualified: Literal[True] | None = None
+    selfEligible: Literal[True] | None = None
+
+    @field_validator("parameters")
+    @classmethod
+    def validate_parameters_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class AdministratorPatchBid(Model):
@@ -62,96 +59,76 @@ class AdministratorPatchBid(Model):
     the commercial part (value, lotValues, status, ...) is untouchable
     """
 
-    tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
+    tenderers: list[Supplier] | None = Field(None, min_length=1, max_length=1)
 
 
 class PatchQualificationBid(PatchBid):
-    lotValues = ListType(ModelType(LotValue, required=True))
+    lotValues: list[LotValue] | None = None
 
 
-# --- PATCH DATA
-
-
-# BASE ---
 class CommonBid(BaseBid):
-    items = ListType(ModelType(LocalizationItem, required=True), min_size=1, validators=[validate_uniq_id])
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
-    value = ModelType(Value)
-    initialValue = ModelType(Value)  # field added by chronograph
-    participationUrl = StringType()  # field added after auction
-    lotValues = ListType(ModelType(LotValue, required=True))
-    tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
-    status = StringType(
-        choices=[
-            "draft",
-            "pending",
-            "active",
-            "invalid",
-            "invalid.pre-qualification",
-            "unsuccessful",
-            "deleted",
-        ],
-        required=True,
-    )
-    subcontractingDetails = StringType()
-    weightedValue = ModelType(WeightedValue)
+    items: list[LocalizationItem] | None = Field(None, min_length=1)
+    parameters: list[Parameter] | None = None
+    value: Value | None = None
+    initialValue: Value | None = None
+    participationUrl: str | None = None
+    lotValues: list[LotValue] | None = None
+    tenderers: list[Supplier] | None = Field(None, min_length=1, max_length=1)
+    status: Literal["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"]
+    subcontractingDetails: str | None = None
+    weightedValue: WeightedValue | None = None
+
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("parameters")
+    @classmethod
+    def validate_parameters_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
-# --- BASE
-
-
-# POST DATA ---
 class PostBid(ObjResponseMixin, CommonBid):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    tenderers = ListType(
-        ModelType(Supplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
+    tenderers: list[Supplier] = Field(min_length=1, max_length=1)
+    lotValues: list[PostLotValue] | None = None
+    parameters: list[Parameter] | None = None
+    status: Literal["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"] = (
+        "draft"
     )
-    lotValues = ListType(ModelType(PostLotValue, required=True))
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
-    status = StringType(
-        choices=[
-            "draft",
-            "pending",
-            "active",
-            "invalid",
-            "invalid.pre-qualification",
-            "unsuccessful",
-            "deleted",
-        ],
-        default="draft",
-    )
-    documents = ListType(ModelType(PostDocument, required=True))
-    financialDocuments = ListType(ModelType(PostDocument, required=True))
-    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
-    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
-    # choices=[True]; whether the fields are required/rogue is validated in BidState
-    selfQualified = BooleanType(choices=[True])
-    selfEligible = BooleanType(choices=[True])
+    documents: list[PostDocument] | None = None
+    financialDocuments: list[PostDocument] | None = None
+    eligibilityDocuments: list[PostDocument] | None = None
+    qualificationDocuments: list[PostDocument] | None = None
+    selfQualified: Literal[True] | None = None
+    selfEligible: Literal[True] | None = None
 
-
-# -- POST
+    @field_validator("parameters")
+    @classmethod
+    def validate_parameters_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class MetaBid(Model):
-    id = MD5Type()
-    date = StringType()
-    owner = StringType()
-    owner_token = StringType()
-    transfer_token = StringType()
-    submissionDate = IsoDateTimeType()
+    id: MD5 | None = None
+    date: str | None = None
+    owner: str | None = None
+    owner_token: str | None = None
+    transfer_token: str | None = None
+    submissionDate: IsoDateTime | None = None
 
 
-# model to validate a bid after patch
 class Bid(MetaBid, ObjResponseMixin, CommonBid):
-    documents = ListType(ModelType(Document, required=True))
-    financialDocuments = ListType(ModelType(Document, required=True))
-    eligibilityDocuments = ListType(ModelType(Document, required=True))
-    qualificationDocuments = ListType(ModelType(Document, required=True))
-    selfQualified = BooleanType(choices=[True])
-    selfEligible = BooleanType(choices=[True])
+    documents: list[Document] | None = None
+    financialDocuments: list[Document] | None = None
+    eligibilityDocuments: list[Document] | None = None
+    qualificationDocuments: list[Document] | None = None
+    selfQualified: Literal[True] | None = None
+    selfEligible: Literal[True] | None = None

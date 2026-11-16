@@ -3,7 +3,7 @@ from logging import getLogger
 
 from dateorro import calc_datetime
 
-from openprocurement.api.constants import WORKING_DAYS
+from openprocurement.api.constants import WORKING_DAYS, AgreementType, FrameworkType
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.utils import (
@@ -13,7 +13,6 @@ from openprocurement.api.utils import (
     get_now,
 )
 from openprocurement.api.validation import validate_json_data
-from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.utils import convert_agreement_type
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.tender.core.utils import ACCELERATOR_RE
@@ -45,7 +44,7 @@ class FrameworkTypePredicate:
 
         if request.method == "POST" and request.path.endswith("/frameworks"):
             data = validate_json_data(request)
-            return data.get("frameworkType", "electronicCatalogue") == self.val
+            return data.get("frameworkType", FrameworkType.ELECTRONIC_CATALOGUE) == self.val
 
         return False
 
@@ -67,7 +66,7 @@ class SubmissionTypePredicate:
 
         if request.method == "POST" and request.path.endswith("/submissions"):
             data = validate_json_data(request)
-            return data.get("submissionType", "electronicCatalogue") == self.val
+            return data.get("submissionType", FrameworkType.ELECTRONIC_CATALOGUE) == self.val
 
         return False
 
@@ -89,7 +88,7 @@ class QualificationTypePredicate:
 
         if request.method == "POST" and request.path.endswith("/qualifications"):
             data = validate_json_data(request)
-            return data.get("qualificationType", "electronicCatalogue") == self.val
+            return data.get("qualificationType", FrameworkType.ELECTRONIC_CATALOGUE) == self.val
 
         return False
 
@@ -113,7 +112,7 @@ class AgreementTypePredicate:
 
         if request.method == "POST" and request.path.endswith("/agreements"):
             data = validate_json_data(request)
-            agreement_type = data.get("agreementType", CFA_UA)
+            agreement_type = data.get("agreementType", AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA)
             agreement_type = convert_agreement_type(agreement_type)
             return agreement_type == self.val
 

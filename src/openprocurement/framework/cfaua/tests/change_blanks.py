@@ -1162,7 +1162,7 @@ def multi_change(self):
     )
 
 
-@patch("openprocurement.tender.core.procedure.models.agreement.get_request_now")  # shared Change base
+@patch("openprocurement.api.procedure.models.agreement.get_request_now")  # shared Change base
 @patch("openprocurement.framework.cfaua.procedure.state.change.get_request_now")
 def activate_change_after_1_cancelled(self, mocked_state_get_now, mocked_core_get_now):
     # first change

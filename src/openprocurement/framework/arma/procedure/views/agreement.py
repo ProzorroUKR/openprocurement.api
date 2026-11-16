@@ -1,17 +1,17 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.utils import json_view
-from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.framework.arma.procedure.state.agreement import ARMAAgreementState
 from openprocurement.framework.core.procedure.views.agreement import AgreementsResource
 
 
 @resource(
-    name=f"{ARMA_TYPE}:Agreements",
+    name=f"{AgreementType.ASSET_RECOVERY_MANAGEMENT_AGENCY}:Agreements",
     collection_path="/agreements",
     path="/agreements/{agreement_id}",
-    description=f"{ARMA_TYPE} agreements",
-    agreementType=ARMA_TYPE,
+    description=f"{AgreementType.ASSET_RECOVERY_MANAGEMENT_AGENCY} agreements",
+    agreementType=AgreementType.ASSET_RECOVERY_MANAGEMENT_AGENCY,
     accept="application/json",
 )
 class ARMAAgreementResource(AgreementsResource):

@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
@@ -12,10 +12,10 @@ from openprocurement.tender.open.procedure.state.cancellation import AboveThresh
 
 
 @resource(
-    name="{}:Tender Cancellations".format(CD_EU_TYPE),
+    name="{}:Tender Cancellations".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU),
     collection_path="/tenders/{tender_id}/cancellations",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType=CD_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
     description="Competitive Dialogue UE cancellations",
 )
 class CDEUCancellationResource(BaseCancellationResource):
@@ -34,10 +34,10 @@ class CDEUCancellationResource(BaseCancellationResource):
 
 
 @resource(
-    name="{}:Tender Cancellations".format(CD_UA_TYPE),
+    name="{}:Tender Cancellations".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA),
     collection_path="/tenders/{tender_id}/cancellations",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType=CD_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     description="Competitive Dialogue UA cancellations",
 )
 class CDUACancellationResource(CDEUCancellationResource):

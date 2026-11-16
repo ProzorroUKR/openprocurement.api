@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.views.chronograph import (
     TenderChronographResource,
@@ -9,7 +10,7 @@ from openprocurement.tender.core.procedure.views.chronograph import (
 @resource(
     name="closeFrameworkAgreementUA:Tender Chronograph",
     path="/tenders/{tender_id}/chronograph",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Tender chronograph",
 )
 class CFAUAChronographResource(TenderChronographResource):

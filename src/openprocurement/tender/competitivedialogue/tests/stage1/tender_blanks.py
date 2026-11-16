@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
@@ -7,7 +8,7 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, CD_FEATURES_MAX_SUM
+from openprocurement.tender.competitivedialogue.constants import CD_FEATURES_MAX_SUM
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_stage1_bids,
 )
@@ -23,7 +24,14 @@ def create_tender_invalid_eu(self):
     request_path = "/tenders"
 
     response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_EU_TYPE, "invalid_field": "invalid_value"}}, status=422
+        request_path,
+        {
+            "data": {
+                "procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+                "invalid_field": "invalid_value",
+            }
+        },
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -33,7 +41,9 @@ def create_tender_invalid_eu(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_EU_TYPE, "value": "invalid_value"}}, status=422
+        request_path,
+        {"data": {"procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_EU, "value": "invalid_value"}},
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -50,7 +60,14 @@ def create_tender_invalid_eu(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_EU_TYPE, "procurementMethod": "invalid_value"}}, status=422
+        request_path,
+        {
+            "data": {
+                "procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+                "procurementMethod": "invalid_value",
+            }
+        },
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -73,7 +90,12 @@ def create_tender_invalid_eu(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": CD_EU_TYPE, "enquiryPeriod": {"endDate": "invalid_value"}}},
+        {
+            "data": {
+                "procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+                "enquiryPeriod": {"endDate": "invalid_value"},
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -92,7 +114,12 @@ def create_tender_invalid_eu(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": CD_EU_TYPE, "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"}}},
+        {
+            "data": {
+                "procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+                "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"},
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -762,7 +789,14 @@ def create_tender_invalid_ua(self):
     request_path = "/tenders"
 
     response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_UA_TYPE, "invalid_field": "invalid_value"}}, status=422
+        request_path,
+        {
+            "data": {
+                "procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+                "invalid_field": "invalid_value",
+            }
+        },
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -772,7 +806,9 @@ def create_tender_invalid_ua(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_UA_TYPE, "value": "invalid_value"}}, status=422
+        request_path,
+        {"data": {"procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_UA, "value": "invalid_value"}},
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -789,7 +825,14 @@ def create_tender_invalid_ua(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_UA_TYPE, "procurementMethod": "invalid_value"}}, status=422
+        request_path,
+        {
+            "data": {
+                "procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+                "procurementMethod": "invalid_value",
+            }
+        },
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -812,7 +855,12 @@ def create_tender_invalid_ua(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": CD_UA_TYPE, "enquiryPeriod": {"endDate": "invalid_value"}}},
+        {
+            "data": {
+                "procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+                "enquiryPeriod": {"endDate": "invalid_value"},
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -831,7 +879,12 @@ def create_tender_invalid_ua(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": CD_UA_TYPE, "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"}}},
+        {
+            "data": {
+                "procurementMethodType": ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+                "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"},
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")

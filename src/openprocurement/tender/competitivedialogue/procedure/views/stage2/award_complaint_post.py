@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award_complaint_post import (
     BaseAwardComplaintPostResource,
 )
 
 
 @resource(
-    name="{}:Tender Award Complaint Posts".format(STAGE_2_EU_TYPE),
+    name="{}:Tender Award Complaint Posts".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts/{post_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="Tender award complaint posts",
 )
 class CD2EUAwardComplaintPostResource(BaseAwardComplaintPostResource):
@@ -18,10 +18,10 @@ class CD2EUAwardComplaintPostResource(BaseAwardComplaintPostResource):
 
 
 @resource(
-    name="{}:Tender Award Complaint Posts".format(STAGE_2_UA_TYPE),
+    name="{}:Tender Award Complaint Posts".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts/{post_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="Tender award complaint posts",
 )
 class CD2UAAwardComplaintPostResource(BaseAwardComplaintPostResource):

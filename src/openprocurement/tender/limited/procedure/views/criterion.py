@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.limited.procedure.state.criterion import (
     NegotiationCriterionState,
     NegotiationQuickCriterionState,
@@ -10,10 +10,10 @@ from openprocurement.tender.limited.procedure.state.criterion import (
 
 
 @resource(
-    name=f"{REPORTING}:Tender Criteria",
+    name=f"{ProcurementMethodType.REPORTING}:Tender Criteria",
     collection_path="/tenders/{tender_id}/criteria",
     path="/tenders/{tender_id}/criteria/{criterion_id}",
-    procurementMethodType=f"{REPORTING}",
+    procurementMethodType=f"{ProcurementMethodType.REPORTING}",
     description="Tender criteria",
 )
 class ReportingCriterionResource(BaseCriterionResource):
@@ -21,10 +21,10 @@ class ReportingCriterionResource(BaseCriterionResource):
 
 
 @resource(
-    name=f"{NEGOTIATION}:Tender Criteria",
+    name=f"{ProcurementMethodType.NEGOTIATION}:Tender Criteria",
     collection_path="/tenders/{tender_id}/criteria",
     path="/tenders/{tender_id}/criteria/{criterion_id}",
-    procurementMethodType=f"{NEGOTIATION}",
+    procurementMethodType=f"{ProcurementMethodType.NEGOTIATION}",
     description="Tender criteria",
 )
 class NegotiationCriterionResource(ReportingCriterionResource):
@@ -32,10 +32,10 @@ class NegotiationCriterionResource(ReportingCriterionResource):
 
 
 @resource(
-    name=f"{NEGOTIATION_QUICK}:Tender Criteria",
+    name=f"{ProcurementMethodType.NEGOTIATION_QUICK}:Tender Criteria",
     collection_path="/tenders/{tender_id}/criteria",
     path="/tenders/{tender_id}/criteria/{criterion_id}",
-    procurementMethodType=f"{NEGOTIATION_QUICK}",
+    procurementMethodType=f"{ProcurementMethodType.NEGOTIATION_QUICK}",
     description="Tender criteria",
 )
 class NegotiationQuickCriterionResource(ReportingCriterionResource):

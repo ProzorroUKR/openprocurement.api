@@ -2,9 +2,9 @@ import logging
 import os
 from copy import deepcopy
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.utils import get_now
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -58,7 +58,7 @@ def run(env, args):
 
     cursor = collection.find(
         {
-            "procurementMethodType": PQ,
+            "procurementMethodType": ProcurementMethodType.PRICE_QUOTATION,
             "criteria": {"$exists": True},
         },
         {"criteria": 1, "bids": 1},

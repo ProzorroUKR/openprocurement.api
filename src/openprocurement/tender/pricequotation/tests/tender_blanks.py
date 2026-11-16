@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import Mock, patch
@@ -21,7 +22,6 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_criteria,
 )
-from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.tests.data import (
     test_agreement_pq_data,
     test_tender_pq_buyer,
@@ -270,7 +270,10 @@ def create_tender_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"invalid_field": "invalid_value", "procurementMethodType": PQ}, "config": self.initial_config},
+        {
+            "data": {"invalid_field": "invalid_value", "procurementMethodType": ProcurementMethodType.PRICE_QUOTATION},
+            "config": self.initial_config,
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -282,7 +285,10 @@ def create_tender_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"value": "invalid_value", "procurementMethodType": PQ}, "config": self.initial_config},
+        {
+            "data": {"value": "invalid_value", "procurementMethodType": ProcurementMethodType.PRICE_QUOTATION},
+            "config": self.initial_config,
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -301,7 +307,13 @@ def create_tender_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethod": "invalid_value", "procurementMethodType": PQ}, "config": self.initial_config},
+        {
+            "data": {
+                "procurementMethod": "invalid_value",
+                "procurementMethodType": ProcurementMethodType.PRICE_QUOTATION,
+            },
+            "config": self.initial_config,
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")

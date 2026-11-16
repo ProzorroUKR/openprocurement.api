@@ -1,20 +1,18 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.document import (
     CoreSubmissionDocumentResource,
 )
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
-)
 
 
 @resource(
-    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Submission Documents",
+    name=f"{FrameworkType.ELECTRONIC_CATALOGUE}:Submission Documents",
     collection_path="/submissions/{submission_id}/documents",
     path="/submissions/{submission_id}/documents/{document_id}",
     description="Submission related binary files (PDFs, etc.)",
-    submissionType=ELECTRONIC_CATALOGUE_TYPE,
+    submissionType=FrameworkType.ELECTRONIC_CATALOGUE,
 )
 class SubmissionDocumentResource(CoreSubmissionDocumentResource):
     @json_view(permission="view_framework")

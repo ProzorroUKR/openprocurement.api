@@ -1,14 +1,15 @@
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import MD5, IsoDateTime
 from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_DESCRIPTION,
-    MILESTONE_APPROVAL_TITLE,
+    MilestoneStatus,
+    MilestoneTitle,
+    MilestoneType,
 )
 from openprocurement.planning.api.procedure.models.document import (
     Document,
@@ -18,65 +19,43 @@ from openprocurement.planning.api.procedure.models.organization import BaseOrgan
 
 
 class BaseMilestone(Model):
-    TYPE_APPROVAL = "approval"
-
-    STATUS_SCHEDULED = "scheduled"
-    STATUS_MET = "met"
-    STATUS_NOT_MET = "notMet"
-    STATUS_INVALID = "invalid"
-
-    TYPE_CHOICES = (TYPE_APPROVAL,)
-    STATUS_CHOICES = (
-        STATUS_SCHEDULED,
-        STATUS_MET,
-        STATUS_NOT_MET,
-        STATUS_INVALID,
-    )
-
-    ACTIVE_STATUSES = (
-        STATUS_SCHEDULED,
-        STATUS_MET,
-    )
+    pass
 
 
 class PostMilestone(BaseMilestone):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> str:
         return uuid4().hex
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> str:
         return get_request_now().isoformat()
 
-    status = StringType(
-        required=True,
-        choices=BaseMilestone.STATUS_CHOICES,
-        default=BaseMilestone.STATUS_SCHEDULED,
-    )
-    dueDate = IsoDateTimeType(required=True)
-    title = StringType(required=True, choices=[MILESTONE_APPROVAL_TITLE])
-    description = StringType(required=True, min_length=3, default=MILESTONE_APPROVAL_DESCRIPTION)
-    type = StringType(required=True, choices=[BaseMilestone.TYPE_APPROVAL])
-    documents = ListType(ModelType(PostDocument, required=True))
-    author = ModelType(BaseOrganization, required=True)
+    status: MilestoneStatus = MilestoneStatus.SCHEDULED
+    dueDate: IsoDateTime
+    title: MilestoneTitle
+    description: str = Field(MILESTONE_APPROVAL_DESCRIPTION, min_length=3)
+    type: MilestoneType
+    documents: list[PostDocument] | None = None
+    author: BaseOrganization
 
 
 class PatchMilestone(BaseMilestone):
-    status = StringType(choices=BaseMilestone.STATUS_CHOICES)
-    dueDate = IsoDateTimeType()
-    description = StringType(min_length=3)
+    status: MilestoneStatus | None = None
+    dueDate: IsoDateTime | None = None
+    description: str | None = Field(None, min_length=3)
 
 
 class Milestone(BaseMilestone):
-    id = MD5Type(required=True)
-    status = StringType(required=True, choices=BaseMilestone.STATUS_CHOICES)
-    title = StringType(required=True, choices=[MILESTONE_APPROVAL_TITLE])
-    description = StringType(required=True, min_length=3)
-    type = StringType(required=True, choices=[BaseMilestone.TYPE_APPROVAL])
-    dueDate = IsoDateTimeType(required=True)
-    documents = ListType(ModelType(Document, required=True))
-    author = ModelType(BaseOrganization, required=True)
-    dateModified = IsoDateTimeType()
-    dateMet = IsoDateTimeType()
-    owner = StringType()
-    owner_token = StringType()
+    id: MD5
+    status: MilestoneStatus
+    title: MilestoneTitle
+    description: str = Field(min_length=3)
+    type: MilestoneType
+    dueDate: IsoDateTime
+    documents: list[Document] | None = None
+    author: BaseOrganization
+    dateModified: IsoDateTime | None = None
+    dateMet: IsoDateTime | None = None
+    owner: str | None = None
+    owner_token: str | None = None

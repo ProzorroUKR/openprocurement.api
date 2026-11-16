@@ -1,8 +1,14 @@
+from typing import Literal
+
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 
-REPORTING = "reporting"
-NEGOTIATION = "negotiation"
-NEGOTIATION_QUICK = "negotiation.quick"
+LimitedProcurementMethodType = Literal[  # type: ignore[valid-type]
+    ProcurementMethodType.REPORTING,
+    ProcurementMethodType.NEGOTIATION,
+    ProcurementMethodType.NEGOTIATION_QUICK,
+]
+
 
 LOCALIZATION_LEVEL_REQUIREMENT_TITLE = "Ступінь локалізації виробництва товару, що є предметом закупівлі, перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік"
 

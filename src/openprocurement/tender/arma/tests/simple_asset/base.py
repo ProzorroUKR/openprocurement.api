@@ -1,3 +1,5 @@
+from openprocurement.api.constants import FrameworkType
+from openprocurement.api.constants import ProcurementMethodType
 import copy
 import os
 
@@ -5,8 +7,6 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.framework.arma.constants import ARMA_TYPE
-from openprocurement.tender.arma.constants import SIMPLE_ASSET_ARMA
 from openprocurement.tender.arma.tests.complex_asset.base import (
     test_tender_arma_data,
     test_tender_arma_procuring_entity,
@@ -53,7 +53,7 @@ for bid in test_tender_arma_simple_three_bids:
         bid["selfEligible"] = True
 
 test_tender_arma_simple_data = copy.deepcopy(test_tender_arma_data)
-test_tender_arma_simple_data["procurementMethodType"] = SIMPLE_ASSET_ARMA
+test_tender_arma_simple_data["procurementMethodType"] = ProcurementMethodType.SIMPLE_ASSET_ARMA
 test_tender_arma_simple_data.pop("enquiryPeriod", None)
 set_tender_periods(test_tender_arma_simple_data, start=now)
 if SANDBOX_MODE:
@@ -112,7 +112,7 @@ test_agreement_arma_data = {
     "_id": "6b9b3b4a3b1c4a2e8f0d5c7a9e1b2d4f",
     "doc_type": "Agreement",
     "agreementID": "UA-2025-01-15-000001",
-    "agreementType": ARMA_TYPE,
+    "agreementType": FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY,
     "status": "active",
     "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
     "period": {

@@ -5,31 +5,15 @@ from decimal import Decimal
 from hashlib import sha512
 
 from pyramid.interfaces import IAuthenticationPolicy
-from schematics.exceptions import ValidationError
-from schematics.types import (
-    BaseType,
-    BooleanType,
-    DateTimeType,
-    DecimalType,
-    IntType,
-    StringType,
-)
 
 from openprocurement.api.auth import AccreditationLevel, extract_access_token
 from openprocurement.api.constants import (
-    ATC_SCHEME,
-    CCCE_UA_SCHEME,
     CPV_PHARM_PREFIX,
     CPV_PHARM_PRODUCTS,
-    FUNDERS,
-    GMDN_2019_SCHEME,
-    GMDN_2023_SCHEME,
-    GMDN_CPV_PREFIXES,
     INN_SCHEME,
     MILESTONE_ACTIVE_DURATION_TYPES,
     SANDBOX_MODE,
-    UA_ROAD_CPV_PREFIXES,
-    UA_ROAD_SCHEME,
+    ProcurementMethodType,
 )
 from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
@@ -39,7 +23,6 @@ from openprocurement.api.constants_env import (
     ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM,
     LAW_4888_TENDERS_FROM,
     MILESTONES_VALIDATION_FROM,
-    PQ_CRITERIA_ID_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
     TENDER_SIGNER_INFO_REQUIRED_FROM,
@@ -47,13 +30,12 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.errors import REQUIRED_MESSAGE, ValidationError
 from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.procedure.utils import is_item_owner, is_obj_const_active, to_decimal
 from openprocurement.api.utils import (
     error_handler,
     get_first_revision_date,
-    is_gmdn_classification,
-    is_ua_road_classification,
     raise_operation_error,
     request_fetch_root_tender_for_tender,
 )
@@ -62,7 +44,6 @@ from openprocurement.tender.core.constants import (
     AMOUNT_NET_COEF,
     LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED,
     LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED,
-    ReqStatuses,
     TenderMilestoneType,
 )
 from openprocurement.tender.core.procedure.utils import (
@@ -74,7 +55,6 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_before,
 )
-from openprocurement.tender.pricequotation.constants import PQ, PQ_PROFILE_PATTERN
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -203,11 +183,6 @@ def get_qualification_document_role(request):
 # lot
 
 
-def is_positive_float(value):
-    if value <= 0:
-        raise ValidationError("Float value should be greater than 0.")
-
-
 def check_requirements_active(criterion):
     for rg in criterion.get("requirementGroups", []):
         for requirement in rg.get("requirements", []):
@@ -216,85 +191,9 @@ def check_requirements_active(criterion):
     return False
 
 
-TYPEMAP = {
-    "string": StringType(),
-    "integer": IntType(),
-    "number": DecimalType(),
-    "boolean": BooleanType(),
-    "date-time": DateTimeType(),
-}
-
-
-def validate_value_factory(type_map):
-    def validator(value, datatype):
-        if value is None:
-            return
-        type_ = type_map.get(datatype)
-        if not type_:
-            raise ValidationError("Type mismatch: value {} does not confront type {}".format(value, type_))
-        return type_.to_native(value)
-
-    return validator
-
-
-validate_value_type = validate_value_factory(TYPEMAP)
-
-
-def validate_gmdn(classification_id, additional_classifications):
-    gmdn_count = sum(1 for i in additional_classifications if i["scheme"] in (GMDN_2023_SCHEME, GMDN_2019_SCHEME))
-    if is_gmdn_classification(classification_id):
-        inn_anc_count = sum(1 for i in additional_classifications if i["scheme"] in [INN_SCHEME, ATC_SCHEME])
-        if 0 not in [inn_anc_count, gmdn_count]:
-            raise ValidationError(
-                "Item shouldn't have additionalClassifications with both schemes {}/{} and {}".format(
-                    INN_SCHEME, ATC_SCHEME, GMDN_2019_SCHEME
-                )
-            )
-        if gmdn_count > 1:
-            raise ValidationError(
-                "Item shouldn't have more than 1 additionalClassification with scheme {}".format(GMDN_2019_SCHEME)
-            )
-    elif gmdn_count != 0:
-        raise ValidationError(
-            "Item shouldn't have additionalClassification with scheme {} for cpv not starts with {}".format(
-                GMDN_2019_SCHEME, ", ".join(GMDN_CPV_PREFIXES)
-            )
-        )
-
-
-def validate_ua_road(classification_id, additional_classifications):
-    road_count = sum(1 for i in additional_classifications if i["scheme"] == UA_ROAD_SCHEME)
-    if is_ua_road_classification(classification_id):
-        if road_count > 1:
-            raise ValidationError(
-                "Item shouldn't have more than 1 additionalClassification with scheme {}".format(UA_ROAD_SCHEME)
-            )
-    elif road_count != 0:
-        raise ValidationError(
-            "Item shouldn't have additionalClassification with scheme {} for cpv not starts with {}".format(
-                UA_ROAD_SCHEME, ", ".join(UA_ROAD_CPV_PREFIXES)
-            )
-        )
-
-
-def validate_ccce_ua(additional_classifications):
-    ccce_count = sum(1 for i in additional_classifications if i["scheme"] == CCCE_UA_SCHEME)
-    if ccce_count > 1:
-        raise ValidationError(
-            f"Object shouldn't have more than 1 additionalClassification with scheme {CCCE_UA_SCHEME}"
-        )
-
-
-def validate_funders_ids(funders, *args):
-    for funder in funders:
-        if funder.identifier and (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
-            raise ValidationError("Funder identifier should be one of the values allowed")
-
-
-def validate_object_id_uniq(objs, *_, obj_name=None):
+def validate_object_id_uniq(objs, obj_name):
+    """the objects of the data of a state (dicts)"""
     if objs:
-        if not obj_name:
-            obj_name = objs[0].__class__.__name__
         obj_name_multiple = obj_name[0].lower() + obj_name[1:]
         ids = [i["id"] for i in objs]
         if ids and len(set(ids)) != len(ids):
@@ -323,7 +222,7 @@ def validate_items_unit_amount(items_unit_value_amount, obj, obj_name="contract"
         return
 
     vat_aware_validation = tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM)
-    if get_tender().get("procurementMethodType") == PQ:
+    if get_tender().get("procurementMethodType") == ProcurementMethodType.PRICE_QUOTATION:
         vat_aware_validation = tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM)
 
     units_amount_sum = sum(items_unit_value_amount)
@@ -363,19 +262,6 @@ def validate_items_unit_amount(items_unit_value_amount, obj, obj_name="contract"
                 name="items",
                 status=422,
             )
-
-
-def validate_numerated(field_name="sequenceNumber"):
-    def validator(value):
-        if not value:
-            return
-        for i, obj in enumerate(value):
-            if obj.get(field_name) is not None and obj.get(field_name) != i + 1:  # field can be optional
-                raise ValidationError(
-                    f"Field {field_name} should contain incrementing sequence numbers starting from 1"
-                )
-
-    return validator
 
 
 def validate_doc_type_quantity(documents, document_type="notice", obj_name="tender"):
@@ -490,7 +376,7 @@ def validate_required_fields(request, data: dict, required_fields: dict, name="d
             # Check if the field is missing or None
             if field not in data or data[field] is None:
                 if is_required:
-                    errors[field] = BaseType.MESSAGES["required"]
+                    errors[field] = REQUIRED_MESSAGE
                 continue
 
             # Validate nested fields if present
@@ -507,7 +393,7 @@ def validate_required_fields(request, data: dict, required_fields: dict, name="d
                             if item_errors:
                                 list_errors[i] = item_errors
                         else:
-                            list_errors[i] = BaseType.MESSAGES["required"]
+                            list_errors[i] = REQUIRED_MESSAGE
                     if list_errors:
                         errors[field] = list_errors
 
@@ -570,7 +456,7 @@ def validate_signer_info(request, tender, organization, field_name, field_index=
     if tender_created_after(TENDER_SIGNER_INFO_REQUIRED_FROM) and contract_template_name and not signer_info:
         raise_operation_error(
             request,
-            {"signerInfo": BaseType.MESSAGES["required"]},
+            {"signerInfo": REQUIRED_MESSAGE},
             name=field_path,
             status=422,
         )
@@ -626,7 +512,7 @@ def validate_contract_owner_required(request, tender, organization, field_name, 
     if contract_owner is None and contract_template_name:
         raise_operation_error(
             request,
-            {"contract_owner": BaseType.MESSAGES["required"]},
+            {"contract_owner": REQUIRED_MESSAGE},
             name=field_path,
             status=422,
         )
@@ -778,24 +664,24 @@ def validate_items_required_fields(request, items, delivery=False, unit=True, qu
     """
     Replaces model-level requirements that used to differ between procedures' Item models:
     `unit` (Item.validate_unit), `quantity` (BaseItem.validate_quantity, UNIT_PRICE_REQUIRED_FROM),
-    `deliveryDate` (PeriodEndRequired) and `deliveryAddress`. Produces the same 422 shape schematics did.
+    `deliveryDate` (PeriodEndRequired) and `deliveryAddress`. Produces the same 422 shape as the model validation.
     """
     quantity = quantity and is_obj_const_active(get_tender(), UNIT_PRICE_REQUIRED_FROM)
     errors = []
     for item in items or []:
         item_errors = {}
         if unit and not item.get("unit"):
-            item_errors["unit"] = [BaseType.MESSAGES["required"]]
+            item_errors["unit"] = [REQUIRED_MESSAGE]
         if quantity and item.get("quantity") is None:
-            item_errors["quantity"] = [BaseType.MESSAGES["required"]]
+            item_errors["quantity"] = [REQUIRED_MESSAGE]
         if delivery:
             delivery_date = item.get("deliveryDate")
             if delivery_date is None:
-                item_errors["deliveryDate"] = [BaseType.MESSAGES["required"]]
+                item_errors["deliveryDate"] = [REQUIRED_MESSAGE]
             elif not delivery_date.get("endDate"):
-                item_errors["deliveryDate"] = {"endDate": [BaseType.MESSAGES["required"]]}
+                item_errors["deliveryDate"] = {"endDate": [REQUIRED_MESSAGE]}
             if item.get("deliveryAddress") is None:
-                item_errors["deliveryAddress"] = [BaseType.MESSAGES["required"]]
+                item_errors["deliveryAddress"] = [REQUIRED_MESSAGE]
         if item_errors:
             errors.append(item_errors)
     if errors:
@@ -819,8 +705,8 @@ def validate_required_nested_fields(request, data, required_fields):
     Replacement for procedure-specific `required=True` (and `min_length=1`) declared on models.
 
     `required_fields` is a dict {field: True | nested dict}. A nested dict is applied to a dict value
-    or to every element of a list value. Produces the same 422 shape schematics produces for models:
-    one error per top-level field, nested dicts for ModelType, list of dicts (failed items only) for ListType.
+    or to every element of a list value. Produces the same 422 shape as the model validation:
+    one error per top-level field, nested dicts for models, list of dicts (failed items only) for lists.
     """
 
     def _validate(obj, spec):
@@ -838,9 +724,9 @@ def validate_required_nested_fields(request, data, required_fields):
                         errors[field] = nested_errors
             elif rules:
                 if value is None:
-                    errors[field] = [BaseType.MESSAGES["required"]]
+                    errors[field] = [REQUIRED_MESSAGE]
                 elif value == "":
-                    errors[field] = [StringType.MESSAGES["min_length"]]
+                    errors[field] = ["String value is too short."]
         return errors
 
     errors = _validate(data, required_fields)
@@ -852,36 +738,6 @@ def validate_required_nested_fields(request, data, required_fields):
 
 
 # --- priceQuotation ---
-
-
-def validate_pq_profile_pattern(profile):
-    result = PQ_PROFILE_PATTERN.findall(profile)
-    if len(result) != 1:
-        raise ValidationError("The profile value doesn't match id pattern")
-
-
-def validate_pq_criteria_id_uniq(objs, *args):
-    if not objs:
-        return
-    tender = get_tender()
-    if get_first_revision_date(tender, default=get_request_now()) > PQ_CRITERIA_ID_FROM:
-        ids = [i.id for i in objs]
-        if len(set(ids)) != len(ids):
-            raise ValidationError("Criteria id should be uniq")
-
-        rg_ids = [rg.id for c in objs for rg in c.requirementGroups or ""]
-        if len(rg_ids) != len(set(rg_ids)):
-            raise ValidationError("Requirement group id should be uniq in tender")
-
-        req_ids = [req.id for c in objs for rg in c.requirementGroups or "" for req in rg.requirements or ""]
-        if len(req_ids) != len(set(req_ids)):
-            raise ValidationError("Requirement id should be uniq for all requirements in tender")
-
-        for criterion in objs:
-            for rg in criterion.requirementGroups or "":
-                req_titles = [req.title for req in rg.requirements or "" if req.status == ReqStatuses.ACTIVE]
-                if len(set(req_titles)) != len(req_titles):
-                    raise ValidationError("Requirement title should be uniq for one requirementGroup")
 
 
 def validate_items_classification_id(request, items):

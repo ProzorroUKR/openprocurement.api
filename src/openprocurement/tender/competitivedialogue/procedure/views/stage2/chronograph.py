@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender import (
     CDStage2EUTenderState,
     CDStage2UATenderState,
@@ -11,9 +11,9 @@ from openprocurement.tender.core.procedure.views.chronograph import (
 
 
 @resource(
-    name="{}:Tender Chronograph".format(STAGE_2_UA_TYPE),
+    name="{}:Tender Chronograph".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     path="/tenders/{tender_id}/chronograph",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="",
 )
 class CDOpenUAChronographResource(TenderChronographResource):
@@ -21,9 +21,9 @@ class CDOpenUAChronographResource(TenderChronographResource):
 
 
 @resource(
-    name="{}:Tender Chronograph".format(STAGE_2_EU_TYPE),
+    name="{}:Tender Chronograph".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     path="/tenders/{tender_id}/chronograph",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="",
 )
 class CDOpenEUChronographResource(TenderChronographResource):

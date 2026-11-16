@@ -3,9 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
-
-from schematics.exceptions import BaseError, ValidationError
-from schematics.types import MD5Type
+from typing import get_args
 
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
@@ -26,6 +24,8 @@ from openprocurement.api.constants import (
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     TENDER_PROCEDURE_JSONSCHEMAS,
     WORKING_DAYS,
+    AgreementType,
+    ProcurementMethodType,
 )
 from openprocurement.api.constants_env import (
     BELOWTHRESHOLD_FUNDERS_IDS,
@@ -51,12 +51,14 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
+from openprocurement.api.procedure.errors import ValidationError
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import (
     BaseState,
     ConfigMixin,
     validate_json_schema,
 )
+from openprocurement.api.procedure.types import validate_md5
 from openprocurement.api.procedure.utils import validate_funders_match_plan_programs
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
@@ -74,22 +76,17 @@ from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.contracting.core.procedure.serializers.rationale_types import (
     get_change_rationale_types_reference,
 )
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,
     AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
-    AWARD_CRITERIA_LIFE_CYCLE_COST,
-    AWARD_CRITERIA_LOWEST_COST,
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
     DEFAULT_WORKING_DAYS_CONFIG,
-    LIMITED_PROCUREMENT_METHOD_TYPES,
-    PROCUREMENT_METHOD_LIMITED,
-    PROCUREMENT_METHOD_OPEN,
-    PROCUREMENT_METHOD_SELECTIVE,
     SELECTIVE_PROCUREMENT_METHOD_TYPES,
+    AwardCriteria,
+    ProcurementMethod,
     ReqStatuses,
 )
 from openprocurement.tender.core.procedure.context import get_request
@@ -141,8 +138,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_full_date,
     get_criteria_rules,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD, COMPETITIVE_ORDERING
-from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.limited.constants import LimitedProcurementMethodType
 
 
 class TenderConfigMixin(ConfigMixin):
@@ -227,7 +223,7 @@ class TenderConfigMixin(ConfigMixin):
 
     def validate_estimated_value_config(self, data):
         if (
-            data["procurementMethodType"] != "esco"
+            data["procurementMethodType"] != ProcurementMethodType.ESCO
             and data["config"]["hasValueEstimation"] is False
             and data["config"]["hasValueRestriction"] is True
         ):
@@ -347,7 +343,7 @@ class TenderAgreementRulesMixin(BaseState):
     profiles_agreement_id_check = False
     agreement_procuring_entity_match_check = True
     agreement_field = "agreements"
-    agreement_allowed_types = [IFI_TYPE]
+    agreement_allowed_types = [AgreementType.INTERNATIONAL_FINANCIAL_INSTITUTIONS]
     agreement_with_items_forbidden = False
     agreement_without_items_forbidden = False
     # CO: a defense procuring entity may use an agreement of another defense procuring entity
@@ -1313,7 +1309,8 @@ class TenderItemsRulesMixin(BaseState):
     def validate_related_lot_in_items(self, after):
         if (
             tender_created_after(RELATED_LOT_REQUIRED_FROM)
-            or after.get("procurementMethodType") in [ABOVE_THRESHOLD, COMPETITIVE_ORDERING]
+            or after.get("procurementMethodType")
+            in [ProcurementMethodType.ABOVE_THRESHOLD, ProcurementMethodType.COMPETITIVE_ORDERING]
         ) and after["status"] != "draft":
             for item in after.get("items") or []:
                 if not item.get("relatedLot"):
@@ -1643,8 +1640,8 @@ class TenderCriteriaRulesMixin(BaseState):
     award_criteria_lcc_features_check = True
     features_max_weight = 0.3  # max value of a single feature and of the sum per lot/tender
     # allowed / default awardCriteria (None = the tender has no awardCriteria)
-    award_criteria_choices: tuple | None = (AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST)
-    award_criteria_default: str | None = AWARD_CRITERIA_LOWEST_COST
+    award_criteria_choices: tuple | None = (AwardCriteria.LOWEST_COST, AwardCriteria.LIFE_CYCLE_COST)
+    award_criteria_default: str | None = AwardCriteria.LOWEST_COST
     # roles that may change the criteria without being the tender owner (competitiveDialogue stage 2: + admins)
     criterion_owner_exempt_roles: tuple = ("Administrator",)
     # priceQuotation criteria have no classification and relatesTo (former Criterion model validators)
@@ -1785,14 +1782,10 @@ class TenderCriteriaRulesMixin(BaseState):
         if on_post and tender.get("awardCriteria") is None and self.award_criteria_default:
             tender["awardCriteria"] = self.award_criteria_default
         value = tender.get("awardCriteria")
-        if (
-            self.award_criteria_lcc_features_check
-            and value == AWARD_CRITERIA_LIFE_CYCLE_COST
-            and tender.get("features")
-        ):
+        if self.award_criteria_lcc_features_check and value == AwardCriteria.LIFE_CYCLE_COST and tender.get("features"):
             raise_operation_error(
                 self.request,
-                [f"Can`t add features with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria"],
+                [f"Can`t add features with {AwardCriteria.LIFE_CYCLE_COST} awardCriteria"],
                 status=422,
                 name="awardCriteria",
             )
@@ -2149,16 +2142,15 @@ class TenderCriteriaRulesMixin(BaseState):
     def validate_criteria_object_id(self, tender: dict, path: list, obj: dict) -> None:
         """former ValidateIdMixing.validate_id: criteria, groups and requirements ids are md5 (legacy PQ: the profile ids)"""
         if (
-            tender.get("procurementMethodType") == PQ
+            tender.get("procurementMethodType") == ProcurementMethodType.PRICE_QUOTATION
             and get_first_revision_date(tender, default=get_request_now()) <= PQ_CRITERIA_ID_FROM
         ):
             return
         if "id" not in obj:
             return
-        field = MD5Type()
         try:
-            field.validate(field.to_native(obj["id"]))
-        except BaseError as e:
+            validate_md5(obj["id"])
+        except ValidationError as e:
             self.raise_criteria_error(path + ["id"], e.messages)
 
     def raise_criteria_error(self, path: list, messages: list) -> None:
@@ -2203,10 +2195,10 @@ class TenderCriteriaRulesMixin(BaseState):
                 ["criteria", "classification", "id"],
                 ["{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDER_TYPES)],
             )
-        if code in CRITERION_LIFE_CYCLE_COST_IDS and tender.get("awardCriteria") != AWARD_CRITERIA_LIFE_CYCLE_COST:
+        if code in CRITERION_LIFE_CYCLE_COST_IDS and tender.get("awardCriteria") != AwardCriteria.LIFE_CYCLE_COST:
             self.raise_criteria_error(
                 ["criteria", "classification", "id"],
-                [f"{code} is available only with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria"],
+                [f"{code} is available only with {AwardCriteria.LIFE_CYCLE_COST} awardCriteria"],
             )
 
     def validate_criterion_relates_to(self, tender: dict, criterion: dict) -> None:
@@ -2969,12 +2961,12 @@ class BaseTenderDetailsMixin(
     @staticmethod
     def default_procurement_method(data):
         if data["config"]["hasPreSelectionAgreement"] is True:
-            return PROCUREMENT_METHOD_SELECTIVE
+            return ProcurementMethod.SELECTIVE
         if data["procurementMethodType"] in SELECTIVE_PROCUREMENT_METHOD_TYPES:
-            return PROCUREMENT_METHOD_SELECTIVE
-        if data["procurementMethodType"] in LIMITED_PROCUREMENT_METHOD_TYPES:
-            return PROCUREMENT_METHOD_LIMITED
-        return PROCUREMENT_METHOD_OPEN
+            return ProcurementMethod.SELECTIVE
+        if data["procurementMethodType"] in get_args(LimitedProcurementMethodType):
+            return ProcurementMethod.LIMITED
+        return ProcurementMethod.OPEN
 
     def validate_procurement_method(self, data, before=None):
         default_procurement_method = self.default_procurement_method(data)

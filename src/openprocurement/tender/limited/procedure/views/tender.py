@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.limited.procedure.serializers.tender import (
     LimitedTenderBaseSerializer,
@@ -15,7 +16,7 @@ from openprocurement.tender.limited.procedure.state.tender_details import (
     name="reporting:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType="reporting",
+    procurementMethodType=ProcurementMethodType.REPORTING,
     description="reporting tenders",
     accept="application/json",
 )
@@ -28,7 +29,7 @@ class ReportingTenderResource(TendersResource):
     name="negotiation:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType="negotiation",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
     description="negotiation tenders",
     accept="application/json",
 )
@@ -41,7 +42,7 @@ class NegotiationTenderResource(TendersResource):
     name="negotiation.quick:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType="negotiation.quick",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
     description="negotiation tenders",
     accept="application/json",
 )

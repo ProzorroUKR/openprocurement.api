@@ -3,7 +3,7 @@
 Синхронний підпроект: ``openprocurement``
 =========================================
 
-Стек: **Pyramid + pymongo + schematics**.
+Стек: **Pyramid + pymongo + pydantic**.
 Основний продакшн API із повною функціональністю.
 
 Коренева директорія: ``src/openprocurement/``
@@ -38,7 +38,7 @@
    * - ``views/base.py``
      - ``BaseResource``, ``MongodbResourceListing``; парсинг та формування offset; логіка пагінації фіду
    * - ``procedure/models/``
-     - Базові schematics-моделі: ``Address``, ``Document``, ``Organization``, ``Period``, ``Value`` тощо
+     - Базові pydantic-моделі: ``Address``, ``Document``, ``Organization``, ``Period``, ``Value`` тощо
    * - ``procedure/state/base.py``
      - ``BaseState``: хуки ``on_post`` / ``on_patch`` / ``always``; ``status_up``
    * - ``procedure/serializers/``
@@ -68,7 +68,7 @@
 
    <domain>/<type>/
    ├── procedure/
-   │   ├── models/       # schematics-моделі об'єктів (Contract, Agreement тощо; у tender/ — лише в core/)
+   │   ├── models/       # pydantic-моделі об'єктів (Contract, Agreement тощо; у tender/ — лише в core/)
    │   ├── state/        # бізнес-логіка переходів станів
    │   ├── views/        # Pyramid-в'юхи (GET, POST, PATCH)
    │   └── serializers/  # серіалізатори відповідей
@@ -84,8 +84,8 @@
 
 - **Бізнес-логіка** → ``procedure/state/``; state-класи не роблять запити до БД напряму
 - **Запити до БД** → лише з ``procedure/views/`` (через ``request.registry.mongodb.<collection>``)
-- **Валідація вхідних даних** → ``procedure/models/`` (schematics) і ``validation.py``
-- **Спільні schematics-моделі тендерного домену** → ``tender/core/procedure/models/``; відмінності між типами
+- **Валідація вхідних даних** → ``procedure/models/`` (pydantic) і ``validation.py``
+- **Спільні pydantic-моделі тендерного домену** → ``tender/core/procedure/models/``; відмінності між типами
   процедур, що зводяться до обмежень (обов'язковість поля, ліміти, допустимі значення), реалізуються
   атрибутами й ``validate_*``-методами state-класів (``items_delivery_required``, ``required_multilingual_fields``,
   ``features_max_weight``, ``patch_status_choices`` тощо), а не окремими моделями. Окремі моделі з префіксом

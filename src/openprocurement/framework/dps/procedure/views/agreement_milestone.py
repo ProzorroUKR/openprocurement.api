@@ -1,18 +1,18 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.milestone import (
     AgreementContractMilestonesResource,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 @resource(
-    name=f"{DPS_TYPE}:Agreements Contracts Milestones",
+    name=f"{AgreementType.DYNAMIC_PURCHASING_SYSTEM}:Agreements Contracts Milestones",
     collection_path="/agreements/{agreement_id}/contracts/{contract_id}/milestones",
     path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}",
     description="Agreements Contracts Milestones",
-    agreementType=DPS_TYPE,
+    agreementType=AgreementType.DYNAMIC_PURCHASING_SYSTEM,
     accept="application/json",
 )
 class DPSAgreementContractMilestoneResource(AgreementContractMilestonesResource):

@@ -4,11 +4,11 @@ from unittest.mock import ANY
 
 from pymongo import UpdateOne
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import (
     PymongoCollectionMigration,
     migrate_collection,
 )
-from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -29,7 +29,7 @@ class Migration(PymongoCollectionMigration):
 
     def get_filter(self) -> dict:
         return {
-            "procurementMethodType": COMPLEX_ASSET_ARMA,
+            "procurementMethodType": ProcurementMethodType.COMPLEX_ASSET_ARMA,
             "minExpectedIncome": {"$exists": True},
         }
 
@@ -56,13 +56,13 @@ class Migration(PymongoCollectionMigration):
                 {
                     "_id": "aaa00000000000000000000000000001",
                     "_rev": "1-aaa00000000000000000000000000001",
-                    "procurementMethodType": COMPLEX_ASSET_ARMA,
+                    "procurementMethodType": ProcurementMethodType.COMPLEX_ASSET_ARMA,
                     "minExpectedIncome": {"amount": 100000.0, "currency": "UAH"},
                 },
                 {
                     "_id": "aaa00000000000000000000000000002",
                     "_rev": "1-aaa00000000000000000000000000002",
-                    "procurementMethodType": COMPLEX_ASSET_ARMA,
+                    "procurementMethodType": ProcurementMethodType.COMPLEX_ASSET_ARMA,
                 },
             ],
         )
@@ -80,7 +80,7 @@ class Migration(PymongoCollectionMigration):
                             "$set": {
                                 "_id": "aaa00000000000000000000000000001",
                                 "_rev": "1-aaa00000000000000000000000000001",
-                                "procurementMethodType": COMPLEX_ASSET_ARMA,
+                                "procurementMethodType": ProcurementMethodType.COMPLEX_ASSET_ARMA,
                             }
                         },
                         {"$set": {"_rev": ANY}},

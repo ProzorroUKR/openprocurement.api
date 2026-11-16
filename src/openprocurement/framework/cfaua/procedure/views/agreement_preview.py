@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.utils import apply_modifications
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 
 
 @resource(
-    name=f"{CFA_UA}:Agreement Preview",
+    name=f"{AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA}:Agreement Preview",
     path="/agreements/{agreement_id}/preview",
-    agreementType=CFA_UA,
+    agreementType=AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Agreement Preview",
 )
 class AgreementPreviewResource(AgreementBaseResource):

@@ -1,20 +1,18 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.contract import (
     AgreementContractsResource,
 )
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
-)
 
 
 @resource(
-    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Agreements Contracts",
+    name=f"{AgreementType.ELECTRONIC_CATALOGUE}:Agreements Contracts",
     collection_path="/agreements/{agreement_id}/contracts",
     path="/agreements/{agreement_id}/contracts/{contract_id}",
-    description=f"{ELECTRONIC_CATALOGUE_TYPE} agreements contracts",
-    agreementType=ELECTRONIC_CATALOGUE_TYPE,
+    description=f"{AgreementType.ELECTRONIC_CATALOGUE} agreements contracts",
+    agreementType=AgreementType.ELECTRONIC_CATALOGUE,
     accept="application/json",
 )
 class ElectronicCatalogueAgreementContractsResource(AgreementContractsResource):

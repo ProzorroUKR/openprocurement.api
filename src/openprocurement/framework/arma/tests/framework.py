@@ -1,8 +1,8 @@
+from openprocurement.api.constants import FrameworkType
 import unittest
 
 from openprocurement.api.constants import KIND_FRAMEWORK_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.framework.arma.tests.base import (
     BaseApiWebTest,
     BaseFrameworkWebTest,
@@ -51,7 +51,7 @@ class FrameworkTest(BaseApiWebTest):
 class FrameworkResourceTest(BaseFrameworkWebTest):
     initial_data = test_framework_arma_data
     initial_auth = ("Basic", ("broker", ""))
-    allowed_proc_entity_kinds = KIND_FRAMEWORK_TYPE_MAPPING[ARMA_TYPE]
+    allowed_proc_entity_kinds = KIND_FRAMEWORK_TYPE_MAPPING[FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY]
 
     min_submissions_number = 0
     min_submissions_number_days = 0

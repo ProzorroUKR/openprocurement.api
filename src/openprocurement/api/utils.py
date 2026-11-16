@@ -22,11 +22,6 @@ from nacl.encoding import HexEncoder
 from pymongo.errors import DuplicateKeyError, OperationFailure
 from pytz import utc
 from requests.adapters import HTTPAdapter
-from schematics.exceptions import (
-    ModelConversionError,
-    ModelValidationError,
-    ValidationError,
-)
 from urllib3.util.retry import Retry
 from webob.multidict import NestedMultiDict
 
@@ -38,6 +33,7 @@ from openprocurement.api.constants import (
     TZ,
     UA_ROAD_CPV_PREFIXES,
     WORKING_DAYS,
+    ProcurementMethodType,
 )
 from openprocurement.api.constants_env import (
     DST_AWARE_PERIODS_FROM,
@@ -47,6 +43,7 @@ from openprocurement.api.context import get_local_cache, get_request, get_reques
 from openprocurement.api.events import ErrorDescriptorEvent
 from openprocurement.api.exceptions import MongodbResourceConflict
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.errors import DataValidationError
 
 json_view = partial(view, renderer="json")
 
@@ -353,7 +350,7 @@ def request_fetch_root_tender_for_tender(request, tender_id, raise_error=True, f
     tender = request.validated["tender"]
     root_tender_id = None
 
-    if tender.get("procurementMethodType") == "closeFrameworkAgreementSelectionUA":
+    if tender.get("procurementMethodType") == ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA:
         # Fetching root (closeFrameworkAgreementUA) tender
         tender_agreements = tender.get("agreements", [{}])
         agreement = tender_agreements[0]
@@ -364,7 +361,10 @@ def request_fetch_root_tender_for_tender(request, tender_id, raise_error=True, f
             agreement = request.validated.get("agreement", {})
             root_tender_id = agreement.get("tender_id")
 
-    elif tender.get("procurementMethodType") in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
+    elif tender.get("procurementMethodType") in (
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+    ):
         # Fetching root (competitiveDialogue) tender
         root_tender_id = tender.get("dialogueID")
 
@@ -515,8 +515,8 @@ def fix_url(item, app_url):
         [fix_url(item[i], app_url) for i in item if isinstance(item[i], dict) or isinstance(item[i], list)]
 
 
-def get_first_revision_date(schematics_document, default=None):
-    revisions = schematics_document.get("revisions") if schematics_document else None
+def get_first_revision_date(document, default=None):
+    revisions = document.get("revisions") if document else None
     return parse_datetime(revisions[0]["date"]) if revisions else default
 
 
@@ -532,7 +532,7 @@ def is_gmdn_classification(classification_id):
 def handle_data_exceptions(request):
     try:
         yield
-    except (ModelValidationError, ModelConversionError) as e:
+    except DataValidationError as e:
         if isinstance(e.messages, dict):
             for key, value in e.messages.items():
                 request.errors.add("body", key, value)
@@ -555,7 +555,7 @@ def handle_data_exceptions(request):
 def handle_store_exceptions(request):
     try:
         yield
-    except ModelValidationError as e:
+    except DataValidationError as e:
         for i in e.messages:
             request.errors.add("body", i, e.messages[i])
         request.errors.status = 422
@@ -625,40 +625,6 @@ def get_uah_amount_from_value(request, value, logging_params):
 
 def json_body(request):
     return request.json_body
-
-
-def get_change_class(poly_model, data, _validation=False):
-    rationale_type = data.get("rationaleType")
-    rationale_type_class_name_mapping = {
-        "taxRate": "ChangeTaxRate",
-        "itemPriceVariation": "ChangeItemPriceVariation",
-        "partyWithdrawal": "ChangePartyWithdrawal",
-        "thirdParty": "ChangeThirdParty",
-    }
-    _class_name = rationale_type_class_name_mapping.get(rationale_type)
-    if not _class_name:
-        if _validation:
-            return None
-        raise ValidationError("Input for polymorphic field did not match any model")
-
-    # class names may carry a procedure prefix (e.g. CFASelectionChangeTaxRate)
-    _change_class = [
-        model_class for model_class in poly_model.model_classes if model_class.__name__.endswith(_class_name)
-    ][0]
-    return _change_class
-
-
-def get_contract_value_class(poly_model, data, _validation=False):
-    class_name = "ContractValue"
-    if "amountPercentage" in data:
-        class_name = "AmountPercentageValue"
-
-    try:
-        return next(model_class for model_class in poly_model.model_classes if model_class.__name__ == class_name)
-    except StopIteration:
-        if _validation:
-            return None
-        raise ValidationError("Input for polymorphic field did not match any model")
 
 
 def requested_fields_changes(request, fieldnames):

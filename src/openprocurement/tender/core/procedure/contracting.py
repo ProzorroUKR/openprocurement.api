@@ -202,7 +202,7 @@ def clean_objs(objs: List[Dict], model, forbidden_fields=None):
     if not forbidden_fields:
         forbidden_fields = {}
 
-    acceptable_fields = set(model.fields)
+    acceptable_fields = set(model.model_fields)
     for obj in objs:
         for field in set(obj.keys()):
             if field not in acceptable_fields or field in forbidden_fields:
@@ -213,9 +213,9 @@ def clean_objs(objs: List[Dict], model, forbidden_fields=None):
 
 def clean_contract_value(value: dict) -> dict:
     if "amountPercentage" in value:
-        acceptable_fields = set(AmountPercentageValue.fields)
+        acceptable_fields = set(AmountPercentageValue.model_fields)
     else:
-        acceptable_fields = set(ContractValue.fields)
+        acceptable_fields = set(ContractValue.model_fields)
     for field in set(value.keys()):
         if field not in acceptable_fields:
             value.pop(field, None)
@@ -378,7 +378,7 @@ def prepare_contracts_added(contracts, award=None):
             break
         contract.update(additional_contract_data)
         drop_none_values(contract)
-        contract = PostContract(contract).serialize()
+        contract = PostContract.model_validate(contract).serialize()
         drop_none_values(contract)
         contract["config"] = {
             "restricted": tender["config"]["restricted"],
@@ -471,7 +471,7 @@ def upload_contract_pdf_document(contract: dict, tender: dict):
         "tender": tender_data,
     }
     document = upload_contract_pdf(request, data)["data"]
-    document = PostDocument(document).serialize()
+    document = PostDocument.model_validate(document).serialize()
     document["documentType"] = "contractNotice"
     check_document(request, document)
     document_route = "EContract Documents"
@@ -491,7 +491,7 @@ def upload_contract_change_pdf_document(change: dict, contract: dict, tender: di
         "tender": tender_data,
     }
     document = upload_contract_change_pdf(request, data)["data"]
-    document = PostDocument(document).serialize()
+    document = PostDocument.model_validate(document).serialize()
     document["documentOf"] = "change"
     document["documentType"] = "contractNotice"
     check_document(request, document)

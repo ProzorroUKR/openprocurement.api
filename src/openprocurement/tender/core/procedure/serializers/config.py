@@ -2,6 +2,7 @@ from openprocurement.api.constants import (
     TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS,
+    ProcurementMethodType,
 )
 from openprocurement.api.constants_env import TENDER_CONFIG_OPTIONALITY
 from openprocurement.api.context import get_request
@@ -13,9 +14,9 @@ from openprocurement.tender.open.procedure.utils import get_open_tendering_varia
 
 def tender_config_default_value(tender, key):
     procurement_method_type = tender.get("procurementMethodType")
-    if procurement_method_type == "competitiveOrdering":
+    if procurement_method_type == ProcurementMethodType.COMPETITIVE_ORDERING:
         return tender_config_co_default_value(tender, key)
-    if procurement_method_type == "openTendering":
+    if procurement_method_type == ProcurementMethodType.OPEN_TENDERING:
         return tender_config_open_tendering_default_value(tender, key)
     config_schema = TENDER_CONFIG_JSONSCHEMAS.get(procurement_method_type)
     return config_schema["properties"][key]["default"]
@@ -38,7 +39,7 @@ def tender_config_open_tendering_default_value(tender, key):
     variant = get_open_tendering_variant(tender)
     config_schema = TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS.get(f"openTendering.{variant}")
     if config_schema is None:
-        config_schema = TENDER_CONFIG_JSONSCHEMAS["openTendering"]
+        config_schema = TENDER_CONFIG_JSONSCHEMAS[ProcurementMethodType.OPEN_TENDERING]
     return config_schema["properties"][key]["default"]
 
 
@@ -72,28 +73,28 @@ def tender_config_default_serializer(key, migration_func=None):
 
 def tender_config_min_tendering_duration_migrate_value(tender):
     procurement_method_type = tender.get("procurementMethodType")
-    if procurement_method_type == "competitiveOrdering":
+    if procurement_method_type == ProcurementMethodType.COMPETITIVE_ORDERING:
         return 3
     return tender_config_default_value(tender, "minTenderingDuration")
 
 
 def tender_config_has_enquiries_migrate_value(tender):
     procurement_method_type = tender.get("procurementMethodType")
-    if procurement_method_type == "competitiveOrdering":
+    if procurement_method_type == ProcurementMethodType.COMPETITIVE_ORDERING:
         return False
     return tender_config_default_value(tender, "hasEnquiries")
 
 
 def tender_config_min_enquiries_duration_migrate_value(tender):
     procurement_method_type = tender.get("procurementMethodType")
-    if procurement_method_type == "competitiveOrdering":
+    if procurement_method_type == ProcurementMethodType.COMPETITIVE_ORDERING:
         return 0
     return tender_config_default_value(tender, "minEnquiriesDuration")
 
 
 def tender_config_enquiry_period_regulation_migrate_value(tender):
     procurement_method_type = tender.get("procurementMethodType")
-    if procurement_method_type == "competitiveOrdering":
+    if procurement_method_type == ProcurementMethodType.COMPETITIVE_ORDERING:
         return 3
     return tender_config_default_value(tender, "enquiryPeriodRegulation")
 

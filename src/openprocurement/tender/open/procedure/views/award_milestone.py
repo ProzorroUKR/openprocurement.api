@@ -1,23 +1,12 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.state.award_milestone import (
     AwardExtensionMilestoneState,
     AwardMilestoneState,
 )
 from openprocurement.tender.core.procedure.views.award_milestone import BaseAwardMilestoneResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_PROCUREMENT_METHOD_TYPES,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX, OpenProcurementMethodType
 from openprocurement.tender.open.procedure.state.award_milestone import (
     BelowThresholdAwardMilestoneState,
     RFPAwardMilestoneState,
@@ -32,17 +21,19 @@ from openprocurement.tender.open.procedure.views.base import (
     collection_path="/tenders/{tender_id}/awards/{award_id}/milestones",
     path="/tenders/{tender_id}/awards/{award_id}/milestones/{milestone_id}",
     description="Tender award milestones",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenBaseAwardMilestoneResource(BaseAwardMilestoneResource):
     state_classes = {
-        ABOVE_THRESHOLD: AwardMilestoneState,
-        ABOVE_THRESHOLD_UA: AwardMilestoneState,
-        ABOVE_THRESHOLD_EU: AwardExtensionMilestoneState,
-        OPEN_TENDERING: OpenTenderingStateClass(AwardMilestoneState, AwardExtensionMilestoneState),
-        ABOVE_THRESHOLD_UA_DEFENSE: AwardMilestoneState,
-        SIMPLE_DEFENSE: AwardMilestoneState,
-        COMPETITIVE_ORDERING: AwardMilestoneState,
-        BELOW_THRESHOLD: BelowThresholdAwardMilestoneState,
-        REQUEST_FOR_PROPOSAL: RFPAwardMilestoneState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AwardMilestoneState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AwardMilestoneState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AwardExtensionMilestoneState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingStateClass(
+            AwardMilestoneState, AwardExtensionMilestoneState
+        ),
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: AwardMilestoneState,
+        ProcurementMethodType.SIMPLE_DEFENSE: AwardMilestoneState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: AwardMilestoneState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdAwardMilestoneState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPAwardMilestoneState,
     }

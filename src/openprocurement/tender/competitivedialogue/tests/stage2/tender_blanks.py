@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
@@ -18,7 +19,7 @@ from openprocurement.tender.open.tests.below_threshold.base import (
 from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
-from openprocurement.tender.competitivedialogue.constants import CD_STAGE2_STATUS, STAGE_2_EU_TYPE
+from openprocurement.tender.competitivedialogue.constants import CD_STAGE2_STATUS
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import ocds_release_schema, ocds_resolver
 from openprocurement.tender.core.tests.cancellation import (
@@ -612,7 +613,7 @@ def create_tender(self):
         "date",
         "contractChangeRationaleTypes",
     }
-    if tender["procurementMethodType"] == STAGE_2_EU_TYPE:
+    if tender["procurementMethodType"] == ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2:
         fields.add("qualificationPeriod")
     self.assertEqual(
         tender_set - set(self.initial_data),

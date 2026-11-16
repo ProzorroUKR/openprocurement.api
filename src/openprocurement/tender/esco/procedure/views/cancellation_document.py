@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.cancellation_document import CancellationDocumentResource
 
 
@@ -7,7 +8,7 @@ from openprocurement.tender.core.procedure.views.cancellation_document import Ca
     name="esco:Tender Cancellation Documents",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender ESCO cancellation documents",
 )
 class ESCOCancellationDocumentResource(CancellationDocumentResource):

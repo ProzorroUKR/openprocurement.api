@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.cfaselectionua.procedure.state.award_req_response import (
     CFASelectionAwardReqResponseState,
 )
@@ -12,7 +13,7 @@ from openprocurement.tender.core.procedure.views.award_req_response import (
     name="closeFrameworkAgreementSelectionUA:Award Requirement Response",
     collection_path="/tenders/{tender_id}/awards/{award_id}/requirement_responses",
     path="/tenders/{tender_id}/awards/{award_id}/requirement_responses/{requirement_response_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
     description="Tender award requirement responses",
 )
 class AwardReqResponseResource(BaseAwardReqResponseResource):

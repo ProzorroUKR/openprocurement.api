@@ -1,5 +1,4 @@
-from schematics.exceptions import ValidationError
-
+from openprocurement.api.procedure.errors import ValidationError
 from openprocurement.tender.arma.procedure.models.bid import (
     ARMABid,
     ARMAPatchBid,

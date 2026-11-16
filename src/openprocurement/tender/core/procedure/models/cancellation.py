@@ -1,72 +1,70 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import computed_field, field_serializer
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import Model, model_field_validator
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
 
 class PostCancellation(Model):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def date(self):
+    @computed_field
+    def date(self) -> Any:
         return get_request_now().isoformat()
 
-    @serializable
-    def cancellationOf(self):
+    @computed_field
+    def cancellationOf(self) -> Any:
         return "lot" if self.relatedLot else "tender"
 
-    status = StringType(choices=["draft", "pending", "active"])
+    status: Literal["draft", "pending", "active"] | None = None
 
-    @serializable(serialized_name="status")
-    def default_status(self):
+    @field_serializer("status")
+    def serialize_status(self, value: Any) -> Any:
         if tender_created_after_2020_rules():
             return "draft"
-        elif not self.status:
+        elif not value:
             return "pending"
-        return self.status
+        return value
 
-    reasonType = StringType()
+    reasonType: str | None = None
+    reason: str
+    reason_en: str | None = None
+    reason_ru: str | None = None
+    documents: list[Document] | None = None
+    relatedLot: MD5 | None = None
 
-    reason = StringType(required=True)
-    reason_en = StringType()
-    reason_ru = StringType()
-
-    documents = ListType(ModelType(Document, required=True))
-    relatedLot = MD5Type()
-
-    def validate_relatedLot(self, data, related_lot):
-        if not related_lot and data.get("cancellationOf") == "lot":
+    @model_field_validator("relatedLot")
+    def validate_related_lot(self, related_lot):
+        if not related_lot and self.cancellationOf == "lot":
             raise ValidationError("This field is required.")
 
 
 class PatchCancellation(Model):
-    status = StringType(choices=["draft", "pending", "active", "unsuccessful"])
-    reasonType = StringType()
+    status: Literal["draft", "pending", "active", "unsuccessful"] | None = None
+    reasonType: str | None = None
 
 
 class Cancellation(Model):
-    id = MD5Type(required=True)
-    status = StringType(required=True, choices=["draft", "pending", "active", "unsuccessful"])
-    date = IsoDateTimeType(required=True)
-
-    reasonType = StringType()
-
-    reason = StringType(required=True)
-    reason_en = StringType()
-    reason_ru = StringType()
-
-    cancellationOf = StringType(required=True, choices=["lot", "tender"])
-    relatedLot = MD5Type()
-
-    complaints = BaseType()
-    complaintPeriod = BaseType()
-    documents = BaseType()
+    id: MD5
+    status: Literal["draft", "pending", "active", "unsuccessful"]
+    date: IsoDateTime
+    reasonType: str | None = None
+    reason: str
+    reason_en: str | None = None
+    reason_ru: str | None = None
+    cancellationOf: Literal["lot", "tender"]
+    relatedLot: MD5 | None = None
+    complaints: Any = None
+    complaintPeriod: Any = None
+    documents: Any = None

@@ -1,17 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    SIMPLE_DEFENSE,
-)
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -20,16 +11,16 @@ logger = logging.getLogger(__name__)
 def tender_complain_regulation_populator(tender):
     pmt = tender.get("procurementMethodType")
     _map = {
-        ABOVE_THRESHOLD: 3,
-        BELOW_THRESHOLD: 0,
-        SIMPLE_DEFENSE: 2,
-        CFA_SELECTION: 0,
-        PQ: 0,
-        ABOVE_THRESHOLD_UA_DEFENSE: 2,
-        REPORTING: 0,
-        NEGOTIATION: 0,
-        NEGOTIATION_QUICK: 0,
-        COMPETITIVE_ORDERING: 0,
+        ProcurementMethodType.ABOVE_THRESHOLD: 3,
+        ProcurementMethodType.BELOW_THRESHOLD: 0,
+        ProcurementMethodType.SIMPLE_DEFENSE: 2,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA: 0,
+        ProcurementMethodType.PRICE_QUOTATION: 0,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: 2,
+        ProcurementMethodType.REPORTING: 0,
+        ProcurementMethodType.NEGOTIATION: 0,
+        ProcurementMethodType.NEGOTIATION_QUICK: 0,
+        ProcurementMethodType.COMPETITIVE_ORDERING: 0,
     }
     return _map.get(pmt, 4)
 

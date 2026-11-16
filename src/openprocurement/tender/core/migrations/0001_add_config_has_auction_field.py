@@ -1,11 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -14,7 +11,7 @@ logger = logging.getLogger(__name__)
 def has_auction_populator(tender, ignore_submission_method_details=False):
     pmt = tender.get("procurementMethodType")
 
-    if pmt == ABOVE_THRESHOLD and not ignore_submission_method_details:
+    if pmt == ProcurementMethodType.ABOVE_THRESHOLD and not ignore_submission_method_details:
         smd = tender.get("submissionMethodDetails") or ""
         if "quick(mode:no-auction)" in smd:
             return False
@@ -22,12 +19,12 @@ def has_auction_populator(tender, ignore_submission_method_details=False):
             return True
 
     if pmt in (
-        REPORTING,
-        NEGOTIATION,
-        NEGOTIATION_QUICK,
-        CD_UA_TYPE,
-        CD_EU_TYPE,
-        PQ,
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+        ProcurementMethodType.PRICE_QUOTATION,
     ):
         return False
     return True

@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.question import (
     CDStage2EUTenderQuestionState,
     CDStage2UATenderQuestionState,
@@ -9,10 +9,10 @@ from openprocurement.tender.core.procedure.views.question import TenderQuestionR
 
 
 @resource(
-    name=f"{STAGE_2_EU_TYPE}:Tender Questions",
+    name=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2}:Tender Questions",
     collection_path="/tenders/{tender_id}/questions",
     path="/tenders/{tender_id}/questions/{question_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="Tender questions",
 )
 class CDEUTenderQuestionResource(TenderQuestionResource):
@@ -20,10 +20,10 @@ class CDEUTenderQuestionResource(TenderQuestionResource):
 
 
 @resource(
-    name=f"{STAGE_2_UA_TYPE}:Tender Questions",
+    name=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2}:Tender Questions",
     collection_path="/tenders/{tender_id}/questions",
     path="/tenders/{tender_id}/questions/{question_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="Tender questions",
 )
 class CDUATenderQuestionResource(TenderQuestionResource):

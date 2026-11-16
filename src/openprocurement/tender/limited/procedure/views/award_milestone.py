@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award_milestone import (
     BaseAwardMilestoneResource,
 )
@@ -13,7 +14,7 @@ from openprocurement.tender.limited.procedure.state.award_milestone import (
     collection_path="/tenders/{tender_id}/awards/{award_id}/milestones",
     path="/tenders/{tender_id}/awards/{award_id}/milestones/{milestone_id}",
     description="Tender award milestones",
-    procurementMethodType="reporting",
+    procurementMethodType=ProcurementMethodType.REPORTING,
 )
 class ReportingAwardMilestoneResource(BaseAwardMilestoneResource):
     state_class = ReportingAwardMilestoneState
@@ -24,7 +25,7 @@ class ReportingAwardMilestoneResource(BaseAwardMilestoneResource):
     collection_path="/tenders/{tender_id}/awards/{award_id}/milestones",
     path="/tenders/{tender_id}/awards/{award_id}/milestones/{milestone_id}",
     description="Tender award milestones",
-    procurementMethodType="negotiation",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
 )
 class NegotiationAwardMilestoneResource(ReportingAwardMilestoneResource):
     pass
@@ -35,7 +36,7 @@ class NegotiationAwardMilestoneResource(ReportingAwardMilestoneResource):
     collection_path="/tenders/{tender_id}/awards/{award_id}/milestones",
     path="/tenders/{tender_id}/awards/{award_id}/milestones/{milestone_id}",
     description="Tender award milestones",
-    procurementMethodType="negotiation.quick",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
 )
 class NegotiationQuickAwardMilestoneResource(ReportingAwardMilestoneResource):
     pass
