@@ -862,3 +862,43 @@ def verify_signature_apisign(data, sign):
         )
 
     return resp_data["data"]
+
+
+def verify_signature_apisign_internal(sign):
+    """
+    Verify a non-detached (internal/enveloped) CMS signature, i.e. one where
+    the signed content is embedded inside `sign` itself. Unlike
+    `verify_signature_apisign`, no separate `data` is sent - sign_api
+    extracts and returns the embedded content as `data["content"]` (base64),
+    which the caller must compare against the expected content itself.
+    """
+    request = get_request()
+
+    req_data = {
+        "sign": b64encode(sign).decode(),
+    }
+
+    resp = requests.post(
+        f"{request.registry.sign_api_host}/verify_data_internal",
+        json=req_data,
+        auth=(request.registry.sign_api_username, request.registry.sign_api_password),
+    )
+
+    try:
+        resp_data = resp.json()
+    except Exception:
+        resp_data = {}
+
+    if resp_data.get("status") != "success":
+        try:
+            error_description = resp_data["errors"][0]["description"]
+        except (KeyError, IndexError):
+            error_description = resp.status_code
+
+        raise_operation_error(
+            request,
+            f"Fail verifying signature: {error_description}.",
+            status=422,
+        )
+
+    return resp_data["data"]
