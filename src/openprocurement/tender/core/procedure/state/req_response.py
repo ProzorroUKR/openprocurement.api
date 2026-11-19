@@ -293,7 +293,7 @@ class RequirementResponsesRulesMixin(BaseState):
         parent_obj_name = self.requirement_responses_parent_obj_name
         related_doc = evidence.get("relatedDocument")
         if not related_doc and evidence.get("type") == "document" and not bid_in_invalid_status():
-            error_msg = [{"relatedDocument": ["This field is required."]}]
+            error_msg = self.related_document_error("This field is required.", req_response)
             if not raise_error:
                 return error_msg
             raise ValidationError(error_msg)
@@ -308,16 +308,27 @@ class RequirementResponsesRulesMixin(BaseState):
                 if document:
                     break
             if not document:
-                error_msg = [{"relatedDocument": [f"relatedDocument.id should be one of {parent_obj_name} documents"]}]
+                error_msg = self.related_document_error(
+                    f"relatedDocument.id should be one of {parent_obj_name} documents", req_response
+                )
                 if not raise_error:
                     return error_msg
                 raise ValidationError(error_msg)
             document_type = rule.get("documentType")
             if document_type and document.get("documentType") != document_type:
-                error_msg = [{"relatedDocument": [f"relatedDocument should have documentType {document_type}"]}]
+                error_msg = self.related_document_error(
+                    f"relatedDocument should have documentType {document_type}", req_response
+                )
                 if not raise_error:
                     return error_msg
                 raise ValidationError(error_msg)
+
+    def related_document_error(self, message: str, req_response: dict) -> list[dict]:
+        """the evidence errors are not indexed, so the failing requirement is named in the message"""
+        requirement_id = (req_response.get("requirement") or {}).get("id")
+        if requirement_id:
+            message = f"{message.rstrip('.')} (requirement {requirement_id})"
+        return [{"relatedDocument": [message]}]
 
     def validate_evidence_type(self, req_response_data: dict, evidence: dict) -> None:
         requirement_reference = req_response_data["requirement"]
