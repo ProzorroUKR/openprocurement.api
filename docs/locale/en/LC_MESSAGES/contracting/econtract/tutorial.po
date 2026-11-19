@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 10:39+0200\n"
+"POT-Creation-Date: 2026-11-18 11:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -568,8 +568,8 @@ msgstr ""
 msgid "Замовник заповнює `terminationDetails`, передаючи об'єкт повністю (аналогічно до `amountPaid`), через `PATCH /contracts/{id}/termination_details`. Якщо поле `amountPaid` не передано, сервер підставляє значення за замовчуванням (`amount: 0`). Для `reasonType` `disrupted` сума `amountPaid.amount` не повинна перевищувати поточну вартість договору (`value.amount`, з урахуванням останньої активної зміни), а валюта повинна збігатися з валютою договору:"
 msgstr ""
 
-msgid "Отримати поточний стан terminationDetails можна окремим запитом. Параметр `opt_context=true` додатково повертає `context.contract` - набір даних який має бути підписаний замовником:"
-msgstr ""
+msgid "Отримати поточний стан terminationDetails можна окремим запитом. Параметр `opt_context=true` додатково повертає `context.contract` - дані договору, які разом з усією відповіддю мають бути підписані замовником (детальніше - в розділі :ref:`econtracting_termination_signing`):"
+msgstr "The current state of terminationDetails can be retrieved with a separate request. The `opt_context=true` parameter additionally returns `context.contract` - the contract data that, together with the whole response, must be signed by the buyer (see :ref:`econtracting_termination_signing` for details):"
 
 #, python-brace-format
 msgid "Поки terminationDetails у статусі `draft`, замовник може видалити terminationDetails через `DELETE /contracts/{id}/termination_details`:"
@@ -581,8 +581,12 @@ msgstr ""
 msgid "Підписання"
 msgstr "Signing"
 
-msgid "Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationReport`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`."
-msgstr ""
+msgid "Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationReport`, підписаний замовником."
+msgstr "The only way to activate `terminationDetails` is to upload a document with `documentType` `terminationReport`, signed by the buyer."
+
+#, python-brace-format
+msgid "Підпис накладається на **весь об'єкт відповіді** `GET /contracts/{id}/termination_details?opt_context=true`."
+msgstr "The signature is applied to the **whole response object** of `GET /contracts/{id}/termination_details?opt_context=true`."
 
 msgid "Підписувати може лише замовник:"
 msgstr ""
@@ -598,4 +602,10 @@ msgstr ""
 
 msgid "Після активації `terminationDetails` видалення так само заборонене:"
 msgstr ""
+
+#~ msgid "Отримати поточний стан terminationDetails можна окремим запитом. Параметр `opt_context=true` додатково повертає `context.contract` - набір даних який має бути підписаний замовником:"
+#~ msgstr ""
+
+#~ msgid "Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationReport`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`."
+#~ msgstr ""
 

@@ -558,7 +558,7 @@
 .. http:example:: http/termination-details-patch.http
    :code:
 
-Отримати поточний стан terminationDetails можна окремим запитом. Параметр `opt_context=true` додатково повертає `context.contract` - набір даних який має бути підписаний замовником:
+Отримати поточний стан terminationDetails можна окремим запитом. Параметр `opt_context=true` додатково повертає `context.contract` - дані договору, які разом з усією відповіддю мають бути підписані замовником (детальніше - в розділі :ref:`econtracting_termination_signing`):
 
 .. http:example:: http/termination-details-get.http
    :code:
@@ -574,10 +574,14 @@ terminationDetails через `DELETE /contracts/{id}/termination_details`:
 .. http:example:: http/termination-details-delete-not-found.http
    :code:
 
+.. _econtracting_termination_signing:
+
 Підписання
 ----------
 
-Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationReport`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`.
+Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationReport`, підписаний замовником.
+
+Підпис накладається на **весь об'єкт відповіді** `GET /contracts/{id}/termination_details?opt_context=true`.
 
 Підписувати може лише замовник:
 

@@ -1,10 +1,10 @@
 from cornice.resource import resource
 
 from openprocurement.api.utils import context_unpack, error_handler, json_view
+from openprocurement.contracting.core.procedure.serializers.contract import ContractBaseSerializer
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.contracting.econtract.procedure.serializers.termination_details import (
-    ContractContextSerializer,
     TerminationDetailsSerializer,
 )
 from openprocurement.contracting.econtract.procedure.state.contract import (
@@ -36,7 +36,7 @@ class EContractTerminationDetailsResource(ContractBaseResource):
     @json_view(permission="view_contract")
     @context_view(
         objs={
-            "contract": (ContractContextSerializer, None),
+            "contract": (ContractBaseSerializer, None),
         }
     )
     def get(self):
