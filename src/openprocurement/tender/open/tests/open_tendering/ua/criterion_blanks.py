@@ -1,4 +1,5 @@
 from copy import deepcopy
+from uuid import uuid4
 
 from openprocurement.tender.core.constants import CRITERION_SUBCONTRACTING_PROPORTION
 from openprocurement.tender.core.tests.base import (
@@ -32,6 +33,7 @@ def criterion_evidence_document_type(self):
             for criterion_requirement in requirement_group["requirements"]:
                 criterion_requirement.pop("eligibleEvidences", None)
         requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+        requirement["id"] = uuid4().hex
         requirement["eligibleEvidences"] = [
             {
                 "title": "Документальне підтвердження",
@@ -54,7 +56,8 @@ def criterion_evidence_document_type(self):
                                     "eligibleEvidences": [
                                         {
                                             "relatedDocument": [
-                                                f"relatedDocument should have documentType {document_type}"
+                                                f"relatedDocument should have documentType {document_type} "
+                                                f"(requirement {requirement['id']})"
                                             ]
                                         }
                                     ]
@@ -84,14 +87,22 @@ def criterion_evidence_title_required(self):
     criteria = deepcopy(test_article_20_criteria[:1])
     set_tender_criteria(criteria, tender.get("lots", []), tender.get("items", []))
     self.set_criteria_evidences_doc(criteria)
+    criteria[0]["requirementGroups"][0]["requirements"][0]["id"] = uuid4().hex
     evidence = criteria[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"][0]
+    requirement_id = criteria[0]["requirementGroups"][0]["requirements"][0]["id"]
 
     criteria_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
     expected_errors = [
         {
             "location": "body",
             "name": "requirementGroups",
-            "description": [{"requirements": [{"eligibleEvidences": [{"title": ["This field is required."]}]}]}],
+            "description": [
+                {
+                    "requirements": [
+                        {"eligibleEvidences": [{"title": [f"This field is required (requirement {requirement_id})"]}]}
+                    ]
+                }
+            ],
         }
     ]
 
@@ -123,7 +134,13 @@ def criterion_evidence_title_required(self):
     response = self.app.post_json(evidences_path, {"data": invalid_evidence}, status=422)
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "title", "description": ["This field is required."]}],
+        [
+            {
+                "location": "body",
+                "name": "title",
+                "description": [f"This field is required (requirement {requirement['id']})"],
+            }
+        ],
     )
 
     response = self.app.post_json(evidences_path, {"data": posted_evidence})
@@ -139,13 +156,19 @@ def criterion_evidence_title_required(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "title", "description": ["This field is required."]}],
+        [
+            {
+                "location": "body",
+                "name": "title",
+                "description": [f"This field is required (requirement {requirement['id']})"],
+            }
+        ],
     )
 
     rg_data = deepcopy(rg)
     del rg_data["id"]
     for rg_requirement in rg_data["requirements"]:
-        del rg_requirement["id"]
+        rg_requirement["id"] = uuid4().hex
         rg_requirement["eligibleEvidences"] = [invalid_evidence]
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
@@ -160,7 +183,13 @@ def criterion_evidence_title_required(self):
             {
                 "location": "body",
                 "name": "requirements",
-                "description": [{"eligibleEvidences": [{"title": ["This field is required."]}]}],
+                "description": [
+                    {
+                        "eligibleEvidences": [
+                            {"title": [f"This field is required (requirement {rg_data['requirements'][0]['id']})"]}
+                        ]
+                    }
+                ],
             }
         ],
     )
@@ -175,7 +204,13 @@ def criterion_evidence_title_required(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "eligibleEvidences", "description": [{"title": ["This field is required."]}]}],
+        [
+            {
+                "location": "body",
+                "name": "eligibleEvidences",
+                "description": [{"title": [f"This field is required (requirement {requirement['id']})"]}],
+            }
+        ],
     )
 
 

@@ -1,0 +1,862 @@
+POST /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/criteria?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "Наявність впливу на прийняття рішення замовника",
+      "title_en": "Influence on the procuring entity's decision-making",
+      "description": "Замовник має незаперечні докази того, що суб’єкт господарювання надає або погоджується надати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція про найм на роботу, цінна річ, послуга або інша винагорода) з метою впливу на прийняття рішення про визначення переможця або розгляд документів, поданих суб’єктом господарювання, або застосування замовником певного способу закупівель, визначеного цим Законом.",
+      "description_en": "The procuring entity possesses irrefutable evidence that the economic operator offers or agrees to offer, directly or indirectly, any remuneration in any form (including an offer of employment, a valuable item, a service or any other benefit) to any officer (official) of the procuring entity or of another State authority for the purpose of influencing the decision on the selection of the winner, the examination of the documents submitted by the economic operator, or the application by the procuring entity of a procurement method provided for by this Law.",
+      "source": "procuringEntity",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n686"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 1 частини 1 статті 21",
+          "article_en": "Clause 1 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання надає або погоджується надати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція про найм на роботу, цінна річ, послуга або інша винагорода) з метою впливу на прийняття рішення про визначення переможця або розгляд документів, поданих суб’єктом господарювання, або застосування замовником певного способу закупівель, визначеного цим Законом",
+              "title_en": "The economic operator offers or agrees to offer, directly or indirectly, any remuneration in any form (an offer of employment, a valuable item, a service or any other benefit) to any officer (official) of the procuring entity or of another State authority for the purpose of influencing the decision on the selection of the winner, the examination of the documents submitted by the economic operator, or the application by the procuring entity of a procurement method provided for by this Law",
+              "dataType": "boolean",
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Вчинення корупційних правопорушень",
+      "title_en": "Commission of corruption offences",
+      "description": "Відомості про суб’єкта господарювання внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов’язані з корупцією правопорушення; керівника суб’єкта господарювання або суб’єкта господарювання було притягнуто до відповідальності згідно із законом за вчинення корупційного правопорушення або правопорушення, пов’язаного з корупцією.",
+      "description_en": "Information concerning the economic operator has been entered into the Unified State Register of Persons Who Have Committed Corruption or Corruption-Related Offences; the head of the economic operator or the economic operator has been held liable in accordance with the law for committing a corruption offence or a corruption-related offence.",
+      "source": "winner",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n688"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 2 частини 1 статті 21",
+          "article_en": "Clause 2 of part 1 of article 21"
+        },
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n688"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 3 частини 1 статті 21",
+          "article_en": "Clause 3 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Відомості про суб’єкта господарювання не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов’язані з корупцією правопорушення",
+              "title_en": "Information concerning the economic operator has not been entered into the Unified State Register of Persons Who Have Committed Corruption or Corruption-Related Offences",
+              "dataType": "boolean",
+              "expectedValue": true
+            },
+            {
+              "title": "Керівника суб’єкта господарювання або суб’єкта господарювання не було притягнуто до відповідальності згідно із законом за вчинення корупційного правопорушення або правопорушення, пов’язаного з корупцією",
+              "title_en": "The head of the economic operator and the economic operator have not been held liable in accordance with the law for committing a corruption offence or a corruption-related offence",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Вчинення економічних правопорушень",
+      "title_en": "Commission of economic offences",
+      "description": "Суб’єкт господарювання (учасник / кандидат) протягом останніх трьох років притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів, торгів, аукціонів, конкурсів, відомості щодо якого містяться в Державному реєстрі суб’єктів господарювання, притягнутих до відповідальності за вчинення порушення.",
+      "description_en": "During the preceding three years, the economic operator (bidder/candidate) has been held liable for the infringement provided for in Clause 4 of Part 2 of Article 6 and Clause 1 of Article 50 of the Law of Ukraine \"On Protection of Economic Competition\", consisting in anti-competitive concerted practices that distort the results of tenders, bidding procedures, auctions or competitions, and information concerning such infringement is contained in the State Register of Economic Operators Held Liable for Competition Law Infringements.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n689"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 4 частини 1 статті 21",
+          "article_en": "Clause 4 of part 1 of article 21"
+        },
+        {
+          "version": "2026-06-21",
+          "identifier": {
+            "id": "2210-III",
+            "legalName": "Закон України \"Про захист економічної конкуренції\"",
+            "legalName_en": "Law of Ukraine \"On Protection of Economic Competition\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/2210-14#n46"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 4 частини 2 статті 6",
+          "article_en": "Clause 4 of part 2 of article 6"
+        },
+        {
+          "version": "2026-06-21",
+          "identifier": {
+            "id": "2210-III",
+            "legalName": "Закон України \"Про захист економічної конкуренції\"",
+            "legalName_en": "Law of Ukraine \"On Protection of Economic Competition\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/2210-14#n456"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 1 статті 50",
+          "article_en": "Clause 1 of article 50"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання (учасник / кандидат) протягом останніх трьох років не притягувався до відповідальності за порушення, у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів, торгів, аукціонів, конкурсів, відомості щодо якого містяться в Державному реєстрі суб’єктів господарювання, притягнутих до відповідальності за вчинення порушення",
+              "title_en": "During the preceding three years, the economic operator (bidder/candidate) has not been held liable for an infringement consisting in anti-competitive concerted practices that distort the results of tenders, bidding procedures, auctions or competitions, information on which is contained in the State Register of Economic Operators Held Liable for Committing an Infringement",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Вчинення кримінальних правопорушень",
+      "title_en": "Commission of criminal offences",
+      "description": "Суб’єкта господарювання або керівника суб’єкта господарювання було засуджено за кримінальне правопорушення, вчинене з корисливих мотивів, судимість з якого не знято або не погашено у встановленому законом порядку.",
+      "description_en": "The economic operator or the head of the economic operator has been convicted of a criminal offence committed for mercenary motives, where the conviction has not been expunged or cancelled in accordance with the procedure established by law.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n691"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 5 частини 1 статті 21",
+          "article_en": "Clause 5 of part 1 of article 21"
+        },
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n691"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 6 частини 1 статті 21",
+          "article_en": "Clause 6 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкта господарювання не було засуджено за кримінальне правопорушення, вчинене з корисливих мотивів, судимість з якого не знято або не погашено у встановленому законом порядку",
+              "title_en": "The economic operator has not been convicted of a criminal offence committed for mercenary motives in respect of which the conviction has not been expunged or cancelled in accordance with the procedure established by law",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            },
+            {
+              "title": "Керівника суб’єкта господарювання не було засуджено за кримінальне правопорушення, вчинене з корисливих мотивів, судимість з якого не знято або не погашено у встановленому законом порядку",
+              "title_en": "The head of the economic operator has not been convicted of a criminal offence committed for mercenary motives in respect of which the conviction has not been expunged or cancelled in accordance with the procedure established by law",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Наявність зв'язку суб’єкта господарювання з іншими учасниками процедури або замовником",
+      "title_en": "Links between the economic operator and other bidders or the procuring entity",
+      "description": "Тендерна пропозиція / заявка для участі у кваліфікаційному відборі кандидатів до процедури інноваційного партнерства / динамічної системи закупівель, пропозиція для участі в запиті пропозицій учасників серед кандидатів, включених до динамічної системи закупівель за результатами першого етапу, заявка для участі у конкурентному діалозі / конкурентній процедурі з переговорами, заявка для участі у кваліфікаційному відборі кандидатів до процедури торгів з обмеженою участю подана суб’єктом господарювання або участь у переговорній процедурі без попередньої публікації бере суб’єкт господарювання, який є пов’язаною особою з іншими суб’єктами господарювання, що беруть участь у закупівлі, та/або з уповноваженою особою, та/або з керівником замовника.",
+      "description_en": "The bid, the request to participate in the prequalification for the innovation partnership procedure, the request to participate in the DPS prequalification, the bid submitted in response to a notice for price quotation among candidates admitted under the DPS as a result of its first stage, the request to participate in the competitive dialogue procedure / competitive procedure with negotiation, or the request to participate in the prequalification for the restricted tendering procedure has been submitted by an economic operator, or participation in the negotiated procedure without prior publication involves an economic operator, that is a related person of other economic operators participating in the procurement and/or of the authorised person and/or of the head of the procuring entity.",
+      "source": "procuringEntity",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n692"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 7 частини 1 статті 21",
+          "article_en": "Clause 7 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання є пов’язаною особою з іншими суб’єктами господарювання, що беруть участь у закупівлі, та/або з уповноваженою особою, та/або з керівником замовника",
+              "title_en": "The economic operator is a related person of other economic operators participating in the procurement and/or of the authorised person and/or of the head of the procuring entity",
+              "dataType": "boolean",
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Порушення справи про банкрутство",
+      "title_en": "Opening of bankruptcy proceedings",
+      "description": "Суб’єкта господарювання у встановленому законом порядку визнано банкрутом та стосовно нього відкрито ліквідаційну процедуру.",
+      "description_en": "The economic operator has been declared bankrupt in accordance with the procedure established by law and liquidation proceedings have been commenced in respect thereof.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n694"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 8 частини 1 статті 21",
+          "article_en": "Clause 8 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкта господарювання у встановленому законом порядку не визнано банкрутом та стосовно нього не відкрито ліквідаційну процедуру",
+              "title_en": "The economic operator has not been declared bankrupt in accordance with the procedure established by law and no liquidation proceedings have been commenced in respect thereof",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Наявність інших підстав для відмови в участі у процедурі закупівлі",
+      "title_en": "Other grounds for refusal of participation in the procurement procedure",
+      "description": "В Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань відсутня інформація, визначена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів).",
+      "description_en": "The Unified State Register of Legal Entities, Individual Entrepreneurs and Public Associations does not contain the information referred to in Clause 9 of Part 2 of Article 9 of the Law of Ukraine \"On State Registration of Legal Entities, Individual Entrepreneurs and Public Associations\" (except in the case of non-residents).",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n695"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 9 частини 1 статті 21",
+          "article_en": "Clause 9 of part 1 of article 21"
+        },
+        {
+          "version": "2026-04-24",
+          "identifier": {
+            "id": "755-IV",
+            "legalName": "Закон України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\"",
+            "legalName_en": "Law of Ukraine \"On State Registration of Legal Entities, Individual Entrepreneurs and Public Organisations\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/755-15#n160"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 9 частини 2 статті 9",
+          "article_en": "Clause 9 of part 2 of article 9"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Резидентом підтверджується, що:",
+          "description_en": "A resident confirms that:",
+          "requirements": [
+            {
+              "title": "В Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\"",
+              "title_en": "The Unified State Register of Legal Entities, Individual Entrepreneurs and Public Associations contains the information referred to in Clause 9 of Part 2 of Article 9 of the Law of Ukraine \"On State Registration of Legal Entities, Individual Entrepreneurs and Public Associations\"",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        },
+        {
+          "description": "Нерезидентом підтверджується, що:",
+          "description_en": "A non-resident confirms that:",
+          "requirements": [
+            {
+              "title": "Учасник процедури закупівлі є нерезидентом",
+              "title_en": "The bidder is a non-resident",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Наявність антикорупційної програми",
+      "title_en": "Existence of an anti-corruption programme",
+      "description": "Суб’єкт господарювання (юридична особа) (крім нерезидентів) не має антикорупційної програми чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), робіт або послуги (послуг) дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом).",
+      "description_en": "The economic operator (legal entity) (except a non-resident) does not have an anti-corruption programme or an officer responsible for the implementation of the anti-corruption programme, where the value of the procurement of goods, works or service(s) is equal to or exceeds UAH 20 million (including by lot).",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n695"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 10 частини 1 статті 21",
+          "article_en": "Clause 10 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Резидентом підтверджується, що:",
+          "description_en": "A resident confirms that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми",
+              "title_en": "The economic operator has an anti-corruption programme or an officer responsible for the implementation of the anti-corruption programme",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        },
+        {
+          "description": "Нерезидентом підтверджується, що:",
+          "description_en": "A non-resident confirms that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання є нерезидентом",
+              "title_en": "The economic operator is a non-resident",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
+      "title_en": "Offences related to the application of sanctions",
+      "description": "Суб’єкт господарювання або кінцевий бенефіціарний власник, член або учасник (акціонер) суб’єкта господарювання є особою, до якої застосовано санкцію у виді заборони на здійснення у неї закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\", крім випадку, якщо активи такої особи у встановленому законодавством порядку передані в управління Національному агентству України з питань виявлення, розшуку та управління активами, одержаними від корупційних та інших злочинів.",
+      "description_en": "The economic operator, or its ultimate beneficial owner, member or participant (shareholder), is a person in respect of whom the sanction prohibiting the procurement of goods, works and services from that person has been imposed pursuant to the Law of Ukraine \"On Sanctions\", except where the assets of such person have been transferred for management to the National Agency of Ukraine for Finding, Tracing and Management of Assets Derived from Corruption and Other Crimes in accordance with the procedure established by law.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n695"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 11 частини 1 статті 21",
+          "article_en": "Clause 11 of part 1 of article 21"
+        },
+        {
+          "version": "2025-08-01",
+          "identifier": {
+            "id": "1644-VII",
+            "legalName": "Закон України \"Про санкції\"",
+            "legalName_en": "Law of Ukraine \"On Sanctions\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/1644-18"
+          },
+          "type": "NATIONAL_LEGISLATION"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання або кінцевий бенефіціарний власник, член або учасник (акціонер) суб’єкта господарювання не є особою, до якої застосовано санкцію у виді заборони на здійснення у неї закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\", крім випадку, якщо активи такої особи у встановленому законодавством порядку передані в управління Національному агентству України з питань виявлення, розшуку та управління активами, одержаними від корупційних та інших злочинів",
+              "title_en": "Neither the economic operator nor its ultimate beneficial owner, member or participant (shareholder) is a person in respect of whom the sanction prohibiting the procurement of goods, works and services from that person has been imposed pursuant to the Law of Ukraine \"On Sanctions\", except where the assets of such person have been transferred for management to the National Agency of Ukraine for Finding, Tracing and Management of Assets Derived from Corruption and Other Crimes in accordance with the procedure established by law",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи будь-якими формами торгівлі людьми, фінансування тероризму, вчинення терористичного акту",
+      "title_en": "Offences related to the use of child labour, any form of trafficking in human beings, the financing of terrorism or the commission of a terrorist act",
+      "description": "Керівника суб’єкта господарювання або суб’єкта господарювання притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов’язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми, фінансування тероризму, вчинення терористичного акту.",
+      "description_en": "The head of the economic operator or the economic operator has been held liable in accordance with the law for an offence related to the use of child labour, any form of trafficking in human beings, the financing of terrorism, or the commission of a terrorist act.",
+      "source": "winner",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n698"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 12 частини 1 статті 21",
+          "article_en": "Clause 12 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Фізичною особою підтверджується, що:",
+          "description_en": "A natural person confirms that:",
+          "requirements": [
+            {
+              "title": "Керівника суб’єкта господарювання не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов’язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми, фінансування тероризму, вчинення терористичного акту",
+              "title_en": "The head of the economic operator has not been held liable in accordance with the law for an offence related to the use of child labour, any form of trafficking in human beings, the financing of terrorism or the commission of a terrorist act",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "description": "Юридичною особою підтверджується, що:",
+          "description_en": "A legal entity confirms that:",
+          "requirements": [
+            {
+              "title": "Суб’єкта господарювання не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов’язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми, фінансування тероризму, вчинення терористичного акту",
+              "title_en": "The economic operator has not been held liable in accordance with the law for an offence related to the use of child labour, any form of trafficking in human beings, the financing of terrorism or the commission of a terrorist act",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Наявність заборгованості зі сплати податків і зборів",
+      "title_en": "Outstanding tax and duty liabilities",
+      "description": "Суб’єкт господарювання має заборгованість із сплати податків і зборів (обов’язкових платежів), крім випадку, якщо такий суб’єкт господарювання здійснив заходи щодо розстрочення і відстрочення такої заборгованості у порядку та на умовах, визначених законодавством держави реєстрації такого суб’єкта господарювання.",
+      "description_en": "The economic operator has outstanding tax liabilities or liabilities in respect of duties and charges (mandatory payments), except where that economic operator has arranged for the deferral or instalment payment of such liabilities in accordance with the procedure and conditions established by the legislation of the State in which that economic operator is registered.",
+      "source": "winner",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n698"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 13 частини 1 статті 21",
+          "article_en": "Clause 13 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "При відсутності заборгованості підтверджується, що:",
+          "description_en": "Where there is no outstanding liability, it is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання не має заборгованості зі сплати податків і зборів (обов'язкових платежів)",
+              "title_en": "The economic operator has no outstanding tax liabilities or liabilities in respect of duties and charges (mandatory payments)",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "description": "При наявності заборгованності підтверджується, що:",
+          "description_en": "Where there is an outstanding liability, it is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання здійснив заходи щодо розстрочення і відстрочення такої заборгованості у порядку та на умовах, визначених законодавством держави реєстрації такого суб’єкта господарювання",
+              "title_en": "The economic operator has arranged for the deferral or instalment payment of such liabilities in accordance with the procedure and conditions established by the legislation of the State in which it is registered",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            },
+            {
+              "title": "Характер та причина існуючої заборгованості",
+              "title_en": "Nature and reason for the outstanding liability",
+              "dataType": "string",
+              "expectedMinItems": 1,
+              "expectedValues": [
+                "Відсутність коштів",
+                "Бухгалтерська помилка",
+                "Адміністративні та технічні причини",
+                "Особливості діяльності під час воєнного стану"
+              ]
+            },
+            {
+              "title": "Сума існуючої заборгованості, грн.",
+              "title_en": "Amount of the outstanding liability, UAH",
+              "dataType": "number",
+              "minValue": 0.0,
+              "unit": {
+                "name": "одиниця",
+                "name_en": "accounting unit",
+                "code": "E50"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Отримання конкурентної переваги або порушення принципу недискримінації та рівного ставлення",
+      "title_en": "Competitive advantage obtained or breach of the principles of non-discrimination and equal treatment",
+      "description": "Cуб’єкт господарювання отримав від замовника під час проведення попередніх ринкових консультацій інформацію, що може надати йому конкурентну перевагу перед іншими учасниками, кандидатами, або попереднє залучення суб’єкта господарювання до підготовки процедури закупівлі призвело до порушення принципу недискримінації та рівного ставлення до суб’єктів господарювання. Відмова в участі в закупівлі з цієї підстави застосовується лише за умови, що дотримання зазначених принципів неможливо забезпечити в інший спосіб.",
+      "description_en": "During the conduct of preliminary market consultations, the economic operator obtained information from the procuring entity that may confer a competitive advantage over other bidders or candidates, or the prior involvement of the economic operator in the preparation of the procurement procedure resulted in a breach of the principles of non-discrimination and equal treatment of economic operators. Refusal of participation in procurement on this ground shall apply only where compliance with those principles cannot be ensured by other means.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PREPARATION"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n700"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 14 частини 1 статті 21",
+          "article_en": "Clause 14 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Cуб’єкт господарювання не отримував від замовника під час проведення попередніх ринкових консультацій інформацію, що може надати йому конкурентну перевагу перед іншими учасниками, кандидатами, або попереднє залучення суб’єкта господарювання до підготовки процедури закупівлі призвело до порушення принципу недискримінації та рівного ставлення до суб’єктів господарювання",
+              "title_en": "During the conduct of preliminary market consultations, the economic operator has not obtained information from the procuring entity that may confer a competitive advantage over other bidders or candidates, or the prior involvement of the economic operator in the preparation of the procurement procedure resulted in a breach of the principles of non-discrimination and equal treatment of economic operators",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Конфлікт інтересів без можливості врегулювання",
+      "title_en": "Conflict of interest that cannot be resolved",
+      "description": "Конфлікт інтересів у розумінні частини п’ятої статті 14 цього Закону неможливо врегулювати за допомогою інших заходів.",
+      "description_en": "The conflict of interest within the meaning of Part 5 of Article 14 of this Law cannot be resolved by other measures.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PARTICIPATION"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n700"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 15 частини 1 статті 21",
+          "article_en": "Clause 15 of part 1 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Відсутній конфлікт інтересів у розумінні частини п’ятої статті 14 цього Закону який неможливо врегулювати",
+              "title_en": "There is no conflict of interest within the meaning of Part 5 of Article 14 of this Law that cannot be resolved by other measures",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
+      "title_en": "Failure to fulfil obligations under a previously concluded contract",
+      "description": "Замовник може прийняти рішення про відмову суб’єкту господарювання в участі у закупівлі та може відхилити тендерну пропозицію або прийняти рішення про відхилення заявки для участі у кваліфікаційному відборі кандидатів до динамічної системи закупівель / процедури конкурентного діалогу, конкурентної процедури з переговорами, інноваційного партнерства, процедури торгів з обмеженою участю, або прийняти рішення про відхилення пропозиції, поданої на запит пропозицій учасників, у разі якщо суб’єкт господарювання не виконав свої зобов’язання за раніше укладеним публічним договором з цим самим замовником, що призвело до його дострокового розірвання і застосування санкції у виді неустойки та/або відшкодування збитків. Зазначене рішення про відмову в участі в закупівлі може бути прийнято протягом трьох років з дня дострокового розірвання такого публічного договору та за наявності у замовника документального підтвердження обставин, передбачених цим абзацом (рішення суду або документ, що підтверджує повну або часткову оплату неустойки або відшкодування збитків). Суб’єкт господарювання, що перебуває в обставинах, зазначених в абзаці першому цієї частини, може надати підтвердження вжиття заходів для доведення своєї надійності, незважаючи на наявність відповідної підстави для відмови в участі у закупівлі / кваліфікаційному відборі кандидатів до процедури конкурентного діалогу, конкурентної процедури з переговорами, інноваційного партнерства, динамічної системи закупівель, процедури торгів з обмеженою участю. Для цього суб’єкт господарювання повинен довести, що він сплатив або зобов’язався сплатити відповідні зобов’язання та відшкодував або зобов’язався відшкодувати завданих збитків. Якщо замовник вважає таке підтвердження достатнім, суб’єкту господарювання не може бути відмовлено в участі у закупівлі / кваліфікаційному відборі кандидатів до процедури конкурентного діалогу / конкурентної процедури з переговорами / інноваційного партнерства / динамічної системи закупівель / процедури торгів з обмеженою участю.",
+      "description_en": "The procuring entity may adopt a decision refusing an economic operator participation in procurement and may reject a bid, adopt a decision rejecting a request to participate in the DPS prequalification, the request to participate in the competitive dialogue procedure, the request to participate in the prequalification for the competitive procedure with negotiation, the request to participate in the prequalification for the innovation partnership procedure, or the request to participate in the prequalification for the restricted tendering procedure, or adopt a decision rejecting a bid submitted in response to a notice for price quotation among candidates admitted under the DPS as a result of its first stage, where the economic operator has failed to fulfil its obligations under a previously concluded public contract with the same procuring entity, resulting in the early termination of that contract and the application of sanctions in the form of contractual penalties and/or compensation for damages. Such decision refusing participation in procurement may be adopted within three years from the date of early termination of that public contract, provided that the procuring entity possesses documentary evidence of the circumstances referred to in this paragraph (a court decision or a document confirming full or partial payment of the contractual penalty or compensation for damages). An economic operator subject to the circumstances specified in the first paragraph of this Part may provide evidence demonstrating that it has taken measures to prove its reliability notwithstanding the existence of the relevant ground for refusing participation in procurement / the prequalification for the competitive dialogue procedure, the competitive procedure with negotiation, the innovation partnership procedure, the DPS or the restricted tendering procedure. For that purpose, the economic operator shall demonstrate that it has paid, or undertaken to pay, the relevant obligations and has compensated, or undertaken to compensate, the damage caused. If the procuring entity considers such evidence to be sufficient, the economic operator shall not be refused participation in procurement / the prequalification for the competitive dialogue procedure / the competitive procedure with negotiation / the innovation partnership procedure / the DPS / the restricted tendering procedure.",
+      "source": "winner",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n703"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Частина 2 статті 21",
+          "article_en": "Part 2 of article 21"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "При відсутності не виконаних зобов'язань за раніше укладеним публічним договором підтверджується, що:",
+          "description_en": "Where there are no unfulfilled obligations under a previously concluded public contract, it is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання не мав з цим самим замовником публічного договору, який було достроково розірвано через невиконання суб’єктом господарювання своїх зобов’язань із застосуванням санкції у виді неустойки та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору",
+              "title_en": "The economic operator has had no public contract with the same procuring entity that was terminated early due to its failure to fulfil its obligations and in respect of which sanctions in the form of contractual penalties and/or compensation for damages were applied, within three years from the date of such early termination",
+              "dataType": "boolean",
+              "expectedValue": true
+            }
+          ]
+        },
+        {
+          "description": "При наявності не виконаних зобов'язань за раніше укладеним публічним договором підтверджується, що:",
+          "description_en": "Where there are unfulfilled obligations under a previously concluded public contract, it is confirmed that:",
+          "requirements": [
+            {
+              "title": "Суб’єкт господарювання вжив заходів для доведення своєї надійності, а саме: сплатив або зобов’язався сплатити відповідні зобов’язання та відшкодував або зобов’язався відшкодувати завданих збитків",
+              "title_en": "The economic operator has taken measures to prove its reliability, namely: it has paid or undertaken to pay the relevant obligations and has compensated or undertaken to compensate the damage caused",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "requirementGroups",
+      "description": [
+        {
+          "requirements": [
+            {
+              "eligibleEvidences": [
+                {
+                  "relatedDocument": [
+                    "relatedDocument should have documentType eligibilityCriteria (requirement 90a557904a144e0daae107d8daa2a236)"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

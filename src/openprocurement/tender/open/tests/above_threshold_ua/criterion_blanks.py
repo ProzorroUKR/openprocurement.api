@@ -359,7 +359,9 @@ def create_tender_criteria_invalid(self):
     ):
         for criterion in lang_criterion:
             criterion["source"] = "procuringEntity"
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
+    lang_requirement = lang_criterion[0]["requirementGroups"][0]["requirements"][0]
+    lang_requirement["id"] = uuid4().hex
+    lang_requirement["eligibleEvidences"] = [
         {"description": "Довідка в довільній формі", "type": "document", "title": "Документальне підтвердження"}
     ]
 
@@ -374,7 +376,11 @@ def create_tender_criteria_invalid(self):
                 "location": "body",
                 "name": "requirementGroups",
                 "description": [
-                    {"eligibleEvidences": ["This field is forbidden for current criterion"]},
+                    {
+                        "eligibleEvidences": [
+                            f"This field is forbidden for current criterion (requirement {lang_requirement['id']})"
+                        ]
+                    },
                 ],
             }
         ],
@@ -2358,7 +2364,9 @@ def validate_requirement_evidence_document(self):
         response.json["errors"],
         [
             {
-                "description": ["relatedDocument.id should be one of tender documents"],
+                "description": [
+                    f"relatedDocument.id should be one of tender documents (requirement {self.requirement_id})"
+                ],
                 "location": "body",
                 "name": "relatedDocument",
             }

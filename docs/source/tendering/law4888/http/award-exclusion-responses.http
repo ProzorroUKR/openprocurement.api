@@ -1,0 +1,55 @@
+POST /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/awards/d6fe54cc00bb4d11adfe0a73d322eabd/requirement_responses?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "24bf6ecf9eb6451790b679ec31fe991a"
+      },
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "eed21bf672ba420c834e6a548374646f"
+      },
+      "value": true
+    }
+  ]
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "24bf6ecf9eb6451790b679ec31fe991a",
+        "title": "Суб’єкт господарювання надає або погоджується надати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція про найм на роботу, цінна річ, послуга або інша винагорода) з метою впливу на прийняття рішення про визначення переможця або розгляд документів, поданих суб’єктом господарювання, або застосування замовником певного способу закупівель, визначеного цим Законом"
+      },
+      "value": true,
+      "id": "7383c7fd092f4e38a90c6a9153ab23e4",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
+      }
+    },
+    {
+      "requirement": {
+        "id": "eed21bf672ba420c834e6a548374646f",
+        "title": "Суб’єкт господарювання є пов’язаною особою з іншими суб’єктами господарювання, що беруть участь у закупівлі, та/або з уповноваженою особою, та/або з керівником замовника"
+      },
+      "value": true,
+      "id": "b9c6f68c060543dd9dd94883636911d4",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
+      }
+    }
+  ]
+}
+
