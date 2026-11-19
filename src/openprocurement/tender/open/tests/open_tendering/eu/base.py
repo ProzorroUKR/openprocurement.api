@@ -9,7 +9,7 @@ from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_20_criteria,
-    test_criteria_all,
+    test_criteria_all_law_4888,
 )
 from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers, set_tender_periods
 from openprocurement.tender.open.tests.below_threshold.base import (
@@ -216,9 +216,7 @@ test_tender_open_tendering_eu_config = {
     "hasMultiSourcing": False,
 }
 
-test_tender_open_tendering_eu_required_criteria_ids = set()
-
-test_tender_open_tendering_eu_criteria_ids = {
+test_tender_open_tendering_eu_required_criteria_ids = {
     "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
     "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
     "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
@@ -229,20 +227,25 @@ test_tender_open_tendering_eu_criteria_ids = {
     "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
     "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
     "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PREPARATION",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PARTICIPATION",
     "CRITERION.EXCLUSION.NATIONAL.OTHER",
-    "CRITERION.OTHER.BID.LANGUAGE",
-    "CRITERION.OTHER.BID.VALIDITY_PERIOD",
     "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION",
 }
 
-test_tender_open_tendering_eu_criteria = []
-test_tender_open_tendering_eu_criteria.extend(
-    get_criteria_by_ids(test_criteria_all, test_tender_open_tendering_eu_criteria_ids)
+test_tender_open_tendering_eu_criteria_ids = test_tender_open_tendering_eu_required_criteria_ids | {
+    "CRITERION.OTHER.BID.LANGUAGE",
+    "CRITERION.OTHER.BID.VALIDITY_PERIOD",
+}
+
+test_tender_open_tendering_eu_criteria = get_criteria_by_ids(
+    test_criteria_all_law_4888, test_tender_open_tendering_eu_criteria_ids
 )
 test_tender_open_tendering_eu_criteria.extend(test_article_20_criteria[:1])
 
 
 class BaseTenderWebTest(BaseTenderOpenTenderingUAWebTest):
+    default_criteria = test_tender_open_tendering_eu_criteria
     relative_to = os.path.dirname(__file__)
     min_bids_number = 2  # the bids needed for an auction (config.minBidsNumber is 1)
     tender_period_extra_days = 7  # the tender period is extended so that 7 days remain

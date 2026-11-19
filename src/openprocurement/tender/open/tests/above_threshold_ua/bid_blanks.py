@@ -1834,7 +1834,7 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
 
     rrs = response.json["data"]
-    self.assertEqual(len(rrs), 14)
+    self.assertEqual(len(rrs), len(set_bid_responses(criteria)))
 
     language_rrs = [rr for rr in rrs if rr["classification"]["id"] == "CRITERION.OTHER.BID.LANGUAGE"]
     self.assertEqual(len(language_rrs), 1)
@@ -2148,11 +2148,11 @@ def bid_activate(self):
         status=422,
     )
 
-    multiple_req_criteria = None
-    for criterion in criteria:
-        if len(criterion["requirementGroups"][0]["requirements"]) > 1:
-            multiple_req_criteria = criterion
-            break
+    multiple_req_criteria = [
+        criterion
+        for criterion in criteria
+        if criterion["id"] in criteria_ids and len(criterion["requirementGroups"][0]["requirements"]) > 1
+    ]
 
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -2163,7 +2163,7 @@ def bid_activate(self):
             {
                 "description": [
                     "Responses are required for all requirements in a requirement group, "
-                    f"failed for criteria {multiple_req_criteria['id']}"
+                    f"failed for criteria {', '.join(criterion['id'] for criterion in multiple_req_criteria)}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -2171,7 +2171,26 @@ def bid_activate(self):
         ],
     )
 
-    another_rg_req = multiple_req_criteria["requirementGroups"][1]["requirements"][0]
+    for criterion in multiple_req_criteria:
+        response = self.app.post_json(
+            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(
+                self.tender_id, self.bid_id, self.bid_token
+            ),
+            {
+                "data": [
+                    generate_req_response(requirement)
+                    for requirement in criterion["requirementGroups"][0]["requirements"][1:]
+                ]
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+
+    multiple_rg_criterion = next(
+        criterion
+        for criterion in criteria
+        if len(criterion["requirementGroups"]) > 1 and criterion["id"] in criteria_ids
+    )
+    another_rg_req = multiple_rg_criterion["requirementGroups"][1]["requirements"][0]
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": [generate_req_response(another_rg_req)]},
@@ -2194,7 +2213,7 @@ def bid_activate(self):
             {
                 "description": [
                     "Responses are allowed for only one group of requirements per criterion, "
-                    f"failed for criteria {multiple_req_criteria['id']}"
+                    f"failed for criteria {multiple_rg_criterion['id']}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -2251,12 +2270,6 @@ def bid_activate(self):
         )
     )
     self.assertEqual(response.status, "200 OK")
-
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": [generate_req_response(multiple_req_criteria["requirementGroups"][0]["requirements"][1])]},
-    )
-    self.assertEqual(response.status, "201 Created")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),

@@ -1,9 +1,80 @@
 from copy import deepcopy
 
-from openprocurement.tender.core.tests.base import test_article_20_criteria
+from openprocurement.tender.core.constants import CRITERION_SUBCONTRACTING_PROPORTION
+from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
+    test_article_20_criteria,
+    test_criteria_all_law_4888,
+)
 from openprocurement.tender.core.tests.utils import set_tender_criteria
 
 SELECTION_CRITERIA_IDS = {criterion["classification"]["id"] for criterion in test_article_20_criteria}
+
+
+def criterion_evidence_document_type(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
+    criteria_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
+    evaluation_doc_id = self.get_criteria_doc_id(document_type="evaluationCriteria")
+    eligibility_doc_id = self.get_criteria_doc_id(document_type="eligibilityCriteria")
+
+    cases = (
+        (SELECTION_CRITERIA_IDS, "evaluationCriteria", evaluation_doc_id),
+        ({CRITERION_SUBCONTRACTING_PROPORTION}, "evaluationCriteria", evaluation_doc_id),
+        ({"CRITERION.EXCLUSION.CONVICTIONS.FRAUD"}, "eligibilityCriteria", eligibility_doc_id),
+    )
+    for classification_ids, document_type, valid_doc_id in cases:
+        invalid_doc_id = eligibility_doc_id if valid_doc_id == evaluation_doc_id else evaluation_doc_id
+        criteria = deepcopy(get_criteria_by_ids(test_criteria_all_law_4888, classification_ids)[:1])
+        set_tender_criteria(criteria, tender.get("lots", []), tender.get("items", []))
+        for requirement_group in criteria[0]["requirementGroups"]:
+            for criterion_requirement in requirement_group["requirements"]:
+                criterion_requirement.pop("eligibleEvidences", None)
+        requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+        requirement["eligibleEvidences"] = [
+            {
+                "title": "Документальне підтвердження",
+                "type": "document",
+                "relatedDocument": {"id": invalid_doc_id},
+            }
+        ]
+
+        response = self.app.post_json(criteria_path, {"data": criteria}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "requirementGroups",
+                    "description": [
+                        {
+                            "requirements": [
+                                {
+                                    "eligibleEvidences": [
+                                        {
+                                            "relatedDocument": [
+                                                f"relatedDocument should have documentType {document_type}"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                }
+            ],
+        )
+
+        requirement["eligibleEvidences"][0]["relatedDocument"]["id"] = valid_doc_id
+        response = self.app.post_json(criteria_path, {"data": criteria})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(
+            response.json["data"][0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"][0][
+                "relatedDocument"
+            ]["id"],
+            valid_doc_id,
+        )
 
 
 def criterion_evidence_title_required(self):
@@ -108,6 +179,25 @@ def criterion_evidence_title_required(self):
     )
 
 
+def add_required_criteria(self, tender):
+    lots = tender.get("lots", [])
+    items = tender.get("items", [])
+    criteria = []
+    for criterion in self.default_criteria:
+        if criterion["classification"]["id"] in SELECTION_CRITERIA_IDS:
+            continue
+        # lot related criteria are required for every lot, not for a single one
+        related_lots = lots if criterion.get("relatesTo") == "lot" and lots else [None]
+        for lot in related_lots:
+            criteria.extend(set_tender_criteria([deepcopy(criterion)], [lot] if lot else lots, items))
+    self.set_criteria_evidences_doc(criteria)
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": criteria},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+
 def activate_tender_with_cancelled_selection_criterion_requirements(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
@@ -118,6 +208,8 @@ def activate_tender_with_cancelled_selection_criterion_requirements(self):
     doc = self.mongodb.tenders.get(self.tender_id)
     doc["mainProcurementCategory"] = "services"
     self.mongodb.tenders.save(doc)
+
+    add_required_criteria(self, tender)
 
     criteria = deepcopy(test_article_20_criteria[:2])
     set_tender_criteria(criteria, lots, tender.get("items", []))
@@ -175,6 +267,8 @@ def activate_tender_with_selection_criteria_per_lot(self):
     doc["mainProcurementCategory"] = "services"
     self.mongodb.tenders.save(doc)
 
+    add_required_criteria(self, tender)
+
     criteria_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
 
@@ -216,7 +310,11 @@ def activate_tender_with_selection_criteria_per_lot(self):
     response = self.app.patch_json(request_path, {"data": {"status": self.primary_tender_status}})
     self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
 
-    criteria = response.json["data"]["criteria"]
+    criteria = [
+        criterion
+        for criterion in response.json["data"]["criteria"]
+        if criterion["classification"]["id"] in SELECTION_CRITERIA_IDS
+    ]
     self.assertEqual(
         {(criterion["classification"]["id"], criterion["relatedItem"]) for criterion in criteria},
         {

@@ -939,6 +939,21 @@ def one_lot_2bid(self):
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
+def cancel_lot_criteria_requirements(self, lot_id, owner_token):
+    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+    for criterion in response.json["data"]:
+        if criterion.get("relatedItem") != lot_id:
+            continue
+        for requirement_group in criterion["requirementGroups"]:
+            for requirement in requirement_group["requirements"]:
+                self.app.put_json(
+                    "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
+                        self.tender_id, criterion["id"], requirement_group["id"], requirement["id"], owner_token
+                    ),
+                    {"data": {"status": "cancelled"}},
+                )
+
+
 def two_lot_2bid_1lot_del(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
@@ -1018,6 +1033,7 @@ def two_lot_2bid_1lot_del(self):
     self.set_responses(self.tender_id, response.json, "pending")
 
     bids.append(response.json)
+    cancel_lot_criteria_requirements(self, lots[0], owner_token)
     response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lots[0], owner_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
