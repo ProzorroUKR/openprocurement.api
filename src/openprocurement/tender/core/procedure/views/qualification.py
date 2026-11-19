@@ -3,6 +3,7 @@ from copy import deepcopy
 from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
@@ -12,9 +13,15 @@ from openprocurement.tender.core.procedure.serializers.qualification import (
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
-from openprocurement.tender.core.procedure.state.qualification import QualificationState
+from openprocurement.tender.core.procedure.state.qualification import (
+    Law4888QualificationState,
+    QualificationState,
+)
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.procedure.views.base import (
+    SharedStateClassesMixin,
+    TenderBaseResource,
+)
 from openprocurement.tender.core.utils import context_view
 
 
@@ -33,10 +40,13 @@ def resolve_qualification(request):
     path="/tenders/{tender_id}/qualifications/{qualification_id}",
     description="Tender Qualification",
 )
-class TenderQualificationResource(TenderBaseResource):
+class TenderQualificationResource(SharedStateClassesMixin, TenderBaseResource):
     # model_class = Qualification
     serializer_class = QualificationSerializer
     state_class = QualificationState
+    state_classes = {
+        ProcurementMethodType.OPEN_TENDERING: Law4888QualificationState,
+    }
 
     def __acl__(self):
         acl = [

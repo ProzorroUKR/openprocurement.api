@@ -2,6 +2,7 @@ from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import WORKING_DAYS_WITH_WORKING_WEEKENDS, AgreementType, ProcurementMethodType
 from openprocurement.tender.core.constants import (
     CALENDAR_DAYS_CONFIG,
+    CRITERION_EVIDENCE_DOCUMENT_TYPES,
     EU_REQUIRED_MULTILINGUAL_FIELDS,
     AwardCriteria,
 )
@@ -232,6 +233,10 @@ class RFPTenderDetailsState(RFPTenderDetailsMixin, RFPTenderState):
 
 class OpenTenderingTenderDetailsState(TenderDetailsMixin, OpenTenderingTenderState):
     contract_template_required = True
+    required_criteria_per_lot_check = True
+    criterion_evidence_document_required = True
+    criterion_evidence_document_types = CRITERION_EVIDENCE_DOCUMENT_TYPES
+    criterion_evidence_title_required = True
 
 
 class OpenTenderingUATenderDetailsState(OpenTenderingTenderDetailsState):

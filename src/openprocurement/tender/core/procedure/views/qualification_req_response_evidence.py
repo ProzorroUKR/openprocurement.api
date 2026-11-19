@@ -1,9 +1,12 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.qualification_req_response_evidence import (
+    Law4888QualificationReqResponseEvidenceState,
     QualificationReqResponseEvidenceState,
 )
+from openprocurement.tender.core.procedure.views.base import SharedStateClassesMixin
 from openprocurement.tender.core.procedure.views.base_req_response_evidence import (
     BaseReqResponseEvidenceResource,
     resolve_evidence,
@@ -26,8 +29,11 @@ from openprocurement.tender.core.procedure.views.qualification_req_response impo
     ),
     description="Tender qualification evidences",
 )
-class QualificationReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
+class QualificationReqResponseEvidenceResource(SharedStateClassesMixin, BaseReqResponseEvidenceResource):
     state_class = QualificationReqResponseEvidenceState
+    state_classes = {
+        ProcurementMethodType.OPEN_TENDERING: Law4888QualificationReqResponseEvidenceState,
+    }
     parent_obj_name = "qualification"
 
     def __init__(self, request, context=None):

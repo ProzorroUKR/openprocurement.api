@@ -51,6 +51,7 @@ class LegislationItem(Model):
     identifier: LegislationIdentifier
     type: Literal["NATIONAL_LEGISLATION"] = "NATIONAL_LEGISLATION"
     article: str | None = None
+    article_en: str | None = None
 
 
 class ExtendPeriod(Period):

@@ -11,7 +11,12 @@ from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.value_types import TYPEMAP
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.api.validation import validate_tender_first_revision_date
-from openprocurement.tender.core.constants import CRITERION_LOCALIZATION, CRITERION_TECHNICAL_FEATURES, ReqStatuses
+from openprocurement.tender.core.constants import (
+    CRITERION_LOCALIZATION,
+    CRITERION_TECHNICAL_FEATURES,
+    EVIDENCE_DOCUMENT_CONTAINERS,
+    ReqStatuses,
+)
 from openprocurement.tender.core.procedure.context import get_bid
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchRequirementResponse,
@@ -55,6 +60,8 @@ class RequirementResponsesRulesMixin(BaseState):
     # the errors of the responses rules are reported relative to the endpoint object: the parent (bid / award /
     # qualification) endpoint nests them under `requirementResponses`, the responses / evidences endpoints strip the path
     requirement_responses_error_path_strip = 0
+    # by criterion classification id: the `documentType` and the `containers` of the document of an evidence
+    evidence_document_rules: dict[str, dict] = {}
 
     def validate_requirement_responses_change(self, before: dict, after: dict) -> None:
         """
@@ -168,7 +175,7 @@ class RequirementResponsesRulesMixin(BaseState):
 
     def validate_requirement_response_evidence(self, parent: dict, response: dict, evidence: dict) -> None:
         self.validate_response_evidences_allowed(response)
-        self.validate_evidence_related_document(parent, evidence)
+        self.validate_evidence_related_document(parent, response, evidence)
         self.validate_evidence_type(response, evidence)
 
     def validate_response_related_item(self, response: dict) -> None:
@@ -276,12 +283,12 @@ class RequirementResponsesRulesMixin(BaseState):
 
     def validate_response_evidences_related_document(self, parent_data: dict, req_response: dict) -> None:
         for evidence in req_response.get("evidences", ""):
-            error = self.validate_evidence_related_document(parent_data, evidence, raise_error=False)
+            error = self.validate_evidence_related_document(parent_data, req_response, evidence, raise_error=False)
             if error:
                 raise ValidationError([{"evidences": error}])
 
     def validate_evidence_related_document(
-        self, parent_data: dict, evidence: dict, raise_error: bool = True
+        self, parent_data: dict, req_response: dict, evidence: dict, raise_error: bool = True
     ) -> list[dict]:
         parent_obj_name = self.requirement_responses_parent_obj_name
         related_doc = evidence.get("relatedDocument")
@@ -291,14 +298,23 @@ class RequirementResponsesRulesMixin(BaseState):
                 return error_msg
             raise ValidationError(error_msg)
         if related_doc:
+            *_, criterion = get_requirement_obj(req_response["requirement"]["id"])
+            classification_id = ((criterion or {}).get("classification") or {}).get("id") or ""
+            rule = self.evidence_document_rules.get(classification_id) or {}
             doc_id = related_doc["id"]
-            if (
-                not is_doc_id_in_container(parent_data, "documents", doc_id)
-                and not is_doc_id_in_container(parent_data, "financialDocuments", doc_id)
-                and not is_doc_id_in_container(parent_data, "eligibilityDocuments", doc_id)
-                and not is_doc_id_in_container(parent_data, "qualificationDocuments", doc_id)
-            ):
+            document = None
+            for container in rule.get("containers") or EVIDENCE_DOCUMENT_CONTAINERS:
+                document = get_doc_from_container(parent_data, container, doc_id)
+                if document:
+                    break
+            if not document:
                 error_msg = [{"relatedDocument": [f"relatedDocument.id should be one of {parent_obj_name} documents"]}]
+                if not raise_error:
+                    return error_msg
+                raise ValidationError(error_msg)
+            document_type = rule.get("documentType")
+            if document_type and document.get("documentType") != document_type:
+                error_msg = [{"relatedDocument": [f"relatedDocument should have documentType {document_type}"]}]
                 if not raise_error:
                     return error_msg
                 raise ValidationError(error_msg)
@@ -669,7 +685,9 @@ class ReqResponseStateMixin(RequirementResponsesRulesMixin):  # pylint: disable=
         self.requirement_responses_parent_on_patch()
 
 
-def is_doc_id_in_container(bid: dict, container_name: str, doc_id: str):
-    documents = bid.get(container_name)
+def get_doc_from_container(parent_obj: dict, container_name: str, doc_id: str):
+    documents = parent_obj.get(container_name)
     if isinstance(documents, list):
-        return any(d["id"] == doc_id for d in documents)
+        for document in reversed(documents):
+            if document["id"] == doc_id:
+                return document

@@ -220,6 +220,10 @@ UKTZED = set(standards.load("classifiers/uktzed.json"))
 # Complaint objections classifications
 ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json")}
 ARTICLE_17 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json")}
+ARTICLE_20 = {
+    criterion["classification"]["id"]
+    for criterion in standards.load("criteria/law_4888/tender/selection_criteria.json")
+}
 OTHER_CRITERIA = {criterion["classification"]["id"] for criterion in standards.load("criteria/other.json")}
 
 # additional criteria
