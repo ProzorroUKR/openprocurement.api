@@ -1,3 +1,4 @@
+from base64 import b64encode
 from unittest.mock import patch
 
 COMPLETED_TERMINATION_DETAILS = {
@@ -272,20 +273,30 @@ def get_termination_details_context(self):
 STATE_MODULE = "openprocurement.contracting.econtract.procedure.state.contract_termination_details_document"
 
 
+def _get_expected_termination_signed_content(self):
+    response = self.app.get(f"/contracts/{self.contract_id}/termination_details?opt_context=true")
+    return response.body
+
+
 @patch(f"{STATE_MODULE}.SIGNATURE_VERIFICATION_ENABLED", True)
 @patch(f"{STATE_MODULE}.load_document_content")
-@patch(f"{STATE_MODULE}.verify_signature_apisign")
-def activate_termination_details_signature_verified(self, verify_signature_apisign_mock, load_document_content_mock):
+@patch(f"{STATE_MODULE}.verify_signature_apisign_internal")
+def activate_termination_details_signature_verified(
+    self, verify_signature_apisign_internal_mock, load_document_content_mock
+):
     load_document_content_mock.return_value = b"signature-bytes"
-    verify_signature_apisign_mock.return_value = {
-        "sign_info": {"pdwSignType": 16},
-        "cert_info": {"dwPublicKeyType": 1},
-    }
 
     self.app.patch_json(
         f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
         {"data": {"terminationDetails": COMPLETED_TERMINATION_DETAILS}},
     )
+    expected_content = _get_expected_termination_signed_content(self)
+    verify_signature_apisign_internal_mock.return_value = {
+        "content": b64encode(expected_content).decode(),
+        "signs_info": [{"pdwSignType": 16}],
+        "certs_info": [{"dwPublicKeyType": 1}],
+    }
+
     sign_data = dict(SIGN_DATA, url=self.generate_docservice_url(), hash="md5:" + "0" * 32)
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/termination_details/documents?acc_token={self.contract_token}",
@@ -293,9 +304,8 @@ def activate_termination_details_signature_verified(self, verify_signature_apisi
     )
     self.assertEqual(response.status, "201 Created")
 
-    verify_signature_apisign_mock.assert_called_once()
-    content, signature = verify_signature_apisign_mock.call_args.args
-    self.assertIsInstance(content, bytes)
+    verify_signature_apisign_internal_mock.assert_called_once()
+    (signature,) = verify_signature_apisign_internal_mock.call_args.args
     self.assertEqual(signature, b"signature-bytes")
 
     response = self.app.get(f"/contracts/{self.contract_id}?acc_token={self.contract_token}")
@@ -306,20 +316,23 @@ def activate_termination_details_signature_verified(self, verify_signature_apisi
 
 @patch(f"{STATE_MODULE}.SIGNATURE_VERIFICATION_ENABLED", True)
 @patch(f"{STATE_MODULE}.load_document_content")
-@patch(f"{STATE_MODULE}.verify_signature_apisign")
+@patch(f"{STATE_MODULE}.verify_signature_apisign_internal")
 def activate_termination_details_signature_invalid_type(
-    self, verify_signature_apisign_mock, load_document_content_mock
+    self, verify_signature_apisign_internal_mock, load_document_content_mock
 ):
     load_document_content_mock.return_value = b"signature-bytes"
-    verify_signature_apisign_mock.return_value = {
-        "sign_info": {"pdwSignType": 1},
-        "cert_info": {"dwPublicKeyType": 1},
-    }
 
     self.app.patch_json(
         f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
         {"data": {"terminationDetails": COMPLETED_TERMINATION_DETAILS}},
     )
+    expected_content = _get_expected_termination_signed_content(self)
+    verify_signature_apisign_internal_mock.return_value = {
+        "content": b64encode(expected_content).decode(),
+        "signs_info": [{"pdwSignType": 1}],
+        "certs_info": [{"dwPublicKeyType": 1}],
+    }
+
     sign_data = dict(SIGN_DATA, url=self.generate_docservice_url(), hash="md5:" + "0" * 32)
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/termination_details/documents?acc_token={self.contract_token}",
@@ -335,20 +348,23 @@ def activate_termination_details_signature_invalid_type(
 
 @patch(f"{STATE_MODULE}.SIGNATURE_VERIFICATION_ENABLED", True)
 @patch(f"{STATE_MODULE}.load_document_content")
-@patch(f"{STATE_MODULE}.verify_signature_apisign")
+@patch(f"{STATE_MODULE}.verify_signature_apisign_internal")
 def activate_termination_details_signature_invalid_cert(
-    self, verify_signature_apisign_mock, load_document_content_mock
+    self, verify_signature_apisign_internal_mock, load_document_content_mock
 ):
     load_document_content_mock.return_value = b"signature-bytes"
-    verify_signature_apisign_mock.return_value = {
-        "sign_info": {"pdwSignType": 16},
-        "cert_info": {"dwPublicKeyType": 2},
-    }
 
     self.app.patch_json(
         f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
         {"data": {"terminationDetails": COMPLETED_TERMINATION_DETAILS}},
     )
+    expected_content = _get_expected_termination_signed_content(self)
+    verify_signature_apisign_internal_mock.return_value = {
+        "content": b64encode(expected_content).decode(),
+        "signs_info": [{"pdwSignType": 16}],
+        "certs_info": [{"dwPublicKeyType": 2}],
+    }
+
     sign_data = dict(SIGN_DATA, url=self.generate_docservice_url(), hash="md5:" + "0" * 32)
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/termination_details/documents?acc_token={self.contract_token}",
