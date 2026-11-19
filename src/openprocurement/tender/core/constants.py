@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import StrEnum
 
-from openprocurement.api.constants import TZ, ProcurementMethodType
+from openprocurement.api.constants import ARTICLE_20, TZ, ProcurementMethodType
+from openprocurement.api.procedure.models.document import TenderDocumentType
 
 
 class ReqStatuses(StrEnum):
@@ -65,6 +66,30 @@ FIRST_STAGE_PROCUREMENT_TYPES = {
 
 CRITERION_TECHNICAL_FEATURES = "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
 CRITERION_LOCALIZATION = "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
+
+SELECTION_CRITERIA_RULES = {
+    "required_article_16": "article 16",
+    "required_article_20": "article 20",
+}
+
+CRITERION_EVIDENCE_DOCUMENT_TYPES: dict[str, TenderDocumentType] = dict.fromkeys(
+    ARTICLE_20, TenderDocumentType.EVALUATION_CRITERIA
+)
+
+EVIDENCE_DOCUMENT_CONTAINERS = (
+    "documents",
+    "financialDocuments",
+    "eligibilityDocuments",
+    "qualificationDocuments",
+)
+
+EVIDENCE_DOCUMENT_RULES: dict[str, dict] = dict.fromkeys(
+    ARTICLE_20,
+    {
+        "documentType": TenderDocumentType.QUALIFICATION_DOCUMENTS,
+        "containers": ("documents",),
+    },
+)
 
 COMPLAINT_AMOUNT_RATE = 0.3 / 100
 COMPLAINT_MIN_AMOUNT = 2000

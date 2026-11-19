@@ -1,9 +1,12 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.qualification_req_response import (
+    Law4888QualificationReqResponseState,
     QualificationReqResponseState,
 )
+from openprocurement.tender.core.procedure.views.base import SharedStateClassesMixin
 from openprocurement.tender.core.procedure.views.base_req_response import (
     BaseReqResponseResource,
     resolve_req_response,
@@ -19,8 +22,11 @@ from openprocurement.tender.core.procedure.views.qualification import (
     path="/tenders/{tender_id}/qualifications/{qualification_id}/requirement_responses/{requirement_response_id}",
     description="Tender qualification requirement responses",
 )
-class QualificationReqResponseResource(BaseReqResponseResource):
+class QualificationReqResponseResource(SharedStateClassesMixin, BaseReqResponseResource):
     state_class = QualificationReqResponseState
+    state_classes = {
+        ProcurementMethodType.OPEN_TENDERING: Law4888QualificationReqResponseState,
+    }
     parent_obj_name = "qualification"
 
     def __init__(self, request, context=None):

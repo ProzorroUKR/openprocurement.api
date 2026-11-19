@@ -9,6 +9,7 @@ from openprocurement.api.constants import (
     AMCU_24,
     ARTICLE_16,
     ARTICLE_17,
+    ARTICLE_20,
     OTHER_CRITERIA,
     VIOLATION_AMCU,
 )
@@ -36,6 +37,7 @@ class ObjectionRelatesTo(StrEnum):
 OBJECTION_CRITERIA_CLASSIFICATIONS = {
     "article_16": ARTICLE_16,
     "article_17": ARTICLE_17,
+    "article_20": ARTICLE_20,
     "other": OTHER_CRITERIA,
     "violation_amcu": VIOLATION_AMCU,
     "amcu": AMCU,
@@ -44,7 +46,7 @@ OBJECTION_CRITERIA_CLASSIFICATIONS = {
 
 
 class Classification(Model):
-    scheme: Literal["article_16", "article_17", "other", "violation_amcu", "amcu", "amcu_24"]
+    scheme: Literal["article_16", "article_17", "article_20", "other", "violation_amcu", "amcu", "amcu_24"]
     id: str
     description: str
 
