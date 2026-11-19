@@ -349,6 +349,23 @@ def set_tender_criteria(criteria, lots, items):
     return criteria
 
 
+def set_criteria_evidences_document(data, document_id):
+    """
+    Set relatedDocument of the document evidences (required by the law 4888 tenders).
+    Accepts any level of the criterion tree: criteria, requirement groups, requirements or evidences
+    """
+    if isinstance(data, list):
+        for item in data:
+            set_criteria_evidences_document(item, document_id)
+    elif isinstance(data, dict):
+        if data.get("type", "statement") == "document":
+            data["relatedDocument"] = {"id": document_id}
+        for key in ("requirementGroups", "requirements", "eligibleEvidences"):
+            if key in data:
+                set_criteria_evidences_document(data[key], document_id)
+    return data
+
+
 def set_bid_items(self, bid, items=None, tender_id=None):
     if not tender_id:
         tender_id = self.tender_id

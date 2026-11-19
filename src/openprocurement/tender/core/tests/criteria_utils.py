@@ -64,6 +64,9 @@ def add_criteria(self, tender_id=None, tender_token=None, criteria=None):
     # Filter the criteria
     criteria = list(filter(should_keep_criterion, criteria))
 
+    if getattr(self, "should_add_evaluation_criteria_doc", False):
+        self.set_criteria_evidences_doc(criteria, tender_id, tender_token)
+
     response = app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
         {"data": criteria},

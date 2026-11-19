@@ -21,7 +21,7 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, BaseESCOContentWebTest):
     initial_status = "draft"
 
     required_criteria = test_tender_esco_required_criteria_ids
-    article_16_criteria_required = True
+    selection_criteria_required = True
 
 
 class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseESCOContentWebTest):

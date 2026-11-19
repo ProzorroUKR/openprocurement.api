@@ -172,6 +172,7 @@ class TenderOpenTenderingUAResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
 
         test_criteria_data = deepcopy(test_tender_open_tendering_ua_criteria)
         set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+        self.set_criteria_evidences_doc(test_criteria_data, tender["id"], owner_token)
 
         with open(UA_TARGET_DIR + "add-exclusion-criteria.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -765,6 +766,7 @@ class TenderOpenTenderingUAResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
 
         test_criteria_data = deepcopy(test_tender_open_tendering_ua_criteria)
         set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+        self.set_criteria_evidences_doc(test_criteria_data, self.tender_id, owner_token)
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token), {"data": test_criteria_data}
         )
@@ -907,6 +909,7 @@ class TenderOpenTenderingEUResourceTest(BaseTenderOpenTenderingEUWebTest, MockWe
 
         test_criteria_data = deepcopy(test_tender_open_tendering_eu_criteria)
         set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+        self.set_criteria_evidences_doc(test_criteria_data, tender["id"], owner_token)
 
         with open(EU_TARGET_DIR + "add-exclusion-criteria.http", "w") as self.app.file_obj:
             response = self.app.post_json(

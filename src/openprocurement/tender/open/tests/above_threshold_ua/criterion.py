@@ -161,7 +161,7 @@ class TenderUACriteriaTest(
     initial_status = "draft"
 
     required_criteria = test_tender_openua_required_criteria_ids
-    article_16_criteria_required = True
+    selection_criteria_required = True
 
     test_activate_tender_with_tech_item = snitch(activate_tender_with_tech_item)
 

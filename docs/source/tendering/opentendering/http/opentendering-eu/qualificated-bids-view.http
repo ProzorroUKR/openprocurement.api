@@ -244,7 +244,7 @@ Content-Type: application/json
           "value": true,
           "id": "618f4cca7ea646429bc44c2412073746",
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
           }
         }
@@ -555,7 +555,7 @@ Content-Type: application/json
           "value": true,
           "id": "b7c76f0a02c1490e9e4761b97b83f006",
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
           }
         }
@@ -789,7 +789,7 @@ Content-Type: application/json
           "value": true,
           "id": "f8c51ac8e58141669396e200c5fffe81",
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
           }
         }

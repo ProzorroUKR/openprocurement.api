@@ -279,6 +279,12 @@ msgstr ""
 msgid "article"
 msgstr ""
 
+msgid "article_en"
+msgstr ""
+
+msgid "Англомовний відповідник поля `article`. Передається в критеріях за Законом № 4888 (див. :ref:`law4888_criteria`)."
+msgstr "The English counterpart of the `article` field. It is used in the criteria under Law No. 4888 (see :ref:`law4888_criteria`)."
+
 msgid "Change"
 msgstr ""
 

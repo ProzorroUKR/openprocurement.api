@@ -1,15 +1,16 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-12 13:01+0300\n"
+"POT-Creation-Date: 2026-11-17 00:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 msgid "Базові операції над критеріями"
 msgstr "Criteria Basic Operation"
@@ -23,8 +24,11 @@ msgstr "Criteria is part of tender documentation, so all operation with criteria
 msgid "Створення критеріїв закупівлі"
 msgstr "Create Tender Criteria"
 
-msgid "Критерії існують в наступних процедурах:  belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA."
-msgstr "Criteria exist in procedures: belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
+msgid "Критерії існують в наступних процедурах:  belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, openTendering, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA."
+msgstr "Criteria exist in procedures: belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, openTendering, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
+
+msgid "Процедури за Законом № 4888 (наразі `openTendering`) використовують описані тут операції, але мають додаткові правила щодо обов'язкових критеріїв та прийнятних доказів - див. :ref:`law4888_criteria`."
+msgstr "The procedures under Law No. 4888 (currently `openTendering`) use the operations described here, but have additional rules for the required criteria and the eligible evidences - see :ref:`law4888_criteria`."
 
 msgid "Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити item, якщо існує хоча б один пов'язаний критерій з вимогою в статусі `active`. Щоб вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію або видалити критерій (дозволено тільки для закупівель в статусі чернетка)."
 msgstr "Criteria can be related to tenderer, lot, item and tender. You cannot cancel lot or item if there is at least one related criterion with requirement in `active` status. To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion or delete criterion (only in `draft` tender)."
@@ -103,6 +107,9 @@ msgstr "Eligible Evidence basic operation"
 
 msgid "Схема даних :ref:`прийнятних доказів<EligibleEvidence>`"
 msgstr "Eligible Evidence model :ref:`schema<EligibleEvidence>`"
+
+msgid "В процедурах за Законом № 4888 до прийнятних доказів застосовуються додаткові вимоги: обов'язкова назва та посилання на документ закупівлі певного типу (див. :ref:`law4888_criteria`)."
+msgstr "In the procedures under Law No. 4888 additional rules apply to the eligible evidences: the title is required and the evidence refers to a tender document of a certain type (see :ref:`law4888_criteria`)."
 
 msgid "Створення прийнятного доказу"
 msgstr "Create Eligible Evidence"
@@ -199,6 +206,9 @@ msgstr "Article 16 criteria"
 
 msgid "Критерії статті обов'язкові в наступних процедурах: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveDialogueUA`, `competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`."
 msgstr "Article 16 criteria are required for the following procedures: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveDialogueUA`, `competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`."
+
+msgid "В процедурах за Законом № 4888 критерії статті 16 не застосовуються - замість них використовуються :ref:`критерії відбору статті 20<law4888_criteria>`."
+msgstr "The article 16 criteria do not apply to the procedures under Law No. 4888 - the :ref:`article 20 selection criteria<law4888_criteria>` are used instead."
 
 msgid "`Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_16.json>`__"
 msgstr "`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_16.json>`__"

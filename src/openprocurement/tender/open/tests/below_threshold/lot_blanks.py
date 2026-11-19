@@ -2997,8 +2997,10 @@ def tender_lot_milestones(self):
     # add lot
     response = self.app.get("/tenders/{}".format(self.tender_id))
     response_data = response.json["data"]
-    if "lots" in response_data:
-        lot = response_data["lots"][0]
+    criteria_lot_ids = {criterion.get("relatedItem") for criterion in response_data.get("criteria", "")}
+    deletable_lots = [lot for lot in response_data.get("lots", "") if lot["id"] not in criteria_lot_ids]
+    if deletable_lots:
+        lot = deletable_lots[0]
     else:
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}

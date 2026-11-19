@@ -1,0 +1,32 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-17 00:44+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Закупівлі за Законом № 4888"
+msgstr "Procurements under Law No. 4888"
+
+msgid "Закон України № 4888-IX запроваджує нові процедури закупівель. Правила, спільні для всіх таких процедур, описані в цьому розділі; особливості кожної процедури - у її власному розділі (наразі це :ref:`opentendering`)."
+msgstr "Law of Ukraine No. 4888-IX introduces new procurement procedures. The rules common to all of them are described in this section; the specifics of each procedure are described in its own section (currently :ref:`opentendering`)."
+
+msgid "Нова логіка вмикається окремо для кожного ``procurementMethodType``: процедури за попереднім законом (``aboveThreshold``, ``aboveThresholdUA``, ``aboveThresholdEU`` тощо) працюють без змін."
+msgstr "The new logic is enabled separately for each ``procurementMethodType``: the procedures of the previous law (``aboveThreshold``, ``aboveThresholdUA``, ``aboveThresholdEU``, etc.) are not affected."
+
+msgid "Зміст:"
+msgstr "Contents:"

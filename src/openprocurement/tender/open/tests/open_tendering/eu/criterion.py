@@ -1,5 +1,6 @@
 import unittest
 
+from openprocurement.tender.core.tests.base import test_article_20_criteria
 from openprocurement.tender.open.tests.open_tendering.eu.base import (
     BaseTenderContentWebTest,
     test_tender_open_tendering_eu_data,
@@ -12,6 +13,7 @@ from openprocurement.tender.open.tests.open_tendering.ua.criterion import (
     TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGTestMixin,
     TenderCriteriaTestMixin,
+    TenderSelectionCriteriaPerLotTestMixin,
 )
 
 
@@ -22,7 +24,16 @@ class TenderOpenTenderingEUCriteriaTest(TenderCriteriaTestMixin, TenderCriteriaL
     initial_status = "draft"
 
     required_criteria = test_tender_open_tendering_eu_required_criteria_ids
-    article_16_criteria_required = True
+    selection_criteria_required = True
+    selection_criteria_label = "article 20"
+    selection_criteria_data = test_article_20_criteria
+
+
+class TenderOpenTenderingEUSelectionCriteriaPerLotTest(
+    TenderSelectionCriteriaPerLotTestMixin, BaseTenderContentWebTest
+):
+    initial_data = test_tender_open_tendering_eu_data
+    initial_lots = 2 * test_tender_open_tendering_eu_lots
 
 
 class TenderOpenTenderingEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):
@@ -46,6 +57,7 @@ class TenderOpenTenderingEUCriteriaRGRequirementEvidenceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenTenderingEUCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenTenderingEUSelectionCriteriaPerLotTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenTenderingEUCriteriaRGTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenTenderingEUCriteriaRGRequirementTest))
     suite.addTest(

@@ -1,0 +1,102 @@
+POST /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/criteria?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+      "title_en": "Availability of the necessary equipment, material and technical facilities, and technologies",
+      "description": "Наявність у суб’єкта господарювання обладнання, матеріально-технічної бази та технологій.  Учасник процедури закупівлі робіт або послуги (послуг), кандидат може для підтвердження своєї відповідності такому критерію залучити спроможності інших суб'єктів господарювання як субпідрядників/співвиконавців (крім закупівлі у спосіб, визначений пунктом 2 частини першої статті 16 Закону). Залучення спроможності інших суб’єктів господарювання має бути документально підтверджено учасником процедури закупівлі, кандидатом.",
+      "description_en": "The economic operator possesses the necessary equipment, material and technical facilities, and technologies. A bidder in a procurement procedure for works or services, or a candidate, may rely on the capacities of other economic operators acting as subcontractors/co-contractors to demonstrate compliance with this qualification criterion (except in the case of procurement conducted by the method specified in Clause 2 of Part 1 of Article 16 of this Law). Reliance on the capacities of other economic operators shall be documented by the bidder or candidate.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+      },
+      "relatesTo": "lot",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n671"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 1 частини 2 статті 20",
+          "article_en": "Clause 1 of part 2 of article 20"
+        },
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n680"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Частина 3 статті 20",
+          "article_en": "Part 3 of article 20"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Текст заповнений користувачем",
+              "title_en": "",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "5d7ca7b72c24462698f33414a2b20e83"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "relatedItem": "38ee279db3fd4027900b0f50f22169f3"
+    }
+  ]
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "requirementGroups",
+      "description": [
+        {
+          "requirements": [
+            {
+              "eligibleEvidences": [
+                {
+                  "relatedDocument": [
+                    "relatedDocument should have documentType evaluationCriteria"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

@@ -10,6 +10,20 @@ Content-Type: application/json
   "data": [
     {
       "confidentiality": "public",
+      "documentType": "evaluationCriteria",
+      "title": "sign.p7s",
+      "format": "application/pkcs7-signature",
+      "language": "uk",
+      "id": "7e150f81304b4100bd9aaa6624c8e266",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2b6ee116031e4481a4154d09be6fefb5?Signature=FCOkB4Bcj3sDnIuTpo%2FevVi3hpHfoQFnMtRAOySJ2ypEN46gQ0fVLWr7ps2axeMqL1CqYDxLdUijob7pfxZnBg%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner"
+    },
+    {
+      "confidentiality": "public",
       "documentType": "contractProforma",
       "title": "name.doc",
       "format": "application/msword",
