@@ -224,6 +224,10 @@ ARTICLE_20 = {
     criterion["classification"]["id"]
     for criterion in standards.load("criteria/law_4888/tender/selection_criteria.json")
 }
+ARTICLE_21 = {
+    criterion["classification"]["id"]
+    for criterion in standards.load("criteria/law_4888/tender/exclusion_criteria.json")
+}
 OTHER_CRITERIA = {criterion["classification"]["id"] for criterion in standards.load("criteria/other.json")}
 
 # additional criteria
@@ -237,6 +241,7 @@ DECREE_822 = {criterion["classification"]["id"] for criterion in standards.load(
 CRITERIA_LIST = (
     ARTICLE_16
     | ARTICLE_17
+    | ARTICLE_21
     | OTHER_CRITERIA
     | CRITERION_LIFE_CYCLE_COST_IDS
     | DECREE_1178

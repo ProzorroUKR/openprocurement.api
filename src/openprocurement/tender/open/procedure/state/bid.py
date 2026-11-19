@@ -1,5 +1,5 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.tender.core.constants import EVIDENCE_DOCUMENT_RULES
+from openprocurement.tender.core.constants import BID_EVIDENCE_DOCUMENT_RULES
 from openprocurement.tender.core.procedure.state.bid import BidState
 
 
@@ -46,4 +46,4 @@ class RFPBidState(BidState):
 
 class OpenTenderingBidState(BidState):
     draft_bid_value_check = False
-    evidence_document_rules = EVIDENCE_DOCUMENT_RULES
+    evidence_document_rules = BID_EVIDENCE_DOCUMENT_RULES

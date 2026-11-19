@@ -3,7 +3,7 @@ from logging import getLogger
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.constants import EVIDENCE_DOCUMENT_RULES
+from openprocurement.tender.core.constants import PROCURING_ENTITY_EVIDENCE_DOCUMENT_RULES
 from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
 from openprocurement.tender.core.procedure.state.req_response import (
     QualificationRequirementResponsesRulesMixin,
@@ -115,4 +115,4 @@ class QualificationState(QualificationRequirementResponsesRulesMixin, TenderStat
 
 
 class Law4888QualificationState(QualificationState):
-    evidence_document_rules = EVIDENCE_DOCUMENT_RULES
+    evidence_document_rules = PROCURING_ENTITY_EVIDENCE_DOCUMENT_RULES
