@@ -249,7 +249,7 @@ Content-Type: application/json
         "value": true,
         "id": "618f4cca7ea646429bc44c2412073746",
         "classification": {
-          "scheme": "LAW922",
+          "scheme": "LAW4888",
           "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
         }
       }

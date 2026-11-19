@@ -1,0 +1,475 @@
+PATCH /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "mainProcurementCategory": "services",
+    "status": "active.tendering",
+    "title": "футляри до державних нагород",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "contractProforma",
+        "title": "name.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "5d7ca7b72c24462698f33414a2b20e83",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/25a1bd496e3143a7b4fd359266fdd46b?Signature=VKdW22GkV3nbQTJBVWD6EPy9Z2O7S4hq7FSSf2TN0ubOak52qS3k8zEohCMiycCyT2kIMR4eQUGbqooeL2aGCQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "evaluationCriteria",
+        "title": "evaluation_criteria.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "bff5ae22a1b2492da90dbbd2fc4667c4",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b71db597752b43ab935103bbd64250a4?Signature=vLMgIPwl4K1R2tGZ085QguZwfVxRnW8ZwCT%2B3dgMoPp6029CC2IOuD%2FHgKgYY6aqWv0CAfVib3M8yFrChWXwDQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "b5b5b6649c65411295ae85c5bccbaf40",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a1b1c1d97eb54ece94ce5237a1c2b6b1?Signature=Z3pwdmxX2Y2XOq5nW6m9wxRG6dm9BUgHCYbbT2BaKdZGiKn%2Biwgv9pP3IBNorNMLWMmkhLIRhcMc0O5qeffaBA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
+    "procurementMethod": "open",
+    "criteria": [
+      {
+        "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+        "title_en": "Availability of the necessary equipment, material and technical facilities, and technologies",
+        "description": "Наявність у суб’єкта господарювання обладнання, матеріально-технічної бази та технологій.  Учасник процедури закупівлі робіт або послуги (послуг), кандидат може для підтвердження своєї відповідності такому критерію залучити спроможності інших суб'єктів господарювання як субпідрядників/співвиконавців (крім закупівлі у спосіб, визначений пунктом 2 частини першої статті 16 Закону). Залучення спроможності інших суб’єктів господарювання має бути документально підтверджено учасником процедури закупівлі, кандидатом.",
+        "description_en": "The economic operator possesses the necessary equipment, material and technical facilities, and technologies. A bidder in a procurement procedure for works or services, or a candidate, may rely on the capacities of other economic operators acting as subcontractors/co-contractors to demonstrate compliance with this qualification criterion (except in the case of procurement conducted by the method specified in Clause 2 of Part 1 of Article 16 of this Law). Reliance on the capacities of other economic operators shall be documented by the bidder or candidate.",
+        "source": "tenderer",
+        "relatesTo": "lot",
+        "relatedItem": "38ee279db3fd4027900b0f50f22169f3",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+        },
+        "id": "c006c2c301ad43fda7481cd136fa4456",
+        "legislation": [
+          {
+            "version": "2026-05-27",
+            "identifier": {
+              "id": "4888-IX",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n671"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "Пункт 1 частини 2 статті 20",
+            "article_en": "Clause 1 of part 2 of article 20"
+          },
+          {
+            "version": "2026-05-27",
+            "identifier": {
+              "id": "4888-IX",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n680"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "Частина 3 статті 20",
+            "article_en": "Part 3 of article 20"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Підтверджується, що:",
+            "description_en": "It is confirmed that:",
+            "requirements": [
+              {
+                "title": "Текст заповнений користувачем",
+                "title_en": "",
+                "dataType": "boolean",
+                "eligibleEvidences": [
+                  {
+                    "title": "Документальне підтвердження",
+                    "title_en": "",
+                    "type": "document",
+                    "relatedDocument": {
+                      "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                    },
+                    "id": "f88bf70fe5b44c6bbd3ebc9c3019c354"
+                  }
+                ],
+                "status": "active",
+                "expectedValue": true,
+                "id": "600131e5d2444e5c8a4d595a96b6b45d",
+                "datePublished": "2027-01-01T00:00:00+02:00"
+              }
+            ],
+            "id": "23161db0f88a413e9e9feba235f9baae"
+          }
+        ]
+      },
+      {
+        "title": "Наявність досвіду виконання аналогічного договору (договорів)",
+        "title_en": "Documented experience in performing similar contract(s)",
+        "description": "Наявність у суб’єкта господарювання документально підтвердженого досвіду виконання аналогічного (аналогічних) за предметом закупівлі договору (договорів).",
+        "description_en": "The economic operator has documented experience in performing one or more contracts similar to the subject matter of procurement.",
+        "source": "tenderer",
+        "relatesTo": "lot",
+        "relatedItem": "934ce1c123f94e5eaa2f8f08110e4d27",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE"
+        },
+        "id": "f22a5496a5044911869719a5ce01db2a",
+        "legislation": [
+          {
+            "version": "2026-05-27",
+            "identifier": {
+              "id": "4888-IX",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n671"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "Пункт 3 частини 2 статті 20",
+            "article_en": "Clause 3 of part 2 of article 20"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Підтверджується, що:",
+            "description_en": "It is confirmed that:",
+            "requirements": [
+              {
+                "title": "Текст заповнений користувачем",
+                "title_en": "",
+                "dataType": "boolean",
+                "eligibleEvidences": [
+                  {
+                    "title": "Документальне підтвердження",
+                    "title_en": "",
+                    "type": "document",
+                    "relatedDocument": {
+                      "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                    },
+                    "id": "e0c6e6490c824cec82ca2d47adbbb367"
+                  }
+                ],
+                "status": "active",
+                "expectedValue": true,
+                "id": "ef72258ae65d4503a37c305d8a7e8d3d",
+                "datePublished": "2027-01-01T00:00:00+02:00"
+              }
+            ],
+            "id": "f352e8816ace47ff9b5b4ed38ef34694"
+          }
+        ]
+      }
+    ],
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
+    "owner": "broker",
+    "procedure": {
+      "euPublished": false
+    },
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00"
+    },
+    "contractChangeRationaleTypes": {
+      "durationExtension": {
+        "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
+        "title_en": "Clause 4, Part 5, Article 41",
+        "description_uk": "Продовження строку дії договору про закупівлю та строку виконання зобов’язань щодо передачі товару, виконання робіт, надання послуг у разі виникнення документально підтверджених об’єктивних обставин, що спричинили таке продовження, у тому числі обставин непереборної сили, затримки фінансування витрат замовника, за умови що такі зміни не призведуть до збільшення суми, визначеної в договорі про закупівлю",
+        "title_uk": "Пункт 4 частини 5 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      },
+      "fiscalYearExtension": {
+        "description_en": "Еffect of the procurement contract may be extended for a period sufficient for conduction of the procurement procedure/simplified procurement at the beginning of the next year in volume that does not exceed 20% of the sum specified in the initial procurement contract concluded in the previous year, if expenditures for achieving this goal are approved in the prescribed manner",
+        "title_en": "Part 6 of Article 41",
+        "description_uk": "Дія договору про закупівлю може бути продовжена на строк, достатній для проведення процедури закупівлі/спрощеної закупівлі на початку наступного року в обсязі, що не перевищує 20 відсотків суми, визначеної в початковому договорі про закупівлю, укладеному в попередньому році, якщо видатки на досягнення цієї цілі затверджено в установленому порядку",
+        "title_uk": "Частина 6 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      },
+      "priceClarification": {
+        "description_en": "Drawing up a contract price, specified in accordance with the approved project documentation for the purchase contract, specified in paragraph three of part one of this article",
+        "title_en": "Clause 2, Part 7, Article 41",
+        "description_uk": "Складання договірної ціни, уточненої відповідно до затвердженої проектної документації до договору про закупівлю, зазначеного в абзаці третьому частини першої цієї статті",
+        "title_uk": "Пункт 2 частини 7 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      },
+      "itemPriceVariation": {
+        "description_en": "An increase in the price per unit of goods by up to 10 percent in proportion to the increase in the market price of such goods in the event of fluctuations in the market price of such goods, provided that such a change does not lead to an increase in the amount specified in the procurement contract; - no more than once every 90 days from the date of signing the procurement contract/making changes to such a contract regarding an increase in the price per unit of goods. The restriction on the timing of changes in the price per unit of goods does not apply in cases of changes in the terms of the contract for the procurement of gasoline and diesel fuel, natural gas, and electricity",
+        "title_en": "Clause 2, Part 5, Article 41",
+        "description_uk": "Збільшення ціни за одиницю товару до 10 відсотків пропорційно збільшенню ціни такого товару на ринку у разі коливання ціни такого товару на ринку за умови, що така зміна не призведе до збільшення суми, визначеної в договорі про закупівлю, - не частіше ніж один раз на 90 днів з моменту підписання договору про закупівлю/внесення змін до такого договору щодо збільшення ціни за одиницю товару. Обмеження щодо строків зміни ціни за одиницю товару не застосовується у випадках зміни умов договору про закупівлю бензину та дизельного пального, природного газу та електричної енергії",
+        "title_uk": "Пункт 2 частини 5 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      },
+      "priceReduction": {
+        "description_en": "Аpproval of price changes in the procurement contract in the direction of reduction (without changing the quantity (volume) and quality of goods, works and services), including in case of fluctuations in the price of goods on the market",
+        "title_en": "Clause 5, Part 5, Article 41",
+        "description_uk": "Погодження зміни ціни в договорі про закупівлю в бік зменшення (без зміни кількості (обсягу) та якості товарів, робіт і послуг), у тому числі у разі коливання ціни товару на ринку",
+        "title_uk": "Пункт 5 частини 5 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      },
+      "qualityImprovement": {
+        "description_en": "Іmprovement of the item's quality, provided that such improvement will not increase the sum of money specified in the procurement contract",
+        "title_en": "Clause 3, Part 5, Article 41",
+        "description_uk": "Покращення якості предмета закупівлі, за умови що таке покращення не призведе до збільшення суми, визначеної в договорі про закупівлю",
+        "title_uk": "Пункт 3 частини 5 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      },
+      "taxRate": {
+        "description_en": "Changes in the price in the purchase contract due to changes in tax and duty rates and/or changes in the conditions for granting tax benefits - in proportion to the change in such rates and/or tax benefits",
+        "title_en": "Clause 6, Part 5, Article 41",
+        "description_uk": "Зміни ціни в договорі про закупівлю у зв’язку зі зміною ставок податків і зборів та/або зміною умов щодо надання пільг з оподаткування - пропорційно до зміни таких ставок та/або пільг з оподаткування",
+        "title_uk": "Пункт 6 частини 5 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      },
+      "thirdParty": {
+        "description_en": "Changes in the consumer price index established in accordance with the legislation by state statistics bodies, changes in foreign currency exchange rates, changes in stock market quotes or Platts, ARGUS indicators of regulated prices (tariffs) and standards applied in the procurement contract, if the procurement contract establishes the procedure for changing the price",
+        "title_en": "Clause 7, Part 5, Article 41",
+        "description_uk": "Зміни встановленого згідно із законодавством органами державної статистики індексу споживчих цін, зміни курсу іноземної валюти, зміни біржових котирувань або показників Platts, ARGUS регульованих цін (тарифів) і нормативів, що застосовуються в договорі про закупівлю, у разі встановлення в договорі про закупівлю порядку зміни ціни",
+        "title_uk": "Пункт 7 частини 5 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      },
+      "volumeCuts": {
+        "description_en": "Reduction of the procurement's volume, particularly taking into account the actual expenditures of the procuring entity",
+        "title_en": "Clause 1, Part 5, Article 41",
+        "description_uk": "Зменшення обсягів закупівлі, зокрема з урахуванням фактичного обсягу видатків замовника",
+        "title_uk": "Пункт 1 частини 5 статті 41",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20241023#n1760",
+        "scheme": "LAW922"
+      }
+    },
+    "milestones": [
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2
+      },
+      {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3
+      }
+    ],
+    "items": [
+      {
+        "id": "c9c7a37ae5c549c6b5e7da8fdecf1a11",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "38ee279db3fd4027900b0f50f22169f3",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-31T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-02-01T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
+    "procurementMethodType": "openTendering",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 1000.0
+    },
+    "lots": [
+      {
+        "id": "38ee279db3fd4027900b0f50f22169f3",
+        "date": "2027-01-01T00:00:00+02:00",
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "auctionPeriod": {
+          "startDate": "2027-02-01T12:22:15.236000+02:00",
+          "shouldStartAfter": "2027-02-01T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "934ce1c123f94e5eaa2f8f08110e4d27",
+        "date": "2027-01-01T00:00:00+02:00",
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "status": "active",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "auctionPeriod": {
+          "startDate": "2027-02-01T12:29:40.230000+02:00",
+          "shouldStartAfter": "2027-02-01T00:00:00+02:00"
+        }
+      }
+    ],
+    "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "next_check": "2027-02-01T00:00:00+02:00",
+    "id": "c100137633c1419b8f9072fa2aa1c262"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": true,
+    "hasAwardComplaints": true,
+    "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
+    "minTenderingDuration": 15,
+    "hasEnquiries": false,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 4,
+    "restricted": false,
+    "hasMultiSourcing": false
+  }
+}
+

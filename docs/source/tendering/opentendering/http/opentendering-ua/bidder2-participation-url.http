@@ -248,7 +248,7 @@ Content-Type: application/json
         "value": true,
         "id": "ee71fb1341a34e83beeae712c3570322",
         "classification": {
-          "scheme": "LAW922",
+          "scheme": "LAW4888",
           "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
         }
       }

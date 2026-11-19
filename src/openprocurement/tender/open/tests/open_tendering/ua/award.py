@@ -269,6 +269,7 @@ class TenderAwardRequirementResponsEvidenceResourceTest(
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
+                    "documentType": "qualificationDocuments",
                 }
             },
         )

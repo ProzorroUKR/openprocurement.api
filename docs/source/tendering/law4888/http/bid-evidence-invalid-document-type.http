@@ -1,0 +1,59 @@
+PATCH /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/bids/385026a76fa4491a9f01c52b01507434?acc_token=5cb1b92166d549959f52dc9e99308c9d HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "600131e5d2444e5c8a4d595a96b6b45d"
+        },
+        "value": true,
+        "evidences": [
+          {
+            "title": "Документальне підтвердження",
+            "type": "document",
+            "relatedDocument": {
+              "id": "9decfa0be13c41ff9aa01a579dfe919c"
+            }
+          }
+        ]
+      },
+      {
+        "requirement": {
+          "id": "ef72258ae65d4503a37c305d8a7e8d3d"
+        },
+        "value": true
+      }
+    ],
+    "status": "pending"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "requirementResponses",
+      "description": [
+        {
+          "evidences": [
+            {
+              "relatedDocument": [
+                "relatedDocument should have documentType qualificationDocuments"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

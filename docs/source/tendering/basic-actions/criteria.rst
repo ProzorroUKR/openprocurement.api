@@ -11,7 +11,9 @@
 Створення критеріїв закупівлі
 """""""""""""""""""""""""""""
 
-Критерії існують в наступних процедурах:  belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA.
+Критерії існують в наступних процедурах:  belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, openTendering, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA.
+
+Процедури за Законом № 4888 (наразі `openTendering`) використовують описані тут операції, але мають додаткові правила щодо обов'язкових критеріїв та прийнятних доказів - див. :ref:`law4888_criteria`.
 
 Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити item, якщо існує хоча б один пов'язаний критерій з вимогою в статусі `active`. Щоб вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію або видалити критерій (дозволено тільки для закупівель в статусі чернетка).
 
@@ -134,6 +136,8 @@
 ----------------------------------------
 
 Схема даних :ref:`прийнятних доказів<EligibleEvidence>`
+
+В процедурах за Законом № 4888 до прийнятних доказів застосовуються додаткові вимоги: обов'язкова назва та посилання на документ закупівлі певного типу (див. :ref:`law4888_criteria`).
 
 Створення прийнятного доказу
 """"""""""""""""""""""""""""
@@ -400,6 +404,8 @@
 ------------------
 
 Критерії статті обов'язкові в наступних процедурах: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveDialogueUA`, `competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`.
+
+В процедурах за Законом № 4888 критерії статті 16 не застосовуються - замість них використовуються :ref:`критерії відбору статті 20<law4888_criteria>`.
 
 `Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_16.json>`__
 

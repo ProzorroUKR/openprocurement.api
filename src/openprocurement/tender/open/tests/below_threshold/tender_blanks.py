@@ -2625,6 +2625,7 @@ def guarantee(self):
             criteria = []
             criteria.extend(test_default_criteria)
             set_tender_criteria(criteria, tender["lots"], tender["items"])
+            self.set_criteria_evidences_doc(criteria, tender["id"], token)
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(tender["id"], token),
                 {
@@ -3620,6 +3621,7 @@ def tender_with_guarantee_multilot(self):
             criterion["relatesTo"] = "lot"
             criterion["relatedItem"] = related_lot_id
 
+    self.set_criteria_evidences_doc(criteria)
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {
@@ -3697,6 +3699,7 @@ def activate_bid_guarantee_multilot(self):
             criterion["relatesTo"] = "lot"
             criterion["relatedItem"] = related_lot_id
 
+    self.set_criteria_evidences_doc(criteria)
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {
@@ -4708,6 +4711,7 @@ def contract_template_name_set(self):
             criteria = []
             criteria.extend(test_default_criteria)
             set_tender_criteria(criteria, tender.get("lots", []), tender.get("items", []))
+            self.set_criteria_evidences_doc(criteria)
             self.app.post_json(
                 f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
                 {"data": criteria},

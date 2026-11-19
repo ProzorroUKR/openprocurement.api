@@ -3,8 +3,16 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
-from openprocurement.tender.core.tests.base import test_main_criteria
+from openprocurement.tender.core.tests.base import (
+    test_article_20_criteria,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.open.tests.open_tendering.ua.criterion_blanks import (
+    activate_tender_with_cancelled_selection_criterion_requirements,
+    activate_tender_with_selection_criteria_per_lot,
+    criterion_evidence_title_required,
+)
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
     BaseTenderOpenTenderingUAContentWebTest,
     test_tender_open_tendering_ua_data,
@@ -134,6 +142,20 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(TenderCriteriaBaseTestMixin):
         "type": "document",
     }
 
+    def setUp(self):
+        super().setUp()
+        self.test_evidence_data = self.set_criteria_evidences_doc(deepcopy(self.test_evidence_data))
+
+
+class TenderSelectionCriteriaPerLotTestMixin:
+    initial_lots = 2 * test_tender_below_lots
+    initial_status = "draft"
+
+    test_activate_tender_with_selection_criteria_per_lot = snitch(activate_tender_with_selection_criteria_per_lot)
+    test_activate_tender_with_cancelled_selection_criterion_requirements = snitch(
+        activate_tender_with_cancelled_selection_criterion_requirements
+    )
+
 
 class TenderCriteriaLccTestMixin:
     test_lcc_criterion_valid = snitch(lcc_criterion_valid)
@@ -161,9 +183,18 @@ class TenderOpenTenderingUACriteriaTest(
     initial_status = "draft"
 
     required_criteria = test_tender_open_tendering_ua_required_criteria_ids
-    article_16_criteria_required = True
+    selection_criteria_required = True
+    selection_criteria_label = "article 20"
+    selection_criteria_data = test_article_20_criteria
 
     test_activate_tender_with_tech_item = snitch(activate_tender_with_tech_item)
+    test_criterion_evidence_title_required = snitch(criterion_evidence_title_required)
+
+
+class TenderOpenTenderingUASelectionCriteriaPerLotTest(
+    TenderSelectionCriteriaPerLotTestMixin, BaseTenderOpenTenderingUAContentWebTest
+):
+    initial_data = test_tender_open_tendering_ua_data
 
 
 class TenderOpenTenderingUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderOpenTenderingUAContentWebTest):
@@ -189,6 +220,7 @@ class TenderOpenTenderingUACriteriaRGRequirementEvidenceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenTenderingUACriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenTenderingUASelectionCriteriaPerLotTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenTenderingUACriteriaRGTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenTenderingUACriteriaRGRequirementTest))
     suite.addTest(

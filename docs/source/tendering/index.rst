@@ -10,6 +10,7 @@ Tendering API для операцій з закупівлею
 
    basic-actions/index
    config/index
+   law4888/index
    belowthreshold/index
    open/index
    openeu/index

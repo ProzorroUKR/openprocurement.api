@@ -15,6 +15,20 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
+        "documentType": "evaluationCriteria",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "7e150f81304b4100bd9aaa6624c8e266",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2b6ee116031e4481a4154d09be6fefb5?Signature=FCOkB4Bcj3sDnIuTpo%2FevVi3hpHfoQFnMtRAOySJ2ypEN46gQ0fVLWr7ps2axeMqL1CqYDxLdUijob7pfxZnBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
         "documentType": "contractProforma",
         "title": "name.doc",
         "format": "application/msword",
@@ -205,6 +219,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "87e70793389743959491558987e57729"
                   }
                 ],
@@ -260,6 +277,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "898eb3d883374920a67a7ea5a9ac0fa2"
                   }
                 ],
@@ -275,6 +295,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "3a1dfdbabfaf4d0398c0c94e825928be"
                   }
                 ],
@@ -296,6 +319,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "8bd40ec6d8de48c489d7373d3be90725"
                   }
                 ],
@@ -411,6 +437,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "e87610055b1644339e7c3c2169eedeef"
                   }
                 ],
@@ -432,6 +461,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "5e0d383a4a314c4f987da006ae7049ef"
                   }
                 ],
@@ -478,6 +510,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "dde857a2ff20438d85c50fa6cb909b53"
                   }
                 ],
@@ -523,6 +558,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "be5f3d233efe425cae387790e2d97f93"
                   }
                 ],
@@ -617,6 +655,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "7a94dd9c85644204acc3c232362c613c"
                   }
                 ],
@@ -638,6 +679,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "79200f0f94674186a12b04eb038dab3b"
                   }
                 ],
@@ -684,6 +728,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "c48674ebad304998ab69a3cf54b0ff73"
                   }
                 ],
@@ -705,6 +752,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "8c50898fdafb466d92fbfdfaa3fa0281"
                   }
                 ],
@@ -791,6 +841,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "5a70114c48a443879e0444f903b5ccd4"
                   }
                 ],
@@ -924,6 +977,9 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "9cf4f01fbec948868468dbd7bcf567c2"
                   }
                 ],
@@ -939,47 +995,60 @@ Content-Type: application/json
       },
       {
         "title": "Наявність обладнання, матеріально-технічної бази та технологій",
-        "description": "Наявність в учасника процедури закупівлі обладнання, матеріально-технічної бази та технологій. Учасник може для підтвердження своєї відповідності такому критерію залучити спроможності інших суб'єктів господарювання як субпідрядників/співвиконавців",
+        "title_en": "Availability of the necessary equipment, material and technical facilities, and technologies",
+        "description": "Наявність у суб’єкта господарювання обладнання, матеріально-технічної бази та технологій.  Учасник процедури закупівлі робіт або послуги (послуг), кандидат може для підтвердження своєї відповідності такому критерію залучити спроможності інших суб'єктів господарювання як субпідрядників/співвиконавців (крім закупівлі у спосіб, визначений пунктом 2 частини першої статті 16 Закону). Залучення спроможності інших суб’єктів господарювання має бути документально підтверджено учасником процедури закупівлі, кандидатом.",
+        "description_en": "The economic operator possesses the necessary equipment, material and technical facilities, and technologies. A bidder in a procurement procedure for works or services, or a candidate, may rely on the capacities of other economic operators acting as subcontractors/co-contractors to demonstrate compliance with this qualification criterion (except in the case of procurement conducted by the method specified in Clause 2 of Part 1 of Article 16 of this Law). Reliance on the capacities of other economic operators shall be documented by the bidder or candidate.",
         "source": "tenderer",
-        "relatesTo": "tender",
+        "relatesTo": "lot",
+        "relatedItem": "0e2a00931fe6450685c11d73534c35f7",
         "classification": {
-          "scheme": "LAW922",
+          "scheme": "LAW4888",
           "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
         },
         "id": "eda67d733b354ae1a825735573ca1ca9",
         "legislation": [
           {
-            "version": "2025-10-31",
+            "version": "2026-05-27",
             "identifier": {
-              "id": "922-VIII",
+              "id": "4888-IX",
               "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1250"
+              "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n671"
             },
             "type": "NATIONAL_LEGISLATION",
-            "article": "16.2.1"
+            "article": "Пункт 1 частини 2 статті 20",
+            "article_en": "Clause 1 of part 2 of article 20"
           },
           {
-            "version": "2025-10-31",
+            "version": "2026-05-27",
             "identifier": {
-              "id": "922-VIII",
+              "id": "4888-IX",
               "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1250"
+              "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n680"
             },
             "type": "NATIONAL_LEGISLATION",
-            "article": "16.3"
+            "article": "Частина 3 статті 20",
+            "article_en": "Part 3 of article 20"
           }
         ],
         "requirementGroups": [
           {
-            "description": "Підтверджується, що",
+            "description": "Підтверджується, що:",
+            "description_en": "It is confirmed that:",
             "requirements": [
               {
                 "title": "Текст заповнений користувачем",
+                "title_en": "",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
+                    "title_en": "",
                     "type": "document",
+                    "relatedDocument": {
+                      "id": "7e150f81304b4100bd9aaa6624c8e266"
+                    },
                     "id": "ef2d06a8150e42dc80aa8e42a8d2d56f"
                   }
                 ],
@@ -1235,7 +1304,7 @@ Content-Type: application/json
             "value": true,
             "id": "618f4cca7ea646429bc44c2412073746",
             "classification": {
-              "scheme": "LAW922",
+              "scheme": "LAW4888",
               "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
             }
           }
@@ -1545,7 +1614,7 @@ Content-Type: application/json
             "value": true,
             "id": "b7c76f0a02c1490e9e4761b97b83f006",
             "classification": {
-              "scheme": "LAW922",
+              "scheme": "LAW4888",
               "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
             }
           }
@@ -1803,7 +1872,7 @@ Content-Type: application/json
             "value": true,
             "id": "f8c51ac8e58141669396e200c5fffe81",
             "classification": {
-              "scheme": "LAW922",
+              "scheme": "LAW4888",
               "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
             }
           }

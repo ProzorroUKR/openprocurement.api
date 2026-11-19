@@ -25,6 +25,7 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_items,
     set_bid_lotvalues,
     set_bid_responses,
+    set_criteria_evidences_document,
     set_tender_criteria,
     set_tender_lots,
     set_tender_periods,
@@ -75,6 +76,7 @@ ocds_resolver = RefResolver(base_uri=f"file://{os.path.join(current_dir, 'data')
 test_criteria_other = standards.load("criteria/other.json")
 test_criteria_article_16 = standards.load("criteria/article_16.json")
 test_criteria_article_17 = standards.load("criteria/article_17.json")
+test_article_20_criteria = standards.load("criteria/law_4888/tender/selection_criteria.json")
 
 test_criteria_decree_1178 = standards.load("criteria/decree_1178.json")
 test_criteria_lcc = standards.load("criteria/LCC.json")
@@ -197,6 +199,7 @@ class BaseCoreWebTest(BaseWebTest):
     guarantee_criterion = None
     bid_item_product_required = False
     should_add_contract_proforma_doc = True
+    should_add_evaluation_criteria_doc = False
 
     agreement_id = None
     tender_id = None
@@ -207,6 +210,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def setUp(self):
         super().setUp()
+        self.evaluation_criteria_doc_ids = {}
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
         if self.initial_data and ("tenderPeriod" in self.initial_data or "enquiryPeriod" in self.initial_data):
@@ -327,6 +331,22 @@ class BaseCoreWebTest(BaseWebTest):
                 request_body,
             )
         return response
+
+    def add_evaluation_criteria_doc(self, tender_id, tender_token):
+        response = self.add_sign_doc(tender_id, tender_token, document_type="evaluationCriteria")
+        return response.json["data"]["id"]
+
+    def get_evaluation_criteria_doc_id(self, tender_id=None, tender_token=None):
+        tender_id = tender_id or self.tender_id
+        tender_token = tender_token or self.tender_token
+        if tender_id not in self.evaluation_criteria_doc_ids:
+            self.evaluation_criteria_doc_ids[tender_id] = self.add_evaluation_criteria_doc(tender_id, tender_token)
+        return self.evaluation_criteria_doc_ids[tender_id]
+
+    def set_criteria_evidences_doc(self, data, tender_id=None, tender_token=None):
+        if not self.should_add_evaluation_criteria_doc:
+            return data
+        return set_criteria_evidences_document(data, self.get_evaluation_criteria_doc_id(tender_id, tender_token))
 
     def activate_bid(self, tender_id, bid_id, bid_token, doc_id=None):
         self.add_sign_doc(
@@ -538,6 +558,7 @@ class BaseCoreWebTest(BaseWebTest):
                 tender.get("lots", []),
                 tender.get("items", []),
             )
+            self.set_criteria_evidences_doc(self.initial_criteria)
             response = self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {"data": self.initial_criteria},
@@ -550,6 +571,7 @@ class BaseCoreWebTest(BaseWebTest):
                 tender.get("lots", []),
                 tender.get("items", []),
             )
+            self.set_criteria_evidences_doc(guarantee_criteria)
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {"data": guarantee_criteria},

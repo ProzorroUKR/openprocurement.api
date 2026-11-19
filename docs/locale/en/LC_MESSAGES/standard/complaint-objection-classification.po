@@ -34,6 +34,9 @@ msgstr ""
 msgid "`article_17`"
 msgstr ""
 
+msgid "`article_20`"
+msgstr ""
+
 msgid "`other`"
 msgstr ""
 
