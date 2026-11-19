@@ -2187,32 +2187,46 @@ class TenderCriteriaRulesMixin(BaseState):
         classification_id = (criterion.get("classification") or {}).get("id") or ""
         if classification_id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
             # the former Criterion model validator reported it at the requirementGroups level
-            self.raise_criteria_error(
+            self.raise_evidence_error(
                 ["criteria", "requirementGroups", "eligibleEvidences"],
-                ["This field is forbidden for current criterion"],
+                "This field is forbidden for current criterion",
+                requirement,
             )
         documents = {document["id"]: document for document in tender.get("documents") or []}
         document_type = self.criterion_evidence_document_types.get(classification_id)
         error_path = ["criteria", "requirementGroups", "requirements", "eligibleEvidences", "relatedDocument"]
         for evidence in evidences:
             if self.criterion_evidence_title_required and not (evidence.get("title") or "").strip():
-                self.raise_criteria_error(
+                self.raise_evidence_error(
                     ["criteria", "requirementGroups", "requirements", "eligibleEvidences", "title"],
-                    ["This field is required."],
+                    "This field is required.",
+                    requirement,
                 )
             related_document = evidence.get("relatedDocument")
             if not related_document:
                 if self.criterion_evidence_document_required and evidence.get("type") == "document":
-                    self.raise_criteria_error(error_path, ["This field is required."])
+                    self.raise_evidence_error(error_path, "This field is required.", requirement)
                 continue
             document = documents.get(related_document["id"])
             if not document:
-                self.raise_criteria_error(error_path, ["relatedDocument.id should be one of tender documents"])
-            elif document_type and document.get("documentType") != document_type:
-                self.raise_criteria_error(
+                self.raise_evidence_error(
                     error_path,
-                    [f"relatedDocument should have documentType {document_type}"],
+                    "relatedDocument.id should be one of tender documents",
+                    requirement,
                 )
+            elif document_type and document.get("documentType") != document_type:
+                self.raise_evidence_error(
+                    error_path,
+                    f"relatedDocument should have documentType {document_type}",
+                    requirement,
+                )
+
+    def raise_evidence_error(self, path: list, message: str, requirement: dict) -> None:
+        """the evidence errors are not indexed, so the failing requirement is named in the message"""
+        requirement_id = requirement.get("id")
+        if requirement_id:
+            message = f"{message.rstrip('.')} (requirement {requirement_id})"
+        self.raise_criteria_error(path, [message])
 
     def validate_criteria_object_id(self, tender: dict, path: list, obj: dict) -> None:
         """former ValidateIdMixing.validate_id: criteria, groups and requirements ids are md5 (legacy PQ: the profile ids)"""

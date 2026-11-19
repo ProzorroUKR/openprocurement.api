@@ -1,5 +1,8 @@
 from openprocurement.api.constants import WORKING_DAYS_WITH_WORKING_WEEKENDS
-from openprocurement.tender.core.constants import PROCURING_ENTITY_EVIDENCE_DOCUMENT_RULES
+from openprocurement.tender.core.constants import (
+    AWARD_ACTIVATION_BLOCKING_CRITERIA,
+    PROCURING_ENTITY_EVIDENCE_DOCUMENT_RULES,
+)
 from openprocurement.tender.core.procedure.state.award import AwardStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.open.procedure.state.tender import (
@@ -62,3 +65,4 @@ class RFPAwardState(AwardStateMixin, RFPTenderState):
 class OpenTenderingAwardState(AwardStateMixin, OpenTenderingTenderState):
     items_delivery_required: bool = True
     evidence_document_rules = PROCURING_ENTITY_EVIDENCE_DOCUMENT_RULES
+    award_activation_blocking_criteria = AWARD_ACTIVATION_BLOCKING_CRITERIA

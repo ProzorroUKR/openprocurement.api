@@ -18,6 +18,7 @@ from openprocurement.tender.core.procedure.state.req_response import (
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
+    get_requirement_obj,
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
@@ -85,6 +86,8 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
     award_complaint_period_on_unsuccessful: bool = True
     # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
     award_new_defense_complaints_rules: bool = False
+    # openTendering: a positive answer to these criteria excludes the bidder, so the award can't become active
+    award_activation_blocking_criteria: set = set()
 
     def validate_award_post_request(self):
         if self.request.authenticated_role != "admins":
@@ -131,6 +134,7 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
         if before["status"] != award["status"]:
             self.invalidate_review_requests(lot_id=award.get("lotID", ""))
             self.check_qualified_eligible_change(before, award)
+            self.validate_award_activation_blocking_responses(award)
             self.award_status_up(before["status"], award["status"], award)
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
@@ -390,6 +394,26 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
                 self.request.errors.add("body", name, [message])
             self.request.errors.status = 422
             raise error_handler(self.request)
+
+    def validate_award_activation_blocking_responses(self, award):
+        if not self.award_activation_blocking_criteria or award.get("status") != "active":
+            return
+        blocking_ids = set()
+        for req_response in award.get("requirementResponses") or "":
+            if req_response.get("value") is not True:
+                continue
+            *_, criterion = get_requirement_obj(req_response["requirement"]["id"])
+            classification_id = ((criterion or {}).get("classification") or {}).get("id")
+            if classification_id in self.award_activation_blocking_criteria:
+                blocking_ids.add(classification_id)
+        if blocking_ids:
+            raise_operation_error(
+                self.request,
+                "Can't update award to active status with positive response to criteria: "
+                f"{', '.join(sorted(blocking_ids))}",
+                status=422,
+                name="requirementResponses",
+            )
 
     def validate_award_qualified_eligible_by_creation_date(self, award):
         """competitiveOrdering: `active` requires qualified; the eligible rules depend on the tender creation date"""
