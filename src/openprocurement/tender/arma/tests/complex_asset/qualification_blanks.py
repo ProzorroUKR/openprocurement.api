@@ -1597,7 +1597,13 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "relatedDocument"}],
+        [
+            {
+                "description": [f"This field is required (requirement {self.requirement_id})"],
+                "location": "body",
+                "name": "relatedDocument",
+            }
+        ],
     )
 
     response = self.app.post_json(
@@ -1623,7 +1629,9 @@ def create_qualification_requirement_response_evidence(self):
         response.json["errors"],
         [
             {
-                "description": ["relatedDocument.id should be one of qualification documents"],
+                "description": [
+                    f"relatedDocument.id should be one of qualification documents (requirement {self.requirement_id})"
+                ],
                 "location": "body",
                 "name": "relatedDocument",
             }

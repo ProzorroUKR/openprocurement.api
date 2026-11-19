@@ -56,6 +56,9 @@ from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     review_tender_award_stopping_complaint,
     tender_award_complaint_period,
 )
+from openprocurement.tender.open.tests.open_tendering.ua.award_blanks import (
+    award_activation_blocked_by_exclusion_criteria,
+)
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
     BaseTenderOpenTenderingUAContentWebTest,
     test_tender_open_tendering_ua_bids,
@@ -138,6 +141,12 @@ class TenderAwardPendingResourceTestCase(BaseTenderOpenTenderingUAContentWebTest
             )
         award = response.json["data"]
         self.award_id = award["id"]
+
+
+class TenderAwardExclusionCriteriaTest(TenderAwardPendingResourceTestCase):
+    initial_criteria = test_tender_open_tendering_ua_criteria
+
+    test_award_activation_blocked_by_exclusion_criteria = snitch(award_activation_blocked_by_exclusion_criteria)
 
 
 class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):

@@ -1342,7 +1342,15 @@ def update_tender_bid_pmr_related_doc(self):
             "location": "body",
             "name": "requirementResponses",
             "description": [
-                {"evidences": [{"relatedDocument": ["relatedDocument.id should be one of bid documents"]}]}
+                {
+                    "evidences": [
+                        {
+                            "relatedDocument": [
+                                f"relatedDocument.id should be one of bid documents (requirement {requirement['id']})"
+                            ]
+                        }
+                    ]
+                }
             ],
         },
     )
@@ -1386,7 +1394,15 @@ def update_tender_bid_pmr_related_doc(self):
             "location": "body",
             "name": "requirementResponses",
             "description": [
-                {"evidences": [{"relatedDocument": ["relatedDocument.id should be one of bid documents"]}]}
+                {
+                    "evidences": [
+                        {
+                            "relatedDocument": [
+                                f"relatedDocument.id should be one of bid documents (requirement {requirement['id']})"
+                            ]
+                        }
+                    ]
+                }
             ],
         },
     )

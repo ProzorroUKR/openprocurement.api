@@ -584,7 +584,7 @@ class BaseCoreWebTest(BaseWebTest):
             )
             criteria = response.json["data"]
         if self.guarantee_criterion:
-            guarantee_criteria = getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria)
+            guarantee_criteria = deepcopy(getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria))
             set_tender_criteria(
                 guarantee_criteria,
                 tender.get("lots", []),

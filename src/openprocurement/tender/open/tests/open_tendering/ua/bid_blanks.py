@@ -13,15 +13,26 @@ from openprocurement.tender.open.tests.open_tendering.ua.base import (
 
 SELECTION_CRITERIA_IDS = {criterion["classification"]["id"] for criterion in test_article_20_criteria}
 
-EVIDENCE_DOCUMENT_TYPE_ERROR = [
-    {
-        "location": "body",
-        "name": "requirementResponses",
-        "description": [
-            {"evidences": [{"relatedDocument": ["relatedDocument should have documentType qualificationDocuments"]}]}
-        ],
-    }
-]
+
+def evidence_document_type_error(requirement_id):
+    return [
+        {
+            "location": "body",
+            "name": "requirementResponses",
+            "description": [
+                {
+                    "evidences": [
+                        {
+                            "relatedDocument": [
+                                "relatedDocument should have documentType qualificationDocuments "
+                                f"(requirement {requirement_id})"
+                            ]
+                        }
+                    ]
+                }
+            ],
+        }
+    ]
 
 
 def selection_bid_responses(self, doc_id):
@@ -46,7 +57,7 @@ def selection_bid_responses(self, doc_id):
             "relatedDocument": {"id": doc_id, "title": "name.doc"},
         }
     ]
-    return rrs
+    return rrs, selection_rr["requirement"]["id"]
 
 
 def bid_evidence_document_version(self):
@@ -81,12 +92,13 @@ def bid_evidence_document_version(self):
         ["qualificationDocuments", "eligibilityDocuments"],
     )
 
+    rrs, requirement_id = selection_bid_responses(self, self.doc_id)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": {"requirementResponses": selection_bid_responses(self, self.doc_id), "status": "pending"}},
+        {"data": {"requirementResponses": rrs, "status": "pending"}},
         status=422,
     )
-    self.assertEqual(response.json["errors"], EVIDENCE_DOCUMENT_TYPE_ERROR)
+    self.assertEqual(response.json["errors"], evidence_document_type_error(requirement_id))
 
 
 def bid_activate_with_invalid_evidence_document_type(self):
@@ -105,12 +117,13 @@ def bid_activate_with_invalid_evidence_document_type(self):
     self.assertEqual(response.status, "201 Created")
     doc_id = response.json["data"]["id"]
 
+    rrs, requirement_id = selection_bid_responses(self, doc_id)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": {"requirementResponses": selection_bid_responses(self, doc_id), "status": "pending"}},
+        {"data": {"requirementResponses": rrs, "status": "pending"}},
         status=422,
     )
-    self.assertEqual(response.json["errors"], EVIDENCE_DOCUMENT_TYPE_ERROR)
+    self.assertEqual(response.json["errors"], evidence_document_type_error(requirement_id))
 
 
 def bid_responses_with_evidence(self, classification_id, doc_id):
@@ -132,7 +145,7 @@ def bid_responses_with_evidence(self, classification_id, doc_id):
             "relatedDocument": {"id": doc_id, "title": "name.doc"},
         }
     ]
-    return rrs
+    return rrs, requirement_response["requirement"]["id"]
 
 
 def create_bid_document(self, bid_id, bid_token, container, document_type):
@@ -176,40 +189,10 @@ def bid_evidence_document_type(self):
         bid_path = "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token)
 
         other_container_doc_id = create_bid_document(self, bid_id, bid_token, other_container, document_type)
+        rrs, requirement_id = bid_responses_with_evidence(self, classification_id, other_container_doc_id)
         response = self.app.patch_json(
             bid_path,
-            {
-                "data": {
-                    "requirementResponses": bid_responses_with_evidence(
-                        self, classification_id, other_container_doc_id
-                    ),
-                    "status": "pending",
-                }
-            },
-            status=422,
-        )
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "location": "body",
-                    "name": "requirementResponses",
-                    "description": [
-                        {"evidences": [{"relatedDocument": ["relatedDocument.id should be one of bid documents"]}]}
-                    ],
-                }
-            ],
-        )
-
-        wrong_type_doc_id = create_bid_document(self, bid_id, bid_token, container, "biddingDocuments")
-        response = self.app.patch_json(
-            bid_path,
-            {
-                "data": {
-                    "requirementResponses": bid_responses_with_evidence(self, classification_id, wrong_type_doc_id),
-                    "status": "pending",
-                }
-            },
+            {"data": {"requirementResponses": rrs, "status": "pending"}},
             status=422,
         )
         self.assertEqual(
@@ -221,7 +204,41 @@ def bid_evidence_document_type(self):
                     "description": [
                         {
                             "evidences": [
-                                {"relatedDocument": [f"relatedDocument should have documentType {document_type}"]}
+                                {
+                                    "relatedDocument": [
+                                        "relatedDocument.id should be one of bid documents "
+                                        f"(requirement {requirement_id})"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                }
+            ],
+        )
+
+        wrong_type_doc_id = create_bid_document(self, bid_id, bid_token, container, "biddingDocuments")
+        rrs, requirement_id = bid_responses_with_evidence(self, classification_id, wrong_type_doc_id)
+        response = self.app.patch_json(
+            bid_path,
+            {"data": {"requirementResponses": rrs, "status": "pending"}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "requirementResponses",
+                    "description": [
+                        {
+                            "evidences": [
+                                {
+                                    "relatedDocument": [
+                                        f"relatedDocument should have documentType {document_type} "
+                                        f"(requirement {requirement_id})"
+                                    ]
+                                }
                             ]
                         }
                     ],
@@ -230,14 +247,10 @@ def bid_evidence_document_type(self):
         )
 
         doc_id = create_bid_document(self, bid_id, bid_token, container, document_type)
+        rrs, requirement_id = bid_responses_with_evidence(self, classification_id, doc_id)
         response = self.app.patch_json(
             bid_path,
-            {
-                "data": {
-                    "requirementResponses": bid_responses_with_evidence(self, classification_id, doc_id),
-                    "status": "pending",
-                }
-            },
+            {"data": {"requirementResponses": rrs, "status": "pending"}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "pending")
@@ -283,7 +296,10 @@ def winner_evidence_document_type(self):
             {
                 "location": "body",
                 "name": "relatedDocument",
-                "description": ["relatedDocument.id should be one of bid documents"],
+                "description": [
+                    "relatedDocument.id should be one of bid documents "
+                    f"(requirement {requirement_response['requirement']['id']})"
+                ],
             }
         ],
     )
@@ -298,7 +314,10 @@ def winner_evidence_document_type(self):
             {
                 "location": "body",
                 "name": "relatedDocument",
-                "description": ["relatedDocument should have documentType qualificationDocuments"],
+                "description": [
+                    "relatedDocument should have documentType qualificationDocuments "
+                    f"(requirement {requirement_response['requirement']['id']})"
+                ],
             }
         ],
     )

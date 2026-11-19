@@ -44,6 +44,96 @@
   ``criteria/rules/<procurementMethodType>.json`` у `standards
   <https://github.com/ProzorroUKR/standards/tree/master/criteria/rules>`_.
 
+Критерії відмови в участі (стаття 21)
+-------------------------------------
+
+Замість критеріїв статті 17 у процедурах за Законом № 4888 використовуються підстави для відмови в участі
+у процедурі закупівлі, визначені статтею 21. `Стандарт можна отримати тут
+<https://github.com/ProzorroUKR/standards/blob/master/criteria/law_4888/tender/exclusion_criteria.json>`__
+
+.. list-table::
+   :header-rows: 1
+
+   * - ``classification.id``
+     - Назва
+     - ``source``
+     - Підстава
+   * - ``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION``
+     - Наявність впливу на прийняття рішення замовника
+     - ``procuringEntity``
+     - Пункт 1 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION``
+     - Вчинення корупційних правопорушень
+     - ``winner``
+     - Пункт 2 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONVICTIONS.FRAUD``
+     - Вчинення економічних правопорушень
+     - ``tenderer``
+     - Пункт 4 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION``
+     - Вчинення кримінальних правопорушень
+     - ``tenderer``
+     - Пункт 5 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION``
+     - Наявність зв'язку суб'єкта господарювання з іншими учасниками процедури або замовником
+     - ``procuringEntity``
+     - Пункт 7 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY``
+     - Порушення справи про банкрутство
+     - ``tenderer``
+     - Пункт 8 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.NATIONAL.OTHER``
+     - Наявність інших підстав для відмови в участі у процедурі закупівлі
+     - ``tenderer``
+     - Пункт 9 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``
+     - Наявність антикорупційної програми
+     - ``tenderer``
+     - Пункт 10 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES``
+     - Вчинення правопорушень, пов'язаних із застосуванням санкцій
+     - ``tenderer``
+     - Пункт 11 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING``
+     - Вчинення правопорушень, пов'язаних з використанням дитячої праці чи торгівлею людьми
+     - ``winner``
+     - Пункт 12 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES``
+     - Наявність заборгованості зі сплати податків і зборів
+     - ``winner``
+     - Пункт 13 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PREPARATION``
+     - Отримання конкурентної переваги або порушення принципу недискримінації
+     - ``tenderer``
+     - Пункт 14 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PARTICIPATION``
+     - Конфлікт інтересів без можливості врегулювання
+     - ``tenderer``
+     - Пункт 15 частини 1 статті 21
+   * - ``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION``
+     - Наявність не виконаних зобов'язань за раніше укладеним договором
+     - ``winner``
+     - Частина 2 статті 21
+   * - ``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``
+     - Інформування про субпідрядників/співвиконавців
+     - ``winner``
+     - Частина 6 статті 21
+
+Особливості цих критеріїв:
+
+- ``classification.scheme`` - ``LAW4888``, ``relatesTo`` - ``tender``; виняток -
+  ``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``, який має
+  ``relatesTo`` - ``lot`` і тому додається для кожного лоту окремо;
+- ``source`` визначає, хто відповідає на вимоги критерію: ``tenderer`` - учасник у складі пропозиції,
+  ``winner`` - учасник, якого визначено переможцем, ``procuringEntity`` - замовник у рішенні про визначення
+  переможця або в попередній кваліфікації;
+- в ``openTendering`` обов'язковими є всі критерії статті 21, крім
+  ``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``; критерій субпідряду обов'язковий лише для
+  ``mainProcurementCategory`` = ``works`` або ``services``;
+- перелік обов'язкових критеріїв для кожної процедури визначається довідником
+  ``criteria/rules/<procurementMethodType>.json`` у `standards
+  <https://github.com/ProzorroUKR/standards/tree/master/criteria/rules>`_.
+
 Перевірка обов'язкових критеріїв по лотах
 -----------------------------------------
 
@@ -78,10 +168,25 @@
 
 - ``title`` обов'язковий і не може бути порожнім;
 - доказ з ``type`` = ``document`` обов'язково містить ``relatedDocument``;
-- ``relatedDocument`` має посилатися на документ закупівлі з ``documentType`` = ``evaluationCriteria``.
+- ``relatedDocument`` має посилатися на документ закупівлі, ``documentType`` якого залежить від критерію:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Критерій
+     - ``documentType`` документа закупівлі
+   * - критерії відбору статті 20
+     - ``evaluationCriteria``
+   * - критерії відмови в участі статті 21
+     - ``eligibilityCriteria``
+   * - ``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``
+     - ``evaluationCriteria``
 
 Правила перевіряються в усіх запитах, які створюють або змінюють докази: POST та PATCH критеріїв, груп
 вимог, вимог і доказів, а також PUT вимоги у статусах ``active.enquiries`` та ``active.tendering``.
+
+Оскільки в одному запиті може бути кілька вимог, у тексті помилки вказується ``id`` вимоги, доказ якої
+не пройшов перевірку.
 
 Доказ без назви:
 
@@ -108,18 +213,52 @@
 .. http:example:: http/add-selection-criteria.http
    :code:
 
+Для критеріїв статті 21 той самий документ не підходить - потрібен ``eligibilityCriteria``:
+
+.. http:example:: http/exclusion-criteria-invalid-document-type.http
+   :code:
+
+Завантажимо документ з ``documentType`` = ``eligibilityCriteria``:
+
+.. http:example:: http/add-eligibility-criteria-document.http
+   :code:
+
+Тепер критерії відмови в участі можна створити:
+
+.. http:example:: http/add-exclusion-criteria.http
+   :code:
+
 Докази у відповідях на вимоги
 -----------------------------
 
 Докази, які подаються разом з відповідями на вимоги (``requirementResponses`` пропозиції, рішення про
-визначення переможця та попередньої кваліфікації), теж мають посилатися на документ певного типу:
+визначення переможця та попередньої кваліфікації), теж мають посилатися на документ певного типу. Контейнер
+документів і ``documentType`` залежать від критерію:
 
-- документ має бути завантажений у ``documents`` відповідного об'єкта; документи з ``eligibilityDocuments``,
-  ``financialDocuments`` та ``qualificationDocuments`` для доказів не приймаються;
-- документ має мати ``documentType`` = ``qualificationDocuments``;
-- якщо документ має кілька версій, перевіряється ``documentType`` останньої версії.
+.. list-table::
+   :header-rows: 1
 
-Спроба подати доказ з документом пропозиції (``documentType`` = ``proposal``):
+   * - Критерій
+     - Об'єкт і контейнер документа
+     - ``documentType``
+   * - критерії відбору статті 20
+     - ``documents`` пропозиції
+     - ``qualificationDocuments``
+   * - критерії статті 21 з ``source`` ``tenderer`` / ``winner``
+     - ``eligibilityDocuments`` пропозиції
+     - ``eligibilityDocuments``
+   * - ``...SUBCONTRACTING_PROPORTION``
+     - ``qualificationDocuments`` пропозиції
+     - ``qualificationDocuments``
+   * - критерії статті 21 з ``source`` ``procuringEntity``
+     - ``documents`` рішення про визначення переможця або попередньої кваліфікації
+     - ``eligibilityDocuments``
+
+Документ з іншого контейнера для доказу не приймається. Якщо документ має кілька версій, перевіряється
+``documentType`` останньої версії. У тексті помилки вказується ``id`` вимоги, доказ якої не пройшов
+перевірку.
+
+Спроба подати доказ критерію відбору з документом пропозиції (``documentType`` = ``proposal``):
 
 .. http:example:: http/bid-evidence-invalid-document-type.http
    :code:
@@ -129,7 +268,47 @@
 .. http:example:: http/add-bid-qualification-document.http
    :code:
 
-Тепер пропозицію з доказом можна активувати:
+Для критерію статті 21 цей документ не підходить - він лежить у ``documents``, а не в
+``eligibilityDocuments``:
+
+.. http:example:: http/bid-exclusion-evidence-invalid-document-type.http
+   :code:
+
+Завантажимо документ у ``eligibilityDocuments``:
+
+.. http:example:: http/add-bid-eligibility-document.http
+   :code:
+
+Тепер пропозицію з доказами можна активувати:
 
 .. http:example:: http/activate-bid-with-evidence.http
+   :code:
+
+Підстави для відмови на етапі визначення переможця
+--------------------------------------------------
+
+Відповіді замовника на вимоги критеріїв з ``source`` = ``procuringEntity`` подаються в рішенні про
+визначення переможця. Позитивна відповідь на два з них означає, що учасника має бути відхилено, тому
+рішення не можна перевести у статус ``active``:
+
+- ``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION`` - наявність впливу на прийняття рішення
+  замовника;
+- ``CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION`` - наявність зв'язку суб'єкта господарювання з іншими
+  учасниками процедури або замовником.
+
+Перевірка діє лише в процедурах за Законом № 4888 і враховує лише відповіді зі значенням ``true``.
+
+Додамо відповіді зі значенням ``true``:
+
+.. http:example:: http/award-exclusion-responses.http
+   :code:
+
+Спроба визначити такого учасника переможцем:
+
+.. http:example:: http/activate-award-with-exclusion-grounds.http
+   :code:
+
+Після того як замовник змінить відповіді на ``false``, рішення можна активувати:
+
+.. http:example:: http/activate-award.http
    :code:

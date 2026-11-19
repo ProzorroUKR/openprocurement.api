@@ -1,11 +1,20 @@
 import os
 from copy import deepcopy
 
-from openprocurement.tender.core.tests.base import test_article_20_criteria
+from openprocurement.tender.core.constants import (
+    AWARD_ACTIVATION_BLOCKING_CRITERIA,
+    CRITERION_SUBCONTRACTING_PROPORTION,
+)
+from openprocurement.tender.core.tests.base import (
+    test_article_20_criteria,
+    test_article_21_criteria,
+)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
+    change_auth,
     set_bid_items,
     set_bid_lotvalues,
+    set_criteria_evidences_document,
     set_tender_criteria,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
@@ -121,6 +130,49 @@ class TenderLaw4888CriteriaResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
             response = self.app.post_json(criteria_path, {"data": criteria})
             self.assertEqual(response.status, "201 Created")
 
+        exclusion_criteria = [
+            criterion
+            for criterion in deepcopy(test_article_21_criteria)
+            if criterion["classification"]["id"] != CRITERION_SUBCONTRACTING_PROPORTION
+        ]
+        set_tender_criteria(exclusion_criteria, lots, tender["items"])
+        set_criteria_evidences_document(exclusion_criteria, evaluation_criteria_doc_id)
+
+        with open(TARGET_DIR + "exclusion-criteria-invalid-document-type.http", "w") as self.app.file_obj:
+            self.app.post_json(criteria_path, {"data": exclusion_criteria}, status=422)
+
+        with open(TARGET_DIR + "add-eligibility-criteria-document.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/documents?acc_token={}".format(self.tender_id, owner_token),
+                {
+                    "data": {
+                        "title": "eligibility_criteria.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                        "documentType": "eligibilityCriteria",
+                    }
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
+            eligibility_criteria_doc_id = response.json["data"]["id"]
+
+        set_criteria_evidences_document(exclusion_criteria, eligibility_criteria_doc_id)
+
+        subcontracting_criteria = []
+        for lot in lots:
+            lot_criteria = [
+                criterion
+                for criterion in deepcopy(test_article_21_criteria)
+                if criterion["classification"]["id"] == CRITERION_SUBCONTRACTING_PROPORTION
+            ]
+            subcontracting_criteria.extend(set_tender_criteria(lot_criteria, [lot], tender["items"]))
+        set_criteria_evidences_document(subcontracting_criteria, evaluation_criteria_doc_id)
+
+        with open(TARGET_DIR + "add-exclusion-criteria.http", "w") as self.app.file_obj:
+            response = self.app.post_json(criteria_path, {"data": exclusion_criteria + subcontracting_criteria})
+            self.assertEqual(response.status, "201 Created")
+
         self.add_sign_doc(self.tender_id, owner_token)
 
         with open(TARGET_DIR + "activate-tender-without-selection-criteria.http", "w") as self.app.file_obj:
@@ -170,8 +222,26 @@ class TenderLaw4888CriteriaResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
         self.assertEqual(response.status, "201 Created")
         proposal_doc_id = response.json["data"]["id"]
 
+        response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+        requirement_criteria = {
+            requirement["id"]: criterion["classification"]["id"]
+            for criterion in response.json["data"]
+            for group in criterion["requirementGroups"]
+            for requirement in group["requirements"]
+        }
+
+        def find_response(classification_id):
+            return next(
+                req_response
+                for req_response in requirement_responses
+                if requirement_criteria[req_response["requirement"]["id"]] == classification_id
+            )
+
         requirement_responses = generate_responses(self)
-        requirement_responses[0]["evidences"] = [
+        selection_response = find_response(test_article_20_criteria[0]["classification"]["id"])
+        exclusion_response = find_response("CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION")
+
+        selection_response["evidences"] = [
             {
                 "title": "Документальне підтвердження",
                 "type": "document",
@@ -202,10 +272,104 @@ class TenderLaw4888CriteriaResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
             self.assertEqual(response.status, "201 Created")
             qualification_doc_id = response.json["data"]["id"]
 
-        requirement_responses[0]["evidences"][0]["relatedDocument"] = {"id": qualification_doc_id}
+        selection_response["evidences"][0]["relatedDocument"] = {"id": qualification_doc_id}
+
+        exclusion_response["evidences"] = [
+            {
+                "title": "Документальне підтвердження",
+                "type": "document",
+                "relatedDocument": {"id": qualification_doc_id},
+            }
+        ]
+        with open(TARGET_DIR + "bid-exclusion-evidence-invalid-document-type.http", "w") as self.app.file_obj:
+            self.app.patch_json(
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"requirementResponses": requirement_responses, "status": "pending"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + "add-bid-eligibility-document.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/bids/{}/eligibility_documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {
+                    "data": {
+                        "title": "eligibility_documents.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                        "documentType": "eligibilityDocuments",
+                    }
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
+            eligibility_doc_id = response.json["data"]["id"]
+
+        exclusion_response["evidences"][0]["relatedDocument"] = {"id": eligibility_doc_id}
         with open(TARGET_DIR + "activate-bid-with-evidence.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
                 {"data": {"requirementResponses": requirement_responses, "status": "pending"}},
             )
             self.assertEqual(response.status, "200 OK")
+
+        self.set_status("active.qualification")
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [bid_data["tenderers"][0]],
+                        "status": "pending",
+                        "bid_id": bid_id,
+                        "lotID": lots[0]["id"],
+                    }
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
+            award_id = response.json["data"]["id"]
+
+        award_path = "/tenders/{}/awards/{}".format(self.tender_id, award_id)
+        blocking_requirement_ids = {
+            requirement_id: classification_id
+            for requirement_id, classification_id in requirement_criteria.items()
+            if classification_id in AWARD_ACTIVATION_BLOCKING_CRITERIA
+        }
+
+        with open(TARGET_DIR + "award-exclusion-responses.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "{}/requirement_responses?acc_token={}".format(award_path, owner_token),
+                {
+                    "data": [
+                        {"requirement": {"id": requirement_id}, "value": True}
+                        for requirement_id in blocking_requirement_ids
+                    ]
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
+            award_responses = {rr["requirement"]["id"]: rr["id"] for rr in response.json["data"]}
+
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+
+        with open(TARGET_DIR + "activate-award-with-exclusion-grounds.http", "w") as self.app.file_obj:
+            with change_auth(self.app, ("Basic", ("token", ""))):
+                self.app.patch_json(
+                    "{}?acc_token={}".format(award_path, owner_token),
+                    {"data": {"status": "active", "qualified": True, "eligible": True}},
+                    status=422,
+                )
+
+        for requirement_id in blocking_requirement_ids:
+            self.app.patch_json(
+                "{}/requirement_responses/{}?acc_token={}".format(
+                    award_path, award_responses[requirement_id], owner_token
+                ),
+                {"data": {"value": False}},
+            )
+
+        with open(TARGET_DIR + "activate-award.http", "w") as self.app.file_obj:
+            with change_auth(self.app, ("Basic", ("token", ""))):
+                response = self.app.patch_json(
+                    "{}?acc_token={}".format(award_path, owner_token),
+                    {"data": {"status": "active", "qualified": True, "eligible": True}},
+                )
+                self.assertEqual(response.status, "200 OK")

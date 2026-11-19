@@ -3614,6 +3614,7 @@ def tender_with_guarantee_multilot(self):
     criteria = []
     criteria.extend(getattr(self, "default_criteria", None) or test_default_criteria)
     criteria.extend(test_tender_guarantee_criteria)
+    criteria = deepcopy(criteria)
     set_tender_criteria(criteria, tender["lots"], tender["items"])
 
     for criterion in criteria:
@@ -3689,6 +3690,7 @@ def activate_bid_guarantee_multilot(self):
     criteria.extend(getattr(self, "default_criteria", None) or test_default_criteria)
     criteria.extend(test_tender_guarantee_criteria)
     criteria.extend(test_contract_guarantee_criteria)
+    criteria = deepcopy(criteria)
     set_tender_criteria(criteria, tender["lots"], tender["items"])
 
     for criterion in criteria:
