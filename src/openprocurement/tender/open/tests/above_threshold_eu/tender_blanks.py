@@ -1247,7 +1247,7 @@ def tender_with_cancelled_guarantee_criterion(self):
     related_lot_id = tender["lots"][0]["id"]
 
     criteria = []
-    criteria.extend(test_default_criteria)
+    criteria.extend(getattr(self, "default_criteria", None) or test_default_criteria)
     criteria.extend(test_tender_guarantee_criteria)
     set_tender_criteria(criteria, tender["lots"], tender["items"])
 

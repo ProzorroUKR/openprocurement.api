@@ -11,6 +11,7 @@ from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.open.tests.open_tendering.ua.criterion_blanks import (
     activate_tender_with_cancelled_selection_criterion_requirements,
     activate_tender_with_selection_criteria_per_lot,
+    criterion_evidence_document_type,
     criterion_evidence_title_required,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
@@ -58,6 +59,7 @@ from openprocurement.tender.open.tests.above_threshold_ua.criterion_blanks impor
 
 class TenderCriteriaBaseTestMixin:
     required_criteria = []
+    exclusion_criteria_classification_id = None
 
     def setUp(self):
         super().setUp()
@@ -86,6 +88,7 @@ class TenderCriteriaBaseTestMixin:
                 self.rg_id = criterion["requirementGroups"][0]["id"]
                 self.requirement_id = criterion["requirementGroups"][0]["requirements"][0]["id"]
             if criterion["classification"]["id"].startswith("CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"):
+                self.exclusion_criteria_classification_id = criterion["classification"]["id"]
                 self.exclusion_criteria_id = criterion["id"]
                 self.exclusion_rg_id = criterion["requirementGroups"][0]["id"]
                 self.exclusion_requirement_id = criterion["requirementGroups"][0]["requirements"][0]["id"]
@@ -144,7 +147,9 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(TenderCriteriaBaseTestMixin):
 
     def setUp(self):
         super().setUp()
-        self.test_evidence_data = self.set_criteria_evidences_doc(deepcopy(self.test_evidence_data))
+        self.test_evidence_data = self.set_criteria_evidences_doc(
+            deepcopy(self.test_evidence_data), classification_id=self.exclusion_criteria_classification_id
+        )
 
 
 class TenderSelectionCriteriaPerLotTestMixin:
@@ -189,6 +194,7 @@ class TenderOpenTenderingUACriteriaTest(
 
     test_activate_tender_with_tech_item = snitch(activate_tender_with_tech_item)
     test_criterion_evidence_title_required = snitch(criterion_evidence_title_required)
+    test_criterion_evidence_document_type = snitch(criterion_evidence_document_type)
 
 
 class TenderOpenTenderingUASelectionCriteriaPerLotTest(

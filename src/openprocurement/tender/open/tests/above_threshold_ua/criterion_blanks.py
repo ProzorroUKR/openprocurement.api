@@ -101,6 +101,7 @@ def create_tender_criteria_valid(self):
         criterion["classification"]["id"] = (
             "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
         )
+        self.set_criteria_evidences_doc([criterion])
         criterion2 = deepcopy(criterion)
         criterion["relatesTo"] = "lot"
         criterion["relatedItem"] = lot_id
@@ -621,7 +622,7 @@ def activate_tender(self):
             if criterion.get("classification")
         }
 
-        test_criteria = deepcopy(test_criteria_all)
+        test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
         test_criteria = get_criteria_by_ids(test_criteria, required_criteria)
         set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
         self.set_criteria_evidences_doc(test_criteria)
@@ -850,7 +851,7 @@ def activate_tender_with_tech_item(self):
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
     self.set_criteria_evidences_doc(test_criteria)
@@ -1654,7 +1655,7 @@ def put_rg_requirement_valid(self):
             }
         ]
     }
-    self.set_criteria_evidences_doc(put_data)
+    self.set_criteria_evidences_doc(put_data, classification_id=self.exclusion_criteria_classification_id)
     response = self.app.put_json(
         put_url.format(
             self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
@@ -1691,7 +1692,7 @@ def put_rg_requirement_valid(self):
             },
         ]
     }
-    self.set_criteria_evidences_doc(put_data)
+    self.set_criteria_evidences_doc(put_data, classification_id=self.exclusion_criteria_classification_id)
     response = self.app.put_json(
         put_url.format(
             self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
@@ -2698,7 +2699,7 @@ def criterion_from_market_profile(self):
 
     # add all other required criteria
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
     self.set_criteria_evidences_doc(test_criteria)
@@ -3055,7 +3056,7 @@ def criterion_from_market_category(self):
 
     # add all other required criteria
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
     self.set_criteria_evidences_doc(test_criteria)
@@ -3318,7 +3319,7 @@ def criterion_from_market_category_expected_items_narrowing(self):
     items = response.json["data"]["items"]
 
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
     self.set_criteria_evidences_doc(test_criteria)
@@ -3511,7 +3512,7 @@ def delete_tender_criteria(self):
     items = response.json["data"]["items"]
 
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids) or deepcopy(test_exclusion_criteria[:1])
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
     self.set_criteria_evidences_doc(test_criteria)
