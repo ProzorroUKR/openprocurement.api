@@ -516,17 +516,7 @@ class TenderResourceTest(
             }
         ]
         set_bid_items(self, bid_data, bid_items)
-
-        bid_data["items"][0]["unit"]["value"]["amount"] = bid_data["items"][0]["unit"]["value"]["amount"] + 1
         bid_data["tenderers"][0]["identifier"]["id"] = "12345678"
-        with open(TARGET_DIR + "tutorial/register-bidder-invalid.http", "w") as self.app.file_obj:
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
-            self.assertEqual(
-                response.json["errors"][0]["description"],
-                "Total amount of unit values should be equal bid.lotValues.value.amount if VAT is not included in bid.lotValues",
-            )
-
-        set_bid_items(self, bid_data, bid_items)
 
         with open(TARGET_DIR + "tutorial/register-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})

@@ -63,6 +63,7 @@ from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import (
     patch_bid_during_qualification_with_24h_milestone,
     patch_bid_requirement_response,
     patch_bid_requirement_response_evidence,
+    patch_bid_requirement_response_evidence_skips_amount_check,
     patch_bid_with_responses,
     patch_tender_bidder,
     patch_tender_bidder_decimal_problem,
@@ -301,6 +302,9 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     initial_lots = test_tender_below_lots
 
     test_bid_invalidation_after_requirement_put = snitch(bid_invalidation_after_requirement_put)
+    test_patch_bid_requirement_response_evidence_skips_amount_check = snitch(
+        patch_bid_requirement_response_evidence_skips_amount_check
+    )
 
 
 @patch(
