@@ -169,7 +169,7 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         self.validate_bid_econtract_fields(after)
         self.lot_values_patch_keep_unchange(after, before)
         self.validate_patch_bid_fields_during_qualification(before, after)
-        self.validate_bid_unit_value(after)
+        self.validate_bid_unit_value(after, before)
         self.validate_status_change(before, after)
         self.update_date_for_new_lot_values(after, before)
         self.validate_items_id(after)
@@ -475,7 +475,8 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
             name="items",
         )
 
-    def validate_bid_unit_value(self, data):
+    def validate_bid_unit_value(self, data, before=None):
+        before = before or {}
         tender = get_tender()
         tender_items_id = {}
         tender_lot_id = {}
@@ -601,8 +602,11 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
                     unit_value_amount = to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
                     items_unit_value_amount.append(unit_value_amount)
 
-        # Validate items unit value amount
-        if self.item_unit_amount_check:
+        # Validate items unit value amount only when the bid is transitioning into pending
+        # (covers both activation on patch and a bid posted directly as pending); other patches
+        # (e.g. 24h qualification corrections) may leave the amount temporarily inconsistent
+        is_activation = data.get("status") == "pending" and before.get("status") != "pending"
+        if self.item_unit_amount_check and is_activation:
             if lot_values:
                 for lot_id, amounts in items_unit_value_amount.items():
                     validate_items_unit_amount(amounts, lot_values_by_id[lot_id], obj_name="bid.lotValues")
