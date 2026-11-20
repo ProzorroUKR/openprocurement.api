@@ -1677,29 +1677,6 @@ def bid_items_unit_value_validations(self):
         }
     )
 
-    # quantity * value.amount is less than bid net amount 500/1.2 = 416, 400 < 416
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount",
-    )
-
-    # value.amount is 0
-    bid_data["items"][0]["unit"]["value"]["amount"] = 0
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount",
-    )
-
     # quantity * value.amount is not less than bid net amount
     bid_data["items"][0]["unit"]["value"]["amount"] = (
         83.33  # 83.33 * 5 = 416.65, and amount net of bid 416 - it is in 20% delta
@@ -1715,16 +1692,6 @@ def bid_items_unit_value_validations(self):
     data["value"]["valueAddedTaxIncluded"] = False
     self.mongodb.tenders.save(data)
     bid_data["value"]["valueAddedTaxIncluded"] = False
-    # items sum 83.33 * 5 = 416.65, as bid.value doesn't include VAT we will see an error
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid",
-    )
 
     bid_data["items"][0]["unit"]["value"]["amount"] = (
         100.12  # 100.12 * 5 = 500.6, and amount of bid 500 (without coins it is valid items unit value)

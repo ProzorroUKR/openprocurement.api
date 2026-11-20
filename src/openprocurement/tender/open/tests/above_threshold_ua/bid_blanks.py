@@ -1942,6 +1942,65 @@ def patch_bid_requirement_response_evidence(self):
     self.assertEqual(evidence["description"], updated_data["description"])
 
 
+def patch_bid_requirement_response_evidence_skips_amount_check(self):
+    # corrupt the stored bid so items.unit.value.amount no longer sums up to bid.value/lotValues
+    tender = self.mongodb.tenders.get(self.tender_id)
+    for bid in tender["bids"]:
+        if bid["id"] == self.bid_id:
+            bid["items"][0]["unit"]["value"]["amount"] += 100000
+            break
+    else:
+        self.fail("bid not found")
+    self.mongodb.tenders.save(tender)
+
+    valid_data = {
+        "title": "Requirement response",
+        "relatedDocument": {
+            "id": self.doc_id,
+            "title": "name.doc",
+        },
+        "type": "document",
+    }
+
+    # posting an evidence doesn't move the bid to pending, so the amount mismatch must not block it
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(
+            self.tender_id, self.bid_id, self.rr_id, self.bid_token
+        ),
+        {"data": valid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    # a patch that keeps the bid in draft (no status transition) is not checked either
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {"subcontractingDetails": "100% self-produced"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # answer the rest of the criteria (setUp only answered the first one) so the only
+    # remaining obstacle to activating the bid is the corrupted amount
+    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+    criteria = response.json["data"]
+    rrs = set_bid_responses(criteria)[1:]
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": rrs},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    # but moving the bid from draft to pending still enforces the amount check
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {"status": "pending"}},
+        status=422,
+    )
+    self.assertIn(
+        "Total amount of unit values should be equal",
+        response.json["errors"][0]["description"],
+    )
+
+
 def get_bid_requirement_response_evidence(self):
     valid_data = {
         "title": "Requirement response",
@@ -2621,22 +2680,16 @@ def patch_bid_during_qualification_with_24h_milestone(self):
         },
     )
 
-    # try to change unit.value.amount to invalid value
+    # the amount-sum check is only enforced on the draft/invalid -> pending transition, so an
+    # unbalanced unit.value.amount is allowed to be patched during qualification (24h correction)
     items = deepcopy(bids[0]["items"])
     items[0]["unit"]["value"]["amount"] = 5000
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
         {"data": {"items": items}},
-        status=422,
     )
-    self.assertEqual(
-        response.json["errors"][0],
-        {
-            "location": "body",
-            "name": "items",
-            "description": "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid",
-        },
-    )
+    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 5000)
 
     # successfully change unit.value.amount and subcontractingDetails
     set_items_unit(items, bids[0]["value"])

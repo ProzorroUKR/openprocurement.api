@@ -291,11 +291,6 @@
 .. http:example:: http/tutorial/bidder-documents.http
    :code:
 
-Якщо закупівля не мультивалютна, тоді існує додаткова перевірка, що сума всіх `items.unit.value` не може перевищувати ціну пропозиції:
-
-.. http:example:: http/tutorial/register-bidder-invalid.http
-   :code:
-
 При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:
 
 .. http:example:: http/tutorial/patch-pending-bid.http

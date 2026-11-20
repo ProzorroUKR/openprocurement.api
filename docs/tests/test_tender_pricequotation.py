@@ -247,18 +247,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             "requirementResponses": generate_product_responses(test_tender_pq_short_profile["criteria"]),
         }
         with patch_market_product(bid_product):
-            quantity = bid_data["items"][0]["quantity"]
-
-            # validation sum of item.quantity * item.unit.value
-            bid_data["items"][0]["quantity"] = quantity - 1
-            with open(TARGET_DIR + "register-bidder-invalid-unit-value.http", "w") as self.app.file_obj:
-                response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
-                self.assertEqual(
-                    response.json["errors"][0]["description"],
-                    "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid",
-                )
-
-            bid_data["items"][0]["quantity"] = quantity
             with open(TARGET_DIR + "register-bidder.http", "w") as self.app.file_obj:
                 response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
                 bid1_id = response.json["data"]["id"]
