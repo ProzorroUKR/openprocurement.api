@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-06 10:53+0300\n"
+"POT-Creation-Date: 2026-11-20 15:33+0200\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -261,11 +261,8 @@ msgstr "Tender status ``active.tendering`` allows registration of bids."
 msgid "Якщо `tenderer` в пропозиції не є кваліфікованим учасником в угоді, то ми побачимо помилку під час подання пропозиції:"
 msgstr "If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:"
 
-msgid "Для типу закупівлі priceQuotation існує валідація: сума добутків по позиціям (`item.quantity * item.unit.value.amount`) повинна бути більше 0, і може відрізнятись в нижню сторону від bid.value.amount не більше ніж на 20%."
-msgstr "For PQ bids have strict validation: the amount of bids by item (`item.quantity * item.unit.value.amount`) must be greater than 0, and may differ downwards from bid.value.amount by no more than 20%."
-
-msgid "Якщо сума добутків цін за одиницю менше ніж нетто значення`bid.value.amount` (`bid.value.amount * 1.2`), учасник побачить помилку:"
-msgstr "If sum of unit items values are less than net value `bid.value.amount` (`bid.value.amount * 1.2`), the bidder will see the error:"
+msgid "Для типу закупівлі priceQuotation існує валідація: сума добутків по позиціям (`item.quantity * item.unit.value.amount`) повинна бути більше 0, і може відрізнятись в нижню сторону від bid.value.amount не більше ніж на 20%. Ця перевірка виконується лише при переведенні пропозиції в статус `pending`, а не при її створенні."
+msgstr "For PQ bids have strict validation: the amount of bids by item (`item.quantity * item.unit.value.amount`) must be greater than 0, and may differ downwards from bid.value.amount by no more than 20%. This check is only enforced when the bid transitions to the `pending` status, not at creation."
 
 msgid "Якщо позиція (`item`) в закупівлі посилається на категорію чи профіль, учасник має обов'язково вказувати продукт для цієї позиції. Якщо продукт не вказаний, ми побачимо помилку:"
 msgstr "If item in tender has category or profile relation, then bidder must set product in this item. If there is no product we will see the error:"
@@ -473,4 +470,7 @@ msgstr "Sign document should have `documentType: cancellationReport` and `title:
 
 msgid "Активуємо запит на скасування закупівлі:"
 msgstr "Activate the request of cancelling tender"
+
+#~ msgid "Якщо сума добутків цін за одиницю менше ніж нетто значення`bid.value.amount` (`bid.value.amount * 1.2`), учасник побачить помилку:"
+#~ msgstr "If sum of unit items values are less than net value `bid.value.amount` (`bid.value.amount * 1.2`), the bidder will see the error:"
 

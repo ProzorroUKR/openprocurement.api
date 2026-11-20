@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-15 20:43+0300\n"
+"POT-Creation-Date: 2026-11-20 15:33+0200\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -363,9 +363,6 @@ msgstr "Let's try to activate bid one more time:"
 msgid "Можна перевірити завантажені документи:"
 msgstr "It is possible to check the uploaded documents:"
 
-msgid "Якщо закупівля не мультивалютна, тоді існує додаткова перевірка, що сума всіх `items.unit.value` не може перевищувати ціну пропозиції:"
-msgstr "If tender has multicurrency turned off, than there will be validation that sum of `items.unit.value` could not be more than bid value:"
-
 msgid "При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:"
 msgstr "If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:"
 
@@ -491,4 +488,7 @@ msgstr "Sign document should have `documentType: cancellationReport` and `title:
 
 msgid "Активуємо запит на скасування закупівлі:"
 msgstr "Activate the request of cancelling tender"
+
+#~ msgid "Якщо закупівля не мультивалютна, тоді існує додаткова перевірка, що сума всіх `items.unit.value` не може перевищувати ціну пропозиції:"
+#~ msgstr "If tender has multicurrency turned off, than there will be validation that sum of `items.unit.value` could not be more than bid value:"
 
