@@ -404,13 +404,13 @@ def validate_cfa_features(data, features):
 
 
 def validate_cfa_max_awards_number(number, *args):
-    if number < CFA_MIN_BIDS_NUMBER:
+    if number is not None and number < CFA_MIN_BIDS_NUMBER:
         raise ValidationError("Maximal awards number can't be less then minimal bids number")
 
 
 def validate_cfa_max_agreement_duration_period(value):
     date = datetime(1, 1, 1)
-    if (date + value) > (date + CFA_UA_MAX_AGREEMENT_PERIOD):
+    if value is not None and (date + value) > (date + CFA_UA_MAX_AGREEMENT_PERIOD):
         raise ValidationError(
             "Agreement duration period is greater than {}".format(duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD))
         )

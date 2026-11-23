@@ -60,4 +60,4 @@ def validate_observation_ids_uniq(metrics):
     validation_func = validate_list_uniq_factory(
         "id", err_field="observations", err_msg="All observations in tender should be unique"
     )
-    validation_func(itertools.chain([x.observations for x in metrics]))
+    validation_func(itertools.chain([x.observations for x in metrics or []]))

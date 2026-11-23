@@ -33,7 +33,7 @@ class LotValueUrl(Model):
 
 class AuctionUrls(Model):
     auctionUrl: Url | None = None
-    bids: list[ParticipationUrl] | None = None
+    bids: list[ParticipationUrl]
 
     @field_validator("bids")
     @classmethod
@@ -159,7 +159,7 @@ class BidResult(Model):
 
 
 class AuctionResults(Model):
-    bids: list[BidResult] | None = None
+    bids: list[BidResult]
 
     @field_validator("bids")
     @classmethod
@@ -252,7 +252,7 @@ class DecimalBidResult(BidResult):
 
 
 class DecimalAuctionResults(AuctionResults):
-    bids: list[DecimalBidResult] | None = None
+    bids: list[DecimalBidResult]
 
 
 class DecimalLotResult(LotResult):

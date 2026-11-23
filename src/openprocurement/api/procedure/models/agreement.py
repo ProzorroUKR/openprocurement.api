@@ -40,15 +40,15 @@ def validate_only_addend_or_only_factor(modifications: list[UnitPriceModificatio
             raise ValueError("Change with taxRate rationaleType, can have only factor or only addend")
 
 
-def validate_item_price_variation_modifications(modifications: list[UnitPriceModification]) -> None:
-    for modification in modifications:
+def validate_item_price_variation_modifications(modifications: list[UnitPriceModification] | None) -> None:
+    for modification in modifications or []:
         if modification.addend:
             raise ValueError("Only factor is allowed for itemPriceVariation type of change")
         if modification.factor is None or not Decimal("0.9") <= modification.factor <= Decimal("1.1"):
             raise ValueError("Modification factor should be in range 0.9 - 1.1")
 
 
-def validate_third_party_modifications(modifications: list[UnitPriceModification]) -> None:
-    for modification in modifications:
+def validate_third_party_modifications(modifications: list[UnitPriceModification] | None) -> None:
+    for modification in modifications or []:
         if modification.addend:
             raise ValueError("Only factor is allowed for thirdParty type of change")

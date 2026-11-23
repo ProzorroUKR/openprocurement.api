@@ -279,6 +279,6 @@ class BaseTender(PatchBaseTender, RootModel):
 
 
 def validate_funders_ids(funders, *args):
-    for funder in funders:
+    for funder in funders or []:
         if funder.identifier and (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
             raise ValidationError("Funder identifier should be one of the values allowed")

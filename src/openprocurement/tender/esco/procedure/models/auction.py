@@ -28,7 +28,7 @@ class ESCOBidResult(Model):
 
 
 class ESCOAuctionResults(AuctionResults):
-    bids: list[ESCOBidResult] | None = None
+    bids: list[ESCOBidResult]
 
 
 class ESCOLotResult(Model):

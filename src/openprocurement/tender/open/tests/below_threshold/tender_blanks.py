@@ -1,4 +1,3 @@
-from openprocurement.api.constants import ProcurementMethodType
 import random
 from copy import deepcopy
 from datetime import timedelta
@@ -18,10 +17,10 @@ from openprocurement.api.constants import (
     ROUTE_PREFIX,
     TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178,
     TZ,
+    ProcurementMethodType,
 )
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.models.organization import (
-    ProcuringEntityKind,
     ProcuringEntityKind,
 )
 from openprocurement.api.procedure.utils import parse_date
@@ -2088,6 +2087,20 @@ def tender_features_invalid(self):
         [{"description": ["Items should be unique by fields: id"], "location": "body", "name": "items"}],
     )
     data["items"][0]["id"] = "0"
+    for enum in ({}, {"enum": None}):
+        data["features"] = [{"code": "OCDS-123454-POSTPONEMENT", "title": "Відстрочка платежу", **enum}]
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": [{"enum": ["Please provide at least 1 item."]}],
+                    "location": "body",
+                    "name": "features",
+                }
+            ],
+        )
     data["features"] = [
         {
             "code": "OCDS-123454-AIR-INTAKE",
