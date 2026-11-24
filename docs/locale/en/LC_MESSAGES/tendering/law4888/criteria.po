@@ -423,3 +423,6 @@ msgstr "An attempt to award such a bidder:"
 
 msgid "Після того як замовник змінить відповіді на ``false``, рішення можна активувати:"
 msgstr "After the procuring entity changes the answers to ``false``, the award can be activated:"
+
+msgid "У закупівлях з попередньою кваліфікацією (``config.hasPrequalification`` = ``true``) ті самі перевірки діють і для об'єкта ``qualification``: позитивна відповідь на ці критерії не дозволяє перевести попередню кваліфікацію у статус ``active``."
+msgstr "In the tenders with the prequalification (``config.hasPrequalification`` = ``true``) the same checks apply to the ``qualification`` object as well: a positive answer to these criteria does not allow switching the prequalification to the ``active`` status."

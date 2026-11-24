@@ -62,6 +62,8 @@ class RequirementResponsesRulesMixin(BaseState):
     requirement_responses_error_path_strip = 0
     # by criterion classification id: the `documentType` and the `containers` of the document of an evidence
     evidence_document_rules: dict[str, dict] = {}
+    # openTendering: a positive answer to these criteria excludes the bidder, so the parent object can't become active
+    activation_blocking_criteria: set = set()
 
     def validate_requirement_responses_change(self, before: dict, after: dict) -> None:
         """
@@ -202,6 +204,26 @@ class RequirementResponsesRulesMixin(BaseState):
 
     def validate_requirement_responses_coverage(self, parent: dict, responses: list) -> None:
         """the bid checks that every criterion is answered; awards and qualifications have no such rule"""
+
+    def validate_activation_blocking_responses(self, parent: dict) -> None:
+        if not self.activation_blocking_criteria or parent.get("status") != "active":
+            return
+        blocking_ids: set[str] = set()
+        for req_response in parent.get("requirementResponses") or []:
+            if req_response.get("value") is not True:
+                continue
+            *_, criterion = get_requirement_obj(req_response["requirement"]["id"])
+            classification_id = ((criterion or {}).get("classification") or {}).get("id") or ""
+            if classification_id in self.activation_blocking_criteria:
+                blocking_ids.add(classification_id)
+        if blocking_ids:
+            raise_operation_error(
+                self.request,
+                f"Can't update {self.requirement_responses_parent_obj_name} to active status "
+                f"with positive response to criteria: {', '.join(sorted(blocking_ids))}",
+                status=422,
+                name="requirementResponses",
+            )
 
     # --- the responses endpoints ---
 

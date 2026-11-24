@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 from uuid import uuid4
 
-from openprocurement.api.constants import ARTICLE_20, REQUESTED_REMEDIES_TYPES
+from openprocurement.api.constants import ARTICLE_20, ARTICLE_21, REQUESTED_REMEDIES_TYPES
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
@@ -987,7 +987,7 @@ def create_complaint_objection_validation(self):
         response.json["errors"][0]["description"][0]["classification"]["scheme"],
         [
             "Value must be one of "
-            "['article_16', 'article_17', 'article_20', 'other', 'violation_amcu', 'amcu', 'amcu_24']."
+            "['article_16', 'article_17', 'article_20', 'article_21', 'other', 'violation_amcu', 'amcu', 'amcu_24']."
         ],
     )
 
@@ -1022,6 +1022,30 @@ def create_complaint_objection_validation(self):
     self.assertEqual(
         response.json["data"]["objections"][0]["classification"],
         article_20_objection_data["classification"],
+    )
+
+    invalid_objection_data["classification"]["scheme"] = "article_21"
+    invalid_objection_data["classification"]["id"] = "test"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["classification"]["id"],
+        ["Value must be one of article_21 reasons"],
+    )
+
+    article_21_objection_data = deepcopy(test_tender_open_complaint_objection)
+    article_21_objection_data["classification"] = {
+        "scheme": "article_21",
+        "id": sorted(ARTICLE_21)[0],
+        "description": "test classification",
+    }
+    complaint_data["objections"] = [article_21_objection_data]
+    response = self.create_complaint(complaint_data, with_valid_relates_to=True)
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(
+        response.json["data"]["objections"][0]["classification"],
+        article_21_objection_data["classification"],
     )
 
     invalid_objection_data = deepcopy(test_tender_open_complaint_objection)

@@ -1,4 +1,4 @@
-from openprocurement.tender.core.constants import AWARD_ACTIVATION_BLOCKING_CRITERIA
+from openprocurement.tender.core.constants import QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA
 from openprocurement.tender.core.tests.utils import change_auth
 
 
@@ -7,9 +7,9 @@ def award_activation_blocked_by_exclusion_criteria(self):
     requirement_ids = {
         criterion["classification"]["id"]: criterion["requirementGroups"][0]["requirements"][0]["id"]
         for criterion in response.json["data"]
-        if criterion["classification"]["id"] in AWARD_ACTIVATION_BLOCKING_CRITERIA
+        if criterion["classification"]["id"] in QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA
     }
-    self.assertEqual(set(requirement_ids), set(AWARD_ACTIVATION_BLOCKING_CRITERIA))
+    self.assertEqual(set(requirement_ids), set(QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA))
 
     award_path = "/tenders/{}/awards/{}".format(self.tender_id, self.award_id)
     response = self.app.post_json(
@@ -29,8 +29,8 @@ def award_activation_blocked_by_exclusion_criteria(self):
                 status=status,
             )
 
-    still_blocking = set(AWARD_ACTIVATION_BLOCKING_CRITERIA)
-    for classification_id in sorted(AWARD_ACTIVATION_BLOCKING_CRITERIA):
+    still_blocking = set(QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA)
+    for classification_id in sorted(QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA):
         response = activate(status=422)
         self.assertEqual(
             response.json["errors"],

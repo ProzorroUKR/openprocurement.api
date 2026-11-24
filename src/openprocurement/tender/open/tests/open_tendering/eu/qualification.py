@@ -10,7 +10,11 @@ from openprocurement.tender.core.tests.utils import generate_req_response
 from openprocurement.tender.open.tests.open_tendering.eu.base import (
     BaseTenderContentWebTest,
     test_tender_open_tendering_eu_bids,
+    test_tender_open_tendering_eu_criteria,
     test_tender_open_tendering_eu_lots,
+)
+from openprocurement.tender.open.tests.open_tendering.eu.qualification_blanks import (
+    qualification_activation_blocked_by_exclusion_criteria,
 )
 from openprocurement.tender.open.tests.above_threshold_eu.qualification_blanks import (
     bot_patch_tender_qualification_complaint,
@@ -390,6 +394,14 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     pass
 
 
+class TenderQualificationExclusionCriteriaTest(TenderQualificationBaseTestCase):
+    initial_criteria = test_tender_open_tendering_eu_criteria
+
+    test_qualification_activation_blocked_by_exclusion_criteria = snitch(
+        qualification_activation_blocked_by_exclusion_criteria
+    )
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationResourceTest))
@@ -397,6 +409,7 @@ def suite():
     suite.addTest(
         unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationRequirementResponseEvidenceResourceTest)
     )
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationExclusionCriteriaTest))
     return suite
 
 

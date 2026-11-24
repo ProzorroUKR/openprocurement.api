@@ -2,8 +2,8 @@ import os
 from copy import deepcopy
 
 from openprocurement.tender.core.constants import (
-    AWARD_ACTIVATION_BLOCKING_CRITERIA,
     CRITERION_SUBCONTRACTING_PROPORTION,
+    QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA,
 )
 from openprocurement.tender.core.tests.base import (
     test_article_20_criteria,
@@ -332,7 +332,7 @@ class TenderLaw4888CriteriaResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
         blocking_requirement_ids = {
             requirement_id: classification_id
             for requirement_id, classification_id in requirement_criteria.items()
-            if classification_id in AWARD_ACTIVATION_BLOCKING_CRITERIA
+            if classification_id in QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA
         }
 
         with open(TARGET_DIR + "award-exclusion-responses.http", "w") as self.app.file_obj:
