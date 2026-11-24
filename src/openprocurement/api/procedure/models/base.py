@@ -91,6 +91,7 @@ class Model(PydanticBaseModel):
         use_enum_values=True,  # the values of enum fields are plain strings
         regex_engine="python-re",  # `pattern` is matched from the start of the string (`re.match`)
         coerce_numbers_to_str=True,  # a string field accepts numbers
+        validate_default=True,  # the defaults are validated as well (e.g. a `[]` default of a `min_length=1` list)
     )
 
     _input_names: ClassVar[frozenset[str]] = frozenset()

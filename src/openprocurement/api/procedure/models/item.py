@@ -130,7 +130,7 @@ class TechFeatureItemMixin(Model):
 
 
 def validate_ccce_ua(additional_classifications):
-    ccce_count = sum(1 for i in additional_classifications if i.scheme == CCCE_UA_SCHEME)
+    ccce_count = sum(1 for i in additional_classifications or [] if i.scheme == CCCE_UA_SCHEME)
     if ccce_count > 1:
         raise ValidationError(
             f"Object shouldn't have more than 1 additionalClassification with scheme {CCCE_UA_SCHEME}"

@@ -33,9 +33,9 @@ from openprocurement.planning.api.procedure.models.tender import PlanTender
 from openprocurement.planning.api.utils import generate_plan_id
 
 
-def validate_plan_additional_classifications(classifications: list[AdditionalClassification]) -> None:
+def validate_plan_additional_classifications(classifications: list[AdditionalClassification] | None) -> None:
     validate_ccce_ua(classifications)
-    if any(classification.scheme == UKTZED_SCHEME for classification in classifications):
+    if any(classification.scheme == UKTZED_SCHEME for classification in classifications or []):
         raise ValueError(f"Forbidden to add {UKTZED_SCHEME}. Should be added in items.additionalClassifications.")
 
 
