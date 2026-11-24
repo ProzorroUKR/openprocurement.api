@@ -60,6 +60,7 @@ from openprocurement.tender.open.tests.above_threshold_ua.criterion_blanks impor
 class TenderCriteriaBaseTestMixin:
     required_criteria = []
     exclusion_criteria_classification_id = None
+    other_criteria_classification_id = None
 
     def setUp(self):
         super().setUp()
@@ -84,6 +85,7 @@ class TenderCriteriaBaseTestMixin:
         )
         for criterion in response.json["data"]:
             if criterion["classification"]["id"].startswith("CRITERION.OTHER.BID.VALIDITY_PERIOD"):
+                self.other_criteria_classification_id = criterion["classification"]["id"]
                 self.criteria_id = criterion["id"]
                 self.rg_id = criterion["requirementGroups"][0]["id"]
                 self.requirement_id = criterion["requirementGroups"][0]["requirements"][0]["id"]
@@ -148,7 +150,7 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(TenderCriteriaBaseTestMixin):
     def setUp(self):
         super().setUp()
         self.test_evidence_data = self.set_criteria_evidences_doc(
-            deepcopy(self.test_evidence_data), classification_id=self.exclusion_criteria_classification_id
+            deepcopy(self.test_evidence_data), classification_id=self.other_criteria_classification_id
         )
 
 

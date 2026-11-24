@@ -34,6 +34,7 @@ from openprocurement.tender.open.tests.open_tendering.ua.bid_blanks import (
     bid_evidence_document_type,
     bid_evidence_document_version,
     winner_evidence_document_type,
+    winner_evidence_forbidden_after_contract_signed,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
     BaseTenderOpenTenderingUAContentWebTest,
@@ -326,6 +327,17 @@ class TenderBidWinnerEvidenceTest(TenderAwardActiveResourceTestCase):
     initial_criteria = test_tender_open_tendering_ua_criteria
 
     test_winner_evidence_document_type = snitch(winner_evidence_document_type)
+
+
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
+)
+class Tender2LotBidWinnerEvidenceTest(TenderAwardActiveResourceTestCase):
+    initial_criteria = test_tender_open_tendering_ua_criteria
+    initial_lots = 2 * test_tender_below_lots
+
+    test_winner_evidence_forbidden_after_contract_signed = snitch(winner_evidence_forbidden_after_contract_signed)
 
 
 class TenderBidDuringQualification(TenderAwardPendingResourceTestCase):

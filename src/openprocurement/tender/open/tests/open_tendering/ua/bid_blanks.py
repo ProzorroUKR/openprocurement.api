@@ -3,6 +3,7 @@ from copy import deepcopy
 from openprocurement.tender.core.constants import CRITERION_SUBCONTRACTING_PROPORTION
 from openprocurement.tender.core.tests.base import test_article_20_criteria
 from openprocurement.tender.core.tests.utils import (
+    activate_contract,
     set_bid_items,
     set_bid_lotvalues,
     set_bid_responses,
@@ -325,3 +326,60 @@ def winner_evidence_document_type(self):
     doc_id = create_bid_document(self, bid_id, self.bid_token, "qualification_documents", "qualificationDocuments")
     response = post_evidence(doc_id)
     self.assertEqual(response.json["data"]["relatedDocument"]["id"], doc_id)
+
+
+def winner_evidence_forbidden_after_contract_signed(self):
+    bid_id = self.initial_bids[0]["id"]
+    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+    requirement_ids = {
+        requirement["id"]
+        for criterion in response.json["data"]
+        if criterion["source"] == "winner" and criterion["relatesTo"] == "tender"
+        for group in criterion["requirementGroups"]
+        for requirement in group["requirements"]
+    }
+    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, self.bid_token))
+    requirement_response = next(
+        rr for rr in response.json["data"]["requirementResponses"] if rr["requirement"]["id"] in requirement_ids
+    )
+    evidences_path = "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(
+        self.tender_id, bid_id, requirement_response["id"], self.bid_token
+    )
+    doc_id = create_bid_document(self, bid_id, self.bid_token, "eligibility_documents", "eligibilityDocuments")
+    evidence_data = {
+        "data": {
+            "title": "Requirement response",
+            "type": "document",
+            "relatedDocument": {"id": doc_id},
+        }
+    }
+
+    response = self.app.post_json(evidences_path, evidence_data)
+    self.assertEqual(response.status, "201 Created")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    contract = next(c for c in response.json["data"]["contracts"] if c["awardID"] == self.award_id)
+    self.assertEqual(contract["status"], "pending")
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+    for award in tender.get("awards", []):
+        if award.get("complaintPeriod"):
+            award["complaintPeriod"]["endDate"] = award["complaintPeriod"]["startDate"]
+    self.mongodb.tenders.save(tender)
+
+    activate_contract(self, self.tender_id, contract["id"], self.tender_token, self.bid_token)
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
+
+    response = self.app.post_json(evidences_path, evidence_data, status=403)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "forbidden if contract not in status `pending`",
+            }
+        ],
+    )

@@ -231,15 +231,12 @@ test_tender_open_tendering_eu_required_criteria_ids = {
     "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PARTICIPATION",
     "CRITERION.EXCLUSION.NATIONAL.OTHER",
     "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION",
-}
-
-test_tender_open_tendering_eu_criteria_ids = test_tender_open_tendering_eu_required_criteria_ids | {
     "CRITERION.OTHER.BID.LANGUAGE",
     "CRITERION.OTHER.BID.VALIDITY_PERIOD",
 }
 
 test_tender_open_tendering_eu_criteria = get_criteria_by_ids(
-    test_criteria_all_law_4888, test_tender_open_tendering_eu_criteria_ids
+    test_criteria_all_law_4888, test_tender_open_tendering_eu_required_criteria_ids
 )
 test_tender_open_tendering_eu_criteria.extend(test_article_20_criteria[:1])
 

@@ -46,6 +46,7 @@ def create_tender_criteria_valid(self):
 
     criterion = deepcopy(criteria[0])
     criterion["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
+    self.set_criteria_evidences_doc([criterion])
 
     response = self.app.post_json(request_path, {"data": criteria})
     self.assertEqual(response.status, "201 Created")
@@ -978,7 +979,7 @@ def create_criteria_rg(self):
     rg_data = deepcopy(test_requirement_groups[0])
     for req in rg_data["requirements"]:
         req["expectedValue"] = True
-    self.set_criteria_evidences_doc(rg_data)
+    self.set_criteria_evidences_doc(rg_data, classification_id=self.other_criteria_classification_id)
     response = self.app.post_json(request_path, {"data": rg_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1037,7 +1038,7 @@ def patch_criteria_rg(self):
 
 def get_criteria_rg(self):
     requirement_group_data = deepcopy(test_requirement_groups[0])
-    self.set_criteria_evidences_doc(requirement_group_data)
+    self.set_criteria_evidences_doc(requirement_group_data, classification_id=self.other_criteria_classification_id)
 
     response = self.app.get(
         "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
@@ -2143,10 +2144,11 @@ def create_patch_delete_evidences_from_requirement(self):
         self.exclusion_requirement_id,
         self.tender_token,
     )
-    # add
-    response = self.app.patch_json(
-        request_path, {"data": {"eligibleEvidences": [self.test_evidence_data, self.test_evidence_data]}}
+    evidence_data = self.set_criteria_evidences_doc(
+        deepcopy(self.test_evidence_data), classification_id=self.exclusion_criteria_classification_id
     )
+    # add
+    response = self.app.patch_json(request_path, {"data": {"eligibleEvidences": [evidence_data, evidence_data]}})
 
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2157,7 +2159,7 @@ def create_patch_delete_evidences_from_requirement(self):
 
     # add third
     response = self.app.patch_json(
-        request_path, {"data": {"eligibleEvidences": [evidences[0], evidences[1], self.test_evidence_data]}}
+        request_path, {"data": {"eligibleEvidences": [evidences[0], evidences[1], evidence_data]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

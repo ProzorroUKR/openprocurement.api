@@ -35,6 +35,7 @@ from openprocurement.tender.open.tests.above_threshold_ua.criterion_blanks impor
 
 class TenderCriteriaBaseTestMixin:
     required_criteria = []
+    other_criteria_classification_id = None
 
     def setUp(self):
         super().setUp()

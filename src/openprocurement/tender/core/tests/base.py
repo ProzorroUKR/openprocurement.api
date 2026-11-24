@@ -80,6 +80,7 @@ test_criteria_article_16 = standards.load("criteria/article_16.json")
 test_criteria_article_17 = standards.load("criteria/article_17.json")
 test_article_20_criteria = standards.load("criteria/law_4888/tender/selection_criteria.json")
 test_article_21_criteria = standards.load("criteria/law_4888/tender/exclusion_criteria.json")
+test_criteria_other_law_4888 = standards.load("criteria/law_4888/tender/other_criteria.json")
 
 test_criteria_decree_1178 = standards.load("criteria/decree_1178.json")
 test_criteria_lcc = standards.load("criteria/LCC.json")
@@ -90,7 +91,7 @@ test_criteria_all.extend(test_criteria_other)
 test_criteria_all.extend(test_criteria_article_17)
 
 test_criteria_all_law_4888 = []
-test_criteria_all_law_4888.extend(test_criteria_other)
+test_criteria_all_law_4888.extend(test_criteria_other_law_4888)
 test_criteria_all_law_4888.extend(test_article_21_criteria)
 test_criteria_all_law_4888.extend(test_article_20_criteria)
 
