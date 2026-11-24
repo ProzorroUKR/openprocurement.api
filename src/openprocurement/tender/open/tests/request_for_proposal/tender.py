@@ -70,6 +70,7 @@ from openprocurement.tender.open.tests.request_for_proposal.tender_blanks import
     create_tender_has_multi_sourcing_with_auction,
     create_tender_invalid,
     create_tender_invalid_config,
+    create_tender_rated_criteria_features,
     create_tender_without_estimated_value,
     disallow_agreements_with_preselection_false,
     patch_enquiry_tender_periods,
@@ -134,6 +135,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_award_criteria = snitch(create_tender_award_criteria)
+    test_create_tender_rated_criteria_features = snitch(create_tender_rated_criteria_features)
     test_create_tender_has_multi_sourcing_with_auction = snitch(create_tender_has_multi_sourcing_with_auction)
     test_patch_tender_has_multi_sourcing_is_immutable = snitch(patch_tender_has_multi_sourcing_is_immutable)
     test_validate_enquiry_period = snitch(validate_enquiry_period)

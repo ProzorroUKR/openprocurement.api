@@ -44,6 +44,7 @@ from openprocurement.api.constants_env import (
     RELATED_LOT_REQUIRED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
+    RFP_RATED_CRITERIA_FEATURES_VALIDATION_FROM,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_ITEMS_DIFFERENT_CPV_FROM,
     TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM,
@@ -1638,6 +1639,9 @@ class TenderCriteriaRulesMixin(BaseState):
     required_market_criteria_check = True
     # lifeCycleCost is not allowed together with features (former model validator)
     award_criteria_lcc_features_check = True
+    # ratedCriteria is not allowed together with features
+    # (rfp only, tenders created after RFP_RATED_CRITERIA_FEATURES_VALIDATION_FROM)
+    award_criteria_rated_features_check = False
     features_max_weight = 0.3  # max value of a single feature and of the sum per lot/tender
     # allowed / default awardCriteria (None = the tender has no awardCriteria)
     award_criteria_choices: tuple | None = (AwardCriteria.LOWEST_COST, AwardCriteria.LIFE_CYCLE_COST)
@@ -1786,6 +1790,18 @@ class TenderCriteriaRulesMixin(BaseState):
             raise_operation_error(
                 self.request,
                 [f"Can`t add features with {AwardCriteria.LIFE_CYCLE_COST} awardCriteria"],
+                status=422,
+                name="awardCriteria",
+            )
+        if (
+            self.award_criteria_rated_features_check
+            and value == AwardCriteria.RATED_CRITERIA
+            and tender.get("features")
+            and tender_created_after(RFP_RATED_CRITERIA_FEATURES_VALIDATION_FROM, tender)
+        ):
+            raise_operation_error(
+                self.request,
+                [f"Can`t add features with {AwardCriteria.RATED_CRITERIA} awardCriteria"],
                 status=422,
                 name="awardCriteria",
             )
