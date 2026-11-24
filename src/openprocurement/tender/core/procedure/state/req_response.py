@@ -481,6 +481,7 @@ class BidRequirementResponsesRulesMixin(RequirementResponsesRulesMixin):
     # tender statuses in which the responses can be changed on the responses endpoints
     # (an active 24h milestone allows it regardless)
     req_response_allowed_tender_statuses: tuple = ("draft", "draft.pending", "draft.stage2", "active.tendering")
+    evidence_requires_pending_contract: bool = False
 
     def validate_req_response_get_request(self):
         self.validate_bid_get_request()
@@ -517,14 +518,26 @@ class BidRequirementResponsesRulesMixin(RequirementResponsesRulesMixin):
                     break
             if active_award is None:
                 raise_operation_error(request, "Winner criteria available only with active award")
-            current_contract = None
-            for contract in tender.get("contracts", ""):
-                if contract.get("awardId") == active_award["id"]:
-                    current_contract = contract
-                    break
-            if current_contract and current_contract.status == "pending":
-                raise_operation_error(request, "forbidden if contract not in status `pending`")
+            if self.evidence_requires_pending_contract:
+                self.validate_evidence_contract_pending(tender, criterion, bid_id)
         self.validate_req_response_object_status("tender", valid_statuses)
+
+    def validate_evidence_contract_pending(self, tender: dict, criterion: dict, bid_id: str) -> None:
+        """the winner changes the evidences until the contract of the awarded lot is signed"""
+        lot_id = criterion.get("relatedItem") if criterion.get("relatesTo") == "lot" else None
+        award_ids = {
+            award["id"]
+            for award in tender.get("awards", "")
+            if award["status"] == "active"
+            and award["bid_id"] == bid_id
+            and (lot_id is None or award.get("lotID") == lot_id)
+        }
+        if not award_ids:
+            raise_operation_error(self.request, "Winner criteria available only with active award")
+        for contract in tender.get("contracts", ""):
+            if contract.get("awardID") in award_ids and contract.get("status") == "pending":
+                return
+        raise_operation_error(self.request, "forbidden if contract not in status `pending`")
 
     def requirement_responses_parent_on_patch(self):
         self.on_patch(self.request.validated["bid_src"], get_bid())

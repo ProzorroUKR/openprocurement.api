@@ -47,3 +47,4 @@ class RFPBidState(BidState):
 class OpenTenderingBidState(BidState):
     draft_bid_value_check = False
     evidence_document_rules = BID_EVIDENCE_DOCUMENT_RULES
+    evidence_requires_pending_contract = True
