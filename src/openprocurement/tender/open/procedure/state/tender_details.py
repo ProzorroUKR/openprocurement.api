@@ -224,6 +224,7 @@ class RFPTenderDetailsMixin(TenderDetailsMixin):
         AwardCriteria.LIFE_CYCLE_COST,
         AwardCriteria.RATED_CRITERIA,
     )
+    award_criteria_rated_features_check = True
 
 
 class RFPTenderDetailsState(RFPTenderDetailsMixin, RFPTenderState):

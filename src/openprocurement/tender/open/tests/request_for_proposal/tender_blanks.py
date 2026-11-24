@@ -1522,3 +1522,78 @@ def create_tender_award_criteria(self):
         response.json["errors"],
         [{"location": "body", "name": "awardCriteria", "description": "Can't change awardCriteria"}],
     )
+
+
+def create_tender_rated_criteria_features(self):
+    validation_from = (
+        "openprocurement.tender.core.procedure.state.tender_details.RFP_RATED_CRITERIA_FEATURES_VALIDATION_FROM"
+    )
+    test_feature = {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "featureOf": "tenderer",
+        "title": "test title",
+        "description": "test description",
+        "enum": [{"value": 0.1, "title": "test enum title"}, {"value": 0.15, "title": "test enum title 2"}],
+    }
+    expected_errors = [
+        {
+            "location": "body",
+            "name": "awardCriteria",
+            "description": ["Can`t add features with ratedCriteria awardCriteria"],
+        }
+    ]
+    data = deepcopy(self.initial_data)
+    data["awardCriteria"] = "ratedCriteria"
+    data["features"] = [test_feature]
+
+    # ratedCriteria tender with features can be created before the validation is enabled
+    with mock.patch(validation_from, get_now() + timedelta(days=1)):
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(len(response.json["data"]["features"]), 1)
+    old_tender_id = response.json["data"]["id"]
+    old_tender_token = response.json["access"]["token"]
+
+    with mock.patch(validation_from, get_now()):
+        # the tender created before the validation was enabled can still be changed
+        response = self.app.patch_json(
+            f"/tenders/{old_tender_id}?acc_token={old_tender_token}",
+            {"data": {"title": "new title"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["title"], "new title")
+        self.assertEqual(len(response.json["data"]["features"]), 1)
+
+        # can not create ratedCriteria tender with features
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["errors"], expected_errors)
+
+        # create ratedCriteria tender
+        del data["features"]
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.json["data"]["awardCriteria"], "ratedCriteria")
+        tender_id = response.json["data"]["id"]
+        token = response.json["access"]["token"]
+
+        # can not add features to ratedCriteria tender
+        response = self.app.patch_json(
+            f"/tenders/{tender_id}?acc_token={token}",
+            {"data": {"features": [test_feature]}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["errors"], expected_errors)
+
+        response = self.app.get(f"/tenders/{tender_id}")
+        self.assertNotIn("features", response.json["data"])
+
+        # features are still allowed with other awardCriteria
+        data = deepcopy(self.initial_data)
+        data["awardCriteria"] = "lowestCost"
+        data["features"] = [test_feature]
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.json["data"]["awardCriteria"], "lowestCost")
+        self.assertEqual(len(response.json["data"]["features"]), 1)
