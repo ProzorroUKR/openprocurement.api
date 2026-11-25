@@ -1,0 +1,64 @@
+POST /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/criteria/5090fbdbda0d4e4089647be5a514ea47/requirement_groups?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "description": "При наявності залучених спроможностей субпідрядника/співвиконавця в обсязі не менше ніж 20 відсотків від ціни публічного договору підтверджується, що:",
+    "description_en": "Where the capacities of a subcontractor / co-performer are relied upon to an extent of not less than 20 per cent of the price of the public contract, it is confirmed that:",
+    "requirements": [
+      {
+        "title": "Субʼєкт господарювання, спроможності якого залучаються до виконання робіт та послуг не має підстав, визначених у частинах першій та другій статті 21 Закону України від 27.05.2026 № 4888-IX \"Про публічні закупівлі\"",
+        "title_en": "The economic operator whose capacities are relied upon for the performance of works and services is not subject to the grounds specified in Parts 1 and 2 of Article 21 of the Law of Ukraine No. 4888-IX of 27 May 2026 \"On Public Procurement\"",
+        "dataType": "boolean",
+        "expectedValue": true,
+        "eligibleEvidences": [
+          {
+            "title": "Документальне підтвердження",
+            "title_en": "",
+            "type": "document",
+            "relatedDocument": {
+              "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": {
+    "description": "При наявності залучених спроможностей субпідрядника/співвиконавця в обсязі не менше ніж 20 відсотків від ціни публічного договору підтверджується, що:",
+    "description_en": "Where the capacities of a subcontractor / co-performer are relied upon to an extent of not less than 20 per cent of the price of the public contract, it is confirmed that:",
+    "requirements": [
+      {
+        "title": "Субʼєкт господарювання, спроможності якого залучаються до виконання робіт та послуг не має підстав, визначених у частинах першій та другій статті 21 Закону України від 27.05.2026 № 4888-IX \"Про публічні закупівлі\"",
+        "title_en": "The economic operator whose capacities are relied upon for the performance of works and services is not subject to the grounds specified in Parts 1 and 2 of Article 21 of the Law of Ukraine No. 4888-IX of 27 May 2026 \"On Public Procurement\"",
+        "dataType": "boolean",
+        "eligibleEvidences": [
+          {
+            "title": "Документальне підтвердження",
+            "title_en": "",
+            "type": "document",
+            "relatedDocument": {
+              "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+            },
+            "id": "7b8bfe9f99d44654909c481208e25f07"
+          }
+        ],
+        "status": "active",
+        "expectedValue": true,
+        "id": "fe8c24fbbcef4f348007cd7650cf9aa3",
+        "datePublished": "2027-01-01T00:00:00+02:00"
+      }
+    ],
+    "id": "a6611b679d484736bd4c80ba27e0c6de"
+  }
+}
+

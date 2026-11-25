@@ -158,7 +158,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         },
-        "id": "e86fac89023f42ba8c7f5e319737e2ff",
+        "id": "2732aa6ceb724c65ba57a7843e0dab12",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -190,15 +190,15 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "8d26476b4b084dba9b804b27c2b03b79"
+                    "id": "9e950ea685b74711a23bea20168554ca"
                   }
                 ],
                 "status": "active",
-                "id": "24bf6ecf9eb6451790b679ec31fe991a",
+                "id": "2d23a506ea9c451fa6693b4dfa834a2c",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "235c5980c97e4b26aedf2d892b1a0c95"
+            "id": "149740338b8c46e0a6e2e9f5c2a749d3"
           }
         ]
       },
@@ -213,7 +213,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
         },
-        "id": "5664e7b2e0754b82a2e389cb81e2e785",
+        "id": "7977b2f3cf754ccbbb65c6e5b8ae48b2",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -251,7 +251,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "86d4451f29244bd493f104b2232febac",
+                "id": "423100af50754099b80eab388efd0d3f",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
@@ -266,16 +266,16 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "a4acaf0484e142e493c258037326961c"
+                    "id": "96c46151c9ab4e29afde5256936a1b6a"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "6287b2f15e274c8ebbc12534a20cfbaa",
+                "id": "e7678562ae224de0bc18c3485a352f52",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "b396116a7cbb4226ab69dcfc60f29741"
+            "id": "73e1146730b44ee5b39b97aae0b5bcc5"
           }
         ]
       },
@@ -290,7 +290,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         },
-        "id": "67d7adac519d4c88b90e7f31251d63e8",
+        "id": "35f2e2a70b5f4b51a94b0d841b7d63a3",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -340,11 +340,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "8c70701e46534907bdbc3a8ce0a7853d",
+                "id": "ce02137d4890450c80064ea146b7f558",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "2ed7cf18d478429690753bc9aaa4811b"
+            "id": "53f6642501ae4c5ea2aa338d5b8320f9"
           }
         ]
       },
@@ -359,7 +359,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
         },
-        "id": "c20eb0c9f9594f32a371f324e4df5420",
+        "id": "f54e4d6f82b84aedb474fd7c5f21064f",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -403,12 +403,12 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "6e3a3ddca9d44302a78009e5ca2573dc"
+                    "id": "8d3dbfc33e9e45fc9be587e1dd78d7e8"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "7f54bbb808df41138b007885d0dca1de",
+                "id": "819be8d693ec474aaefba44adc7e9462",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
@@ -423,16 +423,16 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "8f2fe79f92444afeb863ca32901bee29"
+                    "id": "d49b83bb06764e12bf25c3c7ea3d6ee0"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "d7e41a0d86bd4149b06e839ddbd7b250",
+                "id": "181adf84554a42ee9375b98a350ab911",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "6aaf7a0e98ac4222afb1a70c3e377424"
+            "id": "3c23af9faef24d14a3e409a0138714b0"
           }
         ]
       },
@@ -447,7 +447,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         },
-        "id": "ff02ec936a544ab7a1b0a5e0623b613c",
+        "id": "cb2773f316264a659bcaa02454c98532",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -479,15 +479,15 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "c5d44c7dce54433595ca905ac7a8e8b1"
+                    "id": "0923c1135f774e739f3a629d0734a99a"
                   }
                 ],
                 "status": "active",
-                "id": "eed21bf672ba420c834e6a548374646f",
+                "id": "20de19b4bd2946b99b4d565d0f865a31",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "f89473781339451aab6887423409e732"
+            "id": "57032318cb2947c0a70b3b9601956baa"
           }
         ]
       },
@@ -502,7 +502,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
         },
-        "id": "de20d97d49ac4e89a0de78a378b8571c",
+        "id": "00e3debb20b948a180d92fdbd398c0a0",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -528,11 +528,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "0e9e96b6a9a74b03b789cc309eda4281",
+                "id": "96ed905c6d6d4e3ab8dbead99cbfbec6",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "cfbed1dabcc647958076a7acaedf6151"
+            "id": "2d3c3076b6c244f2859c27d904b4272e"
           }
         ]
       },
@@ -547,7 +547,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
         },
-        "id": "e5adccd0e5504be4b3e955d782a8fcee",
+        "id": "6518209dd2e347c39be92b5f9d1fcbec",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -585,11 +585,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "739d8bc0ce7540049d1d23185dd66711",
+                "id": "e971d62407684c01900ca4ef01e6df3d",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "bbf724c1e5a74598b674788e3eb1c081"
+            "id": "afbf1501d1d14f75be7e87acd3753383"
           },
           {
             "description": "Нерезидентом підтверджується, що:",
@@ -601,11 +601,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "a8670272706e47378acf471d1326e5a9",
+                "id": "3b8776963f46441898db6bf0d7061222",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "b272e1d5ccd149c8a3c7db52eec6715e"
+            "id": "48a29a3f5306417798402b5c1f49f2d9"
           }
         ]
       },
@@ -620,7 +620,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
         },
-        "id": "ad3f8581cc4f4758ae289827b1aa658e",
+        "id": "fb29d487b0b94ad888c47976b96b2258",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -646,11 +646,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "4967b7a487ba473abf5a6ceede0e5915",
+                "id": "9f5f1420a825400a9cd5be0d56d83e21",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "54b496d5c57646f1ba62b52b3fd8edd1"
+            "id": "67979281993b4878a105dddf643b6971"
           },
           {
             "description": "Нерезидентом підтверджується, що:",
@@ -662,11 +662,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "80b1fc4ddb464c74aecfe3435ddeb2a4",
+                "id": "ddbbcccf7a8f49be976c4ddb7bd69a61",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "f89fadb7c28e4d46a583b93d00712ed0"
+            "id": "b8edcaa5147148d8bb2779b088445651"
           }
         ]
       },
@@ -681,7 +681,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         },
-        "id": "14f4966eb9d340e0a86efd2d021593e1",
+        "id": "e00c1d0c7e924b76a56189af6d2b2648",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -717,11 +717,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "b595d381372d4adcb7fe53af989780ca",
+                "id": "47521b543b91480c9aea0b520aefbdc0",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "0e13cd528ab146498340e0faa8031f00"
+            "id": "04fefa89e5494aa283551457c6179e16"
           }
         ]
       },
@@ -736,7 +736,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
         },
-        "id": "822d44134fa1492f89ec960ce188f9f1",
+        "id": "c518372e5ab9494ebb689bae82f9e86e",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -768,16 +768,16 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "54f0b34a8ef741159e1c220eea8d0d24"
+                    "id": "306e2d977b3e416b9c14d60f18b91fc7"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "6c16f39455ad41e6824122b7e160fee7",
+                "id": "cfccbefebe35453f96c4905565e9b9bc",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "e6c9658f993545f38cc980b4a060e01e"
+            "id": "4668ad04fc374cf2b4fc22b30a63d1c0"
           },
           {
             "description": "Юридичною особою підтверджується, що:",
@@ -795,16 +795,16 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "c46df803c7b54aa5bfcccaa2dae4fa1a"
+                    "id": "3b04c4815e6c47dd85a7925ec9cac76d"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "0d239669c883479683cee90af51a1b3c",
+                "id": "49f04a0a757d451e9206a34ab83e7b37",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "6b91d2e7d4e24b409cd9eebfe3fb15ce"
+            "id": "6090111bafc54cc6916f534f8c6c9eb0"
           }
         ]
       },
@@ -819,7 +819,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
         },
-        "id": "75b4bc707a934033a6ecdb7bf8226ccc",
+        "id": "b014407fe51141c298f3948462ab7439",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -851,16 +851,16 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "e2207d11b3fd4903a87df44391e75ff8"
+                    "id": "e913696f1f1c4271aead5fe095ab6a84"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "2b03eb48dc7943d1bfd17e5d8e9e6a41",
+                "id": "8b7efa4a876047adb5efeae6c9351b14",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "56fbe7064d5b4632b78958d6e56b169d"
+            "id": "c2b80e1b84e0426c88c13b5e0b1e5752"
           },
           {
             "description": "При наявності заборгованності підтверджується, що:",
@@ -878,12 +878,12 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "8b16c739f51f40279efc4b32e1c76df3"
+                    "id": "b7a8e1391738443ca0f495f25cc79f69"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "46861b5bf8374a898868915294edfb91",
+                "id": "47e6c65af02642fe9b1a821fddf2bc03",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
@@ -898,7 +898,7 @@ Content-Type: application/json
                   "Особливості діяльності під час воєнного стану"
                 ],
                 "expectedMinItems": 1,
-                "id": "afadc816ec894bc191ed95a916b76eee",
+                "id": "e36182de2a7c46a89ce5ae6120510c83",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
@@ -912,11 +912,11 @@ Content-Type: application/json
                   "code": "E50"
                 },
                 "minValue": 0.0,
-                "id": "a46fb98246494d8380b7900d074288ca",
+                "id": "e7fa201035714a41a9b0690af155baaf",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "818b64f125924051913e462c14e5c323"
+            "id": "7a4de1f7d8fc4a38ba8ca8f346c679b8"
           }
         ]
       },
@@ -931,7 +931,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PREPARATION"
         },
-        "id": "520a618fcc5346a1b999a294ecb8d547",
+        "id": "5cc55c27fb7549c38c8e554eefc48fc1",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -957,11 +957,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "0655f853ea4c4403b1da56806bb42001",
+                "id": "abd30fd3da134347939477a6b1034ee9",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "d5261093949f49bf9ef35d2d0ab7bf93"
+            "id": "220b8ee7f36a45c69d5c47020824d406"
           }
         ]
       },
@@ -976,7 +976,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PARTICIPATION"
         },
-        "id": "6138d5fad2a74857b654a557eca5b464",
+        "id": "9b7389030ba1422494989c9c51db644e",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -1002,11 +1002,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "01a3b91533874e6b895ce73aee037eec",
+                "id": "4c0b1762c41b4465a2d94162288895a3",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "2955e60519d24c72b06f2de27400f513"
+            "id": "45f9a46e201f441f940d38935ee2bd15"
           }
         ]
       },
@@ -1021,7 +1021,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         },
-        "id": "5e9ecd27ddf54a8eb4c7af96381678d6",
+        "id": "92eee74be59b4e0c80710b065653ab82",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -1047,11 +1047,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "ff693291fa094d2698eb350cd3983531",
+                "id": "adb9ce51362745bcb75694115cc8895e",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "182bc3d0984e436e9faeb21095ab7c79"
+            "id": "de8e19b4bbae4a93aa3faaeaa381ad3c"
           },
           {
             "description": "При наявності не виконаних зобов'язань за раніше укладеним публічним договором підтверджується, що:",
@@ -1069,16 +1069,16 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "426c17fd327c44869865efce186d53f4"
                     },
-                    "id": "8a7e00c6014e444ea1a3d031479d0458"
+                    "id": "d356087214d7471faba8702fc8d18387"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "edc6b154c9014420915ba998c5fa4701",
+                "id": "181fe450f379438c81436ae5e52d8729",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "a4577ffcfbb649f39606c90951a627a9"
+            "id": "619962ca92a44785ab345b9a47846c11"
           }
         ]
       },
@@ -1094,7 +1094,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
         },
-        "id": "a58e66265839472d8b77fa1e04453e1d",
+        "id": "3ee807fb41a14c91b0c81dea598c27ec",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -1132,11 +1132,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "7624b50eed3e48998333f01733d2b308",
+                "id": "6e62184d8795464c9b64e17cbfcd3322",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "4bed8a9a9d444a8786127d78187c882b"
+            "id": "5a5c0afa23984782a0f57639c4d6f927"
           },
           {
             "description": "При наявності залучених спроможностей субпідрядника/співвиконавця в обсязі не менше ніж 20 відсотків від ціни публічного договору підтверджується, що:",
@@ -1154,16 +1154,16 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
                     },
-                    "id": "f5460192a8624cc6adf5b000ed3c0086"
+                    "id": "8e61db381a784e8eb92d4d42e71add35"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "0bdb511ce5544f7db6942affde432f87",
+                "id": "0164bb8936434c30b60185078e146a58",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "27304b3eaaac4ec98ca8e9052187cd8b"
+            "id": "f9f2f1db53114469b0d8af750aba0f3e"
           }
         ]
       },
@@ -1179,7 +1179,7 @@ Content-Type: application/json
           "scheme": "LAW4888",
           "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
         },
-        "id": "8f7777a5122a4a52ba6b44b59d4fde5d",
+        "id": "5090fbdbda0d4e4089647be5a514ea47",
         "legislation": [
           {
             "version": "2026-05-27",
@@ -1217,11 +1217,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "id": "72afd8f82bb64b59877a8b327b5ad9db",
+                "id": "97c58f0d96834768940818f434187269",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "2cacb3a05e254a399ace6ec47c129c30"
+            "id": "bd3574b07e734aff8ba0960b158fc0a5"
           },
           {
             "description": "При наявності залучених спроможностей субпідрядника/співвиконавця в обсязі не менше ніж 20 відсотків від ціни публічного договору підтверджується, що:",
@@ -1239,16 +1239,16 @@ Content-Type: application/json
                     "relatedDocument": {
                       "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
                     },
-                    "id": "7a3d1a74c0664308989ccd97a0117636"
+                    "id": "7b8bfe9f99d44654909c481208e25f07"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "id": "b934ea9a50dd4a16900f136085c05cb9",
+                "id": "fe8c24fbbcef4f348007cd7650cf9aa3",
                 "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ],
-            "id": "d8d1c95e29ff4ef7aa9a0a95e72ff792"
+            "id": "a6611b679d484736bd4c80ba27e0c6de"
           }
         ]
       },

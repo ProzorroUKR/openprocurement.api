@@ -168,10 +168,18 @@ class TenderLaw4888CriteriaResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
             ]
             subcontracting_criteria.extend(set_tender_criteria(lot_criteria, [lot], tender["items"]))
         set_criteria_evidences_document(subcontracting_criteria, evaluation_criteria_doc_id)
+        second_lot_subcontracting_criteria = subcontracting_criteria[1:]
 
         with open(TARGET_DIR + "add-exclusion-criteria.http", "w") as self.app.file_obj:
-            response = self.app.post_json(criteria_path, {"data": exclusion_criteria + subcontracting_criteria})
+            response = self.app.post_json(criteria_path, {"data": exclusion_criteria + subcontracting_criteria[:1]})
             self.assertEqual(response.status, "201 Created")
+
+        missing_requirement_group = second_lot_subcontracting_criteria[0]["requirementGroups"].pop()
+
+        with open(TARGET_DIR + "add-subcontracting-criteria-second-lot.http", "w") as self.app.file_obj:
+            response = self.app.post_json(criteria_path, {"data": second_lot_subcontracting_criteria})
+            self.assertEqual(response.status, "201 Created")
+        subcontracting_criterion_id = response.json["data"][0]["id"]
 
         self.add_sign_doc(self.tender_id, owner_token)
 
@@ -190,6 +198,22 @@ class TenderLaw4888CriteriaResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
 
         with open(TARGET_DIR + "add-selection-criteria-second-lot.http", "w") as self.app.file_obj:
             response = self.app.post_json(criteria_path, {"data": second_criteria})
+            self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + "activate-tender-without-requirement-group.http", "w") as self.app.file_obj:
+            self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
+                {"data": {"status": "active.tendering"}},
+                status=403,
+            )
+
+        with open(TARGET_DIR + "add-requirement-group.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
+                    self.tender_id, subcontracting_criterion_id, owner_token
+                ),
+                {"data": missing_requirement_group},
+            )
             self.assertEqual(response.status, "201 Created")
 
         with open(TARGET_DIR + "activate-tender.http", "w") as self.app.file_obj:

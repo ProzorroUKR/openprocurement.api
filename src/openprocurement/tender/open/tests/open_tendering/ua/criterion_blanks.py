@@ -1,6 +1,7 @@
 from copy import deepcopy
 from uuid import uuid4
 
+from openprocurement.api.constants import LAW_4888_CRITERIA_REQUIREMENT_GROUPS
 from openprocurement.tender.core.constants import CRITERION_SUBCONTRACTING_PROPORTION
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
@@ -214,7 +215,7 @@ def criterion_evidence_title_required(self):
     )
 
 
-def add_required_criteria(self, tender):
+def build_required_criteria(self, tender):
     lots = tender.get("lots", [])
     items = tender.get("items", [])
     criteria = []
@@ -226,11 +227,82 @@ def add_required_criteria(self, tender):
         for lot in related_lots:
             criteria.extend(set_tender_criteria([deepcopy(criterion)], [lot] if lot else lots, items))
     self.set_criteria_evidences_doc(criteria)
+    return criteria
+
+
+def add_required_criteria(self, tender):
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": criteria},
+        {"data": build_required_criteria(self, tender)},
     )
     self.assertEqual(response.status, "201 Created")
+    return response.json["data"]
+
+
+def activate_tender_with_invalid_criterion_requirement_groups(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    lots = tender["lots"]
+
+    self.add_sign_doc(self.tender_id, self.tender_token)
+
+    doc = self.mongodb.tenders.get(self.tender_id)
+    doc["mainProcurementCategory"] = "services"
+    self.mongodb.tenders.save(doc)
+
+    criteria_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
+    request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
+
+    criteria = build_required_criteria(self, tender)
+    subcontracting_criterion = next(
+        criterion for criterion in criteria if criterion["classification"]["id"] == CRITERION_SUBCONTRACTING_PROPORTION
+    )
+    missing_requirement_group = subcontracting_criterion["requirementGroups"].pop()
+
+    response = self.app.post_json(criteria_path, {"data": criteria})
+    self.assertEqual(response.status, "201 Created")
+    criterion_id = next(
+        criterion["id"]
+        for criterion in response.json["data"]
+        if criterion["classification"]["id"] == CRITERION_SUBCONTRACTING_PROPORTION
+    )
+
+    selection_criteria = deepcopy(test_article_20_criteria[:1])
+    set_tender_criteria(selection_criteria, lots, tender.get("items", []))
+    self.set_criteria_evidences_doc(selection_criteria)
+    response = self.app.post_json(criteria_path, {"data": selection_criteria})
+    self.assertEqual(response.status, "201 Created")
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"status": self.primary_tender_status}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": (
+                    f"Criterion {CRITERION_SUBCONTRACTING_PROPORTION} must contain requirement groups "
+                    f"from standards: "
+                    f"{LAW_4888_CRITERIA_REQUIREMENT_GROUPS[CRITERION_SUBCONTRACTING_PROPORTION]}"
+                ),
+            }
+        ],
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
+            self.tender_id, criterion_id, self.tender_token
+        ),
+        {"data": missing_requirement_group},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    response = self.app.patch_json(request_path, {"data": {"status": self.primary_tender_status}})
+    self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
 
 
 def activate_tender_with_cancelled_selection_criterion_requirements(self):

@@ -23,97 +23,97 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "86d4451f29244bd493f104b2232febac"
+          "id": "423100af50754099b80eab388efd0d3f"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "6287b2f15e274c8ebbc12534a20cfbaa"
+          "id": "e7678562ae224de0bc18c3485a352f52"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "8c70701e46534907bdbc3a8ce0a7853d"
+          "id": "ce02137d4890450c80064ea146b7f558"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "7f54bbb808df41138b007885d0dca1de"
+          "id": "819be8d693ec474aaefba44adc7e9462"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "d7e41a0d86bd4149b06e839ddbd7b250"
+          "id": "181adf84554a42ee9375b98a350ab911"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "0e9e96b6a9a74b03b789cc309eda4281"
+          "id": "96ed905c6d6d4e3ab8dbead99cbfbec6"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "739d8bc0ce7540049d1d23185dd66711"
+          "id": "e971d62407684c01900ca4ef01e6df3d"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "4967b7a487ba473abf5a6ceede0e5915"
+          "id": "9f5f1420a825400a9cd5be0d56d83e21"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "b595d381372d4adcb7fe53af989780ca"
+          "id": "47521b543b91480c9aea0b520aefbdc0"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "6c16f39455ad41e6824122b7e160fee7"
+          "id": "cfccbefebe35453f96c4905565e9b9bc"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "2b03eb48dc7943d1bfd17e5d8e9e6a41"
+          "id": "8b7efa4a876047adb5efeae6c9351b14"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "0655f853ea4c4403b1da56806bb42001"
+          "id": "abd30fd3da134347939477a6b1034ee9"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "01a3b91533874e6b895ce73aee037eec"
+          "id": "4c0b1762c41b4465a2d94162288895a3"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "ff693291fa094d2698eb350cd3983531"
+          "id": "adb9ce51362745bcb75694115cc8895e"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "7624b50eed3e48998333f01733d2b308"
+          "id": "6e62184d8795464c9b64e17cbfcd3322"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "72afd8f82bb64b59877a8b327b5ad9db"
+          "id": "97c58f0d96834768940818f434187269"
         },
         "value": true
       },

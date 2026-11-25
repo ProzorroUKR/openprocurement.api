@@ -238,6 +238,7 @@ class OpenTenderingTenderDetailsState(TenderDetailsMixin, OpenTenderingTenderSta
     criterion_evidence_document_required = True
     criterion_evidence_document_types = CRITERION_EVIDENCE_DOCUMENT_TYPES
     criterion_evidence_title_required = True
+    criterion_requirement_groups_check = True
 
 
 class OpenTenderingUATenderDetailsState(OpenTenderingTenderDetailsState):

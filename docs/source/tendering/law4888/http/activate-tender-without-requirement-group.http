@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Criterion CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION must contain requirement groups from standards: ['При відсутності залучених спроможностей субпідрядника/співвиконавця або в обсязі не більше ніж 20 відсотків від ціни публічного договору підтверджується, що:', 'При наявності залучених спроможностей субпідрядника/співвиконавця в обсязі не менше ніж 20 відсотків від ціни публічного договору підтверджується, що:']"
+    }
+  ]
+}
+

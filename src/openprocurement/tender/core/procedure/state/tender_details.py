@@ -15,6 +15,7 @@ from openprocurement.api.constants import (
     CPV_PREFIX_LENGTH_TO_NAME,
     CRITERION_LIFE_CYCLE_COST_IDS,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    LAW_4888_CRITERIA_REQUIREMENT_GROUPS,
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
@@ -1685,6 +1686,8 @@ class TenderCriteriaRulesMixin(BaseState):
     criterion_evidence_document_types: dict[str, TenderDocumentType] = {}
     # a criterion evidence must have a non empty title (law 4888 tenders)
     criterion_evidence_title_required = False
+    # the requirement groups of the law 4888 criteria must match the standards dictionary
+    criterion_requirement_groups_check = False
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):
@@ -1823,6 +1826,26 @@ class TenderCriteriaRulesMixin(BaseState):
                     get_request(),
                     f"Tender contains criteria that don't exist in market object for item {item['id']}: "
                     f"{', '.join(sorted(criteria_diff))}",
+                )
+
+    def validate_criteria_requirement_groups(self, tender):
+        if not self.criterion_requirement_groups_check:
+            return
+        for criterion in tender.get("criteria") or []:
+            classification_id = (criterion.get("classification") or {}).get("id")
+            standards_descriptions = LAW_4888_CRITERIA_REQUIREMENT_GROUPS.get(classification_id)
+            if standards_descriptions is None or not check_requirements_active(criterion):
+                continue
+            descriptions = sorted(
+                group.get("description") or ""
+                for group in criterion.get("requirementGroups") or []
+                if any(requirement.get("status") == "active" for requirement in group.get("requirements") or [])
+            )
+            if descriptions != standards_descriptions:
+                raise_operation_error(
+                    get_request(),
+                    f"Criterion {classification_id} must contain requirement groups from standards: "
+                    f"{standards_descriptions}",
                 )
 
     def validate_award_criteria(self, tender, on_post=False):
@@ -2832,6 +2855,7 @@ class BaseTenderDetailsMixin(
                 self.validate_change_item_profile_or_category(after, before, force_validate=True)
                 self.validate_notice_doc_required(after)
                 self.validate_required_criteria(before, after)
+                self.validate_criteria_requirement_groups(after)
                 self.validate_criteria_requirement_from_market(after.get("criteria", []))
             else:
                 for field in ("minimalStep", "minimalStepPercentage", "yearlyPaymentsPercentageRange"):

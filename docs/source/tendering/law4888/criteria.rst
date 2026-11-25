@@ -156,6 +156,39 @@
 .. http:example:: http/add-selection-criteria-second-lot.http
    :code:
 
+Групи вимог
+-----------
+
+Критерії 4888 замовник переносить із довідника повністю: набір груп вимог (``requirementGroups``) критерію
+має збігатися з довідником ``criteria/law_4888`` у `standards
+<https://github.com/ProzorroUKR/standards/tree/master/criteria/law_4888>`_. Групи зіставляються за
+``description``, тому викинути одну з них або замінити її текст не можна.
+
+Більшість критеріїв мають одну групу вимог, але є критерії з двома взаємовиключними групами - наприклад,
+для резидента і нерезидента (``CRITERION.EXCLUSION.NATIONAL.OTHER``,
+``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``) або за наявністю залучених спроможностей субпідрядника
+(``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``).
+
+Перевірка виконується при оголошенні закупівлі, а не при створенні критерію, тому групи вимог можна
+додавати окремими запитами - крім критеріїв, ``classification.id`` яких починається з
+``CRITERION.EXCLUSION``: вони після створення не змінюються. Групи, усі вимоги яких переведені у статус
+``cancelled``, не враховуються.
+
+Додамо критерій субпідряду до другого лоту лише з однією групою вимог - сам критерій створюється:
+
+.. http:example:: http/add-subcontracting-criteria-second-lot.http
+   :code:
+
+Але оголосити закупівлю з ним не вдасться:
+
+.. http:example:: http/activate-tender-without-requirement-group.http
+   :code:
+
+Додамо групу вимог, якої бракує:
+
+.. http:example:: http/add-requirement-group.http
+   :code:
+
 Тепер закупівлю можна оголосити:
 
 .. http:example:: http/activate-tender.http

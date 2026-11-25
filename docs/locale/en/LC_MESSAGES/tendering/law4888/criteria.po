@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-19 23:06+0200\n"
+"POT-Creation-Date: 2026-11-26 01:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -277,6 +277,27 @@ msgstr "Let's add a selection criterion to the first lot only and try to publish
 msgid "Додамо критерій відбору до другого лоту:"
 msgstr "Let's add a selection criterion to the second lot:"
 
+msgid "Групи вимог"
+msgstr "Requirement groups"
+
+msgid "Критерії 4888 замовник переносить із довідника повністю: набір груп вимог (``requirementGroups``) критерію має збігатися з довідником ``criteria/law_4888`` у `standards <https://github.com/ProzorroUKR/standards/tree/master/criteria/law_4888>`_. Групи зіставляються за ``description``, тому викинути одну з них або замінити її текст не можна."
+msgstr "The procuring entity copies the law 4888 criteria from the dictionary in full: the set of the requirement groups (``requirementGroups``) of a criterion must match the ``criteria/law_4888`` dictionary in `standards <https://github.com/ProzorroUKR/standards/tree/master/criteria/law_4888>`_. The groups are matched by ``description``, so neither dropping one of them nor replacing its text is allowed."
+
+msgid "Більшість критеріїв мають одну групу вимог, але є критерії з двома взаємовиключними групами - наприклад, для резидента і нерезидента (``CRITERION.EXCLUSION.NATIONAL.OTHER``, ``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``) або за наявністю залучених спроможностей субпідрядника (``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``)."
+msgstr "Most criteria have a single requirement group, but there are criteria with two mutually exclusive groups - for example, for a resident and a non-resident (``CRITERION.EXCLUSION.NATIONAL.OTHER``, ``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``) or depending on the engaged capacities of a subcontractor (``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``)."
+
+msgid "Перевірка виконується при оголошенні закупівлі, а не при створенні критерію, тому групи вимог можна додавати окремими запитами - крім критеріїв, ``classification.id`` яких починається з ``CRITERION.EXCLUSION``: вони після створення не змінюються. Групи, усі вимоги яких переведені у статус ``cancelled``, не враховуються."
+msgstr "The check is performed when the tender is published, not when a criterion is created, so the requirement groups can be added by separate requests - except for the criteria whose ``classification.id`` starts with ``CRITERION.EXCLUSION``: they cannot be changed after they are created. The groups whose requirements are all switched to the ``cancelled`` status are not taken into account."
+
+msgid "Додамо критерій субпідряду до другого лоту лише з однією групою вимог - сам критерій створюється:"
+msgstr "Let's add the subcontracting criterion to the second lot with a single requirement group only - the criterion itself is created:"
+
+msgid "Але оголосити закупівлю з ним не вдасться:"
+msgstr "But the tender cannot be published with it:"
+
+msgid "Додамо групу вимог, якої бракує:"
+msgstr "Let's add the missing requirement group:"
+
 msgid "Тепер закупівлю можна оголосити:"
 msgstr "Now the tender can be published:"
 
@@ -426,3 +447,4 @@ msgstr "After the procuring entity changes the answers to ``false``, the award c
 
 msgid "У закупівлях з попередньою кваліфікацією (``config.hasPrequalification`` = ``true``) ті самі перевірки діють і для об'єкта ``qualification``: позитивна відповідь на ці критерії не дозволяє перевести попередню кваліфікацію у статус ``active``."
 msgstr "In the tenders with the prequalification (``config.hasPrequalification`` = ``true``) the same checks apply to the ``qualification`` object as well: a positive answer to these criteria does not allow switching the prequalification to the ``active`` status."
+

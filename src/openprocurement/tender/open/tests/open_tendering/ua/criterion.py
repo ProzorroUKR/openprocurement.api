@@ -10,6 +10,7 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.open.tests.open_tendering.ua.criterion_blanks import (
     activate_tender_with_cancelled_selection_criterion_requirements,
+    activate_tender_with_invalid_criterion_requirement_groups,
     activate_tender_with_selection_criteria_per_lot,
     criterion_evidence_document_type,
     criterion_evidence_title_required,
@@ -195,6 +196,9 @@ class TenderOpenTenderingUACriteriaTest(
     test_activate_tender_with_tech_item = snitch(activate_tender_with_tech_item)
     test_criterion_evidence_title_required = snitch(criterion_evidence_title_required)
     test_criterion_evidence_document_type = snitch(criterion_evidence_document_type)
+    test_activate_tender_with_invalid_criterion_requirement_groups = snitch(
+        activate_tender_with_invalid_criterion_requirement_groups
+    )
 
 
 class TenderOpenTenderingUASelectionCriteriaPerLotTest(
