@@ -1685,6 +1685,8 @@ class TenderCriteriaRulesMixin(BaseState):
     criterion_evidence_document_types: dict[str, TenderDocumentType] = {}
     # a criterion evidence must have a non empty title (law 4888 tenders)
     criterion_evidence_title_required = False
+    # expectedValue / minValue / maxValue of a requirement must stay within the category range (law 4888 tenders)
+    criterion_category_value_range_check = False
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):

@@ -13,6 +13,7 @@ from openprocurement.tender.open.tests.open_tendering.ua.criterion_blanks import
     activate_tender_with_selection_criteria_per_lot,
     criterion_evidence_document_type,
     criterion_evidence_title_required,
+    criterion_from_market_category_value_range,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
     BaseTenderOpenTenderingUAContentWebTest,
@@ -176,6 +177,7 @@ class TenderTechFeatureCriteriaTestMixin:
     test_criterion_from_market_category_expected_items_narrowing = snitch(
         criterion_from_market_category_expected_items_narrowing
     )
+    test_criterion_from_market_category_value_range = snitch(criterion_from_market_category_value_range)
     test_delete_tender_criteria = snitch(delete_tender_criteria)
 
 

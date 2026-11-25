@@ -28,6 +28,7 @@ from openprocurement.tender.core.procedure.utils import tender_created_after
 class TenderCriterionMixin:
     request: Request
     required_market_criteria_check: bool
+    criterion_category_value_range_check: bool
 
     def _validate_criterion_uniq(self, data, previous_criteria=[]) -> None:
         new_criteria: dict[str, Any] = {}
@@ -294,7 +295,7 @@ class TenderCriterionMixin:
         market_id: str,
         requirements_from_profile: bool,
     ) -> None:
-        base_fields = [
+        fields = [
             "title",
             "unit",
             "dataType",
@@ -303,12 +304,8 @@ class TenderCriterionMixin:
             "expectedMaxItems",
             "expectedValues",
         ]
-        profile_only_fields = [
-            "expectedValue",
-            "minValue",
-            "maxValue",
-        ]
-        fields = base_fields + (profile_only_fields if requirements_from_profile else [])
+        if requirements_from_profile or self.criterion_category_value_range_check:
+            fields += ["expectedValue", "minValue", "maxValue"]
 
         for field in fields:
             self._validate_market_requirement_field(
@@ -391,6 +388,11 @@ class TenderCriterionMixin:
 
             return
 
+        # Validate expectedValue / minValue / maxValue narrowing
+        if field in ("expectedValue", "minValue", "maxValue") and not requirements_from_profile:
+            self._validate_market_requirement_value_range(field, tender_req, market_req)
+            return
+
         # Convert number fields
         market_field = market_req.get(field)
         if (
@@ -406,6 +408,37 @@ class TenderCriterionMixin:
             raise_operation_error(
                 self.request,
                 equal_ref_error.format(field=field),
+                status=422,
+            )
+
+    def _validate_market_requirement_value_range(self, field: str, tender_req: dict, market_req: dict) -> None:
+        data_type = market_req.get("dataType")
+        if data_type not in ("number", "integer"):
+            return
+        tender_value = tender_req.get(field)
+        if tender_value is None:
+            return
+
+        market_expected = market_req.get("expectedValue")
+        if market_expected is not None:
+            market_min = market_max = market_expected
+        else:
+            market_min = market_req.get("minValue")
+            market_max = market_req.get("maxValue")
+        if market_min is None and market_max is None:
+            return
+
+        if data_type == "number":
+            tender_value = to_decimal(tender_value)
+            market_min = None if market_min is None else to_decimal(market_min)
+            market_max = None if market_max is None else to_decimal(market_max)
+
+        if (market_min is not None and tender_value < market_min) or (
+            market_max is not None and tender_value > market_max
+        ):
+            raise_operation_error(
+                self.request,
+                f"requirement '{market_req['title']}' {field} should be within the range of category",
                 status=422,
             )
 

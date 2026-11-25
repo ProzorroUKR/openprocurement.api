@@ -1,12 +1,16 @@
 from copy import deepcopy
+from unittest.mock import Mock, patch
 from uuid import uuid4
 
 from openprocurement.tender.core.constants import CRITERION_SUBCONTRACTING_PROPORTION
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_20_criteria,
+    test_criteria_all,
     test_criteria_all_law_4888,
+    test_tech_feature_criteria,
 )
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import set_tender_criteria
 
 SELECTION_CRITERIA_IDS = {criterion["classification"]["id"] for criterion in test_article_20_criteria}
@@ -357,3 +361,124 @@ def activate_tender_with_selection_criteria_per_lot(self):
             (test_article_20_criteria[2]["classification"]["id"], lots[1]["id"]),
         },
     )
+
+
+@patch_market(
+    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": test_tech_feature_criteria},
+    category={"id": "0" * 32, "criteria": test_tech_feature_criteria},
+)
+def criterion_from_market_category_value_range(self):
+    def activate_tender(status=200):
+        return self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.tendering"}},
+            status=status,
+        )
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    items = tender["items"]
+    tech_item = items[0].copy()
+    tech_item["category"] = "0" * 32
+    del tech_item["id"]
+    items.append(tech_item)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    items = response.json["data"]["items"]
+
+    criteria_ids = self.required_criteria
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
+    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    self.set_criteria_evidences_doc(test_criteria)
+    if test_criteria:
+        self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria},
+        )
+    self.add_sign_doc(self.tender_id, self.tender_token)
+
+    market_requirements = [
+        {
+            "title": "Req range",
+            "dataType": "integer",
+            "minValue": 10,
+            "maxValue": 100,
+        },
+        {
+            "title": "Req exact",
+            "dataType": "integer",
+            "expectedValue": 42,
+        },
+        {
+            "title": "Req number",
+            "dataType": "number",
+            "minValue": 1.5,
+            "maxValue": 3.5,
+        },
+    ]
+    market_tech_feature = deepcopy(test_tech_feature_criteria)
+    market_tech_feature[0]["requirementGroups"] = [
+        {"description": "Технічні параметри", "requirements": deepcopy(market_requirements)}
+    ]
+
+    criteria_data = deepcopy(test_tech_feature_criteria)
+    set_tender_criteria(criteria_data, tender["lots"], items)
+    self.set_criteria_evidences_doc(criteria_data)
+    criteria_data[0]["relatedItem"] = items[1]["id"]
+    criteria_data[0]["requirementGroups"][0]["requirements"] = deepcopy(market_requirements)
+
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+    ):
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data[0]},
+        )
+        tech_criteria_id = response.json["data"][0]["id"]
+        rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
+        req_ids = {req["title"]: req["id"] for req in response.json["data"][0]["requirementGroups"][0]["requirements"]}
+
+        def patch_requirement(title, data, status=None):
+            return self.app.patch_json(
+                f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}"
+                f"/requirement_groups/{rg_id}/requirements/{req_ids[title]}?acc_token={self.tender_token}",
+                {"data": data},
+                status=status,
+            )
+
+        def assert_out_of_range(title, data, field):
+            response = patch_requirement(title, data, status=422)
+            self.assertEqual(
+                response.json["errors"],
+                [
+                    {
+                        "location": "body",
+                        "name": "data",
+                        "description": f"requirement '{title}' {field} should be within the range of category",
+                    },
+                ],
+            )
+
+        # narrowing within the category range is allowed
+        patch_requirement("Req range", {"minValue": 20, "maxValue": 90})
+
+        assert_out_of_range("Req range", {"minValue": 9}, "minValue")
+        assert_out_of_range("Req range", {"maxValue": 101}, "maxValue")
+
+        # a category requirement with expectedValue is a single allowed point
+        assert_out_of_range("Req exact", {"expectedValue": 43}, "expectedValue")
+        patch_requirement("Req exact", {"expectedValue": 42})
+
+        # the bounds of a number requirement are compared as decimals
+        assert_out_of_range("Req number", {"minValue": 1.4}, "minValue")
+        assert_out_of_range("Req number", {"maxValue": 3.6}, "maxValue")
+        patch_requirement("Req number", {"minValue": 1.5, "maxValue": 3.5})
+
+        response = activate_tender()
+        self.assertEqual(response.json["data"]["status"], "active.tendering")
