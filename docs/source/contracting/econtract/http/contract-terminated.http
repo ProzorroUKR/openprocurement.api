@@ -627,7 +627,7 @@ Content-Type: application/json
         {
           "confidentiality": "public",
           "documentType": "terminationReport",
-          "title": "termination_sign.p7s",
+          "title": "sign.p7s",
           "format": "application/pkcs7-signature",
           "documentOf": "contract",
           "hash": "md5:00000000000000000000000000000000",
