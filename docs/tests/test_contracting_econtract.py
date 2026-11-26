@@ -818,7 +818,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
 
         termination_signature_data = {
             "documentType": "terminationReport",
-            "title": "termination_sign.p7s",
+            "title": "sign.p7s",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/pkcs7-signature",
