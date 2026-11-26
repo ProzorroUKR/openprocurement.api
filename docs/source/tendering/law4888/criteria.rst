@@ -140,7 +140,7 @@
 Крім критеріїв статей 20 і 21, обов'язковими можуть бути й інші критерії з довідника
 ``criteria/law_4888/tender/other_criteria.json`` - їх перелік залежить від процедури і визначається
 довідником ``criteria/rules/<procurementMethodType>.json`` у `standards
-<https://github.com/ProzorroUKR/standards/tree/master/criteria/rules>`_. Наприклад, для ``openTendering``
+<https://github.com/ProzorroUKR/standards/tree/master/criteria/rules>`__. Наприклад, для ``openTendering``
 такими є ``CRITERION.OTHER.BID.LANGUAGE`` - мова тендерної пропозиції та
 ``CRITERION.OTHER.BID.VALIDITY_PERIOD`` - строк її дії; обидва мають ``relatesTo`` - ``tender``, тому
 додаються один раз на закупівлю:
@@ -179,7 +179,7 @@
 -------------------------
 
 Для частини критеріїв окремі поля мають збігатися з довідником ``criteria/law_4888`` у `standards
-<https://github.com/ProzorroUKR/standards/tree/master/criteria/law_4888>`_ і замовник не може задати їм
+<https://github.com/ProzorroUKR/standards/tree/master/criteria/law_4888>`__ і замовник не може задати їм
 власне значення. Зараз так перевіряється ``relatesTo`` критерію ``CRITERION.OTHER.BID.GUARANTEE``:
 забезпечення тендерної пропозиції встановлюється лоту, тому критерій створюється з ``relatesTo`` = ``lot``
 та ``relatedItem`` = ``id`` лоту.
