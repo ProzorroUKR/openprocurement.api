@@ -137,10 +137,13 @@
 Інші обов'язкові критерії
 -------------------------
 
-Крім критеріїв статей 20 і 21, в ``openTendering`` обов'язковими є два критерії з довідника
-``criteria/law_4888/tender/other_criteria.json``: ``CRITERION.OTHER.BID.LANGUAGE`` - мова тендерної
-пропозиції та ``CRITERION.OTHER.BID.VALIDITY_PERIOD`` - строк її дії. Обидва мають ``relatesTo`` -
-``tender``, тому додаються один раз на закупівлю:
+Крім критеріїв статей 20 і 21, обов'язковими можуть бути й інші критерії з довідника
+``criteria/law_4888/tender/other_criteria.json`` - їх перелік залежить від процедури і визначається
+довідником ``criteria/rules/<procurementMethodType>.json`` у `standards
+<https://github.com/ProzorroUKR/standards/tree/master/criteria/rules>`_. Наприклад, для ``openTendering``
+такими є ``CRITERION.OTHER.BID.LANGUAGE`` - мова тендерної пропозиції та
+``CRITERION.OTHER.BID.VALIDITY_PERIOD`` - строк її дії; обидва мають ``relatesTo`` - ``tender``, тому
+додаються один раз на закупівлю:
 
 .. http:example:: http/add-other-criteria.http
    :code:
