@@ -134,6 +134,17 @@
   ``criteria/rules/<procurementMethodType>.json`` у `standards
   <https://github.com/ProzorroUKR/standards/tree/master/criteria/rules>`_.
 
+Інші обов'язкові критерії
+-------------------------
+
+Крім критеріїв статей 20 і 21, в ``openTendering`` обов'язковими є два критерії з довідника
+``criteria/law_4888/tender/other_criteria.json``: ``CRITERION.OTHER.BID.LANGUAGE`` - мова тендерної
+пропозиції та ``CRITERION.OTHER.BID.VALIDITY_PERIOD`` - строк її дії. Обидва мають ``relatesTo`` -
+``tender``, тому додаються один раз на закупівлю:
+
+.. http:example:: http/add-other-criteria.http
+   :code:
+
 Перевірка обов'язкових критеріїв по лотах
 -----------------------------------------
 
@@ -159,6 +170,21 @@
 Тепер закупівлю можна оголосити:
 
 .. http:example:: http/activate-tender.http
+   :code:
+
+Поля критерію з довідника
+-------------------------
+
+Для частини критеріїв окремі поля мають збігатися з довідником ``criteria/law_4888`` у `standards
+<https://github.com/ProzorroUKR/standards/tree/master/criteria/law_4888>`_ і замовник не може задати їм
+власне значення. Зараз так перевіряється ``relatesTo`` критерію ``CRITERION.OTHER.BID.GUARANTEE``:
+забезпечення тендерної пропозиції встановлюється лоту, тому критерій створюється з ``relatesTo`` = ``lot``
+та ``relatedItem`` = ``id`` лоту.
+
+Перевірка виконується у кожному запиті, який створює або змінює критерій, і стосується лише тих критеріїв,
+які передані в запиті:
+
+.. http:example:: http/criteria-bid-guarantee-relates-to.http
    :code:
 
 Прийнятні докази критеріїв

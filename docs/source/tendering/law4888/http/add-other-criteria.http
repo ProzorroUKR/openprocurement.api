@@ -1,0 +1,213 @@
+POST /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/criteria?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "Строк дії тендерної пропозиції",
+      "title_en": "Bid validity period",
+      "description": "Строк, протягом якого тендерні пропозиції вважаються дійсними, але не менше 90 днів із дати кінцевого строку подання тендерних пропозицій.",
+      "description_en": "Bid validity term, during which the bids are deemed to be valid, but at least 90 days upon the bid submission deadline.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n864"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 10 частини 2 статті 24",
+          "article_en": "Clause 10 of part 2 of article 24"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій",
+              "title_en": "Bid validity term, during which the bids are deemed to be valid, but at least 90 days upon the bid submission deadline",
+              "dataType": "integer",
+              "minValue": 90,
+              "unit": {
+                "code": "DAY",
+                "name": "день",
+                "name_en": "day"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Мова (мови) тендерної пропозиції",
+      "title_en": "Bid language(s)",
+      "description": "Під час проведення закупівлі всі документи, що готуються замовником, складаються українською мовою. За рішенням замовника одночасно всі документи можуть містити автентичний переклад на іншу мову. Визначальним є текст, викладений українською мовою. Тендерна пропозиція / заявка, інформація та усі документи, що входять до складу тендерної пропозиції / заявки та підготовлені безпосередньо суб’єктом господарювання / кандидатом / учасником процедури закупівлі, мають бути складені українською мовою або містити автентичний переклад на українську мову. Визначальним є текст, викладений українською мовою.",
+      "description_en": "During procurement, all documents prepared by the procuring entity shall be drawn up in the Ukrainian language. By decision of the procuring entity, all such documents may simultaneously include an authentic translation into another language. In the event of any discrepancy, the text in the Ukrainian language shall prevail. A bid/request to participate, the information contained therein, and all documents forming part of the bid/request to participate and prepared directly by the economic operator / candidate / bidder shall be drawn up in the Ukrainian language or be accompanied by an authentic translation into the Ukrainian language. In the event of any discrepancy, the text in the Ukrainian language shall prevail.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.OTHER.BID.LANGUAGE"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n580"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Частина 9 статті 15",
+          "article_en": "Part 9 of article 15"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Мова тендерної пропозиції",
+              "title_en": "Language of the bid",
+              "dataSchema": "ISO 639-3",
+              "dataType": "string",
+              "expectedMinItems": 1,
+              "expectedValues": [
+                "ukr",
+                "eng",
+                "fra",
+                "spa"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "title": "Строк дії тендерної пропозиції",
+      "title_en": "Bid validity period",
+      "description": "Строк, протягом якого тендерні пропозиції вважаються дійсними, але не менше 90 днів із дати кінцевого строку подання тендерних пропозицій.",
+      "description_en": "Bid validity term, during which the bids are deemed to be valid, but at least 90 days upon the bid submission deadline.",
+      "source": "tenderer",
+      "relatesTo": "tender",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
+      },
+      "id": "57301ce5912f47988133780a19c7761a",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n864"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 10 частини 2 статті 24",
+          "article_en": "Clause 10 of part 2 of article 24"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій",
+              "title_en": "Bid validity term, during which the bids are deemed to be valid, but at least 90 days upon the bid submission deadline",
+              "dataType": "integer",
+              "status": "active",
+              "unit": {
+                "name": "день",
+                "name_en": "day",
+                "code": "DAY"
+              },
+              "minValue": 90,
+              "id": "e033c445b9704527b7b8e4d66d98f3d0",
+              "datePublished": "2027-01-01T00:00:00+02:00"
+            }
+          ],
+          "id": "f5e98fb574784f7ba6ad58c42e602a78"
+        }
+      ]
+    },
+    {
+      "title": "Мова (мови) тендерної пропозиції",
+      "title_en": "Bid language(s)",
+      "description": "Під час проведення закупівлі всі документи, що готуються замовником, складаються українською мовою. За рішенням замовника одночасно всі документи можуть містити автентичний переклад на іншу мову. Визначальним є текст, викладений українською мовою. Тендерна пропозиція / заявка, інформація та усі документи, що входять до складу тендерної пропозиції / заявки та підготовлені безпосередньо суб’єктом господарювання / кандидатом / учасником процедури закупівлі, мають бути складені українською мовою або містити автентичний переклад на українську мову. Визначальним є текст, викладений українською мовою.",
+      "description_en": "During procurement, all documents prepared by the procuring entity shall be drawn up in the Ukrainian language. By decision of the procuring entity, all such documents may simultaneously include an authentic translation into another language. In the event of any discrepancy, the text in the Ukrainian language shall prevail. A bid/request to participate, the information contained therein, and all documents forming part of the bid/request to participate and prepared directly by the economic operator / candidate / bidder shall be drawn up in the Ukrainian language or be accompanied by an authentic translation into the Ukrainian language. In the event of any discrepancy, the text in the Ukrainian language shall prevail.",
+      "source": "tenderer",
+      "relatesTo": "tender",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.OTHER.BID.LANGUAGE"
+      },
+      "id": "81adf37679774d93b8ef936150921c7c",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n580"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Частина 9 статті 15",
+          "article_en": "Part 9 of article 15"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Мова тендерної пропозиції",
+              "title_en": "Language of the bid",
+              "dataType": "string",
+              "status": "active",
+              "dataSchema": "ISO 639-3",
+              "expectedValues": [
+                "ukr",
+                "eng",
+                "fra",
+                "spa"
+              ],
+              "expectedMinItems": 1,
+              "id": "c498cabd8eaf4893b40e70fccf79f4b3",
+              "datePublished": "2027-01-01T00:00:00+02:00"
+            }
+          ],
+          "id": "a71e39fdf8854c66a6e874a256049d45"
+        }
+      ]
+    }
+  ]
+}
+

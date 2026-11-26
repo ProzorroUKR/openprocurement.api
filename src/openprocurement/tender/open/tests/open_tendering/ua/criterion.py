@@ -14,6 +14,7 @@ from openprocurement.tender.open.tests.open_tendering.ua.criterion_blanks import
     criterion_evidence_document_type,
     criterion_evidence_title_required,
     criterion_from_market_category_value_range,
+    criterion_standards_fields,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
     BaseTenderOpenTenderingUAContentWebTest,
@@ -199,6 +200,7 @@ class TenderOpenTenderingUACriteriaTest(
     test_activate_tender_with_tech_item = snitch(activate_tender_with_tech_item)
     test_criterion_evidence_title_required = snitch(criterion_evidence_title_required)
     test_criterion_evidence_document_type = snitch(criterion_evidence_document_type)
+    test_criterion_standards_fields = snitch(criterion_standards_fields)
 
 
 class TenderOpenTenderingUASelectionCriteriaPerLotTest(

@@ -15,6 +15,7 @@ from openprocurement.api.constants import (
     CPV_PREFIX_LENGTH_TO_NAME,
     CRITERION_LIFE_CYCLE_COST_IDS,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    LAW_4888_CRITERIA,
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
@@ -1687,6 +1688,8 @@ class TenderCriteriaRulesMixin(BaseState):
     criterion_evidence_title_required = False
     # expectedValue / minValue / maxValue of a requirement must stay within the category range (law 4888 tenders)
     criterion_category_value_range_check = False
+    # the criterion fields that must match the standards dictionary, by criterion classification id
+    criterion_standards_fields: dict[str, tuple[str, ...]] = {}
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):
@@ -1963,6 +1966,7 @@ class TenderCriteriaRulesMixin(BaseState):
             self.validate_criteria_object_id(tender, ["criteria"], criterion)
             self.validate_criterion_classification(tender, criterion)
             self.validate_criterion_relates_to(tender, criterion)
+            self.validate_criterion_standards_fields(criterion)
             self.validate_criterion_related_item(tender, criterion)
         self.validate_criterion_source(diff.added + diff.changed_after)
         self._validate_criterion_uniq(diff.added, previous_criteria=diff.kept)
@@ -2317,6 +2321,24 @@ class TenderCriteriaRulesMixin(BaseState):
             if value != "item":
                 self.raise_criteria_error(
                     ["criteria", "relatesTo"], [f"{classification['id']} criteria relatesTo should be `item`"]
+                )
+
+    def validate_criterion_standards_fields(self, criterion: dict) -> None:
+        classification_id = (criterion.get("classification") or {}).get("id")
+        if not classification_id:
+            return
+        fields = self.criterion_standards_fields.get(classification_id)
+        standards_criterion = LAW_4888_CRITERIA.get(classification_id)
+        if not fields or not standards_criterion:
+            return
+        for field in fields:
+            standards_value = standards_criterion.get(field)
+            if not standards_value:
+                continue
+            if criterion.get(field) != standards_value:
+                self.raise_criteria_error(
+                    ["criteria", field],
+                    [f"{classification_id} criteria {field} should be `{standards_value}`"],
                 )
 
     def validate_criterion_related_item(self, tender: dict, criterion: dict) -> None:

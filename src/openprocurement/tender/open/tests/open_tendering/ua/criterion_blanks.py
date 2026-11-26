@@ -2,7 +2,10 @@ from copy import deepcopy
 from unittest.mock import Mock, patch
 from uuid import uuid4
 
-from openprocurement.tender.core.constants import CRITERION_SUBCONTRACTING_PROPORTION
+from openprocurement.tender.core.constants import (
+    CRITERION_BID_GUARANTEE,
+    CRITERION_SUBCONTRACTING_PROPORTION,
+)
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_20_criteria,
@@ -235,6 +238,43 @@ def add_required_criteria(self, tender):
         {"data": criteria},
     )
     self.assertEqual(response.status, "201 Created")
+
+
+def criterion_standards_fields(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
+    criteria_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
+    criteria = deepcopy(get_criteria_by_ids(test_criteria_all_law_4888, {CRITERION_BID_GUARANTEE}))
+    set_tender_criteria(criteria, tender["lots"], tender.get("items", []))
+    self.set_criteria_evidences_doc(criteria)
+
+    expected_errors = [
+        {
+            "location": "body",
+            "name": "relatesTo",
+            "description": [f"{CRITERION_BID_GUARANTEE} criteria relatesTo should be `lot`"],
+        }
+    ]
+
+    invalid_criteria = deepcopy(criteria)
+    invalid_criteria[0]["relatesTo"] = "tender"
+    del invalid_criteria[0]["relatedItem"]
+
+    response = self.app.post_json(criteria_path, {"data": invalid_criteria}, status=422)
+    self.assertEqual(response.json["errors"], expected_errors)
+
+    response = self.app.post_json(criteria_path, {"data": criteria})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"][0]["relatesTo"], "lot")
+    criterion_id = response.json["data"][0]["id"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criterion_id, self.tender_token),
+        {"data": {"relatesTo": "tender"}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], expected_errors)
 
 
 def activate_tender_with_cancelled_selection_criterion_requirements(self):

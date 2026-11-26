@@ -82,10 +82,11 @@ Content-Type: application/json
           "id": "6a92cf19efc94c9a8eca2cfe839bf5ef",
           "unit": {
             "name": "день",
+            "name_en": "day",
             "code": "DAY"
           },
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
           }
         },
@@ -99,7 +100,7 @@ Content-Type: application/json
           ],
           "id": "f62ded185d1f4b5bbe663d8051d2a708",
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           },
           "dataSchema": "ISO 639-3"
@@ -429,10 +430,11 @@ Content-Type: application/json
           "id": "feb02da52d2f44e0ad9412f40279f8d3",
           "unit": {
             "name": "день",
+            "name_en": "day",
             "code": "DAY"
           },
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
           }
         },
@@ -446,7 +448,7 @@ Content-Type: application/json
           ],
           "id": "b90ca345e46c424caecf9085e99d0d3e",
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           },
           "dataSchema": "ISO 639-3"
@@ -699,10 +701,11 @@ Content-Type: application/json
           "id": "32541f315b244a0982b4d6b0f7c27532",
           "unit": {
             "name": "день",
+            "name_en": "day",
             "code": "DAY"
           },
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
           }
         },
@@ -716,7 +719,7 @@ Content-Type: application/json
           ],
           "id": "1888c699d34f4d0ea98f452ba8bd7227",
           "classification": {
-            "scheme": "LAW922",
+            "scheme": "LAW4888",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           },
           "dataSchema": "ISO 639-3"

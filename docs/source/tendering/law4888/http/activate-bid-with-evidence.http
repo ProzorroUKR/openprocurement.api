@@ -128,6 +128,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
+          "id": "e033c445b9704527b7b8e4d66d98f3d0"
+        },
+        "value": 90
+      },
+      {
+        "requirement": {
+          "id": "c498cabd8eaf4893b40e70fccf79f4b3"
+        },
+        "values": [
+          "ukr"
+        ]
+      },
+      {
+        "requirement": {
           "id": "ef72258ae65d4503a37c305d8a7e8d3d"
         },
         "value": true
@@ -432,11 +446,43 @@ Content-Type: application/json
       },
       {
         "requirement": {
+          "id": "e033c445b9704527b7b8e4d66d98f3d0",
+          "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій"
+        },
+        "value": 90,
+        "id": "1e3a70547b9046529706bf2772223cf4",
+        "unit": {
+          "name": "день",
+          "name_en": "day",
+          "code": "DAY"
+        },
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
+        }
+      },
+      {
+        "requirement": {
+          "id": "c498cabd8eaf4893b40e70fccf79f4b3",
+          "title": "Мова тендерної пропозиції"
+        },
+        "values": [
+          "ukr"
+        ],
+        "id": "0c0b27d1ada04dada219957e93f0dab0",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.OTHER.BID.LANGUAGE"
+        },
+        "dataSchema": "ISO 639-3"
+      },
+      {
+        "requirement": {
           "id": "ef72258ae65d4503a37c305d8a7e8d3d",
           "title": "Текст заповнений користувачем"
         },
         "value": true,
-        "id": "1e3a70547b9046529706bf2772223cf4",
+        "id": "b1d9ff56baff4f60bc8beb1d40edd371",
         "classification": {
           "scheme": "LAW4888",
           "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE"
@@ -455,7 +501,7 @@ Content-Type: application/json
         "id": "9decfa0be13c41ff9aa01a579dfe919c",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9955be84a49342d3b2a7bbd098075b5c?Signature=%2FrhbRZtWeycYdkFVLegkqWmcP26TJgTyP8elq71pu6yCgmxQos%2Bw4O%2F3zh%2BOD%2FxJPvMZgCGXRANZZt6clPsCAA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/75f51222cc7f4ed3b0fb2ab11489a341?Signature=BQQi4l8w6UBmZJTy%2BaKYHPoKccXCwQcALDoEi5fsQePVSqdgLKUVQyOVZ1oj7eOElId79sLKGvSU8HZ8scUWBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
@@ -468,7 +514,7 @@ Content-Type: application/json
         "id": "3fc2340574c342b9964bb893032bae8d",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/75f51222cc7f4ed3b0fb2ab11489a341?Signature=BQQi4l8w6UBmZJTy%2BaKYHPoKccXCwQcALDoEi5fsQePVSqdgLKUVQyOVZ1oj7eOElId79sLKGvSU8HZ8scUWBg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5c77b5099c654bc6a52a265a373c4916?Signature=UXqczdmbXK1hp4y%2B2ia5mYHVw6E47ASz7i7cTNyWTtIKtqoVWO8UoR8cncQZ2DLVDrwR6iTbLmcwhkzBqnsZCQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00"
       }
@@ -483,7 +529,7 @@ Content-Type: application/json
         "id": "20f24e469a524943870fb974fb43e941",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5c77b5099c654bc6a52a265a373c4916?Signature=UXqczdmbXK1hp4y%2B2ia5mYHVw6E47ASz7i7cTNyWTtIKtqoVWO8UoR8cncQZ2DLVDrwR6iTbLmcwhkzBqnsZCQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d1ce2af869604554bf0b70f0e8072908?Signature=hQWIrYskhWHN60mRpxr5PsyCT4R3rgekd4tVfjPg2gSua0mmntXwqueU0aDgPb%2BrIjGL5RyONmTlLH9cdFaKDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00"
       }

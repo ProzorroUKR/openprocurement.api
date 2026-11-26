@@ -7,36 +7,43 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": [
     {
       "title": "Строк дії тендерної пропозиції",
-      "description": "Строк, протягом якого тендерні пропозиції вважаються дійсними, але не менше 90 днів із дати кінцевого строку подання тендерних пропозицій",
+      "title_en": "Bid validity period",
+      "description": "Строк, протягом якого тендерні пропозиції вважаються дійсними, але не менше 90 днів із дати кінцевого строку подання тендерних пропозицій.",
+      "description_en": "Bid validity term, during which the bids are deemed to be valid, but at least 90 days upon the bid submission deadline.",
       "source": "tenderer",
       "classification": {
-        "scheme": "LAW922",
+        "scheme": "LAW4888",
         "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
       },
       "relatesTo": "tender",
       "legislation": [
         {
-          "version": "2025-10-31",
+          "version": "2026-05-27",
           "identifier": {
-            "id": "922-VIII",
+            "id": "4888-IX",
             "legalName": "Закон України \"Про публічні закупівлі\"",
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n864"
           },
           "type": "NATIONAL_LEGISLATION",
-          "article": "22.2.11"
+          "article": "Пункт 10 частини 2 статті 24",
+          "article_en": "Clause 10 of part 2 of article 24"
         }
       ],
       "requirementGroups": [
         {
-          "description": "Підтверджується, що",
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
           "requirements": [
             {
               "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій",
+              "title_en": "Bid validity term, during which the bids are deemed to be valid, but at least 90 days upon the bid submission deadline",
               "dataType": "integer",
               "minValue": 90,
               "unit": {
                 "code": "DAY",
-                "name": "день"
+                "name": "день",
+                "name_en": "day"
               }
             }
           ]
@@ -45,31 +52,37 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     {
       "title": "Мова (мови) тендерної пропозиції",
-      "description": "Тендерна пропозиція та усі документи, які передбачені вимогами тендерної документації і додатками до неї, складаються українською мовою.\nЯкщо в складі тендерної пропозиції надається документ на іншій мові, ніж українська, учасник надає автентичний переклад цього документа українською мовою. Відповідальність за якість та достовірність перекладу несе учасник. Тексти повинні бути автентичними, визначальним є текст викладений українською мовою.\nДана вимога не відноситься до власних назв та/або загальноприйнятих визначень, термінів, малюнків, креслень тощо",
+      "title_en": "Bid language(s)",
+      "description": "Під час проведення закупівлі всі документи, що готуються замовником, складаються українською мовою. За рішенням замовника одночасно всі документи можуть містити автентичний переклад на іншу мову. Визначальним є текст, викладений українською мовою. Тендерна пропозиція / заявка, інформація та усі документи, що входять до складу тендерної пропозиції / заявки та підготовлені безпосередньо суб’єктом господарювання / кандидатом / учасником процедури закупівлі, мають бути складені українською мовою або містити автентичний переклад на українську мову. Визначальним є текст, викладений українською мовою.",
+      "description_en": "During procurement, all documents prepared by the procuring entity shall be drawn up in the Ukrainian language. By decision of the procuring entity, all such documents may simultaneously include an authentic translation into another language. In the event of any discrepancy, the text in the Ukrainian language shall prevail. A bid/request to participate, the information contained therein, and all documents forming part of the bid/request to participate and prepared directly by the economic operator / candidate / bidder shall be drawn up in the Ukrainian language or be accompanied by an authentic translation into the Ukrainian language. In the event of any discrepancy, the text in the Ukrainian language shall prevail.",
       "source": "tenderer",
       "classification": {
-        "scheme": "LAW922",
+        "scheme": "LAW4888",
         "id": "CRITERION.OTHER.BID.LANGUAGE"
       },
       "relatesTo": "tender",
       "legislation": [
         {
-          "version": "2025-10-31",
+          "version": "2026-05-27",
           "identifier": {
-            "id": "922-VIII",
+            "id": "4888-IX",
             "legalName": "Закон України \"Про публічні закупівлі\"",
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n580"
           },
           "type": "NATIONAL_LEGISLATION",
-          "article": "22.2.13"
+          "article": "Частина 9 статті 15",
+          "article_en": "Part 9 of article 15"
         }
       ],
       "requirementGroups": [
         {
-          "description": "Підтверджується, що",
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
           "requirements": [
             {
               "title": "Мова тендерної пропозиції",
+              "title_en": "Language of the bid",
               "dataSchema": "ISO 639-3",
               "dataType": "string",
               "expectedMinItems": 1,
@@ -124,7 +137,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -192,7 +205,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -318,7 +331,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -334,7 +347,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -383,7 +396,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -587,7 +600,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -609,7 +622,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -659,7 +672,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -681,7 +694,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -846,7 +859,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   }
                 }
               ]
@@ -920,7 +933,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "c7c318ed71f9473da5a631611c3f7fd3"
+                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
                   }
                 }
               ]
@@ -983,7 +996,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "c7c318ed71f9473da5a631611c3f7fd3"
+                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
                   }
                 }
               ]
@@ -1004,36 +1017,43 @@ Content-Type: application/json
   "data": [
     {
       "title": "Строк дії тендерної пропозиції",
-      "description": "Строк, протягом якого тендерні пропозиції вважаються дійсними, але не менше 90 днів із дати кінцевого строку подання тендерних пропозицій",
+      "title_en": "Bid validity period",
+      "description": "Строк, протягом якого тендерні пропозиції вважаються дійсними, але не менше 90 днів із дати кінцевого строку подання тендерних пропозицій.",
+      "description_en": "Bid validity term, during which the bids are deemed to be valid, but at least 90 days upon the bid submission deadline.",
       "source": "tenderer",
       "relatesTo": "tender",
       "classification": {
-        "scheme": "LAW922",
+        "scheme": "LAW4888",
         "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
       },
       "id": "393b1e67ba6a4a289c206ffdc3ef7570",
       "legislation": [
         {
-          "version": "2025-10-31",
+          "version": "2026-05-27",
           "identifier": {
-            "id": "922-VIII",
+            "id": "4888-IX",
             "legalName": "Закон України \"Про публічні закупівлі\"",
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n864"
           },
           "type": "NATIONAL_LEGISLATION",
-          "article": "22.2.11"
+          "article": "Пункт 10 частини 2 статті 24",
+          "article_en": "Clause 10 of part 2 of article 24"
         }
       ],
       "requirementGroups": [
         {
-          "description": "Підтверджується, що",
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
           "requirements": [
             {
               "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій",
+              "title_en": "Bid validity term, during which the bids are deemed to be valid, but at least 90 days upon the bid submission deadline",
               "dataType": "integer",
               "status": "active",
               "unit": {
                 "name": "день",
+                "name_en": "day",
                 "code": "DAY"
               },
               "minValue": 90,
@@ -1047,32 +1067,38 @@ Content-Type: application/json
     },
     {
       "title": "Мова (мови) тендерної пропозиції",
-      "description": "Тендерна пропозиція та усі документи, які передбачені вимогами тендерної документації і додатками до неї, складаються українською мовою.\nЯкщо в складі тендерної пропозиції надається документ на іншій мові, ніж українська, учасник надає автентичний переклад цього документа українською мовою. Відповідальність за якість та достовірність перекладу несе учасник. Тексти повинні бути автентичними, визначальним є текст викладений українською мовою.\nДана вимога не відноситься до власних назв та/або загальноприйнятих визначень, термінів, малюнків, креслень тощо",
+      "title_en": "Bid language(s)",
+      "description": "Під час проведення закупівлі всі документи, що готуються замовником, складаються українською мовою. За рішенням замовника одночасно всі документи можуть містити автентичний переклад на іншу мову. Визначальним є текст, викладений українською мовою. Тендерна пропозиція / заявка, інформація та усі документи, що входять до складу тендерної пропозиції / заявки та підготовлені безпосередньо суб’єктом господарювання / кандидатом / учасником процедури закупівлі, мають бути складені українською мовою або містити автентичний переклад на українську мову. Визначальним є текст, викладений українською мовою.",
+      "description_en": "During procurement, all documents prepared by the procuring entity shall be drawn up in the Ukrainian language. By decision of the procuring entity, all such documents may simultaneously include an authentic translation into another language. In the event of any discrepancy, the text in the Ukrainian language shall prevail. A bid/request to participate, the information contained therein, and all documents forming part of the bid/request to participate and prepared directly by the economic operator / candidate / bidder shall be drawn up in the Ukrainian language or be accompanied by an authentic translation into the Ukrainian language. In the event of any discrepancy, the text in the Ukrainian language shall prevail.",
       "source": "tenderer",
       "relatesTo": "tender",
       "classification": {
-        "scheme": "LAW922",
+        "scheme": "LAW4888",
         "id": "CRITERION.OTHER.BID.LANGUAGE"
       },
       "id": "f592c173748145dca0995b42804a2581",
       "legislation": [
         {
-          "version": "2025-10-31",
+          "version": "2026-05-27",
           "identifier": {
-            "id": "922-VIII",
+            "id": "4888-IX",
             "legalName": "Закон України \"Про публічні закупівлі\"",
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n580"
           },
           "type": "NATIONAL_LEGISLATION",
-          "article": "22.2.13"
+          "article": "Частина 9 статті 15",
+          "article_en": "Part 9 of article 15"
         }
       ],
       "requirementGroups": [
         {
-          "description": "Підтверджується, що",
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
           "requirements": [
             {
               "title": "Мова тендерної пропозиції",
+              "title_en": "Language of the bid",
               "dataType": "string",
               "status": "active",
               "dataSchema": "ISO 639-3",
@@ -1132,7 +1158,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "87e70793389743959491558987e57729"
                 }
@@ -1208,7 +1234,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "898eb3d883374920a67a7ea5a9ac0fa2"
                 }
@@ -1345,7 +1371,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "3a1dfdbabfaf4d0398c0c94e825928be"
                 }
@@ -1365,7 +1391,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "8bd40ec6d8de48c489d7373d3be90725"
                 }
@@ -1421,7 +1447,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "e87610055b1644339e7c3c2169eedeef"
                 }
@@ -1649,7 +1675,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "5e0d383a4a314c4f987da006ae7049ef"
                 }
@@ -1676,7 +1702,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "dde857a2ff20438d85c50fa6cb909b53"
                 }
@@ -1732,7 +1758,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "be5f3d233efe425cae387790e2d97f93"
                 }
@@ -1759,7 +1785,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "7a94dd9c85644204acc3c232362c613c"
                 }
@@ -1950,7 +1976,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
+                    "id": "6d6aa62572f54614b39ab8cf238e77d5"
                   },
                   "id": "79200f0f94674186a12b04eb038dab3b"
                 }
@@ -2035,7 +2061,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "c7c318ed71f9473da5a631611c3f7fd3"
+                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
                   },
                   "id": "c48674ebad304998ab69a3cf54b0ff73"
                 }
@@ -2104,7 +2130,7 @@ Content-Type: application/json
                   "title_en": "",
                   "type": "document",
                   "relatedDocument": {
-                    "id": "c7c318ed71f9473da5a631611c3f7fd3"
+                    "id": "77b5b8eb4c9f48ceb8dca571156340a1"
                   },
                   "id": "8c50898fdafb466d92fbfdfaa3fa0281"
                 }

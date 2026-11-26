@@ -103,10 +103,11 @@ Content-Type: application/json
         "id": "feb02da52d2f44e0ad9412f40279f8d3",
         "unit": {
           "name": "день",
+          "name_en": "day",
           "code": "DAY"
         },
         "classification": {
-          "scheme": "LAW922",
+          "scheme": "LAW4888",
           "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
         }
       },
@@ -120,7 +121,7 @@ Content-Type: application/json
         ],
         "id": "b90ca345e46c424caecf9085e99d0d3e",
         "classification": {
-          "scheme": "LAW922",
+          "scheme": "LAW4888",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
         "dataSchema": "ISO 639-3"

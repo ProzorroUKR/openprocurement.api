@@ -3,6 +3,7 @@ from openprocurement.api.constants import WORKING_DAYS_WITH_WORKING_WEEKENDS, Ag
 from openprocurement.tender.core.constants import (
     CALENDAR_DAYS_CONFIG,
     CRITERION_EVIDENCE_DOCUMENT_TYPES,
+    CRITERION_STANDARDS_FIELDS,
     EU_REQUIRED_MULTILINGUAL_FIELDS,
     AwardCriteria,
 )
@@ -238,6 +239,7 @@ class OpenTenderingTenderDetailsState(TenderDetailsMixin, OpenTenderingTenderSta
     criterion_evidence_document_required = True
     criterion_evidence_document_types = CRITERION_EVIDENCE_DOCUMENT_TYPES
     criterion_evidence_title_required = True
+    criterion_standards_fields = CRITERION_STANDARDS_FIELDS
     criterion_category_value_range_check = True
 
 

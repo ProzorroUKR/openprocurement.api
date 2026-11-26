@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": [
     {
       "confidentiality": "public",
-      "documentType": "evaluationCriteria",
+      "documentType": "biddingDocuments",
       "title": "sign.p7s",
       "format": "application/pkcs7-signature",
       "language": "uk",
@@ -24,7 +24,7 @@ Content-Type: application/json
     },
     {
       "confidentiality": "public",
-      "documentType": "eligibilityCriteria",
+      "documentType": "evaluationCriteria",
       "title": "sign.p7s",
       "format": "application/pkcs7-signature",
       "language": "uk",
@@ -32,6 +32,20 @@ Content-Type: application/json
       "datePublished": "2027-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/82e84e6db157438ab557f89f72f2323f?Signature=EMZ0%2FDBbyTNslWJkuqXEHQlflURe8zBc3WiXk6sCHhzy8UzlQrdbD4kNW6Y%2BrjGKFKKlYeeNPzMZx2A5etT7Bw%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner"
+    },
+    {
+      "confidentiality": "public",
+      "documentType": "eligibilityCriteria",
+      "title": "sign.p7s",
+      "format": "application/pkcs7-signature",
+      "language": "uk",
+      "id": "6d6aa62572f54614b39ab8cf238e77d5",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/65794f212f5245caa40b5e9d09e1751d?Signature=7LRff0qDMMpzaz0RHam6uREvzKIrjVOTkp1CjPZ7%2F%2F5V5dyCXHOnGgWt82sr9DWDMo4ORNNCGcFeEnQMbBz1Cg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "dateModified": "2027-01-01T00:00:00+02:00",
       "author": "tender_owner"

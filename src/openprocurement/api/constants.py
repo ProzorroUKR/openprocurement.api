@@ -218,17 +218,19 @@ TKPKMB = standards.load("classifiers/tkpkmb.json")
 UKTZED = set(standards.load("classifiers/uktzed.json"))
 
 # Complaint objections classifications
+LAW_4888_SELECTION_CRITERIA = standards.load("criteria/law_4888/tender/selection_criteria.json")
+LAW_4888_EXCLUSION_CRITERIA = standards.load("criteria/law_4888/tender/exclusion_criteria.json")
+LAW_4888_OTHER_CRITERIA = standards.load("criteria/law_4888/tender/other_criteria.json")
 ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json")}
 ARTICLE_17 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json")}
-ARTICLE_20 = {
-    criterion["classification"]["id"]
-    for criterion in standards.load("criteria/law_4888/tender/selection_criteria.json")
-}
-ARTICLE_21 = {
-    criterion["classification"]["id"]
-    for criterion in standards.load("criteria/law_4888/tender/exclusion_criteria.json")
-}
+ARTICLE_20 = {criterion["classification"]["id"] for criterion in LAW_4888_SELECTION_CRITERIA}
+ARTICLE_21 = {criterion["classification"]["id"] for criterion in LAW_4888_EXCLUSION_CRITERIA}
 OTHER_CRITERIA = {criterion["classification"]["id"] for criterion in standards.load("criteria/other.json")}
+
+LAW_4888_CRITERIA = {
+    criterion["classification"]["id"]: criterion
+    for criterion in LAW_4888_SELECTION_CRITERIA + LAW_4888_EXCLUSION_CRITERIA + LAW_4888_OTHER_CRITERIA
+}
 
 # additional criteria
 CRITERION_LIFE_CYCLE_COST_IDS = {criterion["classification"]["id"] for criterion in standards.load("criteria/LCC.json")}

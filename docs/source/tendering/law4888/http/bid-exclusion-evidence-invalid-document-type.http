@@ -128,6 +128,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
+          "id": "e033c445b9704527b7b8e4d66d98f3d0"
+        },
+        "value": 90
+      },
+      {
+        "requirement": {
+          "id": "c498cabd8eaf4893b40e70fccf79f4b3"
+        },
+        "values": [
+          "ukr"
+        ]
+      },
+      {
+        "requirement": {
           "id": "ef72258ae65d4503a37c305d8a7e8d3d"
         },
         "value": true

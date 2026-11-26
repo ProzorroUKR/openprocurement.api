@@ -253,6 +253,12 @@ msgstr "``source`` defines who answers the requirements of the criterion: ``tend
 msgid "в ``openTendering`` обов'язковими є всі критерії статті 21, крім ``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``; критерій субпідряду обов'язковий лише для ``mainProcurementCategory`` = ``works`` або ``services``;"
 msgstr "in ``openTendering`` all the article 21 criteria are required except ``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``; the subcontracting criterion is required only for ``mainProcurementCategory`` = ``works`` or ``services``;"
 
+msgid "Інші обов'язкові критерії"
+msgstr "Other required criteria"
+
+msgid "Крім критеріїв статей 20 і 21, в ``openTendering`` обов'язковими є два критерії з довідника ``criteria/law_4888/tender/other_criteria.json``: ``CRITERION.OTHER.BID.LANGUAGE`` - мова тендерної пропозиції та ``CRITERION.OTHER.BID.VALIDITY_PERIOD`` - строк її дії. Обидва мають ``relatesTo`` - ``tender``, тому додаються один раз на закупівлю:"
+msgstr "Apart from the article 20 and article 21 criteria, two criteria from the ``criteria/law_4888/tender/other_criteria.json`` dictionary are required in ``openTendering``: ``CRITERION.OTHER.BID.LANGUAGE`` - the language of the bid and ``CRITERION.OTHER.BID.VALIDITY_PERIOD`` - its validity period. Both have ``relatesTo`` - ``tender``, so they are added once per tender:"
+
 msgid "Перевірка обов'язкових критеріїв по лотах"
 msgstr "Checking the required criteria per lot"
 
@@ -279,6 +285,15 @@ msgstr "Let's add a selection criterion to the second lot:"
 
 msgid "Тепер закупівлю можна оголосити:"
 msgstr "Now the tender can be published:"
+
+msgid "Поля критерію з довідника"
+msgstr "The criterion fields from the dictionary"
+
+msgid "Для частини критеріїв окремі поля мають збігатися з довідником ``criteria/law_4888`` у `standards <https://github.com/ProzorroUKR/standards/tree/master/criteria/law_4888>`_ і замовник не може задати їм власне значення. Зараз так перевіряється ``relatesTo`` критерію ``CRITERION.OTHER.BID.GUARANTEE``: забезпечення тендерної пропозиції встановлюється лоту, тому критерій створюється з ``relatesTo`` = ``lot`` та ``relatedItem`` = ``id`` лоту."
+msgstr "For some criteria, particular fields must match the ``criteria/law_4888`` dictionary in `standards <https://github.com/ProzorroUKR/standards/tree/master/criteria/law_4888>`_ and the procuring entity cannot set its own value for them. Currently ``relatesTo`` of the ``CRITERION.OTHER.BID.GUARANTEE`` criterion is checked this way: the bid security is set for a lot, so the criterion is created with ``relatesTo`` = ``lot`` and ``relatedItem`` = the ``id`` of the lot."
+
+msgid "Перевірка виконується у кожному запиті, який створює або змінює критерій, і стосується лише тих критеріїв, які передані в запиті:"
+msgstr "The check is performed in every request that creates or changes a criterion and applies only to the criteria passed in the request:"
 
 msgid "Прийнятні докази критеріїв"
 msgstr "Eligible evidences of criteria"

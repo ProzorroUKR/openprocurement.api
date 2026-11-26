@@ -580,6 +580,9 @@ def patch_tender(self):
     self.set_status("draft")
     criterion = deepcopy(test_exclusion_criteria)[0]
     criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
+    if tender.get("lots"):
+        criterion["relatesTo"] = "lot"
+        criterion["relatedItem"] = tender["lots"][0]["id"]
     self.set_criteria_evidences_doc([criterion], self.tender_id, owner_token)
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token), {"data": [criterion]}, status=201

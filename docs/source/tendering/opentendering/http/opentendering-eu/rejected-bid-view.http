@@ -57,10 +57,11 @@ Content-Type: application/json
         "id": "32541f315b244a0982b4d6b0f7c27532",
         "unit": {
           "name": "день",
+          "name_en": "day",
           "code": "DAY"
         },
         "classification": {
-          "scheme": "LAW922",
+          "scheme": "LAW4888",
           "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
         }
       },
@@ -74,7 +75,7 @@ Content-Type: application/json
         ],
         "id": "1888c699d34f4d0ea98f452ba8bd7227",
         "classification": {
-          "scheme": "LAW922",
+          "scheme": "LAW4888",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
         "dataSchema": "ISO 639-3"

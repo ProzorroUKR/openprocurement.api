@@ -2,12 +2,17 @@ import os
 from copy import deepcopy
 
 from openprocurement.tender.core.constants import (
+    CRITERION_BID_GUARANTEE,
+    CRITERION_BID_LANGUAGE,
+    CRITERION_BID_VALIDITY_PERIOD,
     CRITERION_SUBCONTRACTING_PROPORTION,
     QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA,
 )
 from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
     test_article_20_criteria,
     test_article_21_criteria,
+    test_criteria_other_law_4888,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
@@ -173,6 +178,15 @@ class TenderLaw4888CriteriaResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
             response = self.app.post_json(criteria_path, {"data": exclusion_criteria + subcontracting_criteria})
             self.assertEqual(response.status, "201 Created")
 
+        other_criteria = deepcopy(
+            get_criteria_by_ids(test_criteria_other_law_4888, {CRITERION_BID_LANGUAGE, CRITERION_BID_VALIDITY_PERIOD})
+        )
+        set_tender_criteria(other_criteria, lots, tender["items"])
+
+        with open(TARGET_DIR + "add-other-criteria.http", "w") as self.app.file_obj:
+            response = self.app.post_json(criteria_path, {"data": other_criteria})
+            self.assertEqual(response.status, "201 Created")
+
         self.add_sign_doc(self.tender_id, owner_token)
 
         with open(TARGET_DIR + "activate-tender-without-selection-criteria.http", "w") as self.app.file_obj:
@@ -191,6 +205,30 @@ class TenderLaw4888CriteriaResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
         with open(TARGET_DIR + "add-selection-criteria-second-lot.http", "w") as self.app.file_obj:
             response = self.app.post_json(criteria_path, {"data": second_criteria})
             self.assertEqual(response.status, "201 Created")
+
+        response = self.app.post_json(
+            "/tenders/{}/documents?acc_token={}".format(self.tender_id, owner_token),
+            {
+                "data": {
+                    "title": "bidding_documents.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "biddingDocuments",
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        bidding_documents_doc_id = response.json["data"]["id"]
+
+        guarantee_criteria = deepcopy(get_criteria_by_ids(test_criteria_other_law_4888, {CRITERION_BID_GUARANTEE}))
+        set_tender_criteria(guarantee_criteria, lots, tender["items"])
+        set_criteria_evidences_document(guarantee_criteria, bidding_documents_doc_id)
+        guarantee_criteria[0]["relatesTo"] = "tender"
+        del guarantee_criteria[0]["relatedItem"]
+
+        with open(TARGET_DIR + "criteria-bid-guarantee-relates-to.http", "w") as self.app.file_obj:
+            self.app.post_json(criteria_path, {"data": guarantee_criteria}, status=422)
 
         with open(TARGET_DIR + "activate-tender.http", "w") as self.app.file_obj:
             response = self.app.patch_json(

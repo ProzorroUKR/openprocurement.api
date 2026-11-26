@@ -1,0 +1,95 @@
+POST /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/criteria?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "Забезпечення тендерних пропозицій",
+      "title_en": "Bid security",
+      "description": "Забезпечення тендерної пропозиції / варіанта не повертається у разі: 1) відкликання тендерної пропозиції / варіанта суб’єктом господарювання після закінчення строку її / його подання, але до спливу строку, протягом якого тендерна пропозиція / варіант вважається дійсною / дійсним; 2) непідписання переможцем публічного договору; 3) ненадання переможцем (крім переговорної процедури без попередньої публікації) у строк, визначений частиною п’ятою статті 21 цього Закону, документів, що підтверджують відсутність підстав для відмови в участі у закупівлі, встановлених статтею 21 цього Закону; 4) ненадання переможцем (крім переговорної процедури без попередньої публікації) забезпечення виконання публічного договору після отримання повідомлення про намір укласти публічний договір, якщо надання такого забезпечення передбачено тендерною документацією.",
+      "description_en": "The bid security / variant security shall not be returned if: 1) the economic operator withdraws its bid / variant after expiry of the deadline for submission thereof but before the expiry of the period during which the bid / variant remains valid; 2) the winner fails to sign the public contract; 3) the winner (except where the negotiated procedure without prior publication is applied) fails to provide, within the time limit specified in Part 5 of Article 21 of this Law, the documents confirming the absence of the grounds for refusing its participation in procurement established by Article 21 of this Law; 4) the winner (except where the negotiated procedure without prior publication is applied) fails to provide the performance security after receiving the notice of intent to award a public contract, where the provision of such security is required by the bidding documents.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.OTHER.BID.GUARANTEE"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n865"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 14 частини 2 статті 24",
+          "article_en": "Clause 14 of part 2 of article 24"
+        },
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n929"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Частина 3 статті 28",
+          "article_en": "Part 3 of article 28"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Розмір забезпечення тендерної пропозиції/пропозиції у грошовому виразі у % від очікуваної вартості закупівлі",
+              "title_en": "The amount of the bid security, expressed in monetary terms, as a percentage of the estimated value of the procurement",
+              "dataType": "number",
+              "minValue": 0.0,
+              "maxValue": 3.0,
+              "unit": {
+                "name": "відсоток",
+                "name_en": "percent",
+                "code": "P1"
+              },
+              "eligibleEvidences": [
+                {
+                  "title": "Гарантія забезпечення тендерної пропозиції/пропозиції",
+                  "title_en": "Bid security guarantee",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "f97d3740850c4af1897c7e79bf318e3b"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "relatesTo",
+      "description": [
+        "CRITERION.OTHER.BID.GUARANTEE criteria relatesTo should be `lot`"
+      ]
+    }
+  ]
+}
+
