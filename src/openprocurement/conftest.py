@@ -3,6 +3,8 @@ from datetime import timedelta
 import pytest
 
 import openprocurement.api.database as db_module
+from openprocurement.api import dictionaries
+from openprocurement.api.tests.mock import mock_dictionaries_api_get
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.state import framework
 from openprocurement.tender.core.procedure import validation as tender_validation
@@ -45,3 +47,16 @@ def disable_feed_watermark(monkeypatch):
     that don't support $$NOW in find/$expr.
     """
     monkeypatch.setattr(db_module, "FEED_WATERMARK_SECONDS", 0)
+
+
+@pytest.fixture(autouse=True)
+def mock_dictionaries_api(monkeypatch):
+    """
+    Keep the tests off the network: the dictionaries of ProZorro Dictionaries API (КПК)
+    are taken from `openprocurement.api.tests.mock.MOCK_DICTIONARIES`.
+    The cache of the dictionaries is dropped, so a test doesn't get the data of another one.
+    """
+    monkeypatch.setattr(dictionaries._session, "get", mock_dictionaries_api_get)
+    dictionaries.get_kpk.cache_clear()
+    yield
+    dictionaries.get_kpk.cache_clear()

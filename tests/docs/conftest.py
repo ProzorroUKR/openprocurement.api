@@ -2,8 +2,9 @@ import json
 import random
 import sys
 import traceback
+from collections.abc import AsyncIterable
 from datetime import datetime
-from typing import Any, AsyncIterable, Dict, Literal, Optional
+from typing import Any, Literal
 from uuid import UUID as REAL_UUID
 
 import factory.random
@@ -91,8 +92,8 @@ def request_to_http(api):
         filename: str,
         method: Literal["post", "put", "get", "patch", "delete"],
         url: str,
-        headers: Optional[Dict[str, Any]] = None,
-        json_data: Optional[Dict[str, Any]] = None,
+        headers: dict[str, Any] | None = None,
+        json_data: dict[str, Any] | None = None,
     ):
         # Request
         request_headers = []

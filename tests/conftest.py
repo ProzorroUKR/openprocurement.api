@@ -2,8 +2,8 @@ import asyncio
 import os
 import uuid
 from base64 import b64encode
+from collections.abc import AsyncIterable, AsyncIterator
 from pathlib import Path
-from typing import AsyncIterable, AsyncIterator
 from urllib.parse import urlencode
 
 import pytest

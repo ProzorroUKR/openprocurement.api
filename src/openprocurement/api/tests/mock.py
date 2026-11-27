@@ -1,5 +1,68 @@
+from copy import deepcopy
 from functools import wraps
-from unittest.mock import patch
+from unittest.mock import Mock, patch
+
+# ProZorro Dictionaries API: `data` of the dictionaries by their paths (a few items of the real ones)
+MOCK_DICTIONARIES = {
+    "kpk/all.json": [
+        {
+            "code": "0110000",
+            "name": "Управління справами Апарату Верховної Ради України",
+            "level": 1,
+            "parentCode": None,
+            "isactive": 1,
+            "datefrom": "2023-01-01",
+            "dateto": None,
+            "id": 1708,
+            "years": [2023, 2024, 2025, 2026, 2027],
+        },
+        {
+            "code": "3500000",
+            "name": "Міністерство фінансів України",
+            "level": 1,
+            "parentCode": None,
+            "isactive": 1,
+            "datefrom": "2019-01-01",
+            "dateto": None,
+            "id": 1171,
+            "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027],
+        },
+        {
+            "code": "3505000",
+            "name": "Державна аудиторська служба України",
+            "level": 2,
+            "parentCode": "3500000",
+            "isactive": 1,
+            "datefrom": "2021-01-01",
+            "dateto": None,
+            "id": 1487,
+            "years": [2021, 2022, 2023, 2024, 2025, 2026, 2027],
+        },
+        {
+            "code": "3505000",
+            "name": "Офіс фінансового контролю",
+            "level": 2,
+            "parentCode": "3500000",
+            "isactive": 0,
+            "datefrom": "2020-01-01",
+            "dateto": "2020-12-31",
+            "id": 1204,
+            "years": [2020],
+        },
+    ],
+}
+
+
+def mock_dictionaries_api_get(url, **kwargs):
+    """
+    Replaces `get` of the session of `openprocurement.api.dictionaries`, so the tests don't request the API
+    (the host isn't looked at: the ini files of the tests don't set it).
+    """
+    path = url.partition("/api/1.0/")[2]
+    if path not in MOCK_DICTIONARIES:
+        return Mock(status_code=404, text=f"{path} not found")
+    data = {"data": deepcopy(MOCK_DICTIONARIES[path]), "dateModified": "2026-11-26T07:00:27.423"}
+    return Mock(status_code=200, json=Mock(return_value=data))
 
 
 class ContextDecorator:

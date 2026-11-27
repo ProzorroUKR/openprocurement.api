@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-08 22:20+0300\n"
+"POT-Creation-Date: 2026-11-27 11:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -11,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Словники і стандарти"
 msgstr ""
@@ -47,5 +48,39 @@ msgid "вказуємо цю версію в requirements.txt"
 msgstr ""
 
 msgid "реалізуємо зміни в коді"
+msgstr ""
+
+msgid "Динамічні словники (Dictionaries API)"
+msgstr ""
+
+msgid "Словники, що оновлюються частіше за релізи стандартів, ЦБД бере не з пакету `standards`, а з окремого сервісу `prozorro-dictionaries`. Наразі це лише класифікатор КПК (бюджетні програми державного бюджету), яким валідується `budget.breakdown.classification` плану: схеми ``КПК-<рік>`` і коди в них."
+msgstr ""
+
+msgid "Код клієнта - `openprocurement.api.dictionaries`:"
+msgstr ""
+
+#, python-brace-format
+msgid "словник запитується цілим (``GET {dictionaries_api_host}/api/1.0/kpk/all.json``) при першій потребі в ньому"
+msgstr ""
+
+msgid "результат зберігається в пам'яті процесу (`cachetools.TTLCache`) і використовується до закінчення часу життя кешу, далі запитується знову"
+msgstr ""
+
+msgid "застарілу копію ЦБД не використовує: якщо словник треба запитати, а сервіс недоступний чи повернув неочікувану відповідь, запит до ЦБД завершується помилкою `502` (\"Error while getting data from ProZorro Dictionaries. Try again later\"). Помилка не кешується - наступний запит знову звернеться до сервісу"
+msgstr ""
+
+msgid "плани з класифікатором ТПКВКМБ до сервісу не звертаються"
+msgstr ""
+
+msgid "Налаштування:"
+msgstr ""
+
+msgid "``dictionaries_api_host`` в ini файлі (секція ``[app:main]``) - адреса сервісу"
+msgstr ""
+
+msgid "змінна оточення ``DICTIONARIES_CACHE_TTL`` - час життя кешу в секундах (за замовчуванням 43200 - 12 годин)"
+msgstr ""
+
+msgid "В тестах до сервісу ніхто не звертається: autouse-фікстура `mock_dictionaries_api` підміняє його відповіді даними з `openprocurement.api.tests.mock.MOCK_DICTIONARIES`."
 msgstr ""
 

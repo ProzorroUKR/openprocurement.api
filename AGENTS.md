@@ -54,3 +54,20 @@ def disable_feed_watermark(monkeypatch):
     import openprocurement.api.database as db_module
     monkeypatch.setattr(db_module, "FEED_WATERMARK_SECONDS", 0)
 ```
+
+### Важлива фікстура: `mock_dictionaries_api`
+
+Класифікатор КПК ЦБД бере з Dictionaries API (`src/openprocurement/api/dictionaries.py`, кеш `cachetools.TTLCache`; детально: `docs/source/developers/projects/cdb/standards.rst`), а не з `standards`.
+
+Щоб тести не ходили в мережу, в `src/openprocurement/conftest.py` і `docs/tests/conftest.py` є autouse-фікстура, що підміняє HTTP-сесію клієнта даними з `openprocurement.api.tests.mock.MOCK_DICTIONARIES` і скидає кеш до і після кожного тесту:
+
+```python
+@pytest.fixture(autouse=True)
+def mock_dictionaries_api(monkeypatch):
+    monkeypatch.setattr(dictionaries._session, "get", mock_dictionaries_api_get)
+    dictionaries.get_kpk.cache_clear()
+    yield
+    dictionaries.get_kpk.cache_clear()
+```
+
+Якщо тесту потрібен код або рік КПК, якого немає в `MOCK_DICTIONARIES` — додати його туди. Недоступність сервісу імітується через `mock.patch.object(dictionaries._session, "get", side_effect=...)`.

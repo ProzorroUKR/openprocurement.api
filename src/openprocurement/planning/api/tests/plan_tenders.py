@@ -1,8 +1,10 @@
 from copy import deepcopy
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
+from requests.exceptions import ConnectionError
 
+from openprocurement.api import dictionaries
 from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.api.utils import get_now
@@ -657,6 +659,63 @@ def test_fail_tender_creation(app):
     # get plan form db
     plan_from_db = unwrap_app(app).registry.mongodb.plans.get(plan["data"]["id"])
     assert plan_from_db.get("tender_id") is None
+
+
+def test_tender_creation_dictionaries_api_is_down(app):
+    """
+    The plan is linked to its tender when the tender is already created:
+    Dictionaries API isn't requested then, so its failure can't leave the tender without the plan.
+    """
+    mongodb = unwrap_app(app).registry.mongodb
+    request_tender_data = deepcopy(test_below_tender_data)
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["budget"]["breakdown"] = [
+        {
+            "id": "f" * 32,
+            "title": "state",
+            "value": {"amount": 1500, "currency": "UAH"},
+            "classification": {
+                "scheme": "КПК-2023",
+                "id": "3505000",
+                "description": "Державна аудиторська служба України",
+            },
+        }
+    ]
+    plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
+    tenders_count = mongodb.tenders.collection.count_documents({})
+
+    dictionaries.get_kpk.cache_clear()  # the ttl of the cache is over
+    with patch.object(
+        dictionaries._session, "get", side_effect=ConnectionError("Connection refused")
+    ) as dictionaries_api_get:
+        response = app.post_json(
+            "/plans/{}/tenders".format(plan["data"]["id"]),
+            {"data": request_tender_data, "config": test_tender_below_config},
+        )
+    assert response.status == "201 Created"
+    assert dictionaries_api_get.call_count == 0
+
+    tender_id = response.json["data"]["id"]
+    assert response.json["data"]["plans"] == [{"id": plan["data"]["id"]}]
+    assert mongodb.tenders.collection.count_documents({}) == tenders_count + 1
+    plan_from_db = mongodb.plans.get(plan["data"]["id"])
+    assert plan_from_db["tender_id"] == tender_id
+    assert plan_from_db["status"] == "complete"
+
+    # the budget of a plan is still checked with the dictionary when it's changed
+    plan = create_plan_for_tender(app, request_tender_data, deepcopy(request_plan_data))
+    budget = deepcopy(plan["data"]["budget"])
+    budget["description"] = "changed"
+    dictionaries.get_kpk.cache_clear()
+    with patch.object(dictionaries._session, "get", side_effect=ConnectionError("Connection refused")):
+        response = app.patch_json(
+            "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
+            {"data": {"budget": budget}},
+            status=502,
+        )
+    assert response.json["errors"][0]["description"] == (
+        "Error while getting data from ProZorro Dictionaries. Try again later"
+    )
 
 
 test_tenders = [

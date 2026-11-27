@@ -4,11 +4,14 @@ from datetime import datetime, timedelta
 from unittest import mock
 
 from freezegun import freeze_time
+from requests.exceptions import ConnectionError
 
+from openprocurement.api import dictionaries
 from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from openprocurement.api.context import set_request_now
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.tests.mock import mock_dictionaries_api_get
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.planning.api.constants import PROCEDURES
 
@@ -2740,7 +2743,7 @@ def plan_additional_classifications_based_on_breakdown(self):
     }
     response = self.app.post_json("/plans", {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertIn("КПК-2023 id not found in standards", str(response.json["errors"]))
+    self.assertIn("КПК-2023 id not found in prozorro dictionaries", str(response.json["errors"]))
 
     data["budget"]["breakdown"][1]["classification"]["id"] = "3505000"
     response = self.app.post_json("/plans", {"data": data})
@@ -2786,6 +2789,125 @@ def plan_additional_classifications_based_on_breakdown(self):
             }
         ],
     )
+
+
+def plan_breakdown_classification_dictionaries_api(self):
+    """КПК of budget.breakdown.classification is taken from ProZorro Dictionaries API"""
+    data = deepcopy(self.initial_data)
+    del data["additionalClassifications"]
+    classification = {
+        "scheme": "КПК-2023",
+        "id": "3505000",
+        "description": "Державна аудиторська служба України",
+    }
+    data["budget"]["breakdown"] = [
+        {
+            "id": "f" * 32,
+            "title": "state",
+            "value": {"amount": 1500, "currency": "UAH"},
+            "classification": classification,
+        }
+    ]
+
+    # the years of КПК are the ones of the dictionary
+    classification["scheme"] = "КПК-2018"
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "budget",
+                "description": {
+                    "breakdown": [
+                        {
+                            "classification": {
+                                "scheme": [
+                                    "Value must be one of ['КПК-2019', 'КПК-2020', 'КПК-2021', 'КПК-2022', 'КПК-2023', "
+                                    "'КПК-2024', 'КПК-2025', 'КПК-2026', 'КПК-2027', 'ТПКВКМБ']."
+                                ]
+                            }
+                        }
+                    ]
+                },
+            }
+        ],
+    )
+
+    # a code is checked against its year: 3505000 has been in the dictionary since 2020
+    classification["scheme"] = "КПК-2019"
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+    self.assertIn("КПК-2019 id not found in prozorro dictionaries", str(response.json["errors"]))
+
+    classification["scheme"] = "КПК-2023"
+    with mock.patch.object(dictionaries._session, "get", side_effect=mock_dictionaries_api_get) as session_get:
+        response = self.app.post_json("/plans", {"data": data})
+        self.assertEqual(response.status, "201 Created")
+        plan = response.json["data"]
+        plan_token = response.json["access"]["token"]
+
+        # the dictionary is cached
+        response = self.app.patch_json(
+            f"/plans/{plan['id']}?acc_token={plan_token}",
+            {"data": {"budget": {**data["budget"], "description": "changed"}}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(session_get.call_count, 0)
+
+        # till the end of its ttl
+        dictionaries.get_kpk.cache_clear()
+        self.app.post_json("/plans", {"data": data})
+        self.app.post_json("/plans", {"data": data})
+        self.assertEqual(session_get.call_count, 1)
+
+    # Dictionaries API is down and there is nothing in the cache: no stale copy is used
+    dictionaries.get_kpk.cache_clear()
+    for failure in (
+        {"side_effect": ConnectionError("Connection refused")},
+        {"return_value": mock.Mock(status_code=500, text="Internal Server Error")},
+    ):
+        with mock.patch.object(dictionaries._session, "get", **failure):
+            for response in (
+                self.app.post_json("/plans", {"data": data}, status=502),
+                self.app.patch_json(
+                    f"/plans/{plan['id']}?acc_token={plan_token}",
+                    {"data": {"budget": {**data["budget"], "description": "changed again"}}},
+                    status=502,
+                ),
+            ):
+                self.assertEqual(
+                    response.json["errors"],
+                    [
+                        {
+                            "location": "body",
+                            "name": "data",
+                            "description": "Error while getting data from ProZorro Dictionaries. Try again later",
+                        }
+                    ],
+                )
+
+            # ТПКВКМБ doesn't need Dictionaries API
+            local_data = deepcopy(data)
+            local_data["budget"]["breakdown"][0].update(
+                title="local",
+                classification={
+                    "scheme": "ТПКВКМБ",
+                    "id": "2170",
+                    "description": "Будівництво закладів охорони здоров’я",
+                },
+                address={
+                    "countryName": "Україна",
+                    "addressDetails": [
+                        {"scheme": "КАТОТТГ", "id": "UA01040170010099030", "description": "Зеленогірське"}
+                    ],
+                },
+            )
+            response = self.app.post_json("/plans", {"data": local_data})
+            self.assertEqual(response.status, "201 Created")
+
+    # the failure isn't cached: the plan is created as soon as the API is back
+    response = self.app.post_json("/plans", {"data": data})
+    self.assertEqual(response.status, "201 Created")
 
 
 def plan_item_uktzed_classification(self):

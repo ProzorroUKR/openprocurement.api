@@ -6,14 +6,13 @@ from pydantic import Field, field_validator, model_validator
 from openprocurement.api.constants import (
     FUNDER_PROGRAM_SCHEME,
     FUNDER_PROGRAMS,
-    KPK,
     PLAN_OF_UKRAINE,
     PLAN_OF_UKRAINE_SCHEME,
     TKPKMB,
     TKPKMB_SCHEME,
 )
 from openprocurement.api.constants_env import BUDGET_PERIOD_FROM
-from openprocurement.api.enums import enum_members
+from openprocurement.api.dictionaries import get_kpk
 from openprocurement.api.procedure.errors import REQUIRED_MESSAGE, FieldError, FieldErrors
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model, model_field_validator, validate_uniq_id
@@ -33,11 +32,6 @@ _BUDGET_PROJECT_CLASSIFIERS: dict[str, tuple[dict, str]] = {
 class BudgetProjectScheme(StrEnum):
     FUNDER_PROGRAM = FUNDER_PROGRAM_SCHEME
     PLAN_OF_UKRAINE = PLAN_OF_UKRAINE_SCHEME
-
-
-BudgetClassificationScheme = StrEnum(  # type: ignore[misc]
-    "BudgetClassificationScheme", enum_members([*KPK.keys(), TKPKMB_SCHEME])
-)
 
 
 class BudgetProject(Model):
@@ -96,14 +90,20 @@ class BudgetPeriod(Period):
 
 
 class BudgetClassification(Classification):
-    scheme: BudgetClassificationScheme
+    scheme: str
+
+    @model_field_validator("scheme")
+    def validate_scheme(self, value):
+        if value != TKPKMB_SCHEME and value not in (kpk := get_kpk()):
+            raise ValueError(f"Value must be one of {[*sorted(kpk), TKPKMB_SCHEME]}.")
 
     @model_field_validator("id")
     def validate_id(self, value):
-        if self.scheme in KPK and value not in KPK[self.scheme]:
-            raise ValueError(f"{self.scheme} id not found in standards")
-        if self.scheme == TKPKMB_SCHEME and value not in TKPKMB:
-            raise ValueError(f"{TKPKMB_SCHEME} id not found in standards")
+        if self.scheme == TKPKMB_SCHEME:
+            if value not in TKPKMB:
+                raise ValueError(f"{TKPKMB_SCHEME} id not found in standards")
+        elif value not in get_kpk().get(self.scheme, ()):
+            raise ValueError(f"{self.scheme} id not found in prozorro dictionaries")
 
 
 class BudgetBreakdownItem(Model):

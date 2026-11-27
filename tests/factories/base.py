@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 
 from factory import Factory
 
@@ -14,7 +14,7 @@ class BaseFactory(Factory):
         raise NotImplementedError()
 
     @classmethod
-    async def db_create_batch(cls, size: int, **kwargs: Any) -> List[Any]:
+    async def db_create_batch(cls, size: int, **kwargs: Any) -> list[Any]:
         return [await cls.create(**kwargs) for _ in range(size)]
 
     @classmethod
