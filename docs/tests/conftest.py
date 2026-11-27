@@ -3,6 +3,8 @@ from datetime import timedelta
 import pytest
 from dateutil.parser import parse
 
+from openprocurement.api import dictionaries
+from openprocurement.api.tests.mock import mock_dictionaries_api_get
 from openprocurement.framework.core.procedure.state import framework
 from openprocurement.tender.core.procedure import validation as tender_validation
 from openprocurement.tender.core.procedure.state import tender
@@ -40,3 +42,16 @@ def disable_feed_watermark(monkeypatch):
     import openprocurement.api.database as db_module
 
     monkeypatch.setattr(db_module, "FEED_WATERMARK_SECONDS", 0)
+
+
+@pytest.fixture(autouse=True)
+def mock_dictionaries_api(monkeypatch):
+    """
+    Not a patch of a constant: it keeps the docs tests off the network (and their output the same every run).
+    The dictionaries of ProZorro Dictionaries API (КПК) are taken from
+    `openprocurement.api.tests.mock.MOCK_DICTIONARIES`.
+    """
+    monkeypatch.setattr(dictionaries._session, "get", mock_dictionaries_api_get)
+    dictionaries.get_kpk.cache_clear()
+    yield
+    dictionaries.get_kpk.cache_clear()

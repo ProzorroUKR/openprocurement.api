@@ -1,10 +1,13 @@
 from openprocurement.planning.api.constants import MilestoneStatus, MilestoneType
 from copy import deepcopy
 from datetime import datetime, timedelta
+from unittest.mock import patch
 from uuid import uuid4
 
 import pytest
+from requests.exceptions import ConnectionError
 
+from openprocurement.api import dictionaries
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.api.utils import get_now
@@ -134,6 +137,44 @@ def test_fail_post_milestone_status(app, centralized_plan, test_status):
             }
         ],
     }
+
+
+def test_post_milestone_dictionaries_api_is_down(app):
+    """A milestone doesn't change the budget of the plan, so КПК of Dictionaries API isn't requested for it"""
+    app.authorization = ("Basic", ("broker", "broker"))
+    test_data = deepcopy(test_plan_data)
+    test_data["tender"]["procurementMethod"] = ""
+    test_data["tender"]["procurementMethodType"] = "centralizedProcurement"
+    test_data["procuringEntity"] = central_procuring_entity
+    test_data["budget"]["breakdown"] = [
+        {
+            "id": "f" * 32,
+            "title": "state",
+            "value": {"amount": 1500, "currency": "UAH"},
+            "classification": {
+                "scheme": "КПК-2023",
+                "id": "3505000",
+                "description": "Державна аудиторська служба України",
+            },
+        }
+    ]
+    plan = app.post_json("/plans", {"data": test_data}).json["data"]
+    milestone_data = test_milestone_data(app)
+
+    dictionaries.get_kpk.cache_clear()  # the ttl of the cache is over
+    with patch.object(
+        dictionaries._session, "get", side_effect=ConnectionError("Connection refused")
+    ) as dictionaries_api_get:
+        response = app.post_json("/plans/{}/milestones".format(plan["id"]), {"data": milestone_data})
+        assert response.status_code == 201
+        milestone, milestone_token = response.json["data"], response.json["access"]["token"]
+
+        response = app.patch_json(
+            "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
+            {"data": {"status": MilestoneStatus.MET}},
+        )
+        assert response.status_code == 200
+    assert dictionaries_api_get.call_count == 0
 
 
 def test_post_milestone(app, centralized_plan):

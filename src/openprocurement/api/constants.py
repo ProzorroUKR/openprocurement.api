@@ -15,7 +15,6 @@ from openprocurement.api.constants_utils import (
     load_criteria_rules,
     load_rationale_types,
     parse_str_list,
-    split_classifier_by_year,
 )
 from openprocurement.api.enums import enum_members
 
@@ -75,6 +74,11 @@ ROUTE_PREFIX = "/api/{}".format(VERSION)
 
 # Session
 SESSION = Session()
+
+# ProZorro Dictionaries API (the host is `dictionaries_api_host` of the ini file)
+DICTIONARIES_API_TIMEOUT = (5, 25)  # connect, read
+# how long a fetched dictionary is used before it's fetched again, in seconds
+DICTIONARIES_CACHE_TTL = int(os.environ.get("DICTIONARIES_CACHE_TTL", 12 * 60 * 60))
 
 # OCDS
 OCID_PREFIX = os.environ.get("OCID_PREFIX", "ocds-be6bcu")
@@ -212,7 +216,6 @@ UA_ROAD_CPV_PREFIXES = standards.load("classifiers/ua_road_cpv_prefixes.json")
 CCCE_UA = standards.load("classifiers/ccce_ua.json")
 KPKV_UK = standards.load("classifiers/kpkv_uk_2025.json")
 KEKV_UK = standards.load("classifiers/kekv_uk.json")
-KPK = split_classifier_by_year(standards.load("classifiers/kpk.json"), "КПК")
 KATOTTG = standards.load("classifiers/katottg.json")
 TKPKMB = standards.load("classifiers/tkpkmb.json")
 UKTZED = set(standards.load("classifiers/uktzed.json"))
@@ -264,8 +267,7 @@ UA_ROAD_SCHEME = "UA-ROAD"
 CCCE_UA_SCHEME = "CCCE-UA"
 KPKV_UK_SCHEME = "КПКВ"
 KEKV_UK_SCHEME = "КЕКВ"
-KPK_SCHEME = "КПК"
-KPK_SCHEMES = KPK.keys()
+KPK_SCHEME = "КПК"  # the codes are in ProZorro Dictionaries API, see openprocurement.api.dictionaries
 KATOTTG_SCHEME = "КАТОТТГ"
 TKPKMB_SCHEME = "ТПКВКМБ"
 UKTZED_SCHEME = "UKTZED"

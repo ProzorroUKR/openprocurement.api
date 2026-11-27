@@ -7,7 +7,6 @@ from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
     KATOTTG_SCHEME,
     KPK_SCHEME,
-    KPK_SCHEMES,
     KPKV_UK_SCHEME,
     TKPKMB_SCHEME,
     ProcurementMethodType,
@@ -21,6 +20,7 @@ from openprocurement.api.constants_env import (
     UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request, get_request_now
+from openprocurement.api.dictionaries import get_kpk
 from openprocurement.api.procedure.errors import REQUIRED_MESSAGE
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import BaseState
@@ -239,7 +239,12 @@ class PlanState(BaseState):
         self._validate_plan_status_update(before, after)
         self._validate_plan_with_tender(before, after)
         self._validate_tender_procurement_method_type(after)
-        self.validate_required_breakdown_classifications(after)
+
+        # It requests КПК of Dictionaries API, so it's rechecked only with the budget it's about:
+        # POST /plans/{id}/tenders gets here when the tender is already created,
+        # a failure of the API (502) would leave the tender without its plan
+        if before.get("budget") != after.get("budget"):
+            self.validate_required_breakdown_classifications(after)
 
     def plan_tender_validate_on_post(self, plan, tender):
         self._validate_plan_scheduled(plan)
@@ -542,9 +547,8 @@ class PlanState(BaseState):
         if plan.get("budget") and plan["budget"].get("breakdown"):
             for breakdown in plan["budget"]["breakdown"]:
                 classification = breakdown.get("classification", {})
-                if breakdown.get("title") == "state" and not any(
-                    classification.get("scheme") == kpk_scheme for kpk_scheme in KPK_SCHEMES
-                ):
+                scheme = classification.get("scheme")
+                if breakdown.get("title") == "state" and not (scheme and scheme in get_kpk()):
                     raise_operation_error(
                         self.request,
                         f"{KPK_SCHEME} is required for {breakdown['title']} budget.",

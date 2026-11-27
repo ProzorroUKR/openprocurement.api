@@ -136,6 +136,9 @@ def make_app(global_config, **settings):
     # Catalog API host
     config.registry.catalog_api_host = settings.get("catalog_api_host")
 
+    # Dictionaries API host
+    config.registry.dictionaries_api_host = settings.get("dictionaries_api_host")
+
     # Render API host
     config.registry.render_api_host = settings.get("render_api_host")
     config.registry.render_api_username = settings.get("render_api_username")
