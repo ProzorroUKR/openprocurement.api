@@ -16,15 +16,18 @@ from webtest import AppError
 from openprocurement.api.constants import SESSION, TZ
 from openprocurement.api.constants_env import TWO_PHASE_COMMIT_FROM
 from openprocurement.api.context import set_request_now
+from openprocurement.api.procedure.models.document import TenderDocumentType
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.constants import CRITERION_EVIDENCE_DOCUMENT_TYPES
 from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
 from openprocurement.tender.core.tests.utils import (
     change_auth,
     set_bid_items,
     set_bid_lotvalues,
     set_bid_responses,
+    set_criteria_evidences_document,
     set_tender_criteria,
     set_tender_lots,
     set_tender_periods,
@@ -75,6 +78,8 @@ ocds_resolver = RefResolver(base_uri=f"file://{os.path.join(current_dir, 'data')
 test_criteria_other = standards.load("criteria/other.json")
 test_criteria_article_16 = standards.load("criteria/article_16.json")
 test_criteria_article_17 = standards.load("criteria/article_17.json")
+test_article_20_criteria = standards.load("criteria/law_4888/tender/selection_criteria.json")
+test_article_21_criteria = standards.load("criteria/law_4888/tender/exclusion_criteria.json")
 
 test_criteria_decree_1178 = standards.load("criteria/decree_1178.json")
 test_criteria_lcc = standards.load("criteria/LCC.json")
@@ -84,8 +89,14 @@ test_criteria_all = []
 test_criteria_all.extend(test_criteria_other)
 test_criteria_all.extend(test_criteria_article_17)
 
+test_criteria_all_law_4888 = []
+test_criteria_all_law_4888.extend(test_criteria_other)
+test_criteria_all_law_4888.extend(test_article_21_criteria)
+test_criteria_all_law_4888.extend(test_article_20_criteria)
+
 # standards requirements with dataType=string but no expectedValues (free-text fields),
 patch_string_requirements_without_expected_values(test_criteria_all)
+patch_string_requirements_without_expected_values(test_criteria_all_law_4888)
 
 test_other_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.OTHER")
 test_exclusion_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.EXCLUSION")
@@ -188,6 +199,7 @@ class BaseCoreWebTest(BaseWebTest):
     initial_data = None
     initial_config = None
     initial_criteria = None
+    default_criteria = None
     initial_status = None
     initial_bids = None
     initial_lots = None
@@ -197,6 +209,7 @@ class BaseCoreWebTest(BaseWebTest):
     guarantee_criterion = None
     bid_item_product_required = False
     should_add_contract_proforma_doc = True
+    should_add_criteria_doc = False
 
     agreement_id = None
     tender_id = None
@@ -207,6 +220,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def setUp(self):
         super().setUp()
+        self.criteria_doc_ids = {}
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
         if self.initial_data and ("tenderPeriod" in self.initial_data or "enquiryPeriod" in self.initial_data):
@@ -327,6 +341,31 @@ class BaseCoreWebTest(BaseWebTest):
                 request_body,
             )
         return response
+
+    def add_criteria_doc(self, tender_id, tender_token, document_type=TenderDocumentType.EVALUATION_CRITERIA):
+        response = self.add_sign_doc(tender_id, tender_token, document_type=document_type)
+        return response.json["data"]["id"]
+
+    def get_criteria_doc_id(
+        self, tender_id=None, tender_token=None, document_type=TenderDocumentType.EVALUATION_CRITERIA
+    ):
+        tender_id = tender_id or self.tender_id
+        tender_token = tender_token or self.tender_token
+        key = (tender_id, document_type)
+        if key not in self.criteria_doc_ids:
+            self.criteria_doc_ids[key] = self.add_criteria_doc(tender_id, tender_token, document_type)
+        return self.criteria_doc_ids[key]
+
+    def set_criteria_evidences_doc(self, data, tender_id=None, tender_token=None, classification_id=None):
+        if not self.should_add_criteria_doc:
+            return data
+        for criterion in data if isinstance(data, list) else [data]:
+            criterion_classification_id = (criterion.get("classification") or {}).get("id") or classification_id
+            document_type = CRITERION_EVIDENCE_DOCUMENT_TYPES.get(
+                criterion_classification_id, TenderDocumentType.EVALUATION_CRITERIA
+            )
+            set_criteria_evidences_document(criterion, self.get_criteria_doc_id(tender_id, tender_token, document_type))
+        return data
 
     def activate_bid(self, tender_id, bid_id, bid_token, doc_id=None):
         self.add_sign_doc(
@@ -538,18 +577,20 @@ class BaseCoreWebTest(BaseWebTest):
                 tender.get("lots", []),
                 tender.get("items", []),
             )
+            self.set_criteria_evidences_doc(self.initial_criteria)
             response = self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {"data": self.initial_criteria},
             )
             criteria = response.json["data"]
         if self.guarantee_criterion:
-            guarantee_criteria = getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria)
+            guarantee_criteria = deepcopy(getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria))
             set_tender_criteria(
                 guarantee_criteria,
                 tender.get("lots", []),
                 tender.get("items", []),
             )
+            self.set_criteria_evidences_doc(guarantee_criteria)
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {"data": guarantee_criteria},

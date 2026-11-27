@@ -1,0 +1,428 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-19 23:06+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Критерії за Законом № 4888"
+msgstr "Criteria under Law No. 4888"
+
+msgid "Базові операції над критеріями, групами вимог, вимогами та прийнятними доказами не змінюються - вони описані в розділі :ref:`criteria_operation`. Нижче наведені лише відмінності, які діють у процедурах за Законом № 4888."
+msgstr "The basic operations with criteria, requirement groups, requirements and eligible evidences are not changed - they are described in :ref:`criteria_operation`. Only the differences that apply to the procedures under Law No. 4888 are described below."
+
+msgid "Критерії відбору (стаття 20)"
+msgstr "Selection criteria (article 20)"
+
+msgid "Замість критеріїв статті 16 у процедурах за Законом № 4888 використовуються критерії відбору статті 20. `Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/law_4888/tender/selection_criteria.json>`__"
+msgstr "The procedures under Law No. 4888 use the article 20 selection criteria instead of the article 16 criteria. `The standard is available here <https://github.com/ProzorroUKR/standards/blob/master/criteria/law_4888/tender/selection_criteria.json>`__"
+
+msgid "``classification.id``"
+msgstr "``classification.id``"
+
+msgid "Назва"
+msgstr "Title"
+
+msgid "Підстава"
+msgstr "Legal basis"
+
+msgid "``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT``"
+msgstr "``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT``"
+
+msgid "Наявність обладнання, матеріально-технічної бази та технологій"
+msgstr "Availability of the necessary equipment, material and technical facilities, and technologies"
+
+msgid "Пункт 1 частини 2 статті 20"
+msgstr "Clause 1 of part 2 of article 20"
+
+msgid "``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.STAFF_FOR_CARRYING_SCOPE``"
+msgstr "``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.STAFF_FOR_CARRYING_SCOPE``"
+
+msgid "Наявність працівників відповідної кваліфікації"
+msgstr "Availability of employees with appropriate qualifications"
+
+msgid "Пункт 2 частини 2 статті 20"
+msgstr "Clause 2 of part 2 of article 20"
+
+msgid "``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE``"
+msgstr "``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE``"
+
+msgid "Наявність досвіду виконання аналогічного договору (договорів)"
+msgstr "Experience in performing a similar contract (contracts)"
+
+msgid "Пункт 3 частини 2 статті 20"
+msgstr "Clause 3 of part 2 of article 20"
+
+msgid "``CRITERION.SELECTION.ECONOMIC_FINANCIAL_STANDING``"
+msgstr "``CRITERION.SELECTION.ECONOMIC_FINANCIAL_STANDING``"
+
+msgid "Наявність фінансової спроможності"
+msgstr "Financial capacity"
+
+msgid "Пункт 4 частини 2 статті 20"
+msgstr "Clause 4 of part 2 of article 20"
+
+msgid "Особливості цих критеріїв:"
+msgstr "The specifics of these criteria:"
+
+msgid "``classification.scheme`` - ``LAW4888``, ``source`` - ``tenderer``, ``relatesTo`` - ``lot``;"
+msgstr "``classification.scheme`` is ``LAW4888``, ``source`` is ``tenderer``, ``relatesTo`` is ``lot``;"
+
+msgid "у ``legislation`` разом з полем ``article`` передається його англомовний відповідник ``article_en``;"
+msgstr "``legislation`` contains the ``article`` field together with its English counterpart ``article_en``;"
+
+msgid "якщо ``mainProcurementCategory`` закупівлі - ``works`` або ``services``, закупівлю не можна оголосити (перевести зі статусу ``draft``) без щонайменше одного критерію відбору; для ``goods`` критерії відбору не обов'язкові, але можуть бути додані;"
+msgstr "if the ``mainProcurementCategory`` of the tender is ``works`` or ``services``, the tender cannot be published (switched from the ``draft`` status) without at least one selection criterion; for ``goods`` the selection criteria are not required, but can be added;"
+
+msgid "перелік обов'язкових критеріїв для кожної процедури визначається довідником ``criteria/rules/<procurementMethodType>.json`` у `standards <https://github.com/ProzorroUKR/standards/tree/master/criteria/rules>`_."
+msgstr "the list of the required criteria of each procedure is defined by the ``criteria/rules/<procurementMethodType>.json`` codelist in `standards <https://github.com/ProzorroUKR/standards/tree/master/criteria/rules>`_."
+
+msgid "Критерії відмови в участі (стаття 21)"
+msgstr "Exclusion criteria (article 21)"
+
+msgid "Замість критеріїв статті 17 у процедурах за Законом № 4888 використовуються підстави для відмови в участі у процедурі закупівлі, визначені статтею 21. `Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/law_4888/tender/exclusion_criteria.json>`__"
+msgstr "The procedures under Law No. 4888 use the grounds for refusal to participate in a procurement procedure defined by article 21 instead of the article 17 criteria. `The standard is available here <https://github.com/ProzorroUKR/standards/blob/master/criteria/law_4888/tender/exclusion_criteria.json>`__"
+
+msgid "``source``"
+msgstr "``source``"
+
+msgid "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION``"
+msgstr "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION``"
+
+msgid "Наявність впливу на прийняття рішення замовника"
+msgstr "Influence on the decision-making of the procuring entity"
+
+msgid "``procuringEntity``"
+msgstr "``procuringEntity``"
+
+msgid "Пункт 1 частини 1 статті 21"
+msgstr "Clause 1 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION``"
+msgstr "``CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION``"
+
+msgid "Вчинення корупційних правопорушень"
+msgstr "Commission of corruption offences"
+
+msgid "``winner``"
+msgstr "``winner``"
+
+msgid "Пункт 2 частини 1 статті 21"
+msgstr "Clause 2 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONVICTIONS.FRAUD``"
+msgstr "``CRITERION.EXCLUSION.CONVICTIONS.FRAUD``"
+
+msgid "Вчинення економічних правопорушень"
+msgstr "Commission of economic offences"
+
+msgid "``tenderer``"
+msgstr "``tenderer``"
+
+msgid "Пункт 4 частини 1 статті 21"
+msgstr "Clause 4 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION``"
+msgstr "``CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION``"
+
+msgid "Вчинення кримінальних правопорушень"
+msgstr "Commission of criminal offences"
+
+msgid "Пункт 5 частини 1 статті 21"
+msgstr "Clause 5 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION``"
+msgstr "``CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION``"
+
+msgid "Наявність зв'язку суб'єкта господарювання з іншими учасниками процедури або замовником"
+msgstr "Connection of the economic operator with other participants of the procedure or with the procuring entity"
+
+msgid "Пункт 7 частини 1 статті 21"
+msgstr "Clause 7 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY``"
+msgstr "``CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY``"
+
+msgid "Порушення справи про банкрутство"
+msgstr "Bankruptcy proceedings"
+
+msgid "Пункт 8 частини 1 статті 21"
+msgstr "Clause 8 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.NATIONAL.OTHER``"
+msgstr "``CRITERION.EXCLUSION.NATIONAL.OTHER``"
+
+msgid "Наявність інших підстав для відмови в участі у процедурі закупівлі"
+msgstr "Other grounds for refusal to participate in a procurement procedure"
+
+msgid "Пункт 9 частини 1 статті 21"
+msgstr "Clause 9 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``"
+msgstr "``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``"
+
+msgid "Наявність антикорупційної програми"
+msgstr "Anti-corruption programme"
+
+msgid "Пункт 10 частини 1 статті 21"
+msgstr "Clause 10 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES``"
+msgstr "``CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES``"
+
+msgid "Вчинення правопорушень, пов'язаних із застосуванням санкцій"
+msgstr "Commission of offences related to the application of sanctions"
+
+msgid "Пункт 11 частини 1 статті 21"
+msgstr "Clause 11 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING``"
+msgstr "``CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING``"
+
+msgid "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи торгівлею людьми"
+msgstr "Commission of offences related to child labour or human trafficking"
+
+msgid "Пункт 12 частини 1 статті 21"
+msgstr "Clause 12 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES``"
+msgstr "``CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES``"
+
+msgid "Наявність заборгованості зі сплати податків і зборів"
+msgstr "Tax and duty arrears"
+
+msgid "Пункт 13 частини 1 статті 21"
+msgstr "Clause 13 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PREPARATION``"
+msgstr "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PREPARATION``"
+
+msgid "Отримання конкурентної переваги або порушення принципу недискримінації"
+msgstr "Obtaining a competitive advantage or violation of the principle of non-discrimination"
+
+msgid "Пункт 14 частини 1 статті 21"
+msgstr "Clause 14 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PARTICIPATION``"
+msgstr "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PARTICIPATION``"
+
+msgid "Конфлікт інтересів без можливості врегулювання"
+msgstr "A conflict of interest that cannot be resolved"
+
+msgid "Пункт 15 частини 1 статті 21"
+msgstr "Clause 15 of part 1 of article 21"
+
+msgid "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION``"
+msgstr "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION``"
+
+msgid "Наявність не виконаних зобов'язань за раніше укладеним договором"
+msgstr "Unfulfilled obligations under a previously concluded contract"
+
+msgid "Частина 2 статті 21"
+msgstr "Part 2 of article 21"
+
+msgid "``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``"
+msgstr "``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``"
+
+msgid "Інформування про субпідрядників/співвиконавців"
+msgstr "Information on subcontractors / co-performers"
+
+msgid "Частина 6 статті 21"
+msgstr "Part 6 of article 21"
+
+msgid "``classification.scheme`` - ``LAW4888``, ``relatesTo`` - ``tender``; виняток - ``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``, який має ``relatesTo`` - ``lot`` і тому додається для кожного лоту окремо;"
+msgstr "``classification.scheme`` is ``LAW4888``, ``relatesTo`` is ``tender``; the exception is ``CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION``, which has ``relatesTo`` ``lot`` and therefore is added for each lot separately;"
+
+msgid "``source`` визначає, хто відповідає на вимоги критерію: ``tenderer`` - учасник у складі пропозиції, ``winner`` - учасник, якого визначено переможцем, ``procuringEntity`` - замовник у рішенні про визначення переможця або в попередній кваліфікації;"
+msgstr "``source`` defines who answers the requirements of the criterion: ``tenderer`` is the bidder within a bid, ``winner`` is the bidder who has been awarded, ``procuringEntity`` is the procuring entity within an award or a qualification;"
+
+msgid "в ``openTendering`` обов'язковими є всі критерії статті 21, крім ``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``; критерій субпідряду обов'язковий лише для ``mainProcurementCategory`` = ``works`` або ``services``;"
+msgstr "in ``openTendering`` all the article 21 criteria are required except ``CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION``; the subcontracting criterion is required only for ``mainProcurementCategory`` = ``works`` or ``services``;"
+
+msgid "Перевірка обов'язкових критеріїв по лотах"
+msgstr "Checking the required criteria per lot"
+
+msgid "Якщо закупівля має лоти, набір обов'язкових критеріїв перевіряється для кожного активного лоту окремо, а не для закупівлі в цілому:"
+msgstr "If the tender has lots, the set of the required criteria is checked for each active lot separately, not for the tender as a whole:"
+
+msgid "критерій зараховується лоту, якщо ``relatesTo`` = ``lot`` і ``relatedItem`` містить ``id`` цього лоту;"
+msgstr "a criterion counts for a lot if ``relatesTo`` = ``lot`` and ``relatedItem`` contains the ``id`` of that lot;"
+
+msgid "критерій з ``relatesTo`` = ``tender`` зараховується всім лотам;"
+msgstr "a criterion with ``relatesTo`` = ``tender`` counts for all lots;"
+
+msgid "критерій, усі вимоги якого переведені у статус ``cancelled``, не враховується;"
+msgstr "a criterion whose requirements are all in the ``cancelled`` status is not counted;"
+
+msgid "лоти у статусі ``cancelled`` не перевіряються."
+msgstr "the lots in the ``cancelled`` status are not checked."
+
+msgid "Додамо критерій відбору лише до першого лоту і спробуємо оголосити закупівлю - система повідомить, якого критерію бракує другому лоту:"
+msgstr "Let's add a selection criterion to the first lot only and try to publish the tender - the system reports which criterion the second lot is missing:"
+
+msgid "Додамо критерій відбору до другого лоту:"
+msgstr "Let's add a selection criterion to the second lot:"
+
+msgid "Тепер закупівлю можна оголосити:"
+msgstr "Now the tender can be published:"
+
+msgid "Прийнятні докази критеріїв"
+msgstr "Eligible evidences of criteria"
+
+msgid "Для прийнятних доказів (``eligibleEvidences``) діють додаткові правила:"
+msgstr "Additional rules apply to eligible evidences (``eligibleEvidences``):"
+
+msgid "``title`` обов'язковий і не може бути порожнім;"
+msgstr "``title`` is required and cannot be empty;"
+
+msgid "доказ з ``type`` = ``document`` обов'язково містить ``relatedDocument``;"
+msgstr "an evidence with ``type`` = ``document`` must contain ``relatedDocument``;"
+
+msgid "``relatedDocument`` має посилатися на документ закупівлі, ``documentType`` якого залежить від критерію:"
+msgstr "``relatedDocument`` must refer to a tender document whose ``documentType`` depends on the criterion:"
+
+msgid "Критерій"
+msgstr "Criterion"
+
+msgid "``documentType`` документа закупівлі"
+msgstr "``documentType`` of the tender document"
+
+msgid "критерії відбору статті 20"
+msgstr "the article 20 selection criteria"
+
+msgid "``evaluationCriteria``"
+msgstr "``evaluationCriteria``"
+
+msgid "критерії відмови в участі статті 21"
+msgstr "the article 21 exclusion criteria"
+
+msgid "``eligibilityCriteria``"
+msgstr "``eligibilityCriteria``"
+
+msgid "Правила перевіряються в усіх запитах, які створюють або змінюють докази: POST та PATCH критеріїв, груп вимог, вимог і доказів, а також PUT вимоги у статусах ``active.enquiries`` та ``active.tendering``."
+msgstr "The rules are checked in all the requests that create or change evidences: POST and PATCH of criteria, requirement groups, requirements and evidences, as well as PUT of a requirement in the ``active.enquiries`` and ``active.tendering`` statuses."
+
+msgid "Оскільки в одному запиті може бути кілька вимог, у тексті помилки вказується ``id`` вимоги, доказ якої не пройшов перевірку."
+msgstr "Since a single request can contain several requirements, the error message contains the ``id`` of the requirement whose evidence has failed the check."
+
+msgid "Доказ без назви:"
+msgstr "An evidence without a title:"
+
+msgid "Доказ типу ``document`` без ``relatedDocument``:"
+msgstr "An evidence of the ``document`` type without ``relatedDocument``:"
+
+msgid "Доказ, що посилається на документ з іншим ``documentType``:"
+msgstr "An evidence that refers to a document with another ``documentType``:"
+
+msgid "Завантажимо документ з ``documentType`` = ``evaluationCriteria``:"
+msgstr "Let's upload a document with ``documentType`` = ``evaluationCriteria``:"
+
+msgid "Тепер критерій можна створити:"
+msgstr "Now the criterion can be created:"
+
+msgid "Для критеріїв статті 21 той самий документ не підходить - потрібен ``eligibilityCriteria``:"
+msgstr "The same document does not fit the article 21 criteria - ``eligibilityCriteria`` is required:"
+
+msgid "Завантажимо документ з ``documentType`` = ``eligibilityCriteria``:"
+msgstr "Let's upload a document with ``documentType`` = ``eligibilityCriteria``:"
+
+msgid "Тепер критерії відмови в участі можна створити:"
+msgstr "Now the exclusion criteria can be created:"
+
+msgid "Докази у відповідях на вимоги"
+msgstr "Evidences of requirement responses"
+
+msgid "Докази, які подаються разом з відповідями на вимоги (``requirementResponses`` пропозиції, рішення про визначення переможця та попередньої кваліфікації), теж мають посилатися на документ певного типу. Контейнер документів і ``documentType`` залежать від критерію:"
+msgstr "The evidences submitted together with requirement responses (``requirementResponses`` of a bid, an award and a qualification) must refer to a document of a certain type as well. The document container and ``documentType`` depend on the criterion:"
+
+msgid "Об'єкт і контейнер документа"
+msgstr "Object and document container"
+
+msgid "``documentType``"
+msgstr "``documentType``"
+
+msgid "``documents`` пропозиції"
+msgstr "``documents`` of the bid"
+
+msgid "``qualificationDocuments``"
+msgstr "``qualificationDocuments``"
+
+msgid "критерії статті 21 з ``source`` ``tenderer`` / ``winner``"
+msgstr "the article 21 criteria with ``source`` ``tenderer`` / ``winner``"
+
+msgid "``eligibilityDocuments`` пропозиції"
+msgstr "``eligibilityDocuments`` of the bid"
+
+msgid "``eligibilityDocuments``"
+msgstr "``eligibilityDocuments``"
+
+msgid "``...SUBCONTRACTING_PROPORTION``"
+msgstr "``...SUBCONTRACTING_PROPORTION``"
+
+msgid "``qualificationDocuments`` пропозиції"
+msgstr "``qualificationDocuments`` of the bid"
+
+msgid "критерії статті 21 з ``source`` ``procuringEntity``"
+msgstr "the article 21 criteria with ``source`` ``procuringEntity``"
+
+msgid "``documents`` рішення про визначення переможця або попередньої кваліфікації"
+msgstr "``documents`` of the award or the qualification"
+
+msgid "Документ з іншого контейнера для доказу не приймається. Якщо документ має кілька версій, перевіряється ``documentType`` останньої версії. У тексті помилки вказується ``id`` вимоги, доказ якої не пройшов перевірку."
+msgstr "A document from another container is not accepted as an evidence. If the document has several versions, the ``documentType`` of the latest version is checked. The error message contains the ``id`` of the requirement whose evidence has failed the check."
+
+msgid "Спроба подати доказ критерію відбору з документом пропозиції (``documentType`` = ``proposal``):"
+msgstr "An attempt to submit an evidence of a selection criterion with a proposal document (``documentType`` = ``proposal``):"
+
+msgid "Завантажимо документ з ``documentType`` = ``qualificationDocuments``:"
+msgstr "Let's upload a document with ``documentType`` = ``qualificationDocuments``:"
+
+msgid "Для критерію статті 21 цей документ не підходить - він лежить у ``documents``, а не в ``eligibilityDocuments``:"
+msgstr "This document does not fit an article 21 criterion - it is placed in ``documents``, not in ``eligibilityDocuments``:"
+
+msgid "Завантажимо документ у ``eligibilityDocuments``:"
+msgstr "Let's upload a document to ``eligibilityDocuments``:"
+
+msgid "Тепер пропозицію з доказами можна активувати:"
+msgstr "Now the bid with the evidences can be activated:"
+
+msgid "Підстави для відмови на етапі визначення переможця"
+msgstr "Grounds for refusal at the award stage"
+
+msgid "Відповіді замовника на вимоги критеріїв з ``source`` = ``procuringEntity`` подаються в рішенні про визначення переможця. Позитивна відповідь на два з них означає, що учасника має бути відхилено, тому рішення не можна перевести у статус ``active``:"
+msgstr "The answers of the procuring entity to the requirements of the criteria with ``source`` = ``procuringEntity`` are submitted within an award. A positive answer to two of them means that the bidder has to be rejected, so the award cannot be switched to the ``active`` status:"
+
+msgid "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION`` - наявність впливу на прийняття рішення замовника;"
+msgstr "``CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION`` - influence on the decision-making of the procuring entity;"
+
+msgid "``CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION`` - наявність зв'язку суб'єкта господарювання з іншими учасниками процедури або замовником."
+msgstr "``CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION`` - connection of the economic operator with other participants of the procedure or with the procuring entity."
+
+msgid "Перевірка діє лише в процедурах за Законом № 4888 і враховує лише відповіді зі значенням ``true``."
+msgstr "The check applies only to the procedures under Law No. 4888 and takes into account only the answers with the ``true`` value."
+
+msgid "Додамо відповіді зі значенням ``true``:"
+msgstr "Let's add the answers with the ``true`` value:"
+
+msgid "Спроба визначити такого учасника переможцем:"
+msgstr "An attempt to award such a bidder:"
+
+msgid "Після того як замовник змінить відповіді на ``false``, рішення можна активувати:"
+msgstr "After the procuring entity changes the answers to ``false``, the award can be activated:"
+
+msgid "У закупівлях з попередньою кваліфікацією (``config.hasPrequalification`` = ``true``) ті самі перевірки діють і для об'єкта ``qualification``: позитивна відповідь на ці критерії не дозволяє перевести попередню кваліфікацію у статус ``active``."
+msgstr "In the tenders with the prequalification (``config.hasPrequalification`` = ``true``) the same checks apply to the ``qualification`` object as well: a positive answer to these criteria does not allow switching the prequalification to the ``active`` status."

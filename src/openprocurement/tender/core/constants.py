@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import StrEnum
 
-from openprocurement.api.constants import TZ, ProcurementMethodType
+from openprocurement.api.constants import ARTICLE_20, ARTICLE_21, TZ, ProcurementMethodType
+from openprocurement.api.procedure.models.document import TenderDocumentType
 
 
 class ReqStatuses(StrEnum):
@@ -65,6 +66,65 @@ FIRST_STAGE_PROCUREMENT_TYPES = {
 
 CRITERION_TECHNICAL_FEATURES = "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
 CRITERION_LOCALIZATION = "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
+CRITERION_SUBCONTRACTING_PROPORTION = (
+    "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
+)
+CRITERION_CONFLICT_OF_INTEREST_MISINTERPRETATION = "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
+CRITERION_MISCONDUCT_MARKET_DISTORTION = "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
+
+QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA = {
+    CRITERION_CONFLICT_OF_INTEREST_MISINTERPRETATION,
+    CRITERION_MISCONDUCT_MARKET_DISTORTION,
+}
+
+ARTICLE_21_EXCLUDING_SUBCONTRACTING = ARTICLE_21 - {CRITERION_SUBCONTRACTING_PROPORTION}
+
+SELECTION_CRITERIA_RULES = {
+    "required_article_16": "article 16",
+    "required_article_20": "article 20",
+}
+
+CRITERION_EVIDENCE_DOCUMENT_TYPES: dict[str, TenderDocumentType] = {
+    **dict.fromkeys(ARTICLE_20, TenderDocumentType.EVALUATION_CRITERIA),
+    **dict.fromkeys(ARTICLE_21_EXCLUDING_SUBCONTRACTING, TenderDocumentType.ELIGIBILITY_CRITERIA),
+    CRITERION_SUBCONTRACTING_PROPORTION: TenderDocumentType.EVALUATION_CRITERIA,
+}
+
+EVIDENCE_DOCUMENT_CONTAINERS = (
+    "documents",
+    "financialDocuments",
+    "eligibilityDocuments",
+    "qualificationDocuments",
+)
+
+BID_EVIDENCE_DOCUMENT_RULES: dict[str, dict] = {
+    **dict.fromkeys(
+        ARTICLE_20,
+        {
+            "documentType": TenderDocumentType.QUALIFICATION_DOCUMENTS,
+            "containers": ("documents",),
+        },
+    ),
+    **dict.fromkeys(
+        ARTICLE_21_EXCLUDING_SUBCONTRACTING,
+        {
+            "documentType": TenderDocumentType.ELIGIBILITY_DOCUMENTS,
+            "containers": ("eligibilityDocuments",),
+        },
+    ),
+    CRITERION_SUBCONTRACTING_PROPORTION: {
+        "documentType": TenderDocumentType.QUALIFICATION_DOCUMENTS,
+        "containers": ("qualificationDocuments",),
+    },
+}
+
+PROCURING_ENTITY_EVIDENCE_DOCUMENT_RULES: dict[str, dict] = dict.fromkeys(
+    ARTICLE_21_EXCLUDING_SUBCONTRACTING,
+    {
+        "documentType": TenderDocumentType.ELIGIBILITY_DOCUMENTS,
+        "containers": ("documents",),
+    },
+)
 
 COMPLAINT_AMOUNT_RATE = 0.3 / 100
 COMPLAINT_MIN_AMOUNT = 2000

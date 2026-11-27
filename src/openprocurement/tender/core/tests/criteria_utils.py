@@ -34,7 +34,7 @@ def add_criteria(self, tender_id=None, tender_token=None, criteria=None):
         return
 
     if not criteria:
-        criteria = test_default_criteria
+        criteria = getattr(self, "default_criteria", None) or test_default_criteria
 
     criteria = set_tender_criteria(
         criteria,
@@ -63,6 +63,9 @@ def add_criteria(self, tender_id=None, tender_token=None, criteria=None):
 
     # Filter the criteria
     criteria = list(filter(should_keep_criterion, criteria))
+
+    if getattr(self, "should_add_criteria_doc", False):
+        self.set_criteria_evidences_doc(criteria, tender_id, tender_token)
 
     response = app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),

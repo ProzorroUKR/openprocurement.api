@@ -18,6 +18,8 @@ ComplaintObjectionClassification
 
     * `article_16`
     * `article_17`
+    * `article_20`
+    * `article_21`
     * `other`
     * `violation_amcu`
     * `amcu`

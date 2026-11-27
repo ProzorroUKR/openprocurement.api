@@ -24,7 +24,7 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, BaseTenderContentWebTest):
     test_lots_data = test_tender_below_lots
 
     required_criteria = test_tender_cfaua_required_criteria_ids
-    article_16_criteria_required = True
+    selection_criteria_required = True
 
 
 class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):

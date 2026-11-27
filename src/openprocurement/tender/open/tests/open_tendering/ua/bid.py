@@ -25,7 +25,16 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
     set_bid_responses,
 )
-from openprocurement.tender.open.tests.open_tendering.ua.award import TenderAwardPendingResourceTestCase
+from openprocurement.tender.open.tests.open_tendering.ua.award import (
+    TenderAwardActiveResourceTestCase,
+    TenderAwardPendingResourceTestCase,
+)
+from openprocurement.tender.open.tests.open_tendering.ua.bid_blanks import (
+    bid_activate_with_invalid_evidence_document_type,
+    bid_evidence_document_type,
+    bid_evidence_document_version,
+    winner_evidence_document_type,
+)
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
     BaseTenderOpenTenderingUAContentWebTest,
     test_tender_open_tendering_ua_bids,
@@ -123,6 +132,9 @@ class TenderBidRequirementResponseEvidenceTestMixin:
     test_get_bid_requirement_response_evidence = snitch(get_bid_requirement_response_evidence)
     test_bid_activate = snitch(bid_activate)
     test_bid_activate_with_cancelled_tenderer_criterion = snitch(bid_activate_with_cancelled_tenderer_criterion)
+    test_bid_evidence_document_version = snitch(bid_evidence_document_version)
+    test_bid_activate_with_invalid_evidence_document_type = snitch(bid_activate_with_invalid_evidence_document_type)
+    test_bid_evidence_document_type = snitch(bid_evidence_document_type)
 
     initial_criteria = test_tender_open_tendering_ua_criteria
 
@@ -151,6 +163,7 @@ class TenderBidRequirementResponseEvidenceTestMixin:
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
+                    "documentType": "qualificationDocuments",
                 }
             },
         )
@@ -309,6 +322,12 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
     calculate_date(get_now(), timedelta(days=1)),
 )
+class TenderBidWinnerEvidenceTest(TenderAwardActiveResourceTestCase):
+    initial_criteria = test_tender_open_tendering_ua_criteria
+
+    test_winner_evidence_document_type = snitch(winner_evidence_document_type)
+
+
 class TenderBidDuringQualification(TenderAwardPendingResourceTestCase):
     test_patch_bid_during_qualification_forbidden = snitch(patch_bid_during_qualification_forbidden)
     test_patch_bid_during_qualification_with_24h_milestone = snitch(patch_bid_during_qualification_with_24h_milestone)

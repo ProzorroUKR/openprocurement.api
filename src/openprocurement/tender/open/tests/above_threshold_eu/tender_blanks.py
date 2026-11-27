@@ -580,6 +580,7 @@ def patch_tender(self):
     self.set_status("draft")
     criterion = deepcopy(test_exclusion_criteria)[0]
     criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
+    self.set_criteria_evidences_doc([criterion], self.tender_id, owner_token)
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token), {"data": [criterion]}, status=201
     )
@@ -1246,7 +1247,7 @@ def tender_with_cancelled_guarantee_criterion(self):
     related_lot_id = tender["lots"][0]["id"]
 
     criteria = []
-    criteria.extend(test_default_criteria)
+    criteria.extend(getattr(self, "default_criteria", None) or test_default_criteria)
     criteria.extend(test_tender_guarantee_criteria)
     set_tender_criteria(criteria, tender["lots"], tender["items"])
 

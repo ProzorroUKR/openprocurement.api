@@ -1,0 +1,28 @@
+PATCH /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/awards/d6fe54cc00bb4d11adfe0a73d322eabd?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer token
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active",
+    "qualified": true,
+    "eligible": true
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "requirementResponses",
+      "description": "Can't update award to active status with positive response to criteria: CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION, CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
+    }
+  ]
+}
+

@@ -2623,8 +2623,9 @@ def guarantee(self):
             # FIXME: hack, should be lot criteria, rewrite for lot
             test_tender_guarantee_criteria_modified[0]["relatesTo"] = "tender"
             criteria = []
-            criteria.extend(test_default_criteria)
+            criteria.extend(getattr(self, "default_criteria", None) or test_default_criteria)
             set_tender_criteria(criteria, tender["lots"], tender["items"])
+            self.set_criteria_evidences_doc(criteria, tender["id"], token)
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(tender["id"], token),
                 {
@@ -3611,8 +3612,9 @@ def tender_with_guarantee_multilot(self):
     related_lot_id = response.json["data"]["lots"][0]["id"]
 
     criteria = []
-    criteria.extend(test_default_criteria)
+    criteria.extend(getattr(self, "default_criteria", None) or test_default_criteria)
     criteria.extend(test_tender_guarantee_criteria)
+    criteria = deepcopy(criteria)
     set_tender_criteria(criteria, tender["lots"], tender["items"])
 
     for criterion in criteria:
@@ -3620,6 +3622,7 @@ def tender_with_guarantee_multilot(self):
             criterion["relatesTo"] = "lot"
             criterion["relatedItem"] = related_lot_id
 
+    self.set_criteria_evidences_doc(criteria)
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {
@@ -3684,9 +3687,10 @@ def activate_bid_guarantee_multilot(self):
     related_lot_id = response.json["data"]["lots"][1]["id"]
 
     criteria = []
-    criteria.extend(test_default_criteria)
+    criteria.extend(getattr(self, "default_criteria", None) or test_default_criteria)
     criteria.extend(test_tender_guarantee_criteria)
     criteria.extend(test_contract_guarantee_criteria)
+    criteria = deepcopy(criteria)
     set_tender_criteria(criteria, tender["lots"], tender["items"])
 
     for criterion in criteria:
@@ -3697,6 +3701,7 @@ def activate_bid_guarantee_multilot(self):
             criterion["relatesTo"] = "lot"
             criterion["relatedItem"] = related_lot_id
 
+    self.set_criteria_evidences_doc(criteria)
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {
@@ -3726,19 +3731,21 @@ def activate_bid_guarantee_multilot(self):
     criteria = response.json["data"]
 
     rrs = []
-    lot_req = None
-    lot_criteria = None
-    winner_req = None
-    winner_criteria = None
+    lot_criteria = []
+    winner_criteria = []
     for criterion in criteria:
         if criterion["source"] in ("tenderer", "winner") and criterion["relatesTo"] != "lot":
             rrs.extend(generate_criterion_responses(criterion))
         elif criterion["source"] == "tenderer" and criterion["relatesTo"] == "lot":
-            lot_criteria = criterion
-            lot_req = criterion["requirementGroups"][0]["requirements"]
+            lot_criteria.append(criterion)
         elif criterion["source"] == "winner" and criterion["relatesTo"] == "lot":
-            winner_criteria = criterion
-            winner_req = criterion["requirementGroups"][0]["requirements"]
+            winner_criteria.append(criterion)
+    # the error reports the criteria in the tender order, not grouped by source
+    unanswered_ids = [
+        criterion["id"]
+        for criterion in criteria
+        if criterion["source"] in ("tenderer", "winner") and criterion["relatesTo"] == "lot"
+    ]
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
         {"data": rrs},
@@ -3758,7 +3765,7 @@ def activate_bid_guarantee_multilot(self):
             {
                 "description": [
                     "Responses are required for all criteria with source tenderer/winner, "
-                    f"failed for criteria {lot_criteria['id']}, {winner_criteria['id']}"
+                    f"failed for criteria {', '.join(unanswered_ids)}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -3766,12 +3773,12 @@ def activate_bid_guarantee_multilot(self):
         ],
     )
 
-    lot_rrs = generate_criterion_responses(lot_criteria)
-    self.app.post_json(
-        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        {"data": lot_rrs},
-        status=201,
-    )
+    for criterion in lot_criteria:
+        self.app.post_json(
+            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
+            {"data": generate_criterion_responses(criterion)},
+            status=201,
+        )
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
@@ -3785,7 +3792,7 @@ def activate_bid_guarantee_multilot(self):
             {
                 "description": [
                     "Responses are required for all criteria with source tenderer/winner, "
-                    f"failed for criteria {winner_criteria['id']}"
+                    f"failed for criteria {', '.join(criterion['id'] for criterion in winner_criteria)}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -3793,12 +3800,12 @@ def activate_bid_guarantee_multilot(self):
         ],
     )
 
-    lot_rrs = generate_criterion_responses(winner_criteria)
-    self.app.post_json(
-        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        {"data": lot_rrs},
-        status=201,
-    )
+    for criterion in winner_criteria:
+        self.app.post_json(
+            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
+            {"data": generate_criterion_responses(criterion)},
+            status=201,
+        )
     self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
         {"data": {"status": "pending"}},
@@ -4706,8 +4713,9 @@ def contract_template_name_set(self):
 
         if criteria_statuses and tender["status"] in criteria_statuses:
             criteria = []
-            criteria.extend(test_default_criteria)
+            criteria.extend(getattr(self, "default_criteria", None) or test_default_criteria)
             set_tender_criteria(criteria, tender.get("lots", []), tender.get("items", []))
+            self.set_criteria_evidences_doc(criteria)
             self.app.post_json(
                 f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
                 {"data": criteria},

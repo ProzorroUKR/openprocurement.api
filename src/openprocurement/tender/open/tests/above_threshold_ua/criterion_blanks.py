@@ -23,7 +23,7 @@ from openprocurement.tender.core.tests.base import (
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.mock import patch_market
-from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.core.tests.utils import fill_criterion, set_tender_criteria
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
     test_tender_pq_short_profile,
@@ -40,6 +40,9 @@ def create_tender_criteria_valid(self):
     ):
         for criterion in criteria:
             criterion["source"] = "procuringEntity"
+    for criterion in criteria:
+        fill_criterion(criterion)
+    self.set_criteria_evidences_doc(criteria)
 
     criterion = deepcopy(criteria[0])
     criterion["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
@@ -98,6 +101,7 @@ def create_tender_criteria_valid(self):
         criterion["classification"]["id"] = (
             "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
         )
+        self.set_criteria_evidences_doc([criterion])
         criterion2 = deepcopy(criterion)
         criterion["relatesTo"] = "lot"
         criterion["relatedItem"] = lot_id
@@ -179,7 +183,10 @@ def create_tender_criteria_invalid(self):
     ):
         for criterion in invalid_criteria:
             criterion["source"] = "procuringEntity"
+    for criterion in invalid_criteria:
+        fill_criterion(criterion)
     invalid_criteria[0]["relatesTo"] = "lot"
+    self.set_criteria_evidences_doc(invalid_criteria)
 
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
 
@@ -207,7 +214,10 @@ def create_tender_criteria_invalid(self):
     ):
         for criterion in invalid_id_criteria:
             criterion["source"] = "procuringEntity"
+    for criterion in invalid_id_criteria:
+        fill_criterion(criterion)
     invalid_id_criteria[0]["id"] = "abc"
+    self.set_criteria_evidences_doc(invalid_id_criteria)
     response = self.app.post_json(request_path, {"data": invalid_id_criteria}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
@@ -349,7 +359,9 @@ def create_tender_criteria_invalid(self):
     ):
         for criterion in lang_criterion:
             criterion["source"] = "procuringEntity"
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
+    lang_requirement = lang_criterion[0]["requirementGroups"][0]["requirements"][0]
+    lang_requirement["id"] = uuid4().hex
+    lang_requirement["eligibleEvidences"] = [
         {"description": "Довідка в довільній формі", "type": "document", "title": "Документальне підтвердження"}
     ]
 
@@ -364,7 +376,11 @@ def create_tender_criteria_invalid(self):
                 "location": "body",
                 "name": "requirementGroups",
                 "description": [
-                    {"eligibleEvidences": ["This field is forbidden for current criterion"]},
+                    {
+                        "eligibleEvidences": [
+                            f"This field is forbidden for current criterion (requirement {lang_requirement['id']})"
+                        ]
+                    },
                 ],
             }
         ],
@@ -399,6 +415,7 @@ def patch_tender_criteria_valid(self):
         for criterion in criteria_data:
             criterion["source"] = "procuringEntity"
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
+    self.set_criteria_evidences_doc(criteria_data)
 
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token), {"data": criteria_data}
@@ -454,6 +471,7 @@ def patch_tender_criteria_invalid(self):
         for criterion in criteria_data:
             criterion["source"] = "procuringEntity"
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
+    self.set_criteria_evidences_doc(criteria_data)
 
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token), {"data": criteria_data}
@@ -554,6 +572,9 @@ def get_tender_criteria(self):
     ):
         for criterion in criteria:
             criterion["source"] = "procuringEntity"
+    for criterion in criteria:
+        fill_criterion(criterion)
+    self.set_criteria_evidences_doc(criteria)
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token), {"data": criteria}
     )
@@ -595,20 +616,22 @@ def activate_tender(self):
         required_tech_features = True
         required_criteria.remove(CRITERION_TECHNICAL_FEATURES)
 
+    doc = self.mongodb.tenders.get(self.tender_id)
+    doc["mainProcurementCategory"] = "services"
+    self.mongodb.tenders.save(doc)
+
     # If there are required criteria
     if required_criteria:
-        doc = self.mongodb.tenders.get(self.tender_id)
-        doc["mainProcurementCategory"] = "services"
-        self.mongodb.tenders.save(doc)
         tender_criteria = {
             criterion["classification"]["id"]
             for criterion in doc.get("criteria", "")
             if criterion.get("classification")
         }
 
-        test_criteria = deepcopy(test_criteria_all)
+        test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
         test_criteria = get_criteria_by_ids(test_criteria, required_criteria)
         set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+        self.set_criteria_evidences_doc(test_criteria)
 
         # Try to activate without criteria
         response = self.app.patch_json(
@@ -732,8 +755,8 @@ def activate_tender(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
-    article_16_criteria_required = getattr(self, "article_16_criteria_required", False)
-    if article_16_criteria_required:
+    selection_criteria_required = getattr(self, "selection_criteria_required", False)
+    if selection_criteria_required:
         response = self.app.patch_json(
             request_path,
             {"data": {"status": self.primary_tender_status}},
@@ -746,18 +769,23 @@ def activate_tender(self):
             response.json["errors"],
             [
                 {
-                    "description": (f"Tender must contain one of article 16 criteria: {', '.join(sorted(ARTICLE_16))}"),
+                    "description": (
+                        f"Tender must contain one of "
+                        f"{getattr(self, 'selection_criteria_label', 'article 16')} criteria: "
+                        f"{', '.join(sorted(ARTICLE_16))}"
+                    ),
                     "location": "body",
                     "name": "data",
                 }
             ],
         )
 
-        test_criteria_article_16 = test_article_16_criteria[:1]
-        set_tender_criteria(test_criteria_article_16, tender.get("lots", []), tender.get("items", []))
+        selection_criteria = deepcopy(getattr(self, "selection_criteria_data", test_article_16_criteria)[:1])
+        set_tender_criteria(selection_criteria, tender.get("lots", []), tender.get("items", []))
+        self.set_criteria_evidences_doc(selection_criteria)
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_criteria_article_16},
+            {"data": selection_criteria},
         )
 
         self.assertEqual(response.status, "201 Created")
@@ -785,6 +813,7 @@ def activate_tender(self):
         test_criteria = deepcopy(test_tech_feature_criteria)
         test_criteria = get_criteria_by_ids(test_criteria, [CRITERION_TECHNICAL_FEATURES])
         set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+        self.set_criteria_evidences_doc(test_criteria)
 
         # Add missing required criteria
         response = self.app.post_json(
@@ -804,7 +833,7 @@ def activate_tender(self):
     self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
     self.assertEqual(
         len(response.json["data"].get("criteria", [])),
-        len(required_criteria) + (1 if article_16_criteria_required else 0) + (1 if required_tech_features else 0),
+        len(required_criteria) + (1 if selection_criteria_required else 0) + (1 if required_tech_features else 0),
     )
 
 
@@ -828,18 +857,20 @@ def activate_tender_with_tech_item(self):
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    self.set_criteria_evidences_doc(test_criteria)
 
     # Add missing required criteria
-    response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria},
-    )
+    if test_criteria:
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria},
+        )
 
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
     tech_item_id = tender.get("items", [])[0]["id"]
 
     response = self.app.patch_json(
@@ -885,6 +916,7 @@ def activate_tender_with_tech_item(self):
     test_tech_criteria = deepcopy(test_tech_feature_criteria)
     test_tech_criteria = get_criteria_by_ids(test_tech_criteria, criteria_ids)
     set_tender_criteria(test_tech_criteria, tender.get("lots", []), tender.get("items", []))
+    self.set_criteria_evidences_doc(test_tech_criteria)
 
     # Add missing required criteria
     response = self.app.post_json(
@@ -900,6 +932,7 @@ def activate_tender_with_tech_item(self):
     localization_criteria = deepcopy(test_localization_criteria)
     localization_criteria = get_criteria_by_ids(localization_criteria, criteria_ids)
     set_tender_criteria(localization_criteria, tender.get("lots", []), tender.get("items", []))
+    self.set_criteria_evidences_doc(localization_criteria)
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": localization_criteria},
@@ -945,6 +978,7 @@ def create_criteria_rg(self):
     rg_data = deepcopy(test_requirement_groups[0])
     for req in rg_data["requirements"]:
         req["expectedValue"] = True
+    self.set_criteria_evidences_doc(rg_data)
     response = self.app.post_json(request_path, {"data": rg_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1003,6 +1037,7 @@ def patch_criteria_rg(self):
 
 def get_criteria_rg(self):
     requirement_group_data = deepcopy(test_requirement_groups[0])
+    self.set_criteria_evidences_doc(requirement_group_data)
 
     response = self.app.get(
         "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
@@ -1626,6 +1661,7 @@ def put_rg_requirement_valid(self):
             }
         ]
     }
+    self.set_criteria_evidences_doc(put_data, classification_id=self.exclusion_criteria_classification_id)
     response = self.app.put_json(
         put_url.format(
             self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
@@ -1662,6 +1698,7 @@ def put_rg_requirement_valid(self):
             },
         ]
     }
+    self.set_criteria_evidences_doc(put_data, classification_id=self.exclusion_criteria_classification_id)
     response = self.app.put_json(
         put_url.format(
             self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
@@ -2327,7 +2364,9 @@ def validate_requirement_evidence_document(self):
         response.json["errors"],
         [
             {
-                "description": ["relatedDocument.id should be one of tender documents"],
+                "description": [
+                    f"relatedDocument.id should be one of tender documents (requirement {self.requirement_id})"
+                ],
                 "location": "body",
                 "name": "relatedDocument",
             }
@@ -2533,6 +2572,7 @@ def tech_feature_criterion(self):
 
     criteria_data = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(criteria_data, tender["lots"], items)
+    self.set_criteria_evidences_doc(criteria_data)
     criteria_data[0]["relatedItem"] = items[0]["id"]
 
     response = self.app.post_json(
@@ -2667,13 +2707,15 @@ def criterion_from_market_profile(self):
 
     # add all other required criteria
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
-    self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria},
-    )
+    self.set_criteria_evidences_doc(test_criteria)
+    if test_criteria:
+        self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria},
+        )
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     response = self.app.patch_json(
@@ -2686,6 +2728,7 @@ def criterion_from_market_profile(self):
 
     criteria_data = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(criteria_data, tender["lots"], items)
+    self.set_criteria_evidences_doc(criteria_data)
     criteria_data[0]["relatedItem"] = items[1]["id"]
     criteria_data[0]["requirementGroups"][0]["requirements"] = [
         {
@@ -3021,17 +3064,20 @@ def criterion_from_market_category(self):
 
     # add all other required criteria
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
-    self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria},
-    )
+    self.set_criteria_evidences_doc(test_criteria)
+    if test_criteria:
+        self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria},
+        )
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     criteria_data = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(criteria_data, tender["lots"], items)
+    self.set_criteria_evidences_doc(criteria_data)
     criteria_data[0]["relatedItem"] = items[1]["id"]
     criteria_data[0]["requirementGroups"][0]["requirements"] = [
         {
@@ -3281,13 +3327,15 @@ def criterion_from_market_category_expected_items_narrowing(self):
     items = response.json["data"]["items"]
 
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
     test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
-    self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria},
-    )
+    self.set_criteria_evidences_doc(test_criteria)
+    if test_criteria:
+        self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria},
+        )
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     market_tech_feature = deepcopy(test_tech_feature_criteria)
@@ -3308,6 +3356,7 @@ def criterion_from_market_category_expected_items_narrowing(self):
 
     criteria_data = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(criteria_data, tender["lots"], items)
+    self.set_criteria_evidences_doc(criteria_data)
     criteria_data[0]["relatedItem"] = items[1]["id"]
     criteria_data[0]["requirementGroups"][0]["requirements"] = [
         {
@@ -3470,11 +3519,11 @@ def delete_tender_criteria(self):
     self.assertEqual(response.content_type, "application/json")
     items = response.json["data"]["items"]
 
-    # add all other required criteria
     criteria_ids = self.required_criteria
-    test_criteria = deepcopy(test_criteria_all)
-    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+    test_criteria = deepcopy(getattr(self, "default_criteria", None) or test_criteria_all)
+    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids) or deepcopy(test_exclusion_criteria[:1])
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    self.set_criteria_evidences_doc(test_criteria)
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": test_criteria},
@@ -3493,6 +3542,7 @@ def delete_tender_criteria(self):
 
     criteria_data = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(criteria_data, tender["lots"], items)
+    self.set_criteria_evidences_doc(criteria_data)
     criteria_data[0]["relatedItem"] = items[1]["id"]
     criteria_data[0]["requirementGroups"][0]["requirements"] = [
         {

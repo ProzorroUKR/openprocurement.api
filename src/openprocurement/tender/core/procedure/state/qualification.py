@@ -3,6 +3,10 @@ from logging import getLogger
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.constants import (
+    PROCURING_ENTITY_EVIDENCE_DOCUMENT_RULES,
+    QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA,
+)
 from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
 from openprocurement.tender.core.procedure.state.req_response import (
     QualificationRequirementResponsesRulesMixin,
@@ -84,6 +88,7 @@ class QualificationState(QualificationRequirementResponsesRulesMixin, TenderStat
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=qualification.get("lotID"))
         if before["status"] != qualification["status"]:
+            self.validate_activation_blocking_responses(qualification)
             self.qualification_status_up(before["status"], qualification["status"], qualification)
         elif before["status"] != "pending":
             raise_operation_error(self.request, "Can't update qualification status")
@@ -111,3 +116,8 @@ class QualificationState(QualificationRequirementResponsesRulesMixin, TenderStat
                 tender_id=tender["_id"],
                 qualification_id=ids[0],
             )
+
+
+class Law4888QualificationState(QualificationState):
+    evidence_document_rules = PROCURING_ENTITY_EVIDENCE_DOCUMENT_RULES
+    activation_blocking_criteria = QUALIFICATION_ACTIVATION_BLOCKING_CRITERIA

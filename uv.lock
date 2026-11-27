@@ -1079,7 +1079,7 @@ requires-dist = [
     { name = "sentry-sdk", specifier = "==2.29.1" },
     { name = "setuptools", specifier = "==81.0.0" },
     { name = "simplejson", specifier = "==3.17.2" },
-    { name = "standards", git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.302" },
+    { name = "standards", git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.303" },
     { name = "tzlocal", specifier = "==2.1" },
     { name = "uvicorn", specifier = ">=0.35.0" },
     { name = "webob", specifier = "==1.8.11" },
@@ -2019,8 +2019,8 @@ wheels = [
 
 [[package]]
 name = "standards"
-version = "1.0.302"
-source = { git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.302#5c6ece15a9fb7d2d5e639bb66a2a96a95a46cc9e" }
+version = "1.0.303"
+source = { git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.303#c653e14e4cfa76cb6c73f4d670ab4d283f9f23dc" }
 
 [[package]]
 name = "statsd"

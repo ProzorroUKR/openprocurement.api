@@ -1,0 +1,494 @@
+PATCH /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/bids/385026a76fa4491a9f01c52b01507434?acc_token=5cb1b92166d549959f52dc9e99308c9d HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "600131e5d2444e5c8a4d595a96b6b45d"
+        },
+        "value": true,
+        "evidences": [
+          {
+            "title": "Документальне підтвердження",
+            "type": "document",
+            "relatedDocument": {
+              "id": "3fc2340574c342b9964bb893032bae8d"
+            }
+          }
+        ]
+      },
+      {
+        "requirement": {
+          "id": "86d4451f29244bd493f104b2232febac"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "6287b2f15e274c8ebbc12534a20cfbaa"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "8c70701e46534907bdbc3a8ce0a7853d"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "7f54bbb808df41138b007885d0dca1de"
+        },
+        "value": true,
+        "evidences": [
+          {
+            "title": "Документальне підтвердження",
+            "type": "document",
+            "relatedDocument": {
+              "id": "20f24e469a524943870fb974fb43e941"
+            }
+          }
+        ]
+      },
+      {
+        "requirement": {
+          "id": "d7e41a0d86bd4149b06e839ddbd7b250"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "0e9e96b6a9a74b03b789cc309eda4281"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "739d8bc0ce7540049d1d23185dd66711"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "4967b7a487ba473abf5a6ceede0e5915"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "b595d381372d4adcb7fe53af989780ca"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "6c16f39455ad41e6824122b7e160fee7"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "2b03eb48dc7943d1bfd17e5d8e9e6a41"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "0655f853ea4c4403b1da56806bb42001"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "01a3b91533874e6b895ce73aee037eec"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "ff693291fa094d2698eb350cd3983531"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "7624b50eed3e48998333f01733d2b308"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "72afd8f82bb64b59877a8b327b5ad9db"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "ef72258ae65d4503a37c305d8a7e8d3d"
+        },
+        "value": true
+      }
+    ],
+    "status": "pending"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "items": [
+      {
+        "id": "c9c7a37ae5c549c6b5e7da8fdecf1a11",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "38ee279db3fd4027900b0f50f22169f3"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "38ee279db3fd4027900b0f50f22169f3",
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
+      }
+    ],
+    "status": "pending",
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "600131e5d2444e5c8a4d595a96b6b45d",
+          "title": "Текст заповнений користувачем"
+        },
+        "evidences": [
+          {
+            "title": "Документальне підтвердження",
+            "type": "document",
+            "relatedDocument": {
+              "id": "3fc2340574c342b9964bb893032bae8d"
+            },
+            "id": "d932b6a849f44fed878d0abf37dfe854"
+          }
+        ],
+        "value": true,
+        "id": "2216c5aa6ff74d5ab934f5a99e429c72",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+        }
+      },
+      {
+        "requirement": {
+          "id": "86d4451f29244bd493f104b2232febac",
+          "title": "Відомості про суб’єкта господарювання не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов’язані з корупцією правопорушення"
+        },
+        "value": true,
+        "id": "124defd93cf64337a93596b8353cb0c5",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "6287b2f15e274c8ebbc12534a20cfbaa",
+          "title": "Керівника суб’єкта господарювання або суб’єкта господарювання не було притягнуто до відповідальності згідно із законом за вчинення корупційного правопорушення або правопорушення, пов’язаного з корупцією"
+        },
+        "value": true,
+        "id": "44394350ef4b40e1936ef67f8811b11d",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "8c70701e46534907bdbc3a8ce0a7853d",
+          "title": "Суб’єкт господарювання (учасник / кандидат) протягом останніх трьох років не притягувався до відповідальності за порушення, у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів, торгів, аукціонів, конкурсів, відомості щодо якого містяться в Державному реєстрі суб’єктів господарювання, притягнутих до відповідальності за вчинення порушення"
+        },
+        "value": true,
+        "id": "56a20f72a15942ac85391f0f1d15074f",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+        }
+      },
+      {
+        "requirement": {
+          "id": "7f54bbb808df41138b007885d0dca1de",
+          "title": "Суб’єкта господарювання не було засуджено за кримінальне правопорушення, вчинене з корисливих мотивів, судимість з якого не знято або не погашено у встановленому законом порядку"
+        },
+        "evidences": [
+          {
+            "title": "Документальне підтвердження",
+            "type": "document",
+            "relatedDocument": {
+              "id": "20f24e469a524943870fb974fb43e941"
+            },
+            "id": "065b3b8efa5d4e4e86d9b867c9a394db"
+          }
+        ],
+        "value": true,
+        "id": "31d8d36e62614d949578d14a0953eae4",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "d7e41a0d86bd4149b06e839ddbd7b250",
+          "title": "Керівника суб’єкта господарювання не було засуджено за кримінальне правопорушення, вчинене з корисливих мотивів, судимість з якого не знято або не погашено у встановленому законом порядку"
+        },
+        "value": true,
+        "id": "b5de154109ac4f04bfa5914fd64a74cd",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "0e9e96b6a9a74b03b789cc309eda4281",
+          "title": "Суб’єкта господарювання у встановленому законом порядку не визнано банкрутом та стосовно нього не відкрито ліквідаційну процедуру"
+        },
+        "value": true,
+        "id": "0046501a9dbe46e884b317d304ffd2d7",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
+        }
+      },
+      {
+        "requirement": {
+          "id": "739d8bc0ce7540049d1d23185dd66711",
+          "title": "В Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
+        },
+        "value": true,
+        "id": "70af371e4e254d7e931071c98f647ce0",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
+        }
+      },
+      {
+        "requirement": {
+          "id": "4967b7a487ba473abf5a6ceede0e5915",
+          "title": "Суб’єкт господарювання має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми"
+        },
+        "value": true,
+        "id": "13b1b919f0a34c3e93b915d7f61fd415",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "b595d381372d4adcb7fe53af989780ca",
+          "title": "Суб’єкт господарювання або кінцевий бенефіціарний власник, член або учасник (акціонер) суб’єкта господарювання не є особою, до якої застосовано санкцію у виді заборони на здійснення у неї закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\", крім випадку, якщо активи такої особи у встановленому законодавством порядку передані в управління Національному агентству України з питань виявлення, розшуку та управління активами, одержаними від корупційних та інших злочинів"
+        },
+        "value": true,
+        "id": "7e3c16fd30584baaa32b1bbd930c2bb9",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "6c16f39455ad41e6824122b7e160fee7",
+          "title": "Керівника суб’єкта господарювання не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов’язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми, фінансування тероризму, вчинення терористичного акту"
+        },
+        "value": true,
+        "id": "4e72267e23a14442aaa56fdc9f69b174",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
+        }
+      },
+      {
+        "requirement": {
+          "id": "2b03eb48dc7943d1bfd17e5d8e9e6a41",
+          "title": "Суб’єкт господарювання не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
+        },
+        "value": true,
+        "id": "49d9286b9dd644deb6ca2afa91239c08",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "0655f853ea4c4403b1da56806bb42001",
+          "title": "Cуб’єкт господарювання не отримував від замовника під час проведення попередніх ринкових консультацій інформацію, що може надати йому конкурентну перевагу перед іншими учасниками, кандидатами, або попереднє залучення суб’єкта господарювання до підготовки процедури закупівлі призвело до порушення принципу недискримінації та рівного ставлення до суб’єктів господарювання"
+        },
+        "value": true,
+        "id": "ae842358d696445c923b7582f437fdd0",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PREPARATION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "01a3b91533874e6b895ce73aee037eec",
+          "title": "Відсутній конфлікт інтересів у розумінні частини п’ятої статті 14 цього Закону який неможливо врегулювати"
+        },
+        "value": true,
+        "id": "b5c24b4393214ac989d27c14fdf68d79",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.PROCEDURE_PARTICIPATION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "ff693291fa094d2698eb350cd3983531",
+          "title": "Суб’єкт господарювання не мав з цим самим замовником публічного договору, який було достроково розірвано через невиконання суб’єктом господарювання своїх зобов’язань із застосуванням санкції у виді неустойки та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
+        },
+        "value": true,
+        "id": "61fc49af15fb4192bc7a157101932cf3",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "7624b50eed3e48998333f01733d2b308",
+          "title": "Учасник, кандидат разом із залученими спроможностями інших суб’єктів господарювання (за наявності), відповідає кваліфікаційним критеріям відповідно до частини третьої статті 20 Закону України від 27.05.2026 № 4888-IX \"Про публічні закупівлі\""
+        },
+        "value": true,
+        "id": "4be9f32d16094d2a9e8dd15274f6fc66",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "72afd8f82bb64b59877a8b327b5ad9db",
+          "title": "Учасник, кандидат разом із залученими спроможностями інших суб’єктів господарювання (за наявності), відповідає кваліфікаційним критеріям відповідно до частини третьої статті 20 Закону України від 27.05.2026 № 4888-IX \"Про публічні закупівлі\""
+        },
+        "value": true,
+        "id": "b6ce3d1d55af48899f60f9172481b9f1",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "ef72258ae65d4503a37c305d8a7e8d3d",
+          "title": "Текст заповнений користувачем"
+        },
+        "value": true,
+        "id": "1e3a70547b9046529706bf2772223cf4",
+        "classification": {
+          "scheme": "LAW4888",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE"
+        }
+      }
+    ],
+    "id": "385026a76fa4491a9f01c52b01507434",
+    "date": "2027-01-01T00:00:00+02:00",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "proposal",
+        "title": "Proposal.p7s",
+        "format": "sign/p7s",
+        "language": "uk",
+        "id": "9decfa0be13c41ff9aa01a579dfe919c",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9955be84a49342d3b2a7bbd098075b5c?Signature=%2FrhbRZtWeycYdkFVLegkqWmcP26TJgTyP8elq71pu6yCgmxQos%2Bw4O%2F3zh%2BOD%2FxJPvMZgCGXRANZZt6clPsCAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "qualificationDocuments",
+        "title": "qualification_documents.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "3fc2340574c342b9964bb893032bae8d",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/75f51222cc7f4ed3b0fb2ab11489a341?Signature=BQQi4l8w6UBmZJTy%2BaKYHPoKccXCwQcALDoEi5fsQePVSqdgLKUVQyOVZ1oj7eOElId79sLKGvSU8HZ8scUWBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "confidentiality": "public",
+        "documentType": "eligibilityDocuments",
+        "title": "eligibility_documents.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "20f24e469a524943870fb974fb43e941",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5c77b5099c654bc6a52a265a373c4916?Signature=UXqczdmbXK1hp4y%2B2ia5mYHVw6E47ASz7i7cTNyWTtIKtqoVWO8UoR8cncQZ2DLVDrwR6iTbLmcwhkzBqnsZCQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00"
+      }
+    ],
+    "submissionDate": "2027-01-01T00:00:00+02:00"
+  }
+}
+

@@ -1,0 +1,155 @@
+PATCH /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/bids/385026a76fa4491a9f01c52b01507434?acc_token=5cb1b92166d549959f52dc9e99308c9d HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "600131e5d2444e5c8a4d595a96b6b45d"
+        },
+        "value": true,
+        "evidences": [
+          {
+            "title": "Документальне підтвердження",
+            "type": "document",
+            "relatedDocument": {
+              "id": "9decfa0be13c41ff9aa01a579dfe919c"
+            }
+          }
+        ]
+      },
+      {
+        "requirement": {
+          "id": "86d4451f29244bd493f104b2232febac"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "6287b2f15e274c8ebbc12534a20cfbaa"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "8c70701e46534907bdbc3a8ce0a7853d"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "7f54bbb808df41138b007885d0dca1de"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "d7e41a0d86bd4149b06e839ddbd7b250"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "0e9e96b6a9a74b03b789cc309eda4281"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "739d8bc0ce7540049d1d23185dd66711"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "4967b7a487ba473abf5a6ceede0e5915"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "b595d381372d4adcb7fe53af989780ca"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "6c16f39455ad41e6824122b7e160fee7"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "2b03eb48dc7943d1bfd17e5d8e9e6a41"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "0655f853ea4c4403b1da56806bb42001"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "01a3b91533874e6b895ce73aee037eec"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "ff693291fa094d2698eb350cd3983531"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "7624b50eed3e48998333f01733d2b308"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "72afd8f82bb64b59877a8b327b5ad9db"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "ef72258ae65d4503a37c305d8a7e8d3d"
+        },
+        "value": true
+      }
+    ],
+    "status": "pending"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "requirementResponses",
+      "description": [
+        {
+          "evidences": [
+            {
+              "relatedDocument": [
+                "relatedDocument should have documentType qualificationDocuments (requirement 600131e5d2444e5c8a4d595a96b6b45d)"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

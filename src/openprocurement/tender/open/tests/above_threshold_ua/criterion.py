@@ -50,6 +50,7 @@ from openprocurement.tender.open.tests.above_threshold_ua.criterion_blanks impor
 
 class TenderCriteriaBaseTestMixin:
     required_criteria = []
+    exclusion_criteria_classification_id = None
 
     def setUp(self):
         super().setUp()
@@ -78,6 +79,7 @@ class TenderCriteriaBaseTestMixin:
                 self.rg_id = criterion["requirementGroups"][0]["id"]
                 self.requirement_id = criterion["requirementGroups"][0]["requirements"][0]["id"]
             if criterion["classification"]["id"].startswith("CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"):
+                self.exclusion_criteria_classification_id = criterion["classification"]["id"]
                 self.exclusion_criteria_id = criterion["id"]
                 self.exclusion_rg_id = criterion["requirementGroups"][0]["id"]
                 self.exclusion_requirement_id = criterion["requirementGroups"][0]["requirements"][0]["id"]
@@ -161,7 +163,7 @@ class TenderUACriteriaTest(
     initial_status = "draft"
 
     required_criteria = test_tender_openua_required_criteria_ids
-    article_16_criteria_required = True
+    selection_criteria_required = True
 
     test_activate_tender_with_tech_item = snitch(activate_tender_with_tech_item)
 

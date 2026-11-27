@@ -1,0 +1,127 @@
+POST /api/2.5/tenders/c100137633c1419b8f9072fa2aa1c262/criteria?acc_token=2f006e70c15246d18319f9a791c3e1ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "Наявність досвіду виконання аналогічного договору (договорів)",
+      "title_en": "Documented experience in performing similar contract(s)",
+      "description": "Наявність у суб’єкта господарювання документально підтвердженого досвіду виконання аналогічного (аналогічних) за предметом закупівлі договору (договорів).",
+      "description_en": "The economic operator has documented experience in performing one or more contracts similar to the subject matter of procurement.",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE"
+      },
+      "relatesTo": "lot",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n671"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 3 частини 2 статті 20",
+          "article_en": "Clause 3 of part 2 of article 20"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Текст заповнений користувачем",
+              "title_en": "",
+              "dataType": "boolean",
+              "expectedValue": true,
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "relatedItem": "934ce1c123f94e5eaa2f8f08110e4d27"
+    }
+  ]
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "title": "Наявність досвіду виконання аналогічного договору (договорів)",
+      "title_en": "Documented experience in performing similar contract(s)",
+      "description": "Наявність у суб’єкта господарювання документально підтвердженого досвіду виконання аналогічного (аналогічних) за предметом закупівлі договору (договорів).",
+      "description_en": "The economic operator has documented experience in performing one or more contracts similar to the subject matter of procurement.",
+      "source": "tenderer",
+      "relatesTo": "lot",
+      "relatedItem": "934ce1c123f94e5eaa2f8f08110e4d27",
+      "classification": {
+        "scheme": "LAW4888",
+        "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE"
+      },
+      "id": "f22a5496a5044911869719a5ce01db2a",
+      "legislation": [
+        {
+          "version": "2026-05-27",
+          "identifier": {
+            "id": "4888-IX",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "legalName_en": "Law of Ukraine \"On Public Procurement\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/4888-20#n671"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "Пункт 3 частини 2 статті 20",
+          "article_en": "Clause 3 of part 2 of article 20"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Підтверджується, що:",
+          "description_en": "It is confirmed that:",
+          "requirements": [
+            {
+              "title": "Текст заповнений користувачем",
+              "title_en": "",
+              "dataType": "boolean",
+              "eligibleEvidences": [
+                {
+                  "title": "Документальне підтвердження",
+                  "title_en": "",
+                  "type": "document",
+                  "relatedDocument": {
+                    "id": "bff5ae22a1b2492da90dbbd2fc4667c4"
+                  },
+                  "id": "e0c6e6490c824cec82ca2d47adbbb367"
+                }
+              ],
+              "status": "active",
+              "expectedValue": true,
+              "id": "ef72258ae65d4503a37c305d8a7e8d3d",
+              "datePublished": "2027-01-01T00:00:00+02:00"
+            }
+          ],
+          "id": "f352e8816ace47ff9b5b4ed38ef34694"
+        }
+      ]
+    }
+  ]
+}
+

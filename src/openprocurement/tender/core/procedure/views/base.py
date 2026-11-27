@@ -66,3 +66,9 @@ class TenderBaseResource(BaseResource):
                 state_class = state_class(request)
             return state_class
         return self.state_class
+
+
+class SharedStateClassesMixin:
+    def get_state_class(self, request):
+        procurement_method_type = ProcurementMethodTypePredicate.procurement_method_type(request)
+        return self.state_classes.get(procurement_method_type, self.state_class)

@@ -131,6 +131,7 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
         if before["status"] != award["status"]:
             self.invalidate_review_requests(lot_id=award.get("lotID", ""))
             self.check_qualified_eligible_change(before, award)
+            self.validate_activation_blocking_responses(award)
             self.award_status_up(before["status"], award["status"], award)
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status

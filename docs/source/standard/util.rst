@@ -332,6 +332,11 @@ LegislationItem
 :article:
     рядок
 
+:article_en:
+    рядок
+
+    Англомовний відповідник поля `article`. Передається в критеріях за Законом № 4888 (див. :ref:`law4888_criteria`).
+
 
 
 .. _Change:

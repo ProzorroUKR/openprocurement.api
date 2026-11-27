@@ -53,6 +53,7 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.document import TenderDocumentType
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import (
     BaseState,
@@ -85,6 +86,7 @@ from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
     DEFAULT_WORKING_DAYS_CONFIG,
+    SELECTION_CRITERIA_RULES,
     SELECTIVE_PROCUREMENT_METHOD_TYPES,
     AwardCriteria,
     ProcurementMethod,
@@ -1675,10 +1677,36 @@ class TenderCriteriaRulesMixin(BaseState):
     requirement_replacement = False
     # pq: any requirement / evidence change is limited to criterion_allowed_tender_statuses as well
     requirement_status_check_always = False
+    # the required criteria are checked for every lot, not for the tender as a whole (law 4888 tenders)
+    required_criteria_per_lot_check = False
+    # a criterion evidence of the `document` type must reference a tender document (law 4888 tenders)
+    criterion_evidence_document_required = False
+    # the documentType of the referenced document, by criterion classification id (missing = any type)
+    criterion_evidence_document_types: dict[str, TenderDocumentType] = {}
+    # a criterion evidence must have a non empty title (law 4888 tenders)
+    criterion_evidence_title_required = False
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):
             raise_operation_error(get_request(), "Can't change awardCriteria", name="awardCriteria")
+
+    def get_lot_criteria_ids(self, tender: dict) -> dict:
+        tender_criteria_ids = set()
+        lot_criteria_ids = defaultdict(set)
+        for criterion in tender.get("criteria") or []:
+            classification = criterion.get("classification")
+            if not classification or not check_requirements_active(criterion):
+                continue
+            relates_to = criterion.get("relatesTo")
+            if relates_to == "tender":
+                tender_criteria_ids.add(classification["id"])
+            elif relates_to == "lot" and criterion.get("relatedItem"):
+                lot_criteria_ids[criterion["relatedItem"]].add(classification["id"])
+        return {
+            lot["id"]: tender_criteria_ids | lot_criteria_ids[lot["id"]]
+            for lot in tender.get("lots") or []
+            if lot.get("status", "active") == "active"
+        }
 
     def validate_required_criteria(self, before, after):
         rules = get_criteria_rules(after)
@@ -1687,7 +1715,7 @@ class TenderCriteriaRulesMixin(BaseState):
 
         # Load criteria rules
         required_criteria_ids = set()
-        required_article_16_criteria_ids = set()
+        required_selection_criteria_ids = defaultdict(set)
 
         for criterion_id, criterion_rules in rules.items():
             if "required" in criterion_rules["rules"]:
@@ -1696,11 +1724,10 @@ class TenderCriteriaRulesMixin(BaseState):
                 required_criteria_ids.add(criterion_id)
             if "required_works" in criterion_rules["rules"] and mpc == MainProcurementCategory.WORKS:
                 required_criteria_ids.add(criterion_id)
-            if "required_article_16" in criterion_rules["rules"] and mpc in (
-                MainProcurementCategory.WORKS,
-                MainProcurementCategory.SERVICES,
-            ):
-                required_article_16_criteria_ids.add(criterion_id)
+            if mpc in (MainProcurementCategory.WORKS, MainProcurementCategory.SERVICES):
+                for rule, label in SELECTION_CRITERIA_RULES.items():
+                    if rule in criterion_rules["rules"]:
+                        required_selection_criteria_ids[label].add(criterion_id)
 
         # Gather tender criteria and item criteria
         tender_criteria_ids = set()
@@ -1721,12 +1748,30 @@ class TenderCriteriaRulesMixin(BaseState):
                 f"Tender must contain all required criteria: {', '.join(sorted(required_criteria_ids_diff))}",
             )
 
-        # Check article 16 criteria if required
-        if required_article_16_criteria_ids and not tender_criteria_ids.intersection(required_article_16_criteria_ids):
-            raise_operation_error(
-                get_request(),
-                f"Tender must contain one of article 16 criteria: {', '.join(sorted(required_article_16_criteria_ids))}",
-            )
+        # Check selection criteria if required
+        for label, selection_criteria_ids in required_selection_criteria_ids.items():
+            if not tender_criteria_ids.intersection(selection_criteria_ids):
+                raise_operation_error(
+                    get_request(),
+                    f"Tender must contain one of {label} criteria: {', '.join(sorted(selection_criteria_ids))}",
+                )
+
+        if self.required_criteria_per_lot_check and after.get("lots"):
+            for lot_id, lot_criteria_ids in self.get_lot_criteria_ids(after).items():
+                lot_criteria_ids_diff = required_criteria_ids - lot_criteria_ids
+                if lot_criteria_ids_diff:
+                    raise_operation_error(
+                        get_request(),
+                        f"Tender must contain all required criteria for lot {lot_id}: "
+                        f"{', '.join(sorted(lot_criteria_ids_diff))}",
+                    )
+                for label, selection_criteria_ids in required_selection_criteria_ids.items():
+                    if not lot_criteria_ids.intersection(selection_criteria_ids):
+                        raise_operation_error(
+                            get_request(),
+                            f"Tender must contain one of {label} criteria for lot {lot_id}: "
+                            f"{', '.join(sorted(selection_criteria_ids))}",
+                        )
 
         if tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM) and not self.required_market_criteria_check:
             return
@@ -2139,21 +2184,49 @@ class TenderCriteriaRulesMixin(BaseState):
         evidences = requirement.get("eligibleEvidences") or []
         if not evidences:
             return
-        classification = criterion.get("classification")
-        if classification and classification["id"] and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE"):
+        classification_id = (criterion.get("classification") or {}).get("id") or ""
+        if classification_id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
             # the former Criterion model validator reported it at the requirementGroups level
-            self.raise_criteria_error(
+            self.raise_evidence_error(
                 ["criteria", "requirementGroups", "eligibleEvidences"],
-                ["This field is forbidden for current criterion"],
+                "This field is forbidden for current criterion",
+                requirement,
             )
-        document_ids = [document["id"] for document in tender.get("documents") or []]
+        documents = {document["id"]: document for document in tender.get("documents") or []}
+        document_type = self.criterion_evidence_document_types.get(classification_id)
+        error_path = ["criteria", "requirementGroups", "requirements", "eligibleEvidences", "relatedDocument"]
         for evidence in evidences:
-            related_document = evidence.get("relatedDocument")
-            if related_document and related_document["id"] not in document_ids:
-                self.raise_criteria_error(
-                    ["criteria", "requirementGroups", "requirements", "eligibleEvidences", "relatedDocument"],
-                    ["relatedDocument.id should be one of tender documents"],
+            if self.criterion_evidence_title_required and not (evidence.get("title") or "").strip():
+                self.raise_evidence_error(
+                    ["criteria", "requirementGroups", "requirements", "eligibleEvidences", "title"],
+                    "This field is required.",
+                    requirement,
                 )
+            related_document = evidence.get("relatedDocument")
+            if not related_document:
+                if self.criterion_evidence_document_required and evidence.get("type") == "document":
+                    self.raise_evidence_error(error_path, "This field is required.", requirement)
+                continue
+            document = documents.get(related_document["id"])
+            if not document:
+                self.raise_evidence_error(
+                    error_path,
+                    "relatedDocument.id should be one of tender documents",
+                    requirement,
+                )
+            elif document_type and document.get("documentType") != document_type:
+                self.raise_evidence_error(
+                    error_path,
+                    f"relatedDocument should have documentType {document_type}",
+                    requirement,
+                )
+
+    def raise_evidence_error(self, path: list, message: str, requirement: dict) -> None:
+        """the evidence errors are not indexed, so the failing requirement is named in the message"""
+        requirement_id = requirement.get("id")
+        if requirement_id:
+            message = f"{message.rstrip('.')} (requirement {requirement_id})"
+        self.raise_criteria_error(path, [message])
 
     def validate_criteria_object_id(self, tender: dict, path: list, obj: dict) -> None:
         """former ValidateIdMixing.validate_id: criteria, groups and requirements ids are md5 (legacy PQ: the profile ids)"""

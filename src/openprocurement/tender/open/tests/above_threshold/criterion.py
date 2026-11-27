@@ -93,7 +93,7 @@ class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
     initial_status = "draft"
 
     required_criteria = test_tender_open_required_criteria_ids
-    article_16_criteria_required = True
+    selection_criteria_required = True
 
 
 class TenderUACriteriaLccTest(BaseTenderUAContentWebTest):
